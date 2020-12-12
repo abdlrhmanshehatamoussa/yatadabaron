@@ -33,7 +33,7 @@ class ChaptersDropDown extends StatelessWidget {
                 title: Text(chapter.chapterNameAR),
                 leading: Text("${chapter.chapterID}"),
                 onTap: () {
-                  mushafBloc.selectChapter(chapter.chapterID,1);
+                  mushafBloc.selectChapter(chapter.chapterID,null);
                   Navigator.of(context).pop();
                 },
               );
