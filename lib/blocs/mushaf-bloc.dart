@@ -6,21 +6,29 @@ import '../repositories/chapters-repository.dart';
 import '../repositories/verses-repository.dart';
 
 class MushafBloc {
-  MushafBloc() {
-    selectChapter(1);
+  MushafBloc(int chapterId, int verseId) {
+    selectChapter(chapterId, verseId);
   }
 
   GenericBloc<List<VerseDTO>> _versesBloc = GenericBloc();
   GenericBloc<ChapterFullDTO> _selectedChapterBloc = GenericBloc();
 
-  Stream<ChapterFullDTO> get selectedChapterStream => _selectedChapterBloc.stream;
+  Stream<ChapterFullDTO> get selectedChapterStream =>
+      _selectedChapterBloc.stream;
   Stream<List<VerseDTO>> get versesStream => _versesBloc.stream;
-  Future selectChapter(int id) async{
-    List<VerseDTO> verses = await VersesRepository.instance.getVersesByChapterId(id,false);
-    ChapterFullDTO chapter = await ChaptersRepository.instance.getFullChapterById(id);
+  Future selectChapter(int chapterId, int verseId) async {
+    chapterId = chapterId ?? 1;
+    ChapterFullDTO chapter =
+        await ChaptersRepository.instance.getFullChapterById(chapterId);
+    List<VerseDTO> verses =
+        await VersesRepository.instance.getVersesByChapterId(chapterId, false);
     _selectedChapterBloc.add(chapter);
+    if (verseId != null && verseId > 0) {
+      verses.firstWhere((v) => v.verseID == verseId)?.isSelected = true;
+    }
     _versesBloc.add(verses);
   }
+
   Future<List<ChapterSimpleDTO>> get getChaptersSimple async {
     return await ChaptersRepository.instance.getChaptersSimple();
   }

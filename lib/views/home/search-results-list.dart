@@ -1,3 +1,6 @@
+import 'package:Yatadabaron/blocs/mushaf-bloc.dart';
+import 'package:Yatadabaron/helpers/global-colors.dart';
+import 'package:Yatadabaron/views/mushaf/mushaf.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +15,17 @@ import '../../views/shared-widgets/loading-widget.dart';
 class SearchResultsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    void navigateToMushaf(int chapterId, int verseId) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) {
+          return Provider(
+            child: MushafPage(),
+            create: (_) => MushafBloc(chapterId,verseId),
+          );
+        }),
+      );
+    }
+
     SearchSessionBloc sessionBloc = Provider.of<SearchSessionBloc>(context);
     return StreamBuilder<SearchSessionPayload>(
       stream: sessionBloc.payloadStream,
@@ -33,7 +47,9 @@ class SearchResultsList extends StatelessWidget {
         if (collections.length == 1) {
           return ListView.separated(
             itemCount: results.length,
-            separatorBuilder: (_, __) => Divider(thickness: 1,),
+            separatorBuilder: (_, __) => Divider(
+              thickness: 1,
+            ),
             itemBuilder: (_, i) {
               VerseDTO verse = results[i];
               return ListTile(
@@ -48,7 +64,7 @@ class SearchResultsList extends StatelessWidget {
                   "${verse.chapterName}",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                onTap: (){
+                onTap: () {
                   snapshot.data.copyVerse(verse);
                 },
               );
@@ -70,21 +86,22 @@ class SearchResultsList extends StatelessWidget {
                   children: <Widget>[
                     ListTile(
                       title: Text(
-                        "${verse.verseTextTashkel} {${verse.verseID}}",
+                        "${verse.verseTextTashkel} [${verse.chapterName}-${verse.verseID}]",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 18,
                         ),
                       ),
-                      trailing: Text(
-                        "${verse.chapterName}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      onTap: (){
+                      onTap: () {
+                        navigateToMushaf(verse.chapterId, verse.verseID);
+                      },
+                      onLongPress: () {
                         snapshot.data.copyVerse(verse);
                       },
                     ),
-                    Divider(thickness: 1,)
+                    Divider(
+                      thickness: 1,
+                    )
                   ],
                 );
               }).toList(),

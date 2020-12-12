@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../blocs/mushaf-bloc.dart';
 import '../../dtos/chapter-simple-dto.dart';
 import '../../helpers/localization.dart';
 import '../../views/shared-widgets/loading-widget.dart';
 
 class ChaptersDropDown extends StatelessWidget {
-  final MushafBloc mushafBloc;
-
-  const ChaptersDropDown(this.mushafBloc);
+  final BuildContext parentContext;
+  const ChaptersDropDown(this.parentContext);
 
   @override
   Widget build(BuildContext context) {
+    MushafBloc mushafBloc = Provider.of<MushafBloc>(this.parentContext);
     return FutureBuilder<List<ChapterSimpleDTO>>(
       future: mushafBloc.getChaptersSimple,
       builder: (BuildContext context,
@@ -22,6 +23,7 @@ class ChaptersDropDown extends StatelessWidget {
         List<ChapterSimpleDTO> chapters = snapshot.data;
         return Container(
           height: 300,
+          width: double.maxFinite,
           child: ListView.separated(
             separatorBuilder: (_,__)=>Divider(),
             itemCount: chapters.length,
@@ -31,7 +33,7 @@ class ChaptersDropDown extends StatelessWidget {
                 title: Text(chapter.chapterNameAR),
                 leading: Text("${chapter.chapterID}"),
                 onTap: () {
-                  mushafBloc.selectChapter(chapter.chapterID);
+                  mushafBloc.selectChapter(chapter.chapterID,1);
                   Navigator.of(context).pop();
                 },
               );
@@ -42,7 +44,7 @@ class ChaptersDropDown extends StatelessWidget {
     );
   }
 
-  static show(BuildContext context, MushafBloc bloc) {
+  static show(BuildContext context) {
     showDialog(
       context: context,
       child: SimpleDialog(
@@ -52,7 +54,7 @@ class ChaptersDropDown extends StatelessWidget {
         ),
         contentPadding: EdgeInsets.all(5),
         children: <Widget>[
-          ChaptersDropDown(bloc),
+          ChaptersDropDown(context),
         ],
       ),
     );
