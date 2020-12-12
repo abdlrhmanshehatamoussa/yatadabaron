@@ -31,11 +31,15 @@ class VerseList extends StatelessWidget {
           );
         }
 
-        int selectedVerseId = results.firstWhere((v) => v.isSelected)?.verseID;
+        int scrollIndex = 0;
+        if (results.any((v) => v.isSelected)) {
+          int selectedVerseId = results.firstWhere((v) => v.isSelected).verseID;
+          scrollIndex = selectedVerseId - 1;
+        }
         return ScrollablePositionedList.builder(
           itemScrollController: _scrollController,
           itemCount: results.length,
-          initialScrollIndex: selectedVerseId - 1,
+          initialScrollIndex: scrollIndex,
           itemBuilder: (context, i) {
             VerseDTO result = results[i];
             String body = "${result.verseTextTashkel}";
@@ -47,7 +51,8 @@ class VerseList extends StatelessWidget {
               selected: result.isSelected,
               leading: Text("${result.verseID}"),
               onTap: () {
-                String toCopy ="${result.chapterName}\n${result.verseTextTashkel} {${result.verseID}}";
+                String toCopy =
+                    "${result.chapterName}\n${result.verseTextTashkel} {${result.verseID}}";
                 Share.share(toCopy);
               },
             );
