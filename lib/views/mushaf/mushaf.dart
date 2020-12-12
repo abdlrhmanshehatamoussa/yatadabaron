@@ -52,7 +52,7 @@ class MushafPage extends StatelessWidget {
                 ],
               ),
               onTap: () {
-                ChaptersDropDown.show(context, mushafBloc);
+                ChaptersDropDown.show(context);
               },
             ),
           ),

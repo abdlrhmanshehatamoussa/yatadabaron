@@ -43,7 +43,7 @@ class CustomDrawer extends StatelessWidget {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Provider(
                     child: MushafPage(),
-                    create: (contextt) => MushafBloc(),
+                    create: (contextt) => MushafBloc(null,null),
                   ),
                 ));
               },
