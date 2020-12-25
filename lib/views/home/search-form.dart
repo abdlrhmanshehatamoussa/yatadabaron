@@ -1,5 +1,7 @@
+import 'package:Yatadabaron/helpers/event_types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wisebay_essentials/analytics/analytics_helper.dart';
 import '../../blocs/search-session-bloc.dart';
 import '../../dtos/chapter-simple-dto.dart';
 import '../../dtos/search-settings.dart';
@@ -52,7 +54,7 @@ class SearchForm extends StatelessWidget {
                     items: menuItems,
                     value: settings.mode,
                     onChanged: (SearchMode s) {
-                      setState((){
+                      setState(() {
                         settings.mode = s;
                       });
                     },
@@ -77,7 +79,8 @@ class SearchForm extends StatelessWidget {
           Expanded(
             flex: 1,
             child: FutureBuilder(
-              future: ChaptersRepository.instance.getChaptersSimple(includeWholeQuran: true),
+              future: ChaptersRepository.instance
+                  .getChaptersSimple(includeWholeQuran: true),
               builder: (BuildContext context,
                   AsyncSnapshot<List<ChapterSimpleDTO>> snapshot) {
                 if (snapshot.hasData) {
@@ -128,7 +131,9 @@ class SearchForm extends StatelessWidget {
               builder: (context, setState) {
                 return Switch(
                   value: settings.basmala,
-                  onChanged: (bool val) {
+                  onChanged: (bool val) async {
+                    AnalyticsHelper.instance.logEvent(
+                        EventTypes.SEARCH_PAGE_BASMALA + "-" + val.toString());
                     setState(() {
                       settings.basmala = val;
                     });
@@ -183,7 +188,7 @@ class SearchForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    keywordController.addListener((){
+    keywordController.addListener(() {
       settings.keyword = keywordController.text;
     });
     return SingleChildScrollView(
