@@ -35,7 +35,7 @@ class VersesRepository extends GenericRepository {
 
     //Prepare Query
     String query =
-        "SELECT ch.arabic as chapter_name,ve.ayah as verse_id,ve.text as verse_text,ve.text_tashkel as verse_text_tashkel "
+        "SELECT ch.arabic as chapter_name,ve.ayah as verse_id,ve.text as verse_text,ve.text_tashkel as verse_text_tashkel,ch.c0sura as chapter_id "
         "FROM $table ve "
         "INNER JOIN chapters ch on ve.sura = ch.c0sura "
         "WHERE ve.sura $chapterCondition "
@@ -53,8 +53,9 @@ class VersesRepository extends GenericRepository {
       String verseText = verse["verse_text"];
       String verseTextTashkel = verse["verse_text_tashkel"];
       int verseID = verse["verse_id"];
+      int chId = verse["chapter_id"];
       VerseDTO result =
-          VerseDTO(chapterName, verseText, verseTextTashkel, verseID);
+          VerseDTO(chId,chapterName, verseText, verseTextTashkel, verseID);
       return result;
     }).toList();
     return results;
@@ -82,7 +83,7 @@ class VersesRepository extends GenericRepository {
       String verseTextTashkel = verse["verse_text_tashkel"];
       int verseID = verse["verse_id"];
       VerseDTO result =
-          VerseDTO(chapterName, verseText, verseTextTashkel, verseID);
+          VerseDTO(id,chapterName, verseText, verseTextTashkel, verseID);
       return result;
     }).toList();
     return results;

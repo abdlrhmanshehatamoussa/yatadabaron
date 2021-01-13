@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import '../repositories/database-provider.dart';
+import '../services/database-provider.dart';
 
 class GenericRepository{
   Database database;
