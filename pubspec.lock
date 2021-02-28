@@ -399,13 +399,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.8"
-  wisebay_essentials:
-    dependency: "direct main"
-    description:
-      path: "c:/wisebay_essentials/"
-      relative: false
-    source: path
-    version: "0.0.1"
   xdg_directories:
     dependency: transitive
     description:

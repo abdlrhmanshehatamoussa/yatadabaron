@@ -11,7 +11,7 @@ description: Quran Search Engine and Statistics.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 6.4.0+19
+version: 0.0.0+0
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -19,8 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  wisebay_essentials:
-    path: c:/wisebay_essentials/
+  # wisebay_essentials:
+  #   path: c:/wisebay_essentials/
   sqflite: any
   rxdart: ^0.23.0
   provider: ^4.0.5

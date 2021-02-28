@@ -8,7 +8,7 @@ import 'helpers/theming.dart';
 import 'views/home/home.dart';
 import 'views/shared-widgets/loading-widget.dart';
 import 'views/splash/splash.dart';
-import 'package:wisebay_essentials/analytics/analytics_helper.dart';
+// import 'package:wisebay_essentials/analytics/analytics_helper.dart';
 
 void main() {
   runApp(App());
