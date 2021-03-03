@@ -36,4 +36,6 @@ class Localization {
   static const String MECCA_LOCATION = 'مكية';
   static const String SELECT_CHAPTER = 'اختر السورة';
   static const String RATE = 'تقييم التطبيق';
+  static const String ABOUT = 'حول التطبيق';
+  static const String MUSHAF_DESCRIPTION = 'المصحف المستخدم هو مصحف حفص بالرسم العثماني ومصدره مجمع الملك فهد لطباعة المصحف الشريف https://qurancomplex.gov.sa';
 }
