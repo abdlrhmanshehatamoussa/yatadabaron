@@ -1,6 +1,7 @@
 import 'package:Yatadabaron/blocs/mushaf-bloc.dart';
-import 'package:Yatadabaron/helpers/global-colors.dart';
+import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:Yatadabaron/views/mushaf/mushaf.dart';
+import 'package:Yatadabaron/views/shared-widgets/verse-block.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class SearchResultsList extends StatelessWidget {
         MaterialPageRoute(builder: (_) {
           return Provider(
             child: MushafPage(),
-            create: (_) => MushafBloc(chapterId,verseId),
+            create: (_) => MushafBloc(chapterId, verseId),
           );
         }),
       );
@@ -53,16 +54,9 @@ class SearchResultsList extends StatelessWidget {
             itemBuilder: (_, i) {
               VerseDTO verse = results[i];
               return ListTile(
-                title: Text(
-                  "${verse.verseTextTashkel} {${verse.verseID}}",
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 18,
-                  ),
-                ),
-                trailing: Text(
-                  "${verse.chapterName}",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                title: VerseBlock(
+                  verseText: verse.verseTextTashkel,
+                  verseID: verse.verseID,
                 ),
                 onTap: () {
                   snapshot.data.copyVerse(verse);
@@ -76,22 +70,31 @@ class SearchResultsList extends StatelessWidget {
           itemBuilder: (BuildContext context, int i) {
             String collectionName = collections[i].collectionName;
             List<VerseDTO> verses = collections[i].verses;
+            String versesCountArabic = Utils.numberTamyeez(
+              single:Localization.VERSE,
+              plural: Localization.VERSES,
+              count:verses.length,
+              mothana: Localization.VERSE_MOTHANA,
+              isMasculine: false
+            );
             return ExpansionTile(
+              initiallyExpanded: false,
               title: Text(
-                "$collectionName [${verses.length} ${Localization.VERSE}]",
-                style: TextStyle(fontWeight: FontWeight.w500),
+                "$collectionName [$versesCountArabic]",
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Arial",
+                  fontSize: 13,
+                ),
               ),
               children: verses.map((VerseDTO verse) {
                 return Column(
                   children: <Widget>[
                     ListTile(
-                      title: Text(
-                        "${verse.verseTextTashkel} [${verse.chapterName}-${verse.verseID}]",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 18,
-                        ),
-                      ),
+                      title: VerseBlock(
+                          verseText: verse.verseTextTashkel,
+                          verseID: verse.verseID),
+                      trailing: Text(verse.chapterName),
                       onTap: () {
                         navigateToMushaf(verse.chapterId, verse.verseID);
                       },

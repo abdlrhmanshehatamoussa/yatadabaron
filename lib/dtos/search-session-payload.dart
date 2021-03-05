@@ -1,3 +1,4 @@
+import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:share/share.dart';
 
 import '../dtos/search-settings.dart';
@@ -20,9 +21,9 @@ class SearchSessionPayload {
         original,
         "#",
         [
-          results.length.toString(),
+          ArabicNumbersService.insance.convert(results.length,reverse: false),
           settings.keyword,
-          chaptersCount.toString(),
+          ArabicNumbersService.insance.convert(chaptersCount,reverse: false),
         ],
       );
       return original;
@@ -32,7 +33,7 @@ class SearchSessionPayload {
         original,
         "#",
         [
-          results.length.toString(),
+          ArabicNumbersService.insance.convert(results.length,reverse: false),
           settings.keyword,
           chapterName,
         ],

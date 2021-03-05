@@ -1,3 +1,5 @@
+import 'package:Yatadabaron/helpers/global-colors.dart';
+import 'package:Yatadabaron/views/shared-widgets/verse-block.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,20 +38,28 @@ class VerseList extends StatelessWidget {
           int selectedVerseId = results.firstWhere((v) => v.isSelected).verseID;
           scrollIndex = selectedVerseId - 1;
         }
-        return ScrollablePositionedList.builder(
+        return ScrollablePositionedList.separated(
           itemScrollController: _scrollController,
           itemCount: results.length,
           initialScrollIndex: scrollIndex,
+          separatorBuilder: (_, __) {
+            return Divider(
+              color: Colors.white70,
+            );
+          },
           itemBuilder: (context, i) {
             VerseDTO result = results[i];
-            String body = "${result.verseTextTashkel}";
+            Color color;
+            if (result.isSelected) {
+              color = Theme.of(context).accentColor;
+            }
             return ListTile(
-              title: Text(
-                body,
-                style: TextStyle(fontWeight: FontWeight.w200, fontSize: 18),
+              title: VerseBlock(
+                verseText: result.verseTextTashkel,
+                verseID: result.verseID,
+                color: color,
               ),
               selected: result.isSelected,
-              leading: Text("${result.verseID}"),
               onTap: () {
                 String toCopy =
                     "${result.chapterName}\n${result.verseTextTashkel} {${result.verseID}}";

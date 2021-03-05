@@ -21,9 +21,10 @@ class StatisticsSummaryWidget extends StatelessWidget {
                 snapshot.data.summary,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: 12,
                   color: Theme.of(context).accentColor,
-                  fontWeight: FontWeight.bold
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Arial"
                 ),
               ),
             );

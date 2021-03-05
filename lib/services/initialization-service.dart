@@ -1,5 +1,5 @@
+import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:Yatadabaron/services/database-provider.dart';
-import 'package:package_info/package_info.dart';
 // import 'package:wisebay_essentials/analytics/analytics_helper.dart';
 
 class InitializationService {
@@ -11,6 +11,7 @@ class InitializationService {
     } catch (e) {
       return false;
     }
+    ArabicNumbersService.insance.initialize();
     // try {
     //   PackageInfo packageInfo = await PackageInfo.fromPlatform();
     //   String version = packageInfo.buildNumber;

@@ -34,10 +34,16 @@ class MushafPage extends StatelessWidget {
                               snapshot.data.chapterNameAR,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20
+                                fontSize: 20,
                               ),
                             ),
-                            subtitle: Text(snapshot.data.summary),
+                            subtitle: Text(
+                              snapshot.data.summary,
+                              style: TextStyle(
+                                fontFamily: "Arial",
+                                fontSize: 12,
+                              ),
+                            ),
                           );
                         }
                         return LoadingWidget();

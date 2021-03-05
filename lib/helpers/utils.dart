@@ -1,3 +1,5 @@
+import 'package:Yatadabaron/helpers/localization.dart';
+import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 
@@ -71,15 +73,18 @@ class Utils {
       return null;
     }
   }
-  static Future<String> getVersionInfo() async{
+
+  static Future<String> getVersionInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     String buildNumber = packageInfo.buildNumber;
     return "$buildNumber | $version";
   }
+
   static List<String> splitVerseIntoTriplet(
       String verseText, String verseTextTashkel, String keyword) {
-    String keywordTashkel = findIgnoring(verseTextTashkel, keyword, '[,ْ,ّ,َ,ٰ,ُ,ۛ,ً,ۖ,ٌ,ۗ,ٍ,ۚ,ۙ,ۘ,۩,ۜ]*');
+    String keywordTashkel = findIgnoring(
+        verseTextTashkel, keyword, '[,ْ,ّ,َ,ٰ,ُ,ۛ,ً,ۖ,ٌ,ۗ,ٍ,ۚ,ۙ,ۘ,۩,ۜ]*');
     if (keywordTashkel == null) {
       return [verseTextTashkel, "", ""];
     }
@@ -95,5 +100,31 @@ class Utils {
       center,
       after,
     ];
+  }
+
+  static String numberTamyeez({
+    String single,
+    String plural,
+    String mothana,
+    int count,
+    bool isMasculine,
+  }) {
+    String countAr =
+        ArabicNumbersService.insance.convert(count, reverse: false);
+    if (count == 1) {
+      if (isMasculine) {
+        return "$single ${Localization.ONE_MASC}";
+      } else {
+        return "$single ${Localization.ONE_FEM}";
+      }
+    }
+    if (count == 2) {
+      return mothana;
+    }
+    if (count <= 10) {
+      return "$countAr $plural";
+    } else {
+      return "$countAr $single";
+    }
   }
 }

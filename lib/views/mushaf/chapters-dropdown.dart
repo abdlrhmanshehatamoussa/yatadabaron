@@ -1,3 +1,4 @@
+import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,15 +26,25 @@ class ChaptersDropDown extends StatelessWidget {
           height: 300,
           width: double.maxFinite,
           child: ListView.separated(
-            separatorBuilder: (_,__)=>Divider(),
+            separatorBuilder: (_, __) => Divider(),
             itemCount: chapters.length,
             itemBuilder: (_, int i) {
               ChapterSimpleDTO chapter = chapters[i];
+              String idStr = ArabicNumbersService.insance
+                  .convert(chapter.chapterID, reverse: false);
               return ListTile(
-                title: Text(chapter.chapterNameAR),
-                leading: Text("${chapter.chapterID}"),
+                title: Text(
+                  chapter.chapterNameAR,
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                leading: Text(
+                  "$idStr",
+                  style: TextStyle(fontSize: 18, fontFamily: "Arial"),
+                ),
                 onTap: () {
-                  mushafBloc.selectChapter(chapter.chapterID,null);
+                  mushafBloc.selectChapter(chapter.chapterID, null);
                   Navigator.of(context).pop();
                 },
               );
