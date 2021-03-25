@@ -127,4 +127,26 @@ class Utils {
       return "$countAr $single";
     }
   }
+
+  static void showCustomDialog({
+    BuildContext context,
+    String title,
+    String text,
+  }) {
+    showDialog(
+      context: context,
+      child: AlertDialog(
+        title: Text(title),
+        content: (text?.isNotEmpty ?? false) ? Text(text) : null,
+        actions: <Widget>[
+          FlatButton(
+            child: Text(Localization.OK),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
 }

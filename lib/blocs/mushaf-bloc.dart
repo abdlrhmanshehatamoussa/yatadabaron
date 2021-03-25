@@ -1,3 +1,5 @@
+import 'package:Yatadabaron/services/custom-prefs.dart';
+
 import '../blocs/generic-bloc.dart';
 import '../dtos/chapter-full-dto.dart';
 import '../dtos/chapter-simple-dto.dart';
@@ -16,6 +18,15 @@ class MushafBloc {
   Stream<ChapterFullDTO> get selectedChapterStream =>
       _selectedChapterBloc.stream;
   Stream<List<VerseDTO>> get versesStream => _versesBloc.stream;
+  Future saveBookmark(int chapterId, int verseId) async {
+    await CustomSharedPreferences.instance.setBookmarkChapter(chapterId);
+    await CustomSharedPreferences.instance.setBookmarkVerse(verseId);
+    await selectChapter(
+      chapterId,
+      verseId,
+    );
+  }
+
   Future selectChapter(int chapterId, int verseId) async {
     chapterId = chapterId ?? 1;
     ChapterFullDTO chapter =

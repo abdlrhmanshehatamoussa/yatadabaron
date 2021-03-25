@@ -1,4 +1,5 @@
 import 'package:Yatadabaron/helpers/global-colors.dart';
+import 'package:Yatadabaron/services/custom-prefs.dart';
 import 'package:Yatadabaron/views/shared-widgets/verse-block.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,15 +56,26 @@ class VerseList extends StatelessWidget {
             }
             return ListTile(
               title: VerseBlock(
-                verseText: result.verseTextTashkel,
+                verseTextTashkel: result.verseTextTashkel,
                 verseID: result.verseID,
+                verseText: result.verseText,
                 color: color,
               ),
               selected: result.isSelected,
+              leading: result.isSelected ? Icon(Icons.bookmark) : null,
               onTap: () {
                 String toCopy =
                     "${result.chapterName}\n${result.verseTextTashkel} {${result.verseID}}";
                 Share.share(toCopy);
+              },
+              onLongPress: () async {
+                //Save the bookmark
+                await mushafBloc.saveBookmark(result.chapterId, result.verseID);
+                Utils.showCustomDialog(
+                  context: context,
+                  title: Localization.BOOKMARK_SAVED,
+                  //text: Localization.BOOKMARK_SAVED,
+                );
               },
             );
           },

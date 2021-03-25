@@ -1,4 +1,5 @@
 import 'package:Yatadabaron/blocs/mushaf-bloc.dart';
+import 'package:Yatadabaron/dtos/search-settings.dart';
 import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:Yatadabaron/views/mushaf/mushaf.dart';
 import 'package:Yatadabaron/views/shared-widgets/verse-block.dart';
@@ -36,6 +37,7 @@ class SearchResultsList extends StatelessWidget {
           return LoadingWidget();
         }
         List<VerseDTO> results = snapshot.data.results;
+        SearchSettings settings = snapshot.data.settings;
         if (results.length == 0) {
           return Center(
             child: Text(
@@ -53,10 +55,14 @@ class SearchResultsList extends StatelessWidget {
             ),
             itemBuilder: (_, i) {
               VerseDTO verse = results[i];
+
               return ListTile(
                 title: VerseBlock(
-                  verseText: verse.verseTextTashkel,
+                  verseTextTashkel: verse.verseTextTashkel,
                   verseID: verse.verseID,
+                  keyword: settings.keyword,
+                  verseText: verse.verseText,
+                  matchColor: Theme.of(context).accentColor,
                 ),
                 onTap: () {
                   snapshot.data.copyVerse(verse);
@@ -71,12 +77,11 @@ class SearchResultsList extends StatelessWidget {
             String collectionName = collections[i].collectionName;
             List<VerseDTO> verses = collections[i].verses;
             String versesCountArabic = Utils.numberTamyeez(
-              single:Localization.VERSE,
-              plural: Localization.VERSES,
-              count:verses.length,
-              mothana: Localization.VERSE_MOTHANA,
-              isMasculine: false
-            );
+                single: Localization.VERSE,
+                plural: Localization.VERSES,
+                count: verses.length,
+                mothana: Localization.VERSE_MOTHANA,
+                isMasculine: false);
             return ExpansionTile(
               initiallyExpanded: false,
               title: Text(
@@ -92,8 +97,12 @@ class SearchResultsList extends StatelessWidget {
                   children: <Widget>[
                     ListTile(
                       title: VerseBlock(
-                          verseText: verse.verseTextTashkel,
-                          verseID: verse.verseID),
+                        verseTextTashkel: verse.verseTextTashkel,
+                        verseID: verse.verseID,
+                        verseText: verse.verseText,
+                        keyword: settings.keyword,
+                        matchColor: Theme.of(context).accentColor,
+                      ),
                       trailing: Text(verse.chapterName),
                       onTap: () {
                         navigateToMushaf(verse.chapterId, verse.verseID);

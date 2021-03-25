@@ -1,3 +1,5 @@
+import 'package:Yatadabaron/services/arabic-numbers-service.dart';
+import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,11 +31,15 @@ class MushafPage extends StatelessWidget {
                       stream: mushafBloc.selectedChapterStream,
                       builder: (_, snapshot) {
                         if (snapshot.hasData) {
+                          String chName = snapshot.data.chapterNameAR;
+                          String chId = ArabicNumbersService.insance.convert(snapshot.data.chapterId,reverse: false);
+                          String title = "$chId - $chName";
                           return ListTile(
                             title: Text(
-                              snapshot.data.chapterNameAR,
+                              title,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
+                                fontFamily: "Arial",
                                 fontSize: 20,
                               ),
                             ),

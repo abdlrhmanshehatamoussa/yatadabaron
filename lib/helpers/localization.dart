@@ -16,19 +16,25 @@ class Localization {
   static const String EMPTY_SEARCH_RESULTS = 'لم يتم العثور علي نتائج.';
   static const String TAP_SEARCH_BUTTON = 'اضغط علامة البحث للبدء';
   static const String SEARCH_SUMMARY = 'تم العثور علي (#) نتيجة لكلمة (#) في #';
-  static const String SEARCH_SUMMARY_WHOLE_QURAN = 'تم العثور علي (#) نتيجة لكلمة (#) في (#) سورة';
+  static const String SEARCH_SUMMARY_WHOLE_QURAN =
+      'تم العثور علي (#) نتيجة لكلمة (#) في (#) سورة';
   static const String CLOSE = 'الخروج';
-  static const String SEARCH_ERROR = 'حدث خطأ ما أثناء البحث, برجاء المحاولة مرة آخري أو التواصل مع ادارة التطبيق';
-  static const String INVALID_SEARCH_SETTINGS = 'خطأ في اعدادات البحث , برجاء التأكد من ادخال كلمة البحث';
+  static const String SEARCH_ERROR =
+      'حدث خطأ ما أثناء البحث, برجاء المحاولة مرة آخري أو التواصل مع ادارة التطبيق';
+  static const String INVALID_SEARCH_SETTINGS =
+      'خطأ في اعدادات البحث , برجاء التأكد من ادخال كلمة البحث';
   static const String ERROR = 'خطأ';
-  static const String LOADING_ERROR = 'حدث خطأ ما أثناء اعداد التطبيق, برجاء التواصل مع ادارة التطبيق!';
+  static const String LOADING_ERROR =
+      'حدث خطأ ما أثناء اعداد التطبيق, برجاء التواصل مع ادارة التطبيق!';
   static const String DARK_MODE = 'الوضع الليلي';
   static const String WHOLE_QURAN = 'القرآن الكريم كاملاً';
   static const String DRAWER_STATISTICS = 'احصائيات القرآن الكريم';
-  static const String TAP_STAT_BUTTON = 'اضغط علي علامة الرسم البياني لاظهار الاحصائيات';
+  static const String TAP_STAT_BUTTON =
+      'اضغط علي علامة الرسم البياني لاظهار الاحصائيات';
   static const String FREQUENCY = 'التكرار';
-  static const String LETTER= 'الحرف';
-  static const String STATISTICS_SUMMARY = 'احصائيات الحروف في (#) مع (# البسملة) اجمالي عدد الحروف (#)';
+  static const String LETTER = 'الحرف';
+  static const String STATISTICS_SUMMARY =
+      'احصائيات الحروف في (#) مع (# البسملة) اجمالي عدد الحروف (#)';
   static const String INCLUDING = 'اعتبار';
   static const String IGNORING = 'تجاهل';
   static const String VERSE = 'آية';
@@ -38,8 +44,12 @@ class Localization {
   static const String SELECT_CHAPTER = 'اختر السورة';
   static const String RATE = 'تقييم التطبيق';
   static const String ABOUT = 'عن التطبيق';
-  static const String MUSHAF_DESCRIPTION = 'المصحف المستخدم هو مصحف حفص بالرسم العثماني ومصدره مجمع الملك فهد لطباعة المصحف الشريف https://qurancomplex.gov.sa';
+  static const String MUSHAF_DESCRIPTION =
+      'المصحف المستخدم هو مصحف حفص بالرسم العثماني ومصدره مجمع الملك فهد لطباعة المصحف الشريف https://qurancomplex.gov.sa';
   static const String ONE_MASC = 'واحد';
   static const String ONE_FEM = 'واحدة';
   static const String VERSE_MOTHANA = "آيتان";
+  static const String BOOKMARK_SAVED = "تم حفظ مكان الآية !";
+  static const String SUCCESS = "تم بنجاح";
+  static const String OK = "تم";
 }

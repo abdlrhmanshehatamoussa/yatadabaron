@@ -4,11 +4,7 @@ class ArabicNumbersService {
   static ArabicNumbersService insance = ArabicNumbersService._();
   ArabicNumbersService._();
 
-  ArabicNumbers _converter;
-
-  void initialize() {
-    _converter = ArabicNumbers();
-  }
+  ArabicNumbers _converter = ArabicNumbers();
 
   String convert(int x, {bool reverse = true}) {
     String converted = _converter.convert(x);
