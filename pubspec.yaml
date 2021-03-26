@@ -11,7 +11,7 @@ description: Quran Search Engine and Statistics.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 6.4.0+19
+version: 0.0.0+0
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -19,8 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  wisebay_essentials:
-    path: c:/wisebay_essentials/
+  # wisebay_essentials:
+  #   path: c:/wisebay_essentials/
   sqflite: any
   rxdart: ^0.23.0
   provider: ^4.0.5
@@ -30,6 +30,7 @@ dependencies:
   launch_review: ^2.0.0
   package_info: ^0.4.1
   scrollable_positioned_list: ^0.1.8
+  arabic_numbers: ^0.0.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -60,7 +61,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/data/quran.db
+   - assets/data/quran_usmani.db
    - assets/imgs/searchpage.jpg
    - assets/imgs/home.jpg
 
@@ -89,6 +90,6 @@ flutter:
   fonts:
     - family: Usmani
       fonts:
-        - asset: assets/fonts/Uthmani-Hafs.otf
+        - asset: assets/fonts/UthmanicHafs1 Ver16.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

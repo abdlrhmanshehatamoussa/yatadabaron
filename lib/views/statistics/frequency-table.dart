@@ -1,3 +1,4 @@
+import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,17 +23,26 @@ class FrequencyTable extends StatelessWidget {
               return DataTable(
                 columns: [
                   DataColumn(
-                    label: Text(Localization.LETTER,style: TextStyle(fontWeight: FontWeight.bold),),
+                    label: Text(
+                      Localization.LETTER,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   DataColumn(
-                    label: Text(Localization.FREQUENCY,style: TextStyle(fontWeight: FontWeight.bold),),
+                    label: Text(
+                      Localization.FREQUENCY,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
                 rows: snapshot.data.results.map((LetterFrequency lf) {
                   return DataRow(
                     cells: [
                       DataCell(Text(lf.letter)),
-                      DataCell(Text(lf.frequency.toString())),
+                      DataCell(Text(ArabicNumbersService.insance.convert(
+                        lf.frequency,
+                        reverse: false,
+                      ))),
                     ],
                   );
                 }).toList(),

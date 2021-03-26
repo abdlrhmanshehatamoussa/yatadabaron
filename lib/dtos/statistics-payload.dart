@@ -1,3 +1,5 @@
+import 'package:Yatadabaron/services/arabic-numbers-service.dart';
+
 import '../dtos/letter-frequency.dart';
 import '../helpers/localization.dart';
 import '../helpers/utils.dart';
@@ -16,7 +18,8 @@ class StatisticsPayload{
     results.forEach((LetterFrequency lf){
       totalCount += lf.frequency;
     });
-    result = Utils.replaceMultiple(result, "#", [this.chapterName,basmalaState,totalCount.toString()]);
+    String totalCountAr = ArabicNumbersService.insance.convert(totalCount,reverse: false);
+    result = Utils.replaceMultiple(result, "#", [this.chapterName,basmalaState,totalCountAr]);
     return result;
   }
 }

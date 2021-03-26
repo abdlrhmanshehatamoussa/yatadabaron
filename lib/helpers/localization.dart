@@ -32,8 +32,14 @@ class Localization {
   static const String INCLUDING = 'اعتبار';
   static const String IGNORING = 'تجاهل';
   static const String VERSE = 'آية';
+  static const String VERSES = 'آيات';
   static const String MADINA_LOCATION = 'مدنية';
   static const String MECCA_LOCATION = 'مكية';
   static const String SELECT_CHAPTER = 'اختر السورة';
   static const String RATE = 'تقييم التطبيق';
+  static const String ABOUT = 'عن التطبيق';
+  static const String MUSHAF_DESCRIPTION = 'المصحف المستخدم هو مصحف حفص بالرسم العثماني ومصدره مجمع الملك فهد لطباعة المصحف الشريف https://qurancomplex.gov.sa';
+  static const String ONE_MASC = 'واحد';
+  static const String ONE_FEM = 'واحدة';
+  static const String VERSE_MOTHANA = "آيتان";
 }

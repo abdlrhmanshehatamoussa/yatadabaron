@@ -9,12 +9,12 @@ class VersesRepository extends GenericRepository {
 
   VersesRepository._();
 
-  static const String TABLE_NAME = "verses";
-  static const String VIEW_NAME = "verses_no_basmala";
+  static const String TABLE_NAME_BASMALA = "verses_with_basmala";
+  static const String TABLE_NAME_NO_BASMALA = "verses";
 
   Future<List<VerseDTO>> search(
       bool basmala, String keyword, SearchMode mode, int chapterId) async {
-    String table = basmala ? TABLE_NAME : VIEW_NAME;
+    String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;
     String chapterCondition = (chapterId > 0) ? " = $chapterId " : " > 0 ";
     String textCondition = "";
     switch (mode) {
@@ -63,7 +63,7 @@ class VersesRepository extends GenericRepository {
 
   Future<List<VerseDTO>> getVersesByChapterId(int id, bool basmala) async {
     //Prepare Query
-    String table = basmala ? TABLE_NAME : VIEW_NAME;
+    String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;
     String chapterCondition = (id == 0) ? "" : "WHERE sura = $id";
     String query =
         "SELECT ayah as verse_id,text_tashkel as verse_text_tashkel,text as verse_text "

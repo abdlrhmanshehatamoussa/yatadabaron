@@ -1,7 +1,7 @@
 import 'package:Yatadabaron/helpers/event_types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wisebay_essentials/analytics/analytics_helper.dart';
+// import 'package:wisebay_essentials/analytics/analytics_helper.dart';
 import '../../blocs/search-session-bloc.dart';
 import '../../dtos/chapter-simple-dto.dart';
 import '../../dtos/search-settings.dart';
@@ -132,8 +132,8 @@ class SearchForm extends StatelessWidget {
                 return Switch(
                   value: settings.basmala,
                   onChanged: (bool val) async {
-                    AnalyticsHelper.instance.logEvent(
-                        EventTypes.SEARCH_PAGE_BASMALA + "-" + val.toString());
+                    // AnalyticsHelper.instance.logEvent(
+                    //     EventTypes.SEARCH_PAGE_BASMALA + "-" + val.toString());
                     setState(() {
                       settings.basmala = val;
                     });

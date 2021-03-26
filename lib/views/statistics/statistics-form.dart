@@ -1,7 +1,7 @@
 import 'package:Yatadabaron/helpers/event_types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wisebay_essentials/analytics/analytics_helper.dart';
+// import 'package:wisebay_essentials/analytics/analytics_helper.dart';
 import '../../blocs/statistics-bloc.dart';
 import '../../dtos/chapter-simple-dto.dart';
 import '../../dtos/statistics-settings.dart';
@@ -78,7 +78,7 @@ class StatisticsForm extends StatelessWidget{
                 return Switch(
                   value: settings.basmala,
                   onChanged: (bool val) async {
-                    await AnalyticsHelper.instance.logEvent("${EventTypes.STAT_PAGE_BASMALA}-${val.toString()}");
+                    // await AnalyticsHelper.instance.logEvent("${EventTypes.STAT_PAGE_BASMALA}-${val.toString()}");
                     setState(() {
                       settings.basmala = val;
                     });

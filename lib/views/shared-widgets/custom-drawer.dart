@@ -1,3 +1,4 @@
+import 'package:Yatadabaron/views/about/about.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
@@ -43,7 +44,7 @@ class CustomDrawer extends StatelessWidget {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Provider(
                     child: MushafPage(),
-                    create: (contextt) => MushafBloc(null,null),
+                    create: (contextt) => MushafBloc(null, null),
                   ),
                 ));
               },
@@ -63,10 +64,19 @@ class CustomDrawer extends StatelessWidget {
             ListTile(
               title: Text(Localization.RATE),
               trailing: Icon(Icons.star),
-              onTap: (){
+              onTap: () {
                 LaunchReview.launch();
               },
-            )
+            ),
+            ListTile(
+              title: Text(Localization.ABOUT),
+              trailing: Icon(Icons.help),
+              onTap: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => AboutPage(),
+                ));
+              },
+            ),
           ],
         ),
       ),
