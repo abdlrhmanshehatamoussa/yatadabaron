@@ -1,6 +1,4 @@
-import 'package:Yatadabaron/helpers/global-colors.dart';
-import 'package:Yatadabaron/services/custom-prefs.dart';
-import 'package:Yatadabaron/views/shared-widgets/verse-block.dart';
+import 'package:Yatadabaron/views/mushaf/list-item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +8,7 @@ import '../../blocs/mushaf-bloc.dart';
 import '../../dtos/verse-dto.dart';
 import '../../helpers/localization.dart';
 import '../../helpers/utils.dart';
-import '../../views/shared-widgets/loading-widget.dart';
+import '../shared-widgets/loading-widget.dart';
 
 class VerseList extends StatelessWidget {
   @override
@@ -55,14 +53,14 @@ class VerseList extends StatelessWidget {
               color = Theme.of(context).accentColor;
             }
             return ListTile(
-              title: VerseBlock(
-                verseTextTashkel: result.verseTextTashkel,
+              title: MushafVerseListItem(
+                text: result.verseTextTashkel,
                 verseID: result.verseID,
-                verseText: result.verseText,
                 color: color,
               ),
               selected: result.isSelected,
-              leading: result.isSelected ? Icon(Icons.bookmark) : null,
+              leading:
+                  (result.isBookmark ?? false) ? Icon(Icons.bookmark) : null,
               onTap: () {
                 String toCopy =
                     "${result.chapterName}\n${result.verseTextTashkel} {${result.verseID}}";
@@ -74,7 +72,6 @@ class VerseList extends StatelessWidget {
                 Utils.showCustomDialog(
                   context: context,
                   title: Localization.BOOKMARK_SAVED,
-                  //text: Localization.BOOKMARK_SAVED,
                 );
               },
             );

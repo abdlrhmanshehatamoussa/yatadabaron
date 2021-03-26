@@ -1,5 +1,4 @@
 import 'package:Yatadabaron/services/arabic-numbers-service.dart';
-import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +6,7 @@ import '../../blocs/mushaf-bloc.dart';
 import '../../dtos/chapter-full-dto.dart';
 import '../../helpers/localization.dart';
 import '../../views/mushaf/chapters-dropdown.dart';
-import '../../views/mushaf/verse-list.dart';
+import 'list.dart';
 import '../../views/shared-widgets/custom-page-wrapper.dart';
 import '../../views/shared-widgets/loading-widget.dart';
 

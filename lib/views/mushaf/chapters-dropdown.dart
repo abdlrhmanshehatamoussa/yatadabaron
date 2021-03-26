@@ -44,7 +44,7 @@ class ChaptersDropDown extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontFamily: "Arial"),
                 ),
                 onTap: () {
-                  mushafBloc.selectChapter(chapter.chapterID, null);
+                  mushafBloc.reloadVerses(chapter.chapterID, null);
                   Navigator.of(context).pop();
                 },
               );

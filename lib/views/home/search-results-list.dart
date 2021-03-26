@@ -1,8 +1,8 @@
 import 'package:Yatadabaron/blocs/mushaf-bloc.dart';
 import 'package:Yatadabaron/dtos/search-settings.dart';
-import 'package:Yatadabaron/services/arabic-numbers-service.dart';
+import 'package:Yatadabaron/enums/enums.dart';
 import 'package:Yatadabaron/views/mushaf/mushaf.dart';
-import 'package:Yatadabaron/views/shared-widgets/verse-block.dart';
+import 'package:Yatadabaron/views/home/list-item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -57,10 +57,11 @@ class SearchResultsList extends StatelessWidget {
               VerseDTO verse = results[i];
 
               return ListTile(
-                title: VerseBlock(
+                title: SearchResultsListItem(
                   verseTextTashkel: verse.verseTextTashkel,
                   verseID: verse.verseID,
                   keyword: settings.keyword,
+                  onlyIfExact: settings.mode == SearchMode.WORD,
                   verseText: verse.verseText,
                   matchColor: Theme.of(context).accentColor,
                 ),
@@ -96,11 +97,12 @@ class SearchResultsList extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     ListTile(
-                      title: VerseBlock(
+                      title: SearchResultsListItem(
                         verseTextTashkel: verse.verseTextTashkel,
                         verseID: verse.verseID,
                         verseText: verse.verseText,
                         keyword: settings.keyword,
+                        onlyIfExact: settings.mode == SearchMode.WORD,
                         matchColor: Theme.of(context).accentColor,
                       ),
                       trailing: Text(verse.chapterName),

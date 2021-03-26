@@ -149,4 +149,51 @@ class Utils {
       ),
     );
   }
+
+  static List<int> findIndicesOfChar(String textTashkel, String char) {
+    List<int> result = [];
+    if (textTashkel?.isNotEmpty ?? false) {
+      for (var i = 0; i < textTashkel.length; i++) {
+        if (textTashkel[i] == char) {
+          result.add(i);
+        }
+      }
+    }
+    return result;
+  }
+
+  static String substring({
+    String text,
+    int startFrom,
+    int count,
+    List countIf,
+  }) {
+    String sub = text.substring(startFrom);
+    String result = "";
+    int c = 0;
+    for (var i = 0; i < sub.length; i++) {
+      if (c < count) {
+        String subi = sub[i];
+        result = result + subi;
+        if (countIf.contains(subi)) {
+          c++;
+        }
+      }
+    }
+    return result;
+  }
+
+  static String reduce({
+    String text,
+    List<String> countIf,
+  }) {
+    String reduced = "";
+    for (var i = 0; i < text.length; i++) {
+      String crnt = text[i];
+      if (countIf.contains(crnt)) {
+        reduced += crnt;
+      }
+    }
+    return reduced;
+  }
 }

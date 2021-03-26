@@ -9,7 +9,7 @@ import '../repositories/verses-repository.dart';
 
 class MushafBloc {
   MushafBloc(int chapterId, int verseId) {
-    selectChapter(chapterId, verseId);
+    reloadVerses(chapterId, verseId);
   }
 
   GenericBloc<List<VerseDTO>> _versesBloc = GenericBloc();
@@ -21,21 +21,30 @@ class MushafBloc {
   Future saveBookmark(int chapterId, int verseId) async {
     await CustomSharedPreferences.instance.setBookmarkChapter(chapterId);
     await CustomSharedPreferences.instance.setBookmarkVerse(verseId);
-    await selectChapter(
+    await reloadVerses(
       chapterId,
       verseId,
     );
   }
 
-  Future selectChapter(int chapterId, int verseId) async {
+  Future reloadVerses(int chapterId, int verseId) async {
     chapterId = chapterId ?? 1;
     ChapterFullDTO chapter =
         await ChaptersRepository.instance.getFullChapterById(chapterId);
     List<VerseDTO> verses =
         await VersesRepository.instance.getVersesByChapterId(chapterId, false);
+
     _selectedChapterBloc.add(chapter);
     if (verseId != null && verseId > 0) {
       verses.firstWhere((v) => v.verseID == verseId)?.isSelected = true;
+    }
+    //Load the bookmarks
+    int bmC = await CustomSharedPreferences.instance.getBookmarkChapter();
+    if (bmC != null) {
+      if (bmC == chapterId) {
+        int bmV = await CustomSharedPreferences.instance.getBookmarkVerse();
+        verses.firstWhere((v) => v.verseID == bmV)?.isBookmark = true;
+      }
     }
     _versesBloc.add(verses);
   }
