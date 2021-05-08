@@ -39,31 +39,36 @@ jobs:
 
       - name: Creating Keystore file
         run: |
-          cd android
-          $keyPropFile=key.properties
-          touch $keyPropFile
-          echo keyAlias=${{secrets[steps.gitsecrets.outputs.KEYSTORE_ALIAS]}}>>$keyPropFile
-
+          cd android  
+        
           cd app
-          $keyFileAsc=key.asc
-          $keyFile=key.jks
+          keyFileAsc=key.asc
+          keyFile=key.jks
           echo "${{secrets[steps.gitsecrets.outputs.KEYSYORE_CONTENT_BASE64]}}">>$keyFileAsc
           gpg -d --passphrase "${{secrets[steps.gitsecrets.outputs.KEYSTORE_STORE_PASSWORD]}}" --batch $keyFileAsc > $keyFile
+
+          cd ../
+          keyPropFile=key.properties
+          touch $keyPropFile
+          echo keyAlias=${{secrets[steps.gitsecrets.outputs.KEYSTORE_ALIAS]}}>>$keyPropFile
+          echo keyPassword=${{secrets[steps.gitsecrets.outputs.KEYSTORE_KEY_PASSWORD]}}>>$keyPropFile
+          echo storePassword=${{secrets[steps.gitsecrets.outputs.KEYSTORE_STORE_PASSWORD]}}>>$keyPropFile
+          echo storeFile=$keyFile>>$keyPropFile
 
       - name: Creating Version file
         run: |
           pwd
           cd android
-          $verPropFile=version.properties
+          verPropFile=version.properties
           touch $verPropFile
           echo flutter.versionName=${{steps.gitinfo.outputs.version}}>>$verPropFile
           echo flutter.versionCode=${{steps.gitinfo.outputs.buildNumber}}>>$verPropFile
 
-      # - name: Build & Deploy
-      #   run: |
-      #     pwd
-      #     flutter build apk --release
-      #     cd android
-      #     bundle install
-      #     fastlane init
-      #     bundle exec fastlane deploy_alpha
+      - name: Build & Deploy
+        run: |
+          pwd
+          cd android
+          echo "Validating keystore properties ..."
+          cat key.properties
+          echo "Validating version properties ..."
+          cat version.properties
