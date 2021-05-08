@@ -1,0 +1,69 @@
+name: deploy-flutter-googleplay-fastlane
+
+on:
+  push:
+    tags: 
+      - 'test@*'
+      - 'prod@*'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extracting Stage, Version and Build Number
+        id: gitinfo
+        run: |
+          tag_name=${GITHUB_REF##*/}
+          tag_name_splitted=(${tag_name//@/ })
+          echo Tag Name=${tag_name}
+          stage=${tag_name_splitted[0]}
+          version=${tag_name_splitted[1]}
+          buildNumber=${tag_name_splitted[2]}
+          echo stage=$stage, version=$version, build_number=$buildNumber
+          echo "::set-output name=stage::$stage"
+          echo "::set-output name=version::$version"
+          echo "::set-output name=buildNumber::$buildNumber"
+      
+      - name: Preparing Secret Keys
+        id: gitsecrets
+        run: |
+          stg=${{steps.gitinfo.outputs.stage}}
+          stg=${stg^^}
+          echo "::set-output name=KEYSTORE_ALIAS::${stg}_KEYSTORE_ALIAS"
+          echo "::set-output name=KEYSTORE_STORE_PASSWORD::${stg}_KEYSTORE_STORE_PASSWORD"
+          echo "::set-output name=KEYSTORE_KEY_PASSWORD::${stg}_KEYSTORE_KEY_PASSWORD"
+          echo "::set-output name=KEYSYORE_CONTENT_BASE64::${stg}_KEYSYORE_CONTENT_BASE64"
+
+      - name: Creating Keystore file
+        run: |
+          cd android
+          $keyPropFile=key.properties
+          touch $keyPropFile
+          echo keyAlias=${{secrets[steps.gitsecrets.outputs.KEYSTORE_ALIAS]}}>>$keyPropFile
+
+          cd app
+          $keyFileAsc=key.asc
+          $keyFile=key.jks
+          echo "${{secrets[steps.gitsecrets.outputs.KEYSYORE_CONTENT_BASE64]}}">>$keyFileAsc
+          gpg -d --passphrase "${{secrets[steps.gitsecrets.outputs.KEYSTORE_STORE_PASSWORD]}}" --batch $keyFileAsc > $keyFile
+
+      - name: Creating Version file
+        run: |
+          pwd
+          cd android
+          $verPropFile=version.properties
+          touch $verPropFile
+          echo flutter.versionName=${{steps.gitinfo.outputs.version}}>>$verPropFile
+          echo flutter.versionCode=${{steps.gitinfo.outputs.buildNumber}}>>$verPropFile
+
+      # - name: Build & Deploy
+      #   run: |
+      #     pwd
+      #     flutter build apk --release
+      #     cd android
+      #     bundle install
+      #     fastlane init
+      #     bundle exec fastlane deploy_alpha
