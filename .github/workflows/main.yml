@@ -64,11 +64,36 @@ jobs:
           echo flutter.versionName=${{steps.gitinfo.outputs.version}}>>$verPropFile
           echo flutter.versionCode=${{steps.gitinfo.outputs.buildNumber}}>>$verPropFile
 
+
+      - name: "Setup Java"
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
+
+      - name: "Setup Flutter"
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '1.17.3'
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+
+      - name: Install Fastlane dependencies
+        run: |
+          pwd
+          cd android
+          bundle install
+
       - name: Build & Deploy
         run: |
           pwd
           cd android
-          echo "Validating keystore properties ..."
+          echo "Loading keystore properties ..."
           cat key.properties
-          echo "Validating version properties ..."
+          echo "Loading version properties ..."
           cat version.properties
+          flutter build apk --release
+          bundle exec fastlane deploy_alpha
