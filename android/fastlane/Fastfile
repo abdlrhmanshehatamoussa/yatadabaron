@@ -22,4 +22,16 @@ platform :android do
       apk: '../build/app/outputs/apk/release/app-release.apk',
     )
   end
+
+  lane :promote_alpha do
+    upload_to_play_store(      
+      track: 'alpha',
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      track_promote_to: 'production',
+    )
+  end
 end
