@@ -6,6 +6,7 @@ import '../dtos/verse-dto-collection.dart';
 import '../dtos/verse-dto.dart';
 import '../helpers/localization.dart';
 import '../helpers/utils.dart';
+import '../enums/enums.dart';
 
 class SearchSessionPayload {
   final String chapterName;
@@ -14,6 +15,26 @@ class SearchSessionPayload {
   SearchSessionPayload(this.settings, this.chapterName, this.results);
 
   String get summary {
+    int count = 0;
+    for (var result in results) {
+      List<String> words = result.verseText.split(" ");
+      for (var word in words) {
+        bool found = false;
+        switch (settings.mode) {
+          case SearchMode.WORD:
+            found = word == this.settings.keyword;
+            break;
+          case SearchMode.START:
+          case SearchMode.END:
+          case SearchMode.WITHIN:
+            found = word.contains(this.settings.keyword);
+            break;
+        }
+        if (found) {
+          count++;
+        }
+      }
+    }
     if (settings.chapterID == 0) {
       String original = Localization.SEARCH_SUMMARY_WHOLE_QURAN;
       int chaptersCount = results.map((v) => v.chapterName).toSet().length;
@@ -21,9 +42,9 @@ class SearchSessionPayload {
         original,
         "#",
         [
-          ArabicNumbersService.insance.convert(results.length,reverse: false),
+          ArabicNumbersService.insance.convert(count, reverse: false),
           settings.keyword,
-          ArabicNumbersService.insance.convert(chaptersCount,reverse: false),
+          ArabicNumbersService.insance.convert(chaptersCount, reverse: false),
         ],
       );
       return original;
@@ -33,7 +54,7 @@ class SearchSessionPayload {
         original,
         "#",
         [
-          ArabicNumbersService.insance.convert(results.length,reverse: false),
+          ArabicNumbersService.insance.convert(count, reverse: false),
           settings.keyword,
           chapterName,
         ],
@@ -55,16 +76,18 @@ class SearchSessionPayload {
     return collections.reversed.toList();
   }
 
-  void copyAll(){
+  void copyAll() {
     String resultsStr = "$summary\n\n";
     results.forEach((VerseDTO verseDTO) {
-      resultsStr += "${verseDTO.chapterName}\n${verseDTO.verseTextTashkel} {${verseDTO.verseID}}\n\n";
+      resultsStr +=
+          "${verseDTO.chapterName}\n${verseDTO.verseTextTashkel} {${verseDTO.verseID}}\n\n";
     });
     Share.share(resultsStr);
   }
 
-  void copyVerse(VerseDTO verseDTO){
-    String toCopy = "${verseDTO.chapterName}\n${verseDTO.verseTextTashkel} {${verseDTO.verseID}}";
+  void copyVerse(VerseDTO verseDTO) {
+    String toCopy =
+        "${verseDTO.chapterName}\n${verseDTO.verseTextTashkel} {${verseDTO.verseID}}";
     Share.share(toCopy);
   }
 }
