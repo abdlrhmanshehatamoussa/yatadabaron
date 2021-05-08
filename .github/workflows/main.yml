@@ -82,9 +82,14 @@ jobs:
           pwd
           cd android
           bundle install
-          bundle fastlane 
+          bundle fastlane
+
+      - name: Testing Fastlane installation
+        run: |
+          pwd
+          cd android
           cat secret.json
-          fastlane run validate_play_store_json_key
+          bundle exec fastlane run validate_play_store_json_key
 
       
       - name: "Setup Java"
