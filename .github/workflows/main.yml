@@ -72,7 +72,21 @@ jobs:
           touch secret.json
           echo "${{secrets[steps.gitsecrets.outputs.STORE_SECRET_JSON]}}" >> secret.json
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
 
+      - name: Install Fastlane dependencies
+        run: |
+          pwd
+          cd android
+          bundle install
+          bundle fastlane 
+          cat secret.json
+          fastlane run validate_play_store_json_key
+
+      
       - name: "Setup Java"
         uses: actions/setup-java@v1
         with:
@@ -84,16 +98,6 @@ jobs:
         with:
           flutter-version: '1.17.3'
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7
-
-      - name: Install Fastlane dependencies
-        run: |
-          pwd
-          cd android
-          bundle install
 
       - name: Build & Deploy
         run: |
