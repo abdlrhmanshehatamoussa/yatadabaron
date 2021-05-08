@@ -107,10 +107,14 @@ jobs:
         with:
           flutter-version: '1.17.3'
 
-
-      - name: Build & Deploy
+      - name: Build
         run: |
           pwd
           cd android
           flutter build apk --release
+
+      - name: Deploy
+        run: |
+          pwd
+          cd android
           bundle exec fastlane deploy_alpha
