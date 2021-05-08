@@ -82,7 +82,6 @@ jobs:
           pwd
           cd android
           bundle install
-          bundle fastlane
 
       - name: Testing Fastlane installation
         run: |
