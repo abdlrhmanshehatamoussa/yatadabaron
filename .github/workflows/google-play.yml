@@ -3,8 +3,8 @@ name: deploy-flutter-googleplay-fastlane
 on:
   push:
     tags: 
-      - 'test@*'
-      - 'prod@*'
+      - 'gp_alpha@*@*'
+      - 'gp_beta@*@*'
   workflow_dispatch:
 
 jobs:
@@ -13,32 +13,30 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Extracting Stage, Version and Build Number
+      - name: Extracting Lane, Version and Build Number
         id: gitinfo
         run: |
           tag_name=${GITHUB_REF##*/}
           tag_name_splitted=(${tag_name//@/ })
           echo Tag Name=${tag_name}
-          stage=${tag_name_splitted[0]}
+          lane=${tag_name_splitted[0]}
           version=${tag_name_splitted[1]}
           buildNumber=${tag_name_splitted[2]}
-          echo stage=$stage, version=$version, build_number=$buildNumber
-          echo "::set-output name=stage::$stage"
+          echo lane=$lane, version=$version, build_number=$buildNumber
+          echo "::set-output name=lane::$lane"
           echo "::set-output name=version::$version"
           echo "::set-output name=buildNumber::$buildNumber"
       
       - name: Preparing Secret Keys
         id: gitsecrets
         run: |
-          stg=${{steps.gitinfo.outputs.stage}}
-          stg=${stg^^}
-          echo "::set-output name=KEYSTORE_ALIAS::${stg}_KEYSTORE_ALIAS"
-          echo "::set-output name=KEYSTORE_STORE_PASSWORD::${stg}_KEYSTORE_STORE_PASSWORD"
-          echo "::set-output name=KEYSTORE_KEY_PASSWORD::${stg}_KEYSTORE_KEY_PASSWORD"
-          echo "::set-output name=KEYSYORE_CONTENT_BASE64::${stg}_KEYSYORE_CONTENT_BASE64"
-          echo "::set-output name=STORE_SECRET_JSON::${stg}_STORE_SECRET_JSON"
-          echo "::set-output name=KEYSYORE_CONTENT_PASSPHRASE::${stg}_KEYSYORE_CONTENT_PASSPHRASE"
-          echo "::set-output name=STORE_SECRET_JSON_PASSPHRASE::${stg}_STORE_SECRET_JSON_PASSPHRASE"
+          echo "::set-output name=GOOGLEPLAY_KEYSTORE_ALIAS::GOOGLEPLAY_KEYSTORE_ALIAS"
+          echo "::set-output name=GOOGLEPLAY_KEYSTORE_STORE_PASSWORD::GOOGLEPLAY_KEYSTORE_STORE_PASSWORD"
+          echo "::set-output name=GOOGLEPLAY_KEYSTORE_KEY_PASSWORD::GOOGLEPLAY_KEYSTORE_KEY_PASSWORD"
+          echo "::set-output name=GOOGLEPLAY_KEYSYORE_CONTENT_BASE64::GOOGLEPLAY_KEYSYORE_CONTENT_BASE64"
+          echo "::set-output name=GOOGLEPLAY_CREDENTIALS_FILE::GOOGLEPLAY_CREDENTIALS_FILE"
+          echo "::set-output name=GOOGLEPLAY_KEYSYORE_FILE_PASSPHRASE::GOOGLEPLAY_KEYSYORE_FILE_PASSPHRASE"
+          echo "::set-output name=GOOGLEPLAY_CREDENTIALS_FILE_PASSPHRASE::GOOGLEPLAY_CREDENTIALS_FILE_PASSPHRASE"
 
       - name: Creating Keystore file
         run: |
@@ -47,15 +45,15 @@ jobs:
           cd app
           keyFileAsc=key.asc
           keyFile=key.jks
-          echo "${{secrets[steps.gitsecrets.outputs.KEYSYORE_CONTENT_BASE64]}}">$keyFileAsc
-          gpg -d --passphrase "${{secrets[steps.gitsecrets.outputs.KEYSYORE_CONTENT_PASSPHRASE]}}" --batch $keyFileAsc > $keyFile
+          echo "${{secrets[steps.gitsecrets.outputs.GOOGLEPLAY_KEYSYORE_CONTENT_BASE64]}}">$keyFileAsc
+          gpg -d --passphrase "${{secrets[steps.gitsecrets.outputs.GOOGLEPLAY_KEYSYORE_FILE_PASSPHRASE]}}" --batch $keyFileAsc > $keyFile
 
           cd ../
           keyPropFile=key.properties
           touch $keyPropFile
-          echo keyAlias=${{secrets[steps.gitsecrets.outputs.KEYSTORE_ALIAS]}}>$keyPropFile
-          echo keyPassword=${{secrets[steps.gitsecrets.outputs.KEYSTORE_KEY_PASSWORD]}}>>$keyPropFile
-          echo storePassword=${{secrets[steps.gitsecrets.outputs.KEYSTORE_STORE_PASSWORD]}}>>$keyPropFile
+          echo keyAlias=${{secrets[steps.gitsecrets.outputs.GOOGLEPLAY_KEYSTORE_ALIAS]}}>$keyPropFile
+          echo keyPassword=${{secrets[steps.gitsecrets.outputs.GOOGLEPLAY_KEYSTORE_KEY_PASSWORD]}}>>$keyPropFile
+          echo storePassword=${{secrets[steps.gitsecrets.outputs.GOOGLEPLAY_KEYSTORE_STORE_PASSWORD]}}>>$keyPropFile
           echo storeFile=$keyFile>>$keyPropFile
 
       - name: Creating Version file
@@ -67,15 +65,15 @@ jobs:
           echo flutter.versionName=${{steps.gitinfo.outputs.version}}>$verPropFile
           echo flutter.versionCode=${{steps.gitinfo.outputs.buildNumber}}>>$verPropFile
 
-      - name: Creating Store Secret file
+      - name: Creating GooglePlay Credentials file
         run: |
           pwd
           cd android
           secretJsonFile=secret.json
           secretJsonFileAsc=secret.json.asc
           touch $secretJsonFile
-          echo "${{secrets[steps.gitsecrets.outputs.STORE_SECRET_JSON]}}" >> $secretJsonFileAsc
-          gpg -d --passphrase "${{secrets[steps.gitsecrets.outputs.STORE_SECRET_JSON_PASSPHRASE]}}" --batch $secretJsonFileAsc > $secretJsonFile
+          echo "${{secrets[steps.gitsecrets.outputs.GOOGLEPLAY_CREDENTIALS_FILE]}}" >> $secretJsonFileAsc
+          gpg -d --passphrase "${{secrets[steps.gitsecrets.outputs.GOOGLEPLAY_CREDENTIALS_FILE_PASSPHRASE]}}" --batch $secretJsonFileAsc > $secretJsonFile
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -117,4 +115,5 @@ jobs:
         run: |
           pwd
           cd android
-          bundle exec fastlane deploy_alpha
+          lane=${{steps.gitinfo.outputs.lane}}
+          bundle exec fastlane $lane
