@@ -34,8 +34,8 @@ jobs:
           cd app
           keyFileAsc=key.asc
           keyFile=key.jks
-          echo "${{ secrets.GOOGLE_PLAY_KEYSYORE_CONTENT_BASE64 }}">$keyFileAsc
-          gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_KEYSYORE_FILE_PASSPHRASE }}" --batch $keyFileAsc > $keyFile
+          echo "${{ secrets.GOOGLE_PLAY_KEYSTORE_FILE_ENC }}">$keyFileAsc
+          gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_KEYSTORE_FILE_PASSPHRASE }}" --batch $keyFileAsc > $keyFile
 
           cd ../
           keyPropFile=key.properties
@@ -61,8 +61,9 @@ jobs:
           secretJsonFile=secret.json
           secretJsonFileAsc=secret.json.asc
           touch $secretJsonFile
-          echo "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE }}" >> $secretJsonFileAsc
+          echo "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE_ENC }}" >> $secretJsonFileAsc
           gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE_PASSPHRASE }}" --batch $secretJsonFileAsc > $secretJsonFile
+          cat $secretJsonFile 
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
