@@ -4,9 +4,10 @@ gradle-wrapper.jar
 /gradlew
 /gradlew.bat
 GeneratedPluginRegistrant.java
-secret.json
-app/*.jks
+/secret.json
+/app/*.jks
 /key.properties
 /local.properties
 /version.properties
 /fastlane/metadata/**
+**/*.asc
