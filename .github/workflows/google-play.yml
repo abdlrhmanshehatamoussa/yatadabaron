@@ -34,15 +34,15 @@ jobs:
           cd app
           keyFileAsc=key.asc
           keyFile=key.jks
-          echo "${{secrets[GOOGLE_PLAY_KEYSYORE_CONTENT_BASE64]}}">$keyFileAsc
-          gpg -d --passphrase "${{secrets[GOOGLE_PLAY_KEYSYORE_FILE_PASSPHRASE]}}" --batch $keyFileAsc > $keyFile
+          echo "${{secrets['GOOGLE_PLAY_KEYSYORE_CONTENT_BASE64']}}">$keyFileAsc
+          gpg -d --passphrase "${{secrets['GOOGLE_PLAY_KEYSYORE_FILE_PASSPHRASE']}}" --batch $keyFileAsc > $keyFile
 
           cd ../
           keyPropFile=key.properties
           touch $keyPropFile
-          echo keyAlias=${{secrets[GOOGLE_PLAY_KEYSTORE_ALIAS]}}>$keyPropFile
-          echo keyPassword=${{secrets[GOOGLE_PLAY_KEYSTORE_KEY_PASSWORD]}}>>$keyPropFile
-          echo storePassword=${{secrets[GOOGLE_PLAY_KEYSTORE_STORE_PASSWORD]}}>>$keyPropFile
+          echo keyAlias=${{secrets['GOOGLE_PLAY_KEYSTORE_ALIAS']}}>$keyPropFile
+          echo keyPassword=${{secrets['GOOGLE_PLAY_KEYSTORE_KEY_PASSWORD']}}>>$keyPropFile
+          echo storePassword=${{secrets['GOOGLE_PLAY_KEYSTORE_STORE_PASSWORD']}}>>$keyPropFile
           echo storeFile=$keyFile>>$keyPropFile
 
       - name: Creating Version file
@@ -61,8 +61,8 @@ jobs:
           secretJsonFile=secret.json
           secretJsonFileAsc=secret.json.asc
           touch $secretJsonFile
-          echo "${{secrets[GOOGLE_PLAY_CREDENTIALS_FILE]}}" >> $secretJsonFileAsc
-          gpg -d --passphrase "${{secrets[GOOGLE_PLAY_CREDENTIALS_FILE_PASSPHRASE]}}" --batch $secretJsonFileAsc > $secretJsonFile
+          echo "${{secrets['GOOGLE_PLAY_CREDENTIALS_FILE']}}" >> $secretJsonFileAsc
+          gpg -d --passphrase "${{secrets['GOOGLE_PLAY_CREDENTIALS_FILE_PASSPHRASE']}}" --batch $secretJsonFileAsc > $secretJsonFile
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
