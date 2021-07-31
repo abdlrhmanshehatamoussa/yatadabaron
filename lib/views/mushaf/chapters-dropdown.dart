@@ -58,16 +58,18 @@ class ChaptersDropDown extends StatelessWidget {
   static show(BuildContext context) {
     showDialog(
       context: context,
-      child: SimpleDialog(
-        title: Text(
-          Localization.SELECT_CHAPTER,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        contentPadding: EdgeInsets.all(5),
-        children: <Widget>[
-          ChaptersDropDown(context),
-        ],
-      ),
+      builder: (_) {
+        return SimpleDialog(
+          title: Text(
+            Localization.SELECT_CHAPTER,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          contentPadding: EdgeInsets.all(5),
+          children: <Widget>[
+            ChaptersDropDown(context),
+          ],
+        );
+      },
     );
   }
 }

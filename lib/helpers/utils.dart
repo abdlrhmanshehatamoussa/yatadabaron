@@ -135,18 +135,20 @@ class Utils {
   }) {
     showDialog(
       context: context,
-      child: AlertDialog(
-        title: Text(title),
-        content: (text?.isNotEmpty ?? false) ? Text(text) : null,
-        actions: <Widget>[
-          FlatButton(
-            child: Text(Localization.OK),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )
-        ],
-      ),
+      builder: (_) {
+        return AlertDialog(
+          title: Text(title),
+          content: (text?.isNotEmpty ?? false) ? Text(text) : null,
+          actions: <Widget>[
+            TextButton(
+              child: Text(Localization.OK),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
     );
   }
 
