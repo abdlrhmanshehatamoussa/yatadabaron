@@ -26,7 +26,7 @@ class FrequencyChart extends StatelessWidget {
   Widget build(BuildContext context) {
     StatisticsBloc bloc = Provider.of<StatisticsBloc>(context);
     Color fillColor = Theme.of(context).accentColor;
-    Color axisColor = Theme.of(context).textTheme.body1.color;
+    Color? axisColor = Theme.of(context).textTheme.bodyText1!.color;
     return Container(
       padding: EdgeInsets.all(3),
       child: StreamBuilder<StatisticsPayload>(
@@ -34,7 +34,7 @@ class FrequencyChart extends StatelessWidget {
         builder: (_, AsyncSnapshot<StatisticsPayload> snapshot) {
           if (snapshot.hasData) {
             List<Charts.Series<LetterFrequency, String>> series =
-                _getSeries(snapshot.data.results,fillColor);
+                _getSeries(snapshot.data!.results,fillColor);
             return Charts.BarChart(
               series,
               primaryMeasureAxis: Charts.NumericAxisSpec(
@@ -43,7 +43,7 @@ class FrequencyChart extends StatelessWidget {
                 ),
                 renderSpec: Charts.GridlineRendererSpec(
                   labelStyle: Charts.TextStyleSpec(
-                    color: Charts.ColorUtil.fromDartColor(axisColor),
+                    color: Charts.ColorUtil.fromDartColor(axisColor!),
                   ),
                   lineStyle: Charts.LineStyleSpec(
                     thickness: 0

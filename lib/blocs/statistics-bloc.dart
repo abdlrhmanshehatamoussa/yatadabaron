@@ -24,7 +24,7 @@ class StatisticsBloc {
     _stateBloc.add(SearchState.IN_PROGRESS);
 
     try {
-      String chapterName = await ChaptersRepository.instance.getChapterNameById(settings.chapterId);
+      String? chapterName = await ChaptersRepository.instance.getChapterNameById(settings.chapterId);
       List<LetterFrequency> letterFreqs = await VersesRepository.instance.getLettersByChapterId(settings.chapterId,settings.basmala);
       _payloadBloc.add(StatisticsPayload(chapterName,settings.basmala,letterFreqs));
     } catch (e) {

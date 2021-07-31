@@ -30,8 +30,8 @@ class MushafPage extends StatelessWidget {
                       stream: mushafBloc.selectedChapterStream,
                       builder: (_, snapshot) {
                         if (snapshot.hasData) {
-                          String chName = snapshot.data.chapterNameAR;
-                          String chId = ArabicNumbersService.insance.convert(snapshot.data.chapterId,reverse: false);
+                          String? chName = snapshot.data!.chapterNameAR;
+                          String chId = ArabicNumbersService.insance.convert(snapshot.data!.chapterId,reverse: false);
                           String title = "$chId - $chName";
                           return ListTile(
                             title: Text(
@@ -43,7 +43,7 @@ class MushafPage extends StatelessWidget {
                               ),
                             ),
                             subtitle: Text(
-                              snapshot.data.summary,
+                              snapshot.data!.summary,
                               style: TextStyle(
                                 fontFamily: "Arial",
                                 fontSize: 12,

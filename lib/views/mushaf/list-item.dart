@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MushafVerseListItem extends StatelessWidget {
-  final String text;
-  final int verseID;
+  final String? text;
+  final int? verseID;
   final double textSize;
   final double idSize;
-  final Color color;
+  final Color? color;
 
   MushafVerseListItem({
     this.text,

@@ -35,7 +35,7 @@ class FrequencyTable extends StatelessWidget {
                     ),
                   ),
                 ],
-                rows: snapshot.data.results.map((LetterFrequency lf) {
+                rows: snapshot.data!.results.map((LetterFrequency lf) {
                   return DataRow(
                     cells: [
                       DataCell(Text(lf.letter)),

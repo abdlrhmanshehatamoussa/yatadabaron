@@ -1,5 +1,4 @@
 import 'package:Yatadabaron/helpers/utils.dart';
-import 'package:Yatadabaron/views/shared-widgets/loading-widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../helpers/localization.dart';

@@ -1,7 +1,5 @@
-import 'package:Yatadabaron/helpers/event_types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:wisebay_essentials/analytics/analytics_helper.dart';
 import '../../blocs/search-session-bloc.dart';
 import '../../dtos/chapter-simple-dto.dart';
 import '../../dtos/search-settings.dart';
@@ -13,8 +11,8 @@ import '../../views/shared-widgets/loading-widget.dart';
 
 class SearchForm extends StatelessWidget {
   final SearchSessionBloc bloc;
-  SearchSettings settings = SearchSettings.empty();
-  TextEditingController keywordController = TextEditingController();
+  final SearchSettings settings = SearchSettings.empty();
+  final TextEditingController keywordController = TextEditingController();
 
   SearchForm(this.bloc);
 
@@ -33,7 +31,7 @@ class SearchForm extends StatelessWidget {
     List<DropdownMenuItem<SearchMode>> menuItems =
         SearchMode.values.map((SearchMode m) {
       return DropdownMenuItem<SearchMode>(
-        child: Text(m.name),
+        child: Text(m.name!),
         value: m,
       );
     }).toList();
@@ -53,9 +51,11 @@ class SearchForm extends StatelessWidget {
                   return DropdownButton<SearchMode>(
                     items: menuItems,
                     value: settings.mode,
-                    onChanged: (SearchMode s) {
+                    onChanged: (SearchMode? s) {
                       setState(() {
-                        settings.mode = s;
+                        if (s != null) {
+                          settings.mode = s;
+                        }
                       });
                     },
                   );
@@ -85,9 +85,9 @@ class SearchForm extends StatelessWidget {
                   AsyncSnapshot<List<ChapterSimpleDTO>> snapshot) {
                 if (snapshot.hasData) {
                   List<DropdownMenuItem<int>> menuItems =
-                      snapshot.data.map((ChapterSimpleDTO dto) {
+                      snapshot.data!.map((ChapterSimpleDTO dto) {
                     return DropdownMenuItem<int>(
-                      child: Text(dto.chapterNameAR),
+                      child: Text(dto.chapterNameAR!),
                       value: dto.chapterID,
                     );
                   }).toList();
@@ -97,9 +97,11 @@ class SearchForm extends StatelessWidget {
                         return DropdownButton<int>(
                           items: menuItems,
                           value: settings.chapterID,
-                          onChanged: (s) {
+                          onChanged: (int? s) {
                             setState(() {
-                              settings.chapterID = s;
+                              if (s != null) {
+                                settings.chapterID = s;
+                              }
                             });
                           },
                         );
@@ -149,11 +151,16 @@ class SearchForm extends StatelessWidget {
   }
 
   Widget _customButton(
-      {BuildContext context, Function onPressed, String text}) {
-    return RaisedButton(
-      onPressed: onPressed,
+      {required BuildContext context,
+      Function? onPressed,
+      required String text}) {
+    return ElevatedButton(
+      onPressed: onPressed as void Function()?,
       child: Text(text),
-      color: Theme.of(context).primaryColor,
+      style: ButtonStyle(
+        backgroundColor:
+            MaterialStateProperty.all(Theme.of(context).primaryColor),
+      ),
     );
   }
 

@@ -10,7 +10,7 @@ class ChaptersRepository extends GenericRepository {
 
   static const String TABLE_NAME = "chapters";
 
-  Future<String> getChapterNameById(int id) async {
+  Future<String?> getChapterNameById(int id) async {
     if (id == 0) {
       return Localization.WHOLE_QURAN;
     }
@@ -23,7 +23,7 @@ class ChaptersRepository extends GenericRepository {
     await checkDB();
 
     //Execute
-    List<Map<String, dynamic>> results = await database.rawQuery(query);
+    List<Map<String, dynamic>> results = await database!.rawQuery(query);
     if (results.length > 0) {
       return results[0]["name"];
     } else {
@@ -40,11 +40,11 @@ class ChaptersRepository extends GenericRepository {
     await checkDB();
 
     //Execute
-    List<Map<String, dynamic>> chapters = await database.rawQuery(query);
+    List<Map<String, dynamic>> chapters = await database!.rawQuery(query);
     List<ChapterSimpleDTO> results =
         chapters.map((Map<String, dynamic> result) {
-      String name = result["name"];
-      int id = result["id"];
+      String? name = result["name"];
+      int? id = result["id"];
       return ChapterSimpleDTO(id, name);
     }).toList();
     if (includeWholeQuran) {
@@ -61,14 +61,14 @@ class ChaptersRepository extends GenericRepository {
     await checkDB();
 
     //Execute
-    List<Map<String, dynamic>> chapters = await database.rawQuery(query);
+    List<Map<String, dynamic>> chapters = await database!.rawQuery(query);
     if (chapters.length > 0) {
       Map<String, dynamic> chapter = chapters[0];
-      int id = chapter["c0sura"];
-      String name = chapter["arabic"];
-      String chapterLocation = chapter["localtion"];
-      int versesCount = chapter["ayah"];
-      String sajdaLocation = chapter["sajda"];
+      int? id = chapter["c0sura"];
+      String? name = chapter["arabic"];
+      String? chapterLocation = chapter["localtion"];
+      int? versesCount = chapter["ayah"];
+      String? sajdaLocation = chapter["sajda"];
       return ChapterFullDTO(id, name, chapterLocation, versesCount, sajdaLocation);
     }
 

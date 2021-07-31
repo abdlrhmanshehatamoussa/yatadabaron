@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../../views/shared-widgets/custom-drawer.dart';
 
 class CustomPageWrapper extends StatelessWidget {
-  final Widget child;
-  final Widget floatingButton;
-  final String pageTitle;
+  final Widget? child;
+  final Widget? floatingButton;
+  final String? pageTitle;
 
   CustomPageWrapper({this.child, this.floatingButton, this.pageTitle});
 
@@ -17,7 +17,7 @@ class CustomPageWrapper extends StatelessWidget {
       ),
       appBar: AppBar(
         title: Text(
-          this.pageTitle,
+          this.pageTitle!,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold

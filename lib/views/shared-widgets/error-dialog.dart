@@ -13,7 +13,7 @@ class ErrorDialog extends StatelessWidget {
       contentPadding: EdgeInsets.all(10),
       children: <Widget>[
         Text(this.message),
-        RaisedButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },

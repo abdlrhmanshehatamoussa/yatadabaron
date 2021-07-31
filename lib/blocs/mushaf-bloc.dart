@@ -8,7 +8,7 @@ import '../repositories/chapters-repository.dart';
 import '../repositories/verses-repository.dart';
 
 class MushafBloc {
-  MushafBloc(int chapterId, int verseId) {
+  MushafBloc(int? chapterId, int? verseId) {
     reloadVerses(chapterId, verseId);
   }
 
@@ -27,7 +27,7 @@ class MushafBloc {
     );
   }
 
-  Future reloadVerses(int chapterId, int verseId) async {
+  Future reloadVerses(int? chapterId, int? verseId) async {
     chapterId = chapterId ?? 1;
     ChapterFullDTO chapter =
         await ChaptersRepository.instance.getFullChapterById(chapterId);
@@ -36,14 +36,14 @@ class MushafBloc {
 
     _selectedChapterBloc.add(chapter);
     if (verseId != null && verseId > 0) {
-      verses.firstWhere((v) => v.verseID == verseId)?.isSelected = true;
+      verses.firstWhere((v) => v.verseID == verseId).isSelected = true;
     }
     //Load the bookmarks
-    int bmC = await CustomSharedPreferences.instance.getBookmarkChapter();
+    int? bmC = await CustomSharedPreferences.instance.getBookmarkChapter();
     if (bmC != null) {
       if (bmC == chapterId) {
-        int bmV = await CustomSharedPreferences.instance.getBookmarkVerse();
-        verses.firstWhere((v) => v.verseID == bmV)?.isBookmark = true;
+        int? bmV = await CustomSharedPreferences.instance.getBookmarkVerse();
+        verses.firstWhere((v) => v.verseID == bmV).isBookmark = true;
       }
     }
     _versesBloc.add(verses);

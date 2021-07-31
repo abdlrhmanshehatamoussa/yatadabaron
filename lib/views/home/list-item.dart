@@ -3,23 +3,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class WordInfo {
-  String word;
+  late String word;
   int start = -1;
-  bool exact;
+  late bool exact;
   int get end => start + word.length;
   bool get match => start > -1;
 }
 
 class SearchResultsListItem extends StatelessWidget {
-  final String verseTextTashkel;
-  final String verseText;
-  final int verseID;
+  final String? verseTextTashkel;
+  final String? verseText;
+  final int? verseID;
   final double textSize;
   final double idSize;
-  final Color color;
-  final Color matchColor;
+  final Color? color;
+  final Color? matchColor;
   final bool onlyIfExact;
-  final String keyword;
+  final String? keyword;
 
   SearchResultsListItem({
     this.keyword,
@@ -34,7 +34,7 @@ class SearchResultsListItem extends StatelessWidget {
   });
 
   static List<WordInfo> findKeyword(
-    String keyword,
+    String? keyword,
     String textEmla2y,
     String textTashkel,
   ) {
@@ -49,7 +49,7 @@ class SearchResultsListItem extends StatelessWidget {
       if (keyword?.isNotEmpty ?? false) {
         if (i < textEmla2yWords.length) {
           String emla2yWord = textEmla2yWords[i];
-          info.start = emla2yWord.indexOf(keyword);
+          info.start = emla2yWord.indexOf(keyword!);
           info.exact = (emla2yWord == keyword);
         }
       }
@@ -63,11 +63,11 @@ class SearchResultsListItem extends StatelessWidget {
     String verseIdStr = ArabicNumbersService.insance.convert(this.verseID);
     List<WordInfo> infos = findKeyword(
       this.keyword,
-      this.verseText,
-      this.verseTextTashkel,
+      this.verseText!,
+      this.verseTextTashkel!,
     );
     List<InlineSpan> verseSpans = infos.map((info) {
-      Color color = this.color;
+      Color? color = this.color;
       if (this.onlyIfExact) {
         if (info.exact) {
           color = this.matchColor;

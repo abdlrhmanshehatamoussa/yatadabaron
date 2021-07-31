@@ -18,7 +18,7 @@ class StatisticsSummaryWidget extends StatelessWidget {
               padding: EdgeInsets.all(12),
               color: Theme.of(context).cardColor,
               child: Text(
-                snapshot.data.summary,
+                snapshot.data!.summary,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 12,

@@ -17,7 +17,7 @@ import '../../views/shared-widgets/loading-widget.dart';
 class SearchResultsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    void navigateToMushaf(int chapterId, int verseId) {
+    void navigateToMushaf(int? chapterId, int? verseId) {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) {
           return Provider(
@@ -36,8 +36,8 @@ class SearchResultsList extends StatelessWidget {
         if (!snapshot.hasData) {
           return LoadingWidget();
         }
-        List<VerseDTO> results = snapshot.data.results;
-        SearchSettings settings = snapshot.data.settings;
+        List<VerseDTO> results = snapshot.data!.results;
+        SearchSettings settings = snapshot.data!.settings;
         if (results.length == 0) {
           return Center(
             child: Text(
@@ -46,7 +46,7 @@ class SearchResultsList extends StatelessWidget {
             ),
           );
         }
-        List<VerseCollection> collections = snapshot.data.verseCollections;
+        List<VerseCollection> collections = snapshot.data!.verseCollections;
         if (collections.length == 1) {
           return ListView.separated(
             itemCount: results.length,
@@ -66,7 +66,7 @@ class SearchResultsList extends StatelessWidget {
                   matchColor: Theme.of(context).accentColor,
                 ),
                 onTap: () {
-                  snapshot.data.copyVerse(verse);
+                  snapshot.data!.copyVerse(verse);
                 },
               );
             },
@@ -75,9 +75,9 @@ class SearchResultsList extends StatelessWidget {
         return ListView.builder(
           itemCount: collections.length,
           itemBuilder: (BuildContext context, int i) {
-            String collectionName = collections[i].collectionName;
+            String? collectionName = collections[i].collectionName;
             List<VerseDTO> verses = collections[i].verses;
-            String versesCountArabic = Utils.numberTamyeez(
+            String? versesCountArabic = Utils.numberTamyeez(
                 single: Localization.VERSE,
                 plural: Localization.VERSES,
                 count: verses.length,
@@ -105,12 +105,12 @@ class SearchResultsList extends StatelessWidget {
                         onlyIfExact: settings.mode == SearchMode.WORD,
                         matchColor: Theme.of(context).accentColor,
                       ),
-                      trailing: Text(verse.chapterName),
+                      trailing: Text(verse.chapterName!),
                       onTap: () {
                         navigateToMushaf(verse.chapterId, verse.verseID);
                       },
                       onLongPress: () {
-                        snapshot.data.copyVerse(verse);
+                        snapshot.data!.copyVerse(verse);
                       },
                     ),
                     Divider(

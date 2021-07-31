@@ -1,6 +1,5 @@
 import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:share/share.dart';
-
 import '../dtos/search-settings.dart';
 import '../dtos/verse-dto-collection.dart';
 import '../dtos/verse-dto.dart';
@@ -9,7 +8,7 @@ import '../helpers/utils.dart';
 import '../enums/enums.dart';
 
 class SearchSessionPayload {
-  final String chapterName;
+  final String? chapterName;
   final List<VerseDTO> results;
   final SearchSettings settings;
   SearchSessionPayload(this.settings, this.chapterName, this.results);
@@ -17,7 +16,7 @@ class SearchSessionPayload {
   String get summary {
     int count = 0;
     for (var result in results) {
-      List<String> words = result.verseText.split(" ");
+      List<String> words = result.verseText!.split(" ");
       for (var word in words) {
         bool found = false;
         switch (settings.mode) {
@@ -28,6 +27,8 @@ class SearchSessionPayload {
           case SearchMode.END:
           case SearchMode.WITHIN:
             found = word.contains(this.settings.keyword);
+            break;
+          default:
             break;
         }
         if (found) {
@@ -65,9 +66,9 @@ class SearchSessionPayload {
 
   List<VerseCollection> get verseCollections {
     List<VerseCollection> collections = [];
-    List<String> chapterNames =
+    List<String?> chapterNames =
         results.map((v) => v.chapterName).toSet().toList();
-    chapterNames.forEach((String chapter) {
+    chapterNames.forEach((String? chapter) {
       List<VerseDTO> verses =
           results.where((v) => v.chapterName == chapter).toList();
       collections.add(VerseCollection(verses, chapter));

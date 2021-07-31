@@ -17,7 +17,7 @@ class SearchSessionBloc {
   GenericBloc<Exception> _errorStream = GenericBloc();
 
   Future changeSettings(SearchSettings settings) async {
-    if (settings == null || settings.keyword == null ||settings.keyword.isEmpty) {
+    if (settings.keyword.isEmpty) {
       _stateBloc.add(SearchState.INVALID_SETTINGS);
       return;
     }
@@ -28,7 +28,7 @@ class SearchSessionBloc {
 
     try {
       results = await VersesRepository.instance.search(settings.basmala,settings.keyword, settings.mode, settings.chapterID);
-      String chapterName = await ChaptersRepository.instance.getChapterNameById(settings.chapterID);
+      String? chapterName = await ChaptersRepository.instance.getChapterNameById(settings.chapterID);
       payload = SearchSessionPayload(settings, chapterName,results);
     } catch (e) {
       _stateBloc.add(SearchState.INITIAL);

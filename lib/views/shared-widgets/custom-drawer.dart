@@ -43,9 +43,9 @@ class CustomDrawer extends StatelessWidget {
               trailing: Icon(Icons.book),
               onTap: () async {
                 //Load the bookmark
-                int chapterId =
+                int? chapterId =
                     await CustomSharedPreferences.instance.getBookmarkChapter();
-                int verseId =
+                int? verseId =
                     await CustomSharedPreferences.instance.getBookmarkVerse();
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Provider(

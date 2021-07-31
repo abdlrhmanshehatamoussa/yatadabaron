@@ -22,7 +22,7 @@ class VerseList extends StatelessWidget {
         if (!snapshot.hasData) {
           return LoadingWidget();
         }
-        List<VerseDTO> results = snapshot.data;
+        List<VerseDTO> results = snapshot.data!;
         if (results.length == 0) {
           return Center(
             child: Text(
@@ -34,7 +34,7 @@ class VerseList extends StatelessWidget {
 
         int scrollIndex = 0;
         if (results.any((v) => v.isSelected)) {
-          int selectedVerseId = results.firstWhere((v) => v.isSelected).verseID;
+          int selectedVerseId = results.firstWhere((v) => v.isSelected).verseID!;
           scrollIndex = selectedVerseId - 1;
         }
         return ScrollablePositionedList.separated(
@@ -48,7 +48,7 @@ class VerseList extends StatelessWidget {
           },
           itemBuilder: (context, i) {
             VerseDTO result = results[i];
-            Color color;
+            Color? color;
             if (result.isSelected) {
               color = Theme.of(context).accentColor;
             }
@@ -60,7 +60,7 @@ class VerseList extends StatelessWidget {
               ),
               selected: result.isSelected,
               leading:
-                  (result.isBookmark ?? false) ? Icon(Icons.bookmark) : null,
+                  (result.isBookmark) ? Icon(Icons.bookmark) : null,
               onTap: () {
                 String toCopy =
                     "${result.chapterName}\n${result.verseTextTashkel} {${result.verseID}}";
@@ -68,7 +68,7 @@ class VerseList extends StatelessWidget {
               },
               onLongPress: () async {
                 //Save the bookmark
-                await mushafBloc.saveBookmark(result.chapterId, result.verseID);
+                await mushafBloc.saveBookmark(result.chapterId!, result.verseID!);
                 Utils.showCustomDialog(
                   context: context,
                   title: Localization.BOOKMARK_SAVED,
