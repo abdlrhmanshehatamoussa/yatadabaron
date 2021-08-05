@@ -1,4 +1,3 @@
-import 'package:Yatadabaron/helpers/event_types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:wisebay_essentials/analytics/analytics_helper.dart';
@@ -9,10 +8,10 @@ import '../../repositories/chapters-repository.dart';
 import '../../helpers/localization.dart';
 import '../../views/shared-widgets/loading-widget.dart';
 
-class StatisticsForm extends StatelessWidget{
+class StatisticsForm extends StatelessWidget {
   final StatisticsBloc bloc;
-  StatisticsSettings settings = StatisticsSettings.empty();
-   
+  final StatisticsSettings settings = StatisticsSettings.empty();
+
   StatisticsForm(this.bloc);
 
   Widget chapterWidget() {
@@ -26,14 +25,15 @@ class StatisticsForm extends StatelessWidget{
           Expanded(
             flex: 1,
             child: FutureBuilder(
-              future: ChaptersRepository.instance.getChaptersSimple(includeWholeQuran: true),
+              future: ChaptersRepository.instance
+                  .getChaptersSimple(includeWholeQuran: true),
               builder: (BuildContext context,
                   AsyncSnapshot<List<ChapterSimpleDTO>> snapshot) {
                 if (snapshot.hasData) {
                   List<DropdownMenuItem<int>> menuItems =
-                      snapshot.data.map((ChapterSimpleDTO dto) {
+                      snapshot.data!.map((ChapterSimpleDTO dto) {
                     return DropdownMenuItem<int>(
-                      child: Text(dto.chapterNameAR),
+                      child: Text(dto.chapterNameAR!),
                       value: dto.chapterID,
                     );
                   }).toList();
@@ -43,9 +43,11 @@ class StatisticsForm extends StatelessWidget{
                         return DropdownButton<int>(
                           items: menuItems,
                           value: settings.chapterId,
-                          onChanged: (s) {
+                          onChanged: (int? s) {
                             setState(() {
-                              settings.chapterId = s;
+                              if (s != null) {
+                                settings.chapterId = s;
+                              }
                             });
                           },
                         );
@@ -94,11 +96,16 @@ class StatisticsForm extends StatelessWidget{
   }
 
   Widget _customButton(
-      {BuildContext context, Function onPressed, String text}) {
-    return RaisedButton(
-      onPressed: onPressed,
+      {required BuildContext context,
+      Function? onPressed,
+      required String text}) {
+    return ElevatedButton(
+      onPressed: onPressed as void Function()?,
       child: Text(text),
-      color: Theme.of(context).primaryColor,
+      style: ButtonStyle(
+        backgroundColor:
+            MaterialStateProperty.all(Theme.of(context).primaryColor),
+      ),
     );
   }
 
@@ -107,7 +114,7 @@ class StatisticsForm extends StatelessWidget{
       padding: EdgeInsets.all(5),
       child: _customButton(
           context: context,
-          onPressed: (){
+          onPressed: () {
             try {
               this.bloc.changeSettings(settings);
             } catch (e) {

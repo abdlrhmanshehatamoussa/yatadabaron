@@ -1,3 +1,4 @@
+import 'package:Yatadabaron/services/custom-prefs.dart';
 import 'package:Yatadabaron/views/about/about.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,11 +41,16 @@ class CustomDrawer extends StatelessWidget {
             ListTile(
               title: Text(Localization.DRAWER_QURAN),
               trailing: Icon(Icons.book),
-              onTap: () {
+              onTap: () async {
+                //Load the bookmark
+                int? chapterId =
+                    await CustomSharedPreferences.instance.getBookmarkChapter();
+                int? verseId =
+                    await CustomSharedPreferences.instance.getBookmarkVerse();
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Provider(
                     child: MushafPage(),
-                    create: (contextt) => MushafBloc(null, null),
+                    create: (contextt) => MushafBloc(chapterId, verseId),
                   ),
                 ));
               },

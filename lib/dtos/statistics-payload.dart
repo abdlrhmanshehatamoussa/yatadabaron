@@ -5,7 +5,7 @@ import '../helpers/localization.dart';
 import '../helpers/utils.dart';
 
 class StatisticsPayload{
-  final String chapterName;
+  final String? chapterName;
   final bool basmala;
   final List<LetterFrequency> results;
 

@@ -1,5 +1,4 @@
-import 'package:Yatadabaron/helpers/global-colors.dart';
-import 'package:Yatadabaron/views/shared-widgets/verse-block.dart';
+import 'package:Yatadabaron/views/mushaf/list-item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +8,7 @@ import '../../blocs/mushaf-bloc.dart';
 import '../../dtos/verse-dto.dart';
 import '../../helpers/localization.dart';
 import '../../helpers/utils.dart';
-import '../../views/shared-widgets/loading-widget.dart';
+import '../shared-widgets/loading-widget.dart';
 
 class VerseList extends StatelessWidget {
   @override
@@ -23,7 +22,7 @@ class VerseList extends StatelessWidget {
         if (!snapshot.hasData) {
           return LoadingWidget();
         }
-        List<VerseDTO> results = snapshot.data;
+        List<VerseDTO> results = snapshot.data!;
         if (results.length == 0) {
           return Center(
             child: Text(
@@ -35,7 +34,7 @@ class VerseList extends StatelessWidget {
 
         int scrollIndex = 0;
         if (results.any((v) => v.isSelected)) {
-          int selectedVerseId = results.firstWhere((v) => v.isSelected).verseID;
+          int selectedVerseId = results.firstWhere((v) => v.isSelected).verseID!;
           scrollIndex = selectedVerseId - 1;
         }
         return ScrollablePositionedList.separated(
@@ -49,21 +48,31 @@ class VerseList extends StatelessWidget {
           },
           itemBuilder: (context, i) {
             VerseDTO result = results[i];
-            Color color;
+            Color? color;
             if (result.isSelected) {
               color = Theme.of(context).accentColor;
             }
             return ListTile(
-              title: VerseBlock(
-                verseText: result.verseTextTashkel,
+              title: MushafVerseListItem(
+                text: result.verseTextTashkel,
                 verseID: result.verseID,
                 color: color,
               ),
               selected: result.isSelected,
+              leading:
+                  (result.isBookmark) ? Icon(Icons.bookmark) : null,
               onTap: () {
                 String toCopy =
                     "${result.chapterName}\n${result.verseTextTashkel} {${result.verseID}}";
                 Share.share(toCopy);
+              },
+              onLongPress: () async {
+                //Save the bookmark
+                await mushafBloc.saveBookmark(result.chapterId!, result.verseID!);
+                Utils.showCustomDialog(
+                  context: context,
+                  title: Localization.BOOKMARK_SAVED,
+                );
               },
             );
           },

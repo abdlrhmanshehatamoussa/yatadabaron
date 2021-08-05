@@ -1,0 +1,106 @@
+name: deploy-flutter-googleplay-fastlane
+
+on:
+  push:
+    tags: 
+      - 'gp_alpha@*@*'
+      - 'gp_beta@*@*'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extracting Lane, Version and Build Number
+        id: gitinfo
+        run: |
+          tag_name=${GITHUB_REF##*/}
+          tag_name_splitted=(${tag_name//@/ })
+          echo Tag Name=${tag_name}
+          lane=${tag_name_splitted[0]}
+          version=${tag_name_splitted[1]}
+          buildNumber=${tag_name_splitted[2]}
+          echo lane=$lane, version=$version, build_number=$buildNumber
+          echo "::set-output name=lane::$lane"
+          echo "::set-output name=version::$version"
+          echo "::set-output name=buildNumber::$buildNumber"
+
+      - name: Creating Keystore file
+        run: |
+          cd android  
+        
+          cd app
+          keyFileAsc=key.asc
+          keyFile=key.jks
+          echo "${{ secrets.GOOGLE_PLAY_KEYSTORE_FILE_ENC }}">$keyFileAsc
+          gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_KEYSTORE_FILE_PASSPHRASE }}" --batch $keyFileAsc > $keyFile
+
+          cd ../
+          keyPropFile=key.properties
+          touch $keyPropFile
+          echo keyAlias=${{ secrets.GOOGLE_PLAY_KEYSTORE_ALIAS }}>$keyPropFile
+          echo keyPassword=${{ secrets.GOOGLE_PLAY_KEYSTORE_KEY_PASSWORD }}>>$keyPropFile
+          echo storePassword=${{ secrets.GOOGLE_PLAY_KEYSTORE_STORE_PASSWORD }}>>$keyPropFile
+          echo storeFile=$keyFile>>$keyPropFile
+
+      - name: Creating Version file
+        run: |
+          pwd
+          cd android
+          verPropFile=version.properties
+          touch $verPropFile
+          echo flutter.versionName=${{steps.gitinfo.outputs.version}}>$verPropFile
+          echo flutter.versionCode=${{steps.gitinfo.outputs.buildNumber}}>>$verPropFile
+
+      - name: Creating GooglePlay Credentials file
+        run: |
+          pwd
+          cd android
+          secretJsonFile=secret.json
+          secretJsonFileAsc=secret.json.asc
+          touch $secretJsonFile
+          echo "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE_ENC }}" >> $secretJsonFileAsc
+          gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE_PASSPHRASE }}" --batch $secretJsonFileAsc > $secretJsonFile
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+
+      - name: Install Fastlane dependencies
+        run: |
+          pwd
+          cd android
+          bundle install
+
+      - name: Testing Fastlane installation
+        run: |
+          pwd
+          cd android
+          cat secret.json
+          bundle exec fastlane run validate_play_store_json_key
+      
+      - name: "Setup Java"
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
+      - name: "Setup Flutter"
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.2.3'
+
+      - name: Build
+        run: |
+          pwd
+          cd android
+          flutter build apk --release
+
+      - name: Deploy
+        run: |
+          pwd
+          cd android
+          lane=${{steps.gitinfo.outputs.lane}}
+          bundle exec fastlane $lane

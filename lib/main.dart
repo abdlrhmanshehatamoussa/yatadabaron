@@ -2,7 +2,6 @@ import 'package:Yatadabaron/services/initialization-service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'blocs/search-session-bloc.dart';
-import 'services/database-provider.dart';
 import 'helpers/localization.dart';
 import 'helpers/theming.dart';
 import 'views/home/home.dart';
@@ -16,13 +15,13 @@ void main() {
 
 class App extends StatelessWidget {
   //returns a metrial app wrapper for the given widget using the given theme
-  Widget materialApp({Widget widget, ThemeData theme}) {
+  Widget materialApp({Widget? widget, ThemeData? theme}) {
     return MaterialApp(
       theme: theme,
       builder: (BuildContext context, child) {
         return Directionality(
           textDirection: TextDirection.rtl,
-          child: child,
+          child: child!,
         );
       },
       title: Localization.APP_TITLE,
@@ -36,7 +35,7 @@ class App extends StatelessWidget {
       future: InitializationService.instance.initialize(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data) {
+          if (snapshot.data!) {
             return materialApp(
               widget: Provider(
                 create: (BuildContext context) => SearchSessionBloc(),

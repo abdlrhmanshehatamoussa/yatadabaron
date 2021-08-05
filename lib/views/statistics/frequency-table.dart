@@ -35,14 +35,22 @@ class FrequencyTable extends StatelessWidget {
                     ),
                   ),
                 ],
-                rows: snapshot.data.results.map((LetterFrequency lf) {
+                rows: snapshot.data!.results.map((LetterFrequency lf) {
+                  String freq = ArabicNumbersService.insance.convert(
+                    lf.frequency,
+                    reverse: false,
+                  );
                   return DataRow(
                     cells: [
                       DataCell(Text(lf.letter)),
-                      DataCell(Text(ArabicNumbersService.insance.convert(
-                        lf.frequency,
-                        reverse: false,
-                      ))),
+                      DataCell(
+                        Text(
+                          freq,
+                          style: TextStyle(
+                            fontFamily: 'Arial'
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 }).toList(),

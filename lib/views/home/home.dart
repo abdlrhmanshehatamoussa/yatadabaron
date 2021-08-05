@@ -53,9 +53,9 @@ class HomePage extends StatelessWidget {
     return StreamBuilder<SearchState>(
       stream: sessionBloc.stateStream,
       builder: (BuildContext context, AsyncSnapshot<SearchState> snapshot) {
-        SearchState state = snapshot.data;
-        Widget body;
-        Widget btn = floatingButton;
+        SearchState? state = snapshot.data;
+        Widget? body;
+        Widget? btn = floatingButton;
         switch (state) {
           case SearchState.INITIAL:
             body = initialMessage;

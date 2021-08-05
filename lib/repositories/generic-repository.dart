@@ -2,12 +2,12 @@ import 'package:sqflite/sqflite.dart';
 import '../services/database-provider.dart';
 
 class GenericRepository{
-  Database database;
+  Database? database;
 
   Future checkDB() async{
-    if(database == null || (database.isOpen == false)){
+    if(database == null || (database!.isOpen == false)){
       database =  await DatabaseProvider.getDatabase();
-      if(!database.isOpen){
+      if(database!.isOpen == false){
         throw Exception("Error openeing database !");
       }
     }

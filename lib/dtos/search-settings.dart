@@ -10,6 +10,6 @@ class SearchSettings{
 
 
   static SearchSettings empty(){
-    return new SearchSettings(null, false, SearchMode.WITHIN, 0);
+    return new SearchSettings("", false, SearchMode.WITHIN, 0);
   } 
 }

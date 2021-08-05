@@ -14,7 +14,7 @@ class DatabaseProvider {
     return dbPath;
   }
 
-  static Future getDatabase() async {
+  static Future<Database> getDatabase() async {
     String databasesPath = await databasePath();
     Database db = await openDatabase(databasesPath, readOnly: true);
     return db;

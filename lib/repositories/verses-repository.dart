@@ -31,6 +31,8 @@ class VersesRepository extends GenericRepository {
       case SearchMode.WITHIN:
         textCondition += "ve.text like '%$keyword%'";
         break;
+      default:
+        break;
     }
 
     //Prepare Query
@@ -45,17 +47,17 @@ class VersesRepository extends GenericRepository {
     await checkDB();
 
     //Execute
-    List<Map<String, dynamic>> verses = await database.rawQuery(query);
+    List<Map<String, dynamic>> verses = await database!.rawQuery(query);
 
     //Map
     List<VerseDTO> results = verses.map((Map<String, dynamic> verse) {
-      String chapterName = verse["chapter_name"];
-      String verseText = verse["verse_text"];
-      String verseTextTashkel = verse["verse_text_tashkel"];
-      int verseID = verse["verse_id"];
-      int chId = verse["chapter_id"];
+      String? chapterName = verse["chapter_name"];
+      String? verseText = verse["verse_text"];
+      String? verseTextTashkel = verse["verse_text_tashkel"];
+      int? verseID = verse["verse_id"];
+      int? chId = verse["chapter_id"];
       VerseDTO result =
-          VerseDTO(chId,chapterName, verseText, verseTextTashkel, verseID);
+          VerseDTO(chId, chapterName, verseText, verseTextTashkel, verseID);
       return result;
     }).toList();
     return results;
@@ -74,16 +76,16 @@ class VersesRepository extends GenericRepository {
     await checkDB();
 
     //Execute
-    List<Map<String, dynamic>> verses = await database.rawQuery(query);
+    List<Map<String, dynamic>> verses = await database!.rawQuery(query);
 
     //Map
     List<VerseDTO> results = verses.map((Map<String, dynamic> verse) {
       String chapterName = "";
-      String verseText = verse["verse_text"];
-      String verseTextTashkel = verse["verse_text_tashkel"];
-      int verseID = verse["verse_id"];
+      String? verseText = verse["verse_text"];
+      String? verseTextTashkel = verse["verse_text_tashkel"];
+      int? verseID = verse["verse_id"];
       VerseDTO result =
-          VerseDTO(id,chapterName, verseText, verseTextTashkel, verseID);
+          VerseDTO(id, chapterName, verseText, verseTextTashkel, verseID);
       return result;
     }).toList();
     return results;

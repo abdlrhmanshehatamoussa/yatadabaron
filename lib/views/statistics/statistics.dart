@@ -48,16 +48,12 @@ class StatisticsPage extends StatelessWidget {
             switch (snapshot.data) {
               case SearchState.INITIAL:
                 return initialMessage;
-                break;
               case SearchState.IN_PROGRESS:
                 return LoadingWidget();
-                break;
               case SearchState.DONE:
                 return resultsArea;
-                break;
               default:
                 return initialMessage;
-                break;
             }
           }
           return LoadingWidget();

@@ -1,3 +1,4 @@
+import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,7 +6,7 @@ import '../../blocs/mushaf-bloc.dart';
 import '../../dtos/chapter-full-dto.dart';
 import '../../helpers/localization.dart';
 import '../../views/mushaf/chapters-dropdown.dart';
-import '../../views/mushaf/verse-list.dart';
+import 'list.dart';
 import '../../views/shared-widgets/custom-page-wrapper.dart';
 import '../../views/shared-widgets/loading-widget.dart';
 
@@ -29,16 +30,20 @@ class MushafPage extends StatelessWidget {
                       stream: mushafBloc.selectedChapterStream,
                       builder: (_, snapshot) {
                         if (snapshot.hasData) {
+                          String? chName = snapshot.data!.chapterNameAR;
+                          String chId = ArabicNumbersService.insance.convert(snapshot.data!.chapterId,reverse: false);
+                          String title = "$chId - $chName";
                           return ListTile(
                             title: Text(
-                              snapshot.data.chapterNameAR,
+                              title,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
+                                fontFamily: "Arial",
                                 fontSize: 20,
                               ),
                             ),
                             subtitle: Text(
-                              snapshot.data.summary,
+                              snapshot.data!.summary,
                               style: TextStyle(
                                 fontFamily: "Arial",
                                 fontSize: 12,

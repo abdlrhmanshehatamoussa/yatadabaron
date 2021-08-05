@@ -46,10 +46,10 @@ class Utils {
   }
 
   static String replaceMultiple(
-      String original, String replaceWhat, List<String> replcaeWith) {
+      String original, String replaceWhat, List<String?> replcaeWith) {
     String result = original;
     replcaeWith.forEach((x) {
-      result = result.replaceFirst(replaceWhat, x);
+      result = result.replaceFirst(replaceWhat, x!);
     });
     return result;
   }
@@ -58,7 +58,7 @@ class Utils {
     return TextStyle(color: Colors.grey, fontStyle: FontStyle.italic);
   }
 
-  static String findIgnoring(
+  static String? findIgnoring(
       String input, String findWhat, String ignorePattern) {
     String pattern = "";
     for (int i = 0; i < findWhat.length; i++) {
@@ -67,7 +67,7 @@ class Utils {
 
     try {
       RegExp r = new RegExp(pattern);
-      String value = r.firstMatch(input).group(0);
+      String? value = r.firstMatch(input)!.group(0);
       return value;
     } catch (e) {
       return null;
@@ -83,7 +83,7 @@ class Utils {
 
   static List<String> splitVerseIntoTriplet(
       String verseText, String verseTextTashkel, String keyword) {
-    String keywordTashkel = findIgnoring(
+    String? keywordTashkel = findIgnoring(
         verseTextTashkel, keyword, '[,ْ,ّ,َ,ٰ,ُ,ۛ,ً,ۖ,ٌ,ۗ,ٍ,ۚ,ۙ,ۘ,۩,ۜ]*');
     if (keywordTashkel == null) {
       return [verseTextTashkel, "", ""];
@@ -102,17 +102,17 @@ class Utils {
     ];
   }
 
-  static String numberTamyeez({
-    String single,
-    String plural,
-    String mothana,
-    int count,
-    bool isMasculine,
+  static String? numberTamyeez({
+    String? single,
+    String? plural,
+    String? mothana,
+    int? count,
+    bool? isMasculine,
   }) {
     String countAr =
         ArabicNumbersService.insance.convert(count, reverse: false);
     if (count == 1) {
-      if (isMasculine) {
+      if (isMasculine!) {
         return "$single ${Localization.ONE_MASC}";
       } else {
         return "$single ${Localization.ONE_FEM}";
@@ -121,10 +121,81 @@ class Utils {
     if (count == 2) {
       return mothana;
     }
-    if (count <= 10) {
+    if (count! <= 10) {
       return "$countAr $plural";
     } else {
       return "$countAr $single";
     }
+  }
+
+  static void showCustomDialog({
+    required BuildContext context,
+    String? title,
+    String? text,
+  }) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text(title!),
+          content: (text?.isNotEmpty ?? false) ? Text(text!) : null,
+          actions: <Widget>[
+            TextButton(
+              child: Text(Localization.OK),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  static List<int> findIndicesOfChar(String textTashkel, String char) {
+    List<int> result = [];
+    if (textTashkel.isNotEmpty) {
+      for (var i = 0; i < textTashkel.length; i++) {
+        if (textTashkel[i] == char) {
+          result.add(i);
+        }
+      }
+    }
+    return result;
+  }
+
+  static String substring({
+    required String text,
+    required int startFrom,
+    int? count,
+    List? countIf,
+  }) {
+    String sub = text.substring(startFrom);
+    String result = "";
+    int c = 0;
+    for (var i = 0; i < sub.length; i++) {
+      if (c < count!) {
+        String subi = sub[i];
+        result = result + subi;
+        if (countIf!.contains(subi)) {
+          c++;
+        }
+      }
+    }
+    return result;
+  }
+
+  static String reduce({
+    required String text,
+    List<String>? countIf,
+  }) {
+    String reduced = "";
+    for (var i = 0; i < text.length; i++) {
+      String crnt = text[i];
+      if (countIf!.contains(crnt)) {
+        reduced += crnt;
+      }
+    }
+    return reduced;
   }
 }

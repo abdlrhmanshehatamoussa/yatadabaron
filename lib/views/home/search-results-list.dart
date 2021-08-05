@@ -1,7 +1,8 @@
 import 'package:Yatadabaron/blocs/mushaf-bloc.dart';
-import 'package:Yatadabaron/services/arabic-numbers-service.dart';
+import 'package:Yatadabaron/dtos/search-settings.dart';
+import 'package:Yatadabaron/enums/enums.dart';
 import 'package:Yatadabaron/views/mushaf/mushaf.dart';
-import 'package:Yatadabaron/views/shared-widgets/verse-block.dart';
+import 'package:Yatadabaron/views/home/list-item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ import '../../views/shared-widgets/loading-widget.dart';
 class SearchResultsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    void navigateToMushaf(int chapterId, int verseId) {
+    void navigateToMushaf(int? chapterId, int? verseId) {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) {
           return Provider(
@@ -35,7 +36,8 @@ class SearchResultsList extends StatelessWidget {
         if (!snapshot.hasData) {
           return LoadingWidget();
         }
-        List<VerseDTO> results = snapshot.data.results;
+        List<VerseDTO> results = snapshot.data!.results;
+        SearchSettings settings = snapshot.data!.settings;
         if (results.length == 0) {
           return Center(
             child: Text(
@@ -44,7 +46,7 @@ class SearchResultsList extends StatelessWidget {
             ),
           );
         }
-        List<VerseCollection> collections = snapshot.data.verseCollections;
+        List<VerseCollection> collections = snapshot.data!.verseCollections;
         if (collections.length == 1) {
           return ListView.separated(
             itemCount: results.length,
@@ -53,13 +55,18 @@ class SearchResultsList extends StatelessWidget {
             ),
             itemBuilder: (_, i) {
               VerseDTO verse = results[i];
+
               return ListTile(
-                title: VerseBlock(
-                  verseText: verse.verseTextTashkel,
+                title: SearchResultsListItem(
+                  verseTextTashkel: verse.verseTextTashkel,
                   verseID: verse.verseID,
+                  keyword: settings.keyword,
+                  onlyIfExact: settings.mode == SearchMode.WORD,
+                  verseText: verse.verseText,
+                  matchColor: Theme.of(context).accentColor,
                 ),
                 onTap: () {
-                  snapshot.data.copyVerse(verse);
+                  snapshot.data!.copyVerse(verse);
                 },
               );
             },
@@ -68,15 +75,14 @@ class SearchResultsList extends StatelessWidget {
         return ListView.builder(
           itemCount: collections.length,
           itemBuilder: (BuildContext context, int i) {
-            String collectionName = collections[i].collectionName;
+            String? collectionName = collections[i].collectionName;
             List<VerseDTO> verses = collections[i].verses;
-            String versesCountArabic = Utils.numberTamyeez(
-              single:Localization.VERSE,
-              plural: Localization.VERSES,
-              count:verses.length,
-              mothana: Localization.VERSE_MOTHANA,
-              isMasculine: false
-            );
+            String? versesCountArabic = Utils.numberTamyeez(
+                single: Localization.VERSE,
+                plural: Localization.VERSES,
+                count: verses.length,
+                mothana: Localization.VERSE_MOTHANA,
+                isMasculine: false);
             return ExpansionTile(
               initiallyExpanded: false,
               title: Text(
@@ -91,15 +97,20 @@ class SearchResultsList extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     ListTile(
-                      title: VerseBlock(
-                          verseText: verse.verseTextTashkel,
-                          verseID: verse.verseID),
-                      trailing: Text(verse.chapterName),
+                      title: SearchResultsListItem(
+                        verseTextTashkel: verse.verseTextTashkel,
+                        verseID: verse.verseID,
+                        verseText: verse.verseText,
+                        keyword: settings.keyword,
+                        onlyIfExact: settings.mode == SearchMode.WORD,
+                        matchColor: Theme.of(context).accentColor,
+                      ),
+                      trailing: Text(verse.chapterName!),
                       onTap: () {
                         navigateToMushaf(verse.chapterId, verse.verseID);
                       },
                       onLongPress: () {
-                        snapshot.data.copyVerse(verse);
+                        snapshot.data!.copyVerse(verse);
                       },
                     ),
                     Divider(

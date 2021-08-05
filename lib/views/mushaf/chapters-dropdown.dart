@@ -21,7 +21,7 @@ class ChaptersDropDown extends StatelessWidget {
         if (!snapshot.hasData) {
           return LoadingWidget();
         }
-        List<ChapterSimpleDTO> chapters = snapshot.data;
+        List<ChapterSimpleDTO> chapters = snapshot.data!;
         return Container(
           height: 300,
           width: double.maxFinite,
@@ -34,7 +34,7 @@ class ChaptersDropDown extends StatelessWidget {
                   .convert(chapter.chapterID, reverse: false);
               return ListTile(
                 title: Text(
-                  chapter.chapterNameAR,
+                  chapter.chapterNameAR!,
                   style: TextStyle(
                     fontSize: 18,
                   ),
@@ -44,7 +44,7 @@ class ChaptersDropDown extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontFamily: "Arial"),
                 ),
                 onTap: () {
-                  mushafBloc.selectChapter(chapter.chapterID, null);
+                  mushafBloc.reloadVerses(chapter.chapterID, null);
                   Navigator.of(context).pop();
                 },
               );
@@ -58,16 +58,18 @@ class ChaptersDropDown extends StatelessWidget {
   static show(BuildContext context) {
     showDialog(
       context: context,
-      child: SimpleDialog(
-        title: Text(
-          Localization.SELECT_CHAPTER,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        contentPadding: EdgeInsets.all(5),
-        children: <Widget>[
-          ChaptersDropDown(context),
-        ],
-      ),
+      builder: (_) {
+        return SimpleDialog(
+          title: Text(
+            Localization.SELECT_CHAPTER,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          contentPadding: EdgeInsets.all(5),
+          children: <Widget>[
+            ChaptersDropDown(context),
+          ],
+        );
+      },
     );
   }
 }
