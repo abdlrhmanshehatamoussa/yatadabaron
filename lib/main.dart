@@ -5,9 +5,9 @@ import 'blocs/search-session-bloc.dart';
 import 'helpers/localization.dart';
 import 'helpers/theming.dart';
 import 'views/home/home.dart';
+import 'views/shared-widgets/custom-error-widget.dart';
 import 'views/shared-widgets/loading-widget.dart';
 import 'views/splash/splash.dart';
-// import 'package:wisebay_essentials/analytics/analytics_helper.dart';
 
 void main() {
   runApp(App());
@@ -31,27 +31,24 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
+    return FutureBuilder<List<Provider>>(
       future: InitializationService.instance.initialize(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Provider>> snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data!) {
+          if (snapshot.data != null) {
             return materialApp(
-              widget: Provider(
-                create: (BuildContext context) => SearchSessionBloc(),
-                child: HomePage(),
+              widget: MultiProvider(
+                providers: snapshot.data!,
+                child: Provider(
+                  create: (BuildContext context) => SearchSessionBloc(),
+                  child: HomePage(),
+                ),
               ),
               theme: Theming.darkTheme(),
             );
           } else {
-            Widget errorWidget = Text(
-              Localization.LOADING_ERROR,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.red, fontWeight: FontWeight.bold, fontSize: 12),
-            );
             return materialApp(
-              widget: Splash(errorWidget),
+              widget: CustomErrorWidget(),
               theme: ThemeData.light(),
             );
           }

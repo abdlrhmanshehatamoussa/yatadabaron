@@ -1,8 +1,9 @@
+import 'package:Yatadabaron/services/analytics-service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../blocs/search-session-bloc.dart';
-import '../../enums/enums.dart'; 
+import '../../enums/enums.dart';
 import '../../helpers/localization.dart';
 import '../../helpers/utils.dart';
 import '../../views/home/search-form.dart';
@@ -24,7 +25,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SearchSessionBloc sessionBloc = Provider.of<SearchSessionBloc>(context,listen: false);
+    SearchSessionBloc sessionBloc =
+        Provider.of<SearchSessionBloc>(context, listen: false);
+    AnalyticsService analyticsService =
+        Provider.of<AnalyticsService>(context, listen: false);
     sessionBloc.errorStream.listen((Exception e) {
       //ErrorDialog.show(context, TextProvider.SEARCH_ERROR);
     });
@@ -40,6 +44,7 @@ class HomePage extends StatelessWidget {
 
     Widget floatingButton = FloatingActionButton(
       onPressed: () {
+        analyticsService.logButtonPressed("SEARCH DIALOG");
         SearchForm.show(context, sessionBloc);
       },
       child: Icon(Icons.search),

@@ -1,5 +1,0 @@
-class EventTypes{
-  static const String SEARCH_PAGE_BASMALA = "SEARCH-PAGE:BASMALA BUTTON";
-  static const String STAT_PAGE_BASMALA = "STAT-PAGE:BASMALA BUTTON";
-  static const String DRAWER_RATING_BUTTON = "DRAWER:RATING BUTTON";
-}
