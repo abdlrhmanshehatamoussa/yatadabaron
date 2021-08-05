@@ -1,3 +1,4 @@
+import 'package:Yatadabaron/services/analytics-service.dart';
 import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,10 @@ class ChaptersDropDown extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontFamily: "Arial"),
                 ),
                 onTap: () {
+                  AnalyticsService.instance.logOnTap(
+                    "CHAPTER SELECTED",
+                    payload: chapter.chapterNameAR ?? "",
+                  );
                   mushafBloc.reloadVerses(chapter.chapterID, null);
                   Navigator.of(context).pop();
                 },

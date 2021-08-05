@@ -27,8 +27,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     SearchSessionBloc sessionBloc =
         Provider.of<SearchSessionBloc>(context, listen: false);
-    AnalyticsService analyticsService =
-        Provider.of<AnalyticsService>(context, listen: false);
     sessionBloc.errorStream.listen((Exception e) {
       //ErrorDialog.show(context, TextProvider.SEARCH_ERROR);
     });
@@ -44,7 +42,7 @@ class HomePage extends StatelessWidget {
 
     Widget floatingButton = FloatingActionButton(
       onPressed: () {
-        analyticsService.logButtonPressed("SEARCH DIALOG");
+        AnalyticsService.instance.logOnTap("SEARCH DIALOG");
         SearchForm.show(context, sessionBloc);
       },
       child: Icon(Icons.search),

@@ -6,14 +6,11 @@ class AnalyticsService {
   AnalyticsService(this._preferences, this._appVersion, this._apiHelper);
 
   static const String ACTIONS_SHARED_PREF_KEY = "ytdb_actions_json";
+  static late AnalyticsService instance;
 
   final int _appVersion;
   final SharedPreferences _preferences;
   final APIHelper _apiHelper;
-
-  static Future<AnalyticsService?> createInstance() async {
-    return null;
-  }
 
   Future<void> pushEvents() async {
     List<String> actions =
@@ -45,12 +42,16 @@ class AnalyticsService {
     );
   }
 
-  Future<void> logButtonPressed(String label,{bool push = false}) async {
+  Future<void> logOnTap(
+    String desc, {
+    String payload = "",
+    bool push = false,
+  }) async {
     await _logAction(
       appVersion: this._appVersion,
-      payload: label,
-      category: "UI ELEMENT",
-      description: "BUTTON PRESSED",
+      payload: payload,
+      category: "UI ELEMENT TAP",
+      description: desc,
       push: push,
     );
   }

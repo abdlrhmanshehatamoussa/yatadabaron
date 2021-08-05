@@ -31,18 +31,15 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Provider>>(
+    return FutureBuilder<bool>(
       future: InitializationService.instance.initialize(),
-      builder: (BuildContext context, AsyncSnapshot<List<Provider>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data != null) {
             return materialApp(
-              widget: MultiProvider(
-                providers: snapshot.data!,
-                child: Provider(
-                  create: (BuildContext context) => SearchSessionBloc(),
-                  child: HomePage(),
-                ),
+              widget: Provider(
+                create: (BuildContext context) => SearchSessionBloc(),
+                child: HomePage(),
               ),
               theme: Theming.darkTheme(),
             );
