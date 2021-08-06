@@ -1,4 +1,4 @@
-import 'package:Yatadabaron/services/custom-prefs.dart';
+import 'package:Yatadabaron/repositories/userdata-repository.dart';
 
 import '../blocs/generic-bloc.dart';
 import '../dtos/chapter-full-dto.dart';
@@ -19,8 +19,8 @@ class MushafBloc {
       _selectedChapterBloc.stream;
   Stream<List<VerseDTO>> get versesStream => _versesBloc.stream;
   Future saveBookmark(int chapterId, int verseId) async {
-    await CustomSharedPreferences.instance.setBookmarkChapter(chapterId);
-    await CustomSharedPreferences.instance.setBookmarkVerse(verseId);
+    await UserDataRepository.instance.setBookmarkChapter(chapterId);
+    await UserDataRepository.instance.setBookmarkVerse(verseId);
     await reloadVerses(
       chapterId,
       verseId,
@@ -39,10 +39,10 @@ class MushafBloc {
       verses.firstWhere((v) => v.verseID == verseId).isSelected = true;
     }
     //Load the bookmarks
-    int? bmC = await CustomSharedPreferences.instance.getBookmarkChapter();
+    int? bmC = await UserDataRepository.instance.getBookmarkChapter();
     if (bmC != null) {
       if (bmC == chapterId) {
-        int? bmV = await CustomSharedPreferences.instance.getBookmarkVerse();
+        int? bmV = await UserDataRepository.instance.getBookmarkVerse();
         verses.firstWhere((v) => v.verseID == bmV).isBookmark = true;
       }
     }

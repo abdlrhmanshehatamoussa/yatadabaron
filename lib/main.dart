@@ -35,7 +35,7 @@ class App extends StatelessWidget {
       future: InitializationService.instance.initialize(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data != null) {
+          if (snapshot.data == true) {
             return materialApp(
               widget: Provider(
                 create: (BuildContext context) => SearchSessionBloc(),

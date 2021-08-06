@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'api_helper.dart';
 
 class AnalyticsService {
-  AnalyticsService(this._preferences, this._appVersion, this._apiHelper);
+  AnalyticsService(this._appVersion, this._apiHelper);
 
   static const String ACTIONS_SHARED_PREF_KEY = "ytdb_actions_json";
   static late AnalyticsService instance;
 
   final int _appVersion;
-  final SharedPreferences _preferences;
   final APIHelper _apiHelper;
 
   Future<void> logAppStarted({bool push = false}) async {
@@ -58,6 +58,7 @@ class AnalyticsService {
     DateTime? createdOn,
     bool push = false,
   }) async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
     createdOn = createdOn ?? DateTime.now();
     Map<String, dynamic> actionMap = new Map();
     actionMap["description"] = description;
@@ -67,17 +68,17 @@ class AnalyticsService {
     actionMap["created_on"] = createdOn.toString();
     String actionJson = jsonEncode(actionMap);
     List<String> existingActions =
-        _preferences.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
+        _pref.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
     existingActions.add(actionJson);
-    await _preferences.setStringList(ACTIONS_SHARED_PREF_KEY, existingActions);
+    await _pref.setStringList(ACTIONS_SHARED_PREF_KEY, existingActions);
     if (push) {
       this._pushEvents();
     }
   }
 
   Future<void> _pushEvents() async {
-    List<String> actions =
-        _preferences.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    List<String> actions = _pref.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
     if (actions.length > 0) {
       try {
         String payload = actions.join(",");
@@ -86,7 +87,7 @@ class AnalyticsService {
               endpoint: APIHelper.ENDPOINT_ACTIONS,
               payload: payload,
             );
-        await _preferences.setStringList(ACTIONS_SHARED_PREF_KEY, []);
+        await _pref.setStringList(ACTIONS_SHARED_PREF_KEY, []);
       } catch (e) {
         print("Error occurred while synchronizing actions: ${e.toString()}");
       }

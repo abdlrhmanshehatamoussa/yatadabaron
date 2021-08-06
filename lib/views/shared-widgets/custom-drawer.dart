@@ -1,5 +1,5 @@
 import 'package:Yatadabaron/services/analytics-service.dart';
-import 'package:Yatadabaron/services/custom-prefs.dart';
+import 'package:Yatadabaron/repositories/userdata-repository.dart';
 import 'package:Yatadabaron/views/about/about.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,9 +45,9 @@ class CustomDrawer extends StatelessWidget {
               onTap: () async {
                 //Load the bookmark
                 int? chapterId =
-                    await CustomSharedPreferences.instance.getBookmarkChapter();
+                    await UserDataRepository.instance.getBookmarkChapter();
                 int? verseId =
-                    await CustomSharedPreferences.instance.getBookmarkVerse();
+                    await UserDataRepository.instance.getBookmarkVerse();
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Provider(
                     child: MushafPage(),
