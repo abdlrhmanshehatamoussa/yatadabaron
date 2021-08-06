@@ -26,6 +26,11 @@ fastlane android gp_alpha
 fastlane android gp_beta
 ```
 
+### android gp_production
+```
+fastlane android gp_production
+```
+
 ### android gp_promote_alpha_beta
 ```
 fastlane android gp_promote_alpha_beta

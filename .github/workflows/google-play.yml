@@ -3,8 +3,8 @@ name: deploy-flutter-googleplay-fastlane
 on:
   push:
     tags: 
-      - 'gp_alpha@*@*'
-      - 'gp_beta@*@*'
+      - 'test@*@*'
+      - 'production@*@*'
   workflow_dispatch:
 
 jobs:
@@ -26,6 +26,16 @@ jobs:
           echo "::set-output name=lane::$lane"
           echo "::set-output name=version::$version"
           echo "::set-output name=buildNumber::$buildNumber"
+
+      - name: Preparing Secret Keys
+        id: gitsecrets
+        run: |
+          lane=${{steps.gitinfo.outputs.lane}}
+          lane=${lane^^}
+          echo "::set-output name=CLOUDHUB_API_URL::${lane}_CLOUDHUB_API_URL"
+          echo "::set-output name=CLOUDHUB_CLIENT_KEY::${lane}_CLOUDHUB_CLIENT_KEY"
+          echo "::set-output name=CLOUDHUB_CLIENT_SECRET::${lane}_CLOUDHUB_CLIENT_SECRET"
+          echo "::set-output name=CLOUDHUB_APP_GUID::${lane}_CLOUDHUB_APP_GUID"
 
       - name: Creating Keystore file
         run: |
@@ -63,6 +73,16 @@ jobs:
           touch $secretJsonFile
           echo "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE_ENC }}" >> $secretJsonFileAsc
           gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE_PASSPHRASE }}" --batch $secretJsonFileAsc > $secretJsonFile
+      
+      - name: Creating .env file
+        run: |
+          pwd
+          cd assets
+          touch .env
+          echo CLOUDHUB_API_URL="${{secrets[steps.gitsecrets.outputs.CLOUDHUB_API_URL]}}">.env
+          echo CLOUDHUB_CLIENT_KEY="${{secrets[steps.gitsecrets.outputs.CLOUDHUB_CLIENT_KEY]}}">>.env
+          echo CLOUDHUB_CLIENT_SECRET="${{secrets[steps.gitsecrets.outputs.CLOUDHUB_CLIENT_SECRET]}}">>.env
+          echo CLOUDHUB_APP_GUID="${{secrets[steps.gitsecrets.outputs.CLOUDHUB_APP_GUID] }}">>.env
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1

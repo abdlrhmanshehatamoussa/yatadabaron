@@ -10,11 +10,11 @@ echo flutter.versionName=%version_name%>%f%
 echo flutter.versionCode=%version_code%>>%f%
 call gradlew.bat assembleRelease
 
-set /p d=Do you want to deploy to alpha track ? [y/n]: 
+set /p d=Do you want to deploy to production track ? [y/n]: 
 if "%d%" == "y" ( 
     echo Deploying ...
     cd fastlane
-    bundle exec fastlane android gp_alpha
+    bundle exec fastlane android gp_production
     cd ../
 )
 cd ../
