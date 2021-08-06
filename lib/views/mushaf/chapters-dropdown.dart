@@ -47,7 +47,8 @@ class ChaptersDropDown extends StatelessWidget {
                 onTap: () {
                   AnalyticsService.instance.logOnTap(
                     "CHAPTER SELECTED",
-                    payload: chapter.chapterNameAR ?? "",
+                    payload:
+                        "NAME=${chapter.chapterNameAR}|ID=${chapter.chapterID}",
                   );
                   mushafBloc.reloadVerses(chapter.chapterID, null);
                   Navigator.of(context).pop();

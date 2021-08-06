@@ -1,4 +1,3 @@
-import 'package:Yatadabaron/services/analytics-service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +41,6 @@ class HomePage extends StatelessWidget {
 
     Widget floatingButton = FloatingActionButton(
       onPressed: () {
-        AnalyticsService.instance.logOnTap("SEARCH DIALOG");
         SearchForm.show(context, sessionBloc);
       },
       child: Icon(Icons.search),

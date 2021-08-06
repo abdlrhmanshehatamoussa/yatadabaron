@@ -12,26 +12,6 @@ class AnalyticsService {
   final SharedPreferences _preferences;
   final APIHelper _apiHelper;
 
-  Future<void> pushEvents() async {
-    List<String> actions =
-        _preferences.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
-    if (actions.length > 0) {
-      try {
-        String payload = actions.join(",");
-        payload = "{\"actions\":[$payload]}";
-        await this._apiHelper.httpPOST(
-              endpoint: APIHelper.ENDPOINT_ACTIONS,
-              payload: payload,
-            );
-        await _preferences.setStringList(ACTIONS_SHARED_PREF_KEY, []);
-      } catch (e) {
-        print("Error occurred while synchronizing actions: ${e.toString()}");
-      }
-    } else {
-      print("No actions found to be synchronized.");
-    }
-  }
-
   Future<void> logAppStarted({bool push = false}) async {
     await _logAction(
       appVersion: this._appVersion,
@@ -51,6 +31,20 @@ class AnalyticsService {
       appVersion: this._appVersion,
       payload: payload,
       category: "UI ELEMENT TAP",
+      description: desc,
+      push: push,
+    );
+  }
+
+  Future<void> logFormFilled(
+    String desc, {
+    String payload = "",
+    bool push = false,
+  }) async {
+    await _logAction(
+      appVersion: this._appVersion,
+      payload: payload,
+      category: "FORM FILLED",
       description: desc,
       push: push,
     );
@@ -77,7 +71,27 @@ class AnalyticsService {
     existingActions.add(actionJson);
     await _preferences.setStringList(ACTIONS_SHARED_PREF_KEY, existingActions);
     if (push) {
-      this.pushEvents();
+      this._pushEvents();
+    }
+  }
+
+  Future<void> _pushEvents() async {
+    List<String> actions =
+        _preferences.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
+    if (actions.length > 0) {
+      try {
+        String payload = actions.join(",");
+        payload = "{\"actions\":[$payload]}";
+        await this._apiHelper.httpPOST(
+              endpoint: APIHelper.ENDPOINT_ACTIONS,
+              payload: payload,
+            );
+        await _preferences.setStringList(ACTIONS_SHARED_PREF_KEY, []);
+      } catch (e) {
+        print("Error occurred while synchronizing actions: ${e.toString()}");
+      }
+    } else {
+      print("No actions found to be synchronized.");
     }
   }
 }

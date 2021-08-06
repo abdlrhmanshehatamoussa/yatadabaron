@@ -1,3 +1,4 @@
+import 'package:Yatadabaron/services/analytics-service.dart';
 import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:share/share.dart';
 import '../dtos/search-settings.dart';
@@ -87,6 +88,7 @@ class SearchSessionPayload {
   }
 
   void copyVerse(VerseDTO verseDTO) {
+    AnalyticsService.instance.logOnTap("SHARE VERSE");
     String toCopy =
         "${verseDTO.chapterName}\n${verseDTO.verseTextTashkel} {${verseDTO.verseID}}";
     Share.share(toCopy);

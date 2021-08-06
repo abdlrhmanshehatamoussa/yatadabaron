@@ -1,4 +1,6 @@
+import 'package:Yatadabaron/services/analytics-service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../blocs/search-session-bloc.dart';
 import '../../dtos/chapter-simple-dto.dart';
@@ -171,6 +173,9 @@ class SearchForm extends StatelessWidget {
           context: context,
           onPressed: () {
             try {
+              AnalyticsService.instance.logFormFilled("SEARCH FORM",
+                  payload:
+                      "KEYWORD=${settings.keyword}|MODE=${describeEnum(settings.mode)}|LOCATION=${settings.chapterID}|BASMALA=${settings.basmala}");
               this.bloc.changeSettings(settings);
             } catch (e) {
               print("Error: ${e.toString()}");

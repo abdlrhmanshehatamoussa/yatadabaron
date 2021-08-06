@@ -31,7 +31,6 @@ class CustomDrawer extends StatelessWidget {
               title: Text(Localization.DRAWER_HOME),
               trailing: Icon(Icons.search),
               onTap: () {
-                AnalyticsService.instance.logOnTap("DRAWER HOME");
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Provider(
                     child: HomePage(),
@@ -44,7 +43,6 @@ class CustomDrawer extends StatelessWidget {
               title: Text(Localization.DRAWER_QURAN),
               trailing: Icon(Icons.book),
               onTap: () async {
-                AnalyticsService.instance.logOnTap("DRAWER MUSHAF");
                 //Load the bookmark
                 int? chapterId =
                     await CustomSharedPreferences.instance.getBookmarkChapter();
@@ -62,7 +60,6 @@ class CustomDrawer extends StatelessWidget {
               title: Text(Localization.DRAWER_STATISTICS),
               trailing: Icon(Icons.insert_chart),
               onTap: () {
-                AnalyticsService.instance.logOnTap("DRAWER STATISTICS");
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Provider(
                     child: StatisticsPage(),
@@ -75,7 +72,7 @@ class CustomDrawer extends StatelessWidget {
               title: Text(Localization.RATE),
               trailing: Icon(Icons.star),
               onTap: () {
-                AnalyticsService.instance.logOnTap("DRAWER RATE");
+                AnalyticsService.instance.logOnTap("DRAWER", payload: "TAB=RATE");
                 LaunchReview.launch();
               },
             ),
@@ -83,7 +80,7 @@ class CustomDrawer extends StatelessWidget {
               title: Text(Localization.ABOUT),
               trailing: Icon(Icons.help),
               onTap: () {
-                AnalyticsService.instance.logOnTap("DRAWER ABOUT");
+                AnalyticsService.instance.logOnTap("DRAWER", payload: "TAB=ABOUT");
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => AboutPage(),
                 ));

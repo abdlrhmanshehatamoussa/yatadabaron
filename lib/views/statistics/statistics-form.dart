@@ -1,3 +1,4 @@
+import 'package:Yatadabaron/services/analytics-service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:wisebay_essentials/analytics/analytics_helper.dart';
@@ -80,7 +81,6 @@ class StatisticsForm extends StatelessWidget {
                 return Switch(
                   value: settings.basmala,
                   onChanged: (bool val) async {
-                    // await AnalyticsHelper.instance.logEvent("${EventTypes.STAT_PAGE_BASMALA}-${val.toString()}");
                     setState(() {
                       settings.basmala = val;
                     });
@@ -116,6 +116,12 @@ class StatisticsForm extends StatelessWidget {
           context: context,
           onPressed: () {
             try {
+              String payload =
+                  "LOCATION=${settings.chapterId}|BASMALA=${settings.basmala}";
+              AnalyticsService.instance.logFormFilled(
+                "STATISTICS FORM",
+                payload: payload,
+              );
               this.bloc.changeSettings(settings);
             } catch (e) {
               print("Error: ${e.toString()}");
