@@ -1,3 +1,6 @@
+import 'package:Yatadabaron/services/analytics-service.dart';
+import 'package:flutter/foundation.dart';
+
 import '../blocs/generic-bloc.dart';
 import '../dtos/verse-dto.dart';
 import '../dtos/search-settings.dart';
@@ -17,6 +20,9 @@ class SearchSessionBloc {
   GenericBloc<Exception> _errorStream = GenericBloc();
 
   Future changeSettings(SearchSettings settings) async {
+    String log =
+        "KEYWORD=${settings.keyword}|MODE=${describeEnum(settings.mode)}|LOCATION=${settings.chapterID}|BASMALA=${settings.basmala}";
+    AnalyticsService.instance.logFormFilled("SEARCH FORM", payload: log);
     if (settings.keyword.isEmpty) {
       _stateBloc.add(SearchState.INVALID_SETTINGS);
       return;
@@ -27,15 +33,18 @@ class SearchSessionBloc {
     SearchSessionPayload payload;
 
     try {
-      results = await VersesRepository.instance.search(settings.basmala,settings.keyword, settings.mode, settings.chapterID);
-      String? chapterName = await ChaptersRepository.instance.getChapterNameById(settings.chapterID);
-      payload = SearchSessionPayload(settings, chapterName,results);
+      results = await VersesRepository.instance.search(settings.basmala,
+          settings.keyword, settings.mode, settings.chapterID);
+      String? chapterName = await ChaptersRepository.instance
+          .getChapterNameById(settings.chapterID);
+      payload = SearchSessionPayload(settings, chapterName, results);
     } catch (e) {
       _stateBloc.add(SearchState.INITIAL);
-      _errorStream.add(Exception("Error occurred while connecting to database"));
+      _errorStream
+          .add(Exception("Error occurred while connecting to database"));
       return;
     }
-    
+
     _payloadBloc.add(payload);
     _stateBloc.add(SearchState.DONE);
   }

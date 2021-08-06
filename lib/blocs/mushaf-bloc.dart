@@ -1,4 +1,5 @@
 import 'package:Yatadabaron/repositories/userdata-repository.dart';
+import 'package:Yatadabaron/services/analytics-service.dart';
 
 import '../blocs/generic-bloc.dart';
 import '../dtos/chapter-full-dto.dart';
@@ -51,5 +52,12 @@ class MushafBloc {
 
   Future<List<ChapterSimpleDTO>> get getChaptersSimple async {
     return await ChaptersRepository.instance.getChaptersSimple();
+  }
+
+  Future<void> logChapterSelected(String chatperNameAR, int chapterID) async {
+    AnalyticsService.instance.logOnTap(
+      "CHAPTER SELECTED",
+      payload: "NAME=$chatperNameAR|ID=$chapterID",
+    );
   }
 }

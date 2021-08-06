@@ -1,16 +1,19 @@
 import 'dart:convert';
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api_helper.dart';
+import 'configurations-service.dart';
 
 class AnalyticsService {
-  AnalyticsService(this._appVersion, this._apiHelper);
+  AnalyticsService(this._pref, this._appVersion, this._apiHelper);
 
   static const String ACTIONS_SHARED_PREF_KEY = "ytdb_actions_json";
   static late AnalyticsService instance;
 
   final int _appVersion;
   final APIHelper _apiHelper;
+  final SharedPreferences _pref;
 
   Future<void> logAppStarted({bool push = false}) async {
     await _logAction(
@@ -58,7 +61,6 @@ class AnalyticsService {
     DateTime? createdOn,
     bool push = false,
   }) async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
     createdOn = createdOn ?? DateTime.now();
     Map<String, dynamic> actionMap = new Map();
     actionMap["description"] = description;
@@ -77,7 +79,6 @@ class AnalyticsService {
   }
 
   Future<void> _pushEvents() async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
     List<String> actions = _pref.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
     if (actions.length > 0) {
       try {
@@ -93,6 +94,40 @@ class AnalyticsService {
       }
     } else {
       print("No actions found to be synchronized.");
+    }
+  }
+
+
+
+
+
+
+
+  static Future<bool> initialize() async {
+    try {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String version = packageInfo.buildNumber;
+      int? versionInt = int.tryParse(version);
+      APIHelper helper = APIHelper(
+        new APIClientInfo(
+          clientKey: ConfigurationService.instance.cloudHubClientKey,
+          clientSecret: ConfigurationService.instance.cloudHubClientSecret,
+          applicationGUID: ConfigurationService.instance.cloudHubAppGuid,
+          apiUrl: ConfigurationService.instance.cloudHubApiUrl,
+        ),
+      );
+
+      if (versionInt != null) {
+        await SharedPreferences.getInstance();
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        AnalyticsService.instance = AnalyticsService(pref, versionInt, helper);
+        await AnalyticsService.instance.logAppStarted(push: true);
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print("Error while intiailizing analytics service: $e");
+      return false;
     }
   }
 }

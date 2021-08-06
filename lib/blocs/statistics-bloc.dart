@@ -1,3 +1,5 @@
+import 'package:Yatadabaron/services/analytics-service.dart';
+
 import '../blocs/generic-bloc.dart';
 import '../dtos/letter-frequency.dart';
 import '../dtos/statistics-settings.dart';
@@ -20,13 +22,22 @@ class StatisticsBloc {
   Stream<StatisticsPayload> get payloadStream => _payloadBloc.stream;
 
   Future changeSettings(StatisticsSettings settings) async {
+    String payload =
+        "LOCATION=${settings.chapterId}|BASMALA=${settings.basmala}";
+    AnalyticsService.instance.logFormFilled(
+      "STATISTICS FORM",
+      payload: payload,
+    );
     this._settingsBloc.add(settings);
     _stateBloc.add(SearchState.IN_PROGRESS);
 
     try {
-      String? chapterName = await ChaptersRepository.instance.getChapterNameById(settings.chapterId);
-      List<LetterFrequency> letterFreqs = await VersesRepository.instance.getLettersByChapterId(settings.chapterId,settings.basmala);
-      _payloadBloc.add(StatisticsPayload(chapterName,settings.basmala,letterFreqs));
+      String? chapterName = await ChaptersRepository.instance
+          .getChapterNameById(settings.chapterId);
+      List<LetterFrequency> letterFreqs = await VersesRepository.instance
+          .getLettersByChapterId(settings.chapterId, settings.basmala);
+      _payloadBloc
+          .add(StatisticsPayload(chapterName, settings.basmala, letterFreqs));
     } catch (e) {
       _stateBloc.add(SearchState.INITIAL);
       return;

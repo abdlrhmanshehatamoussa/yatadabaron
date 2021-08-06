@@ -116,12 +116,6 @@ class StatisticsForm extends StatelessWidget {
           context: context,
           onPressed: () {
             try {
-              String payload =
-                  "LOCATION=${settings.chapterId}|BASMALA=${settings.basmala}";
-              AnalyticsService.instance.logFormFilled(
-                "STATISTICS FORM",
-                payload: payload,
-              );
               this.bloc.changeSettings(settings);
             } catch (e) {
               print("Error: ${e.toString()}");

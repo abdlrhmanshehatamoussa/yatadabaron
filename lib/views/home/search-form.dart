@@ -136,8 +136,6 @@ class SearchForm extends StatelessWidget {
                 return Switch(
                   value: settings.basmala,
                   onChanged: (bool val) async {
-                    // AnalyticsHelper.instance.logEvent(
-                    //     EventTypes.SEARCH_PAGE_BASMALA + "-" + val.toString());
                     setState(() {
                       settings.basmala = val;
                     });
@@ -173,9 +171,6 @@ class SearchForm extends StatelessWidget {
           context: context,
           onPressed: () {
             try {
-              AnalyticsService.instance.logFormFilled("SEARCH FORM",
-                  payload:
-                      "KEYWORD=${settings.keyword}|MODE=${describeEnum(settings.mode)}|LOCATION=${settings.chapterID}|BASMALA=${settings.basmala}");
               this.bloc.changeSettings(settings);
             } catch (e) {
               print("Error: ${e.toString()}");

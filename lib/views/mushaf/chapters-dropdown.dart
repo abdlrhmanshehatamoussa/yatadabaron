@@ -44,13 +44,15 @@ class ChaptersDropDown extends StatelessWidget {
                   "$idStr",
                   style: TextStyle(fontSize: 18, fontFamily: "Arial"),
                 ),
-                onTap: () {
-                  AnalyticsService.instance.logOnTap(
-                    "CHAPTER SELECTED",
-                    payload:
-                        "NAME=${chapter.chapterNameAR}|ID=${chapter.chapterID}",
-                  );
-                  mushafBloc.reloadVerses(chapter.chapterID, null);
+                onTap: () async {
+                  if (chapter.chapterID != null &&
+                      chapter.chapterNameAR != null) {
+                    await mushafBloc.logChapterSelected(
+                      chapter.chapterNameAR!,
+                      chapter.chapterID!,
+                    );
+                    mushafBloc.reloadVerses(chapter.chapterID, null);
+                  }
                   Navigator.of(context).pop();
                 },
               );
