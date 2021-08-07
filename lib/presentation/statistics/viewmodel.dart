@@ -1,6 +1,5 @@
 import 'package:Yatadabaron/modules/domain.module.dart';
-import 'package:Yatadabaron/repositories/chapters-repository.dart';
-import 'package:Yatadabaron/repositories/verses-repository.dart';
+import 'package:Yatadabaron/modules/persistence.module.dart';
 import 'package:Yatadabaron/services/analytics-service.dart';
 
 import 'package:Yatadabaron/crosscutting/generic-bloc.dart';
@@ -41,5 +40,10 @@ class StatisticsBloc {
     }
 
     _stateBloc.add(SearchState.DONE);
+  }
+
+   Future<List<ChapterSimpleDTO>> getMushafChapters() async {
+    return await ChaptersRepository.instance
+        .getChaptersSimple(includeWholeQuran: true);
   }
 }

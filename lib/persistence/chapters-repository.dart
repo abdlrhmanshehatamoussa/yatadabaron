@@ -1,6 +1,6 @@
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
 import 'package:Yatadabaron/modules/domain.module.dart';
-import '../repositories/generic-repository.dart';
+import './generic-repository.dart';
 
 class ChaptersRepository extends GenericRepository {
   static ChaptersRepository instance = ChaptersRepository._();

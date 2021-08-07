@@ -1,6 +1,6 @@
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
+import 'package:Yatadabaron/modules/persistence.module.dart';
 import 'package:Yatadabaron/services/analytics-service.dart';
-import 'package:Yatadabaron/repositories/userdata-repository.dart';
 import 'package:Yatadabaron/presentation/about/view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

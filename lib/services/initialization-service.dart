@@ -1,7 +1,7 @@
-import 'package:Yatadabaron/services/analytics-service.dart';
-import 'package:Yatadabaron/services/configurations-service.dart';
-import 'package:Yatadabaron/repositories/userdata-repository.dart';
-import 'package:Yatadabaron/services/database-provider.dart';
+import 'package:Yatadabaron/modules/persistence.module.dart';
+import './analytics-service.dart';
+import './configurations-service.dart';
+import './database-provider.dart';
 
 class InitializationService {
   static InitializationService instance = InitializationService._();

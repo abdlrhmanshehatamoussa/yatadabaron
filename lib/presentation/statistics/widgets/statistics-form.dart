@@ -1,7 +1,6 @@
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
 import 'package:Yatadabaron/modules/domain.module.dart';
 import 'package:Yatadabaron/modules/shared-widgets.module.dart';
-import 'package:Yatadabaron/repositories/chapters-repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Yatadabaron/presentation/statistics/viewmodel.dart';
@@ -22,9 +21,8 @@ class StatisticsForm extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: FutureBuilder(
-              future: ChaptersRepository.instance
-                  .getChaptersSimple(includeWholeQuran: true),
+            child: FutureBuilder<List<ChapterSimpleDTO>>(
+              future: bloc.getMushafChapters(),
               builder: (BuildContext context,
                   AsyncSnapshot<List<ChapterSimpleDTO>> snapshot) {
                 if (snapshot.hasData) {
