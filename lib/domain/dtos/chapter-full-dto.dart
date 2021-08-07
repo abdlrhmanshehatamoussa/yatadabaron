@@ -1,5 +1,5 @@
+import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
-import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 
 class ChapterFullDTO {
   final int? chapterId;

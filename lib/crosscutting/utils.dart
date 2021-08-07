@@ -1,7 +1,8 @@
 import './localization.dart';
-import 'package:Yatadabaron/services/arabic-numbers-service.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+
+import 'arabic-numbers-service.dart';
 
 class Utils {
   static List<String> arabicLetters() {

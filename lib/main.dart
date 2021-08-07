@@ -1,5 +1,6 @@
+import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
-import 'package:Yatadabaron/services/initialization-service.dart';
+import 'package:Yatadabaron/modules/persistence.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Yatadabaron/presentation/home/viewmodel.dart';
@@ -13,7 +14,6 @@ void main() {
 }
 
 class App extends StatelessWidget {
-  //returns a metrial app wrapper for the given widget using the given theme
   Widget materialApp({Widget? widget, ThemeData? theme}) {
     return MaterialApp(
       theme: theme,
@@ -31,7 +31,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-      future: InitializationService.instance.initialize(),
+      future: _initialize(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data == true) {
@@ -57,5 +57,13 @@ class App extends StatelessWidget {
         }
       },
     );
+  }
+
+  Future<bool> _initialize() async {
+    bool db = await DatabaseProvider.initialize();
+    bool shp = await UserDataRepository.instance.initialize();
+    bool conf = await ConfigurationService.instance.initialize();
+    bool anl = await AnalyticsService.initialize();
+    return (db && shp && conf && anl);
   }
 }

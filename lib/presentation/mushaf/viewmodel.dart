@@ -1,7 +1,7 @@
 import 'package:Yatadabaron/crosscutting/generic-bloc.dart';
+import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/domain.module.dart';
 import 'package:Yatadabaron/modules/persistence.module.dart';
-import 'package:Yatadabaron/services/analytics-service.dart';
 
 class MushafBloc {
   MushafBloc(int? chapterId, int? verseId) {
