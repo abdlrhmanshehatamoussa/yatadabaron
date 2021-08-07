@@ -1,7 +1,6 @@
-import '../dtos/chapter-full-dto.dart';
-import '../dtos/chapter-simple-dto.dart';
+import 'package:Yatadabaron/modules/crosscutting.module.dart';
+import 'package:Yatadabaron/modules/domain.module.dart';
 import '../repositories/generic-repository.dart';
-import '../helpers/localization.dart';
 
 class ChaptersRepository extends GenericRepository {
   static ChaptersRepository instance = ChaptersRepository._();

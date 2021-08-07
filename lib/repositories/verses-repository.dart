@@ -1,8 +1,6 @@
-import '../dtos/letter-frequency.dart';
-import '../dtos/verse-dto.dart';
-import '../enums/enums.dart';
-import '../helpers/utils.dart';
-import '../repositories/generic-repository.dart';
+import 'package:Yatadabaron/modules/crosscutting.module.dart';
+import 'package:Yatadabaron/modules/domain.module.dart';
+import './generic-repository.dart';
 
 class VersesRepository extends GenericRepository {
   static VersesRepository instance = VersesRepository._();

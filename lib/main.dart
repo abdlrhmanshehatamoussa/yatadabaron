@@ -1,13 +1,12 @@
+import 'package:Yatadabaron/modules/crosscutting.module.dart';
 import 'package:Yatadabaron/services/initialization-service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'blocs/search-session-bloc.dart';
-import 'helpers/localization.dart';
-import 'helpers/theming.dart';
-import 'views/home/home.dart';
-import 'views/shared-widgets/custom-error-widget.dart';
-import 'views/shared-widgets/loading-widget.dart';
-import 'views/splash/splash.dart';
+import 'package:Yatadabaron/presentation/home/viewmodel.dart';
+import 'presentation/home/view.dart';
+import 'presentation/shared-widgets/custom-error-widget.dart';
+import 'presentation/shared-widgets/loading-widget.dart';
+import 'presentation/splash/splash.dart';
 
 void main() {
   runApp(App());
