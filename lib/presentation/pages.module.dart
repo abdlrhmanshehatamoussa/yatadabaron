@@ -4,3 +4,4 @@ export 'pages/home/page.dart';
 export 'pages/mushaf/page.dart';
 export 'pages/splash/page.dart';
 export 'pages/statistics/page.dart';
+export 'pages/app/app.dart';

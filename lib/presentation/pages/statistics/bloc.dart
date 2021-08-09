@@ -1,6 +1,6 @@
 import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/domain.module.dart';
-import 'package:Yatadabaron/crosscutting/generic-bloc.dart';
+import 'package:Yatadabaron/presentation/shared-blocs.module.dart';
 
 class StatisticsBloc {
   StatisticsBloc() {
