@@ -86,7 +86,7 @@ class SearchSessionPayload {
   }
 
   void copyVerse(VerseDTO verseDTO) {
-    AnalyticsService.instance.logOnTap("SHARE VERSE");
+    ServiceManager.instance.analyticsService.logOnTap("SHARE VERSE");
     String toCopy =
         "${verseDTO.chapterName}\n${verseDTO.verseTextTashkel} {${verseDTO.verseID}}";
     Share.share(toCopy);

@@ -1,6 +1,5 @@
 import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
-import 'package:Yatadabaron/modules/persistence.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Yatadabaron/presentation/home/viewmodel.dart';
@@ -60,10 +59,8 @@ class App extends StatelessWidget {
   }
 
   Future<bool> _initialize() async {
-    bool db = await DatabaseProvider.initialize();
-    bool shp = await UserDataRepository.instance.initialize();
-    bool conf = await ConfigurationService.instance.initialize();
-    bool anl = await AnalyticsService.initialize();
-    return (db && shp && conf && anl);
+    await ServiceManager.initialize();
+    await ServiceManager.instance.analyticsService.logAppStarted(push: true);
+    return true;
   }
 }

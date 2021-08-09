@@ -1,6 +1,5 @@
 import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/domain.module.dart';
-import 'package:Yatadabaron/modules/persistence.module.dart';
 import 'package:Yatadabaron/crosscutting/generic-bloc.dart';
 
 class StatisticsBloc {
@@ -13,13 +12,15 @@ class StatisticsBloc {
   GenericBloc<StatisticsPayload> _payloadBloc = GenericBloc();
 
   Stream<StatisticsSettings> get settingsStream => _settingsBloc.stream;
+
   Stream<SearchState> get stateStream => _stateBloc.stream;
+
   Stream<StatisticsPayload> get payloadStream => _payloadBloc.stream;
 
   Future changeSettings(StatisticsSettings settings) async {
     String payload =
         "LOCATION=${settings.chapterId}|BASMALA=${settings.basmala}";
-    AnalyticsService.instance.logFormFilled(
+    ServiceManager.instance.analyticsService.logFormFilled(
       "STATISTICS FORM",
       payload: payload,
     );
@@ -27,9 +28,9 @@ class StatisticsBloc {
     _stateBloc.add(SearchState.IN_PROGRESS);
 
     try {
-      String? chapterName = await ChaptersRepository.instance
-          .getChapterNameById(settings.chapterId);
-      List<LetterFrequency> letterFreqs = await VersesRepository.instance
+      String? chapterName =
+          await ServiceManager.instance.mushafService.getChapterNameById(settings.chapterId);
+      List<LetterFrequency> letterFreqs = await ServiceManager.instance.mushafService
           .getLettersByChapterId(settings.chapterId, settings.basmala);
       _payloadBloc
           .add(StatisticsPayload(chapterName, settings.basmala, letterFreqs));
@@ -41,8 +42,7 @@ class StatisticsBloc {
     _stateBloc.add(SearchState.DONE);
   }
 
-   Future<List<ChapterSimpleDTO>> getMushafChapters() async {
-    return await ChaptersRepository.instance
-        .getChaptersSimple(includeWholeQuran: true);
+  Future<List<ChapterSimpleDTO>> getMushafChapters() async {
+    return await ServiceManager.instance.mushafService.getMushafChaptersIncludingWholeQuran();
   }
 }

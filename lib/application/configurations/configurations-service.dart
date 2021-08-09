@@ -1,24 +1,12 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class ConfigurationService {
-  static ConfigurationService instance = ConfigurationService._();
+import 'interface.dart';
+
+class ConfigurationService implements IConfigurationService  {
   static const String _CLOUDHUB_API_URL = "CLOUDHUB_API_URL";
   static const String _CLOUDHUB_CLIENT_KEY = "CLOUDHUB_CLIENT_KEY";
   static const String _CLOUDHUB_CLIENT_SECRET = "CLOUDHUB_CLIENT_SECRET";
   static const String _CLOUDHUB_APP_GUID = "CLOUDHUB_APP_GUID";
-
-  //Private Constructor
-  ConfigurationService._();
-
-  //Initialize
-  Future<bool> initialize() async {
-    try {
-      await dotenv.load(fileName: 'assets/.env');
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
 
   String get cloudHubApiUrl => _getKey(_CLOUDHUB_API_URL);
   String get cloudHubClientKey => _getKey(_CLOUDHUB_CLIENT_KEY);

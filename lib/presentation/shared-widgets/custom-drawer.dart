@@ -1,6 +1,5 @@
 import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
-import 'package:Yatadabaron/modules/persistence.module.dart';
 import 'package:Yatadabaron/presentation/about/view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,9 +44,9 @@ class CustomDrawer extends StatelessWidget {
               onTap: () async {
                 //Load the bookmark
                 int? chapterId =
-                    await UserDataRepository.instance.getBookmarkChapter();
+                    await ServiceManager.instance.userDataService.getBookmarkChapter();
                 int? verseId =
-                    await UserDataRepository.instance.getBookmarkVerse();
+                    await ServiceManager.instance.userDataService.getBookmarkVerse();
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Provider(
                     child: MushafPage(),
@@ -72,7 +71,7 @@ class CustomDrawer extends StatelessWidget {
               title: Text(Localization.RATE),
               trailing: Icon(Icons.star),
               onTap: () {
-                AnalyticsService.instance.logOnTap("DRAWER", payload: "TAB=RATE");
+                ServiceManager.instance.analyticsService.logOnTap("DRAWER", payload: "TAB=RATE");
                 LaunchReview.launch();
               },
             ),
@@ -80,7 +79,7 @@ class CustomDrawer extends StatelessWidget {
               title: Text(Localization.ABOUT),
               trailing: Icon(Icons.help),
               onTap: () {
-                AnalyticsService.instance.logOnTap("DRAWER", payload: "TAB=ABOUT");
+                ServiceManager.instance.analyticsService.logOnTap("DRAWER", payload: "TAB=ABOUT");
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => AboutPage(),
                 ));
