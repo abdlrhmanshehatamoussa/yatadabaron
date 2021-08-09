@@ -1,4 +1,4 @@
-export 'package:Yatadabaron/presentation/shared-widgets/custom-drawer.dart';
+export 'package:Yatadabaron/presentation/drawer/page.dart';
 export 'package:Yatadabaron/presentation/shared-widgets/custom-error-widget.dart';
 export 'package:Yatadabaron/presentation/shared-widgets/custom-page-wrapper.dart';
 export 'package:Yatadabaron/presentation/shared-widgets/error-dialog.dart';

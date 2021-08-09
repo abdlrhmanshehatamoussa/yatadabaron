@@ -17,6 +17,13 @@ import '../../presentation/statistics/page.dart';
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Icon _buildTabIcon(IconData data) {
+      return Icon(
+        data,
+        color: Theme.of(context).colorScheme.secondary,
+      );
+    }
+
     return Container(
       padding: EdgeInsets.all(0),
       child: Center(
@@ -28,25 +35,25 @@ class CustomDrawer extends StatelessWidget {
             ),
             ListTile(
               title: Text(Localization.DRAWER_HOME),
-              trailing: Icon(Icons.search),
+              trailing: _buildTabIcon(Icons.search),
               onTap: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Provider(
                     child: HomePage(),
-                    create: (contextt) => SearchSessionBloc(),
+                    create: (context) => SearchSessionBloc(),
                   ),
                 ));
               },
             ),
             ListTile(
               title: Text(Localization.DRAWER_QURAN),
-              trailing: Icon(Icons.book),
+              trailing: _buildTabIcon(Icons.book),
               onTap: () async {
                 //Load the bookmark
-                int? chapterId =
-                    await ServiceManager.instance.userDataService.getBookmarkChapter();
-                int? verseId =
-                    await ServiceManager.instance.userDataService.getBookmarkVerse();
+                int? chapterId = await ServiceManager.instance.userDataService
+                    .getBookmarkChapter();
+                int? verseId = await ServiceManager.instance.userDataService
+                    .getBookmarkVerse();
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Provider(
                     child: MushafPage(),
@@ -57,7 +64,7 @@ class CustomDrawer extends StatelessWidget {
             ),
             ListTile(
               title: Text(Localization.DRAWER_STATISTICS),
-              trailing: Icon(Icons.insert_chart),
+              trailing: _buildTabIcon(Icons.insert_chart),
               onTap: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => Provider(
@@ -69,17 +76,19 @@ class CustomDrawer extends StatelessWidget {
             ),
             ListTile(
               title: Text(Localization.RATE),
-              trailing: Icon(Icons.star),
+              trailing: _buildTabIcon(Icons.star),
               onTap: () {
-                ServiceManager.instance.analyticsService.logOnTap("DRAWER", payload: "TAB=RATE");
+                ServiceManager.instance.analyticsService
+                    .logOnTap("DRAWER", payload: "TAB=RATE");
                 LaunchReview.launch();
               },
             ),
             ListTile(
               title: Text(Localization.ABOUT),
-              trailing: Icon(Icons.help),
+              trailing: _buildTabIcon(Icons.help),
               onTap: () {
-                ServiceManager.instance.analyticsService.logOnTap("DRAWER", payload: "TAB=ABOUT");
+                ServiceManager.instance.analyticsService
+                    .logOnTap("DRAWER", payload: "TAB=ABOUT");
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => AboutPage(),
                 ));
