@@ -19,4 +19,12 @@ class Theming {
       toggleableActiveColor: accent,
     );
   }
+
+  static ThemeData lightTheme() {
+    return ThemeData.light().copyWith(
+      colorScheme: ColorScheme.light().copyWith(
+        primary: Colors.red
+      ),
+    );
+  }
 }

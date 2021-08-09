@@ -1,5 +1,5 @@
 import 'package:Yatadabaron/modules/application.module.dart';
-import 'package:Yatadabaron/presentation/pages.module.dart';
+import 'package:Yatadabaron/presentation/modules/pages.module.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 

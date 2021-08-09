@@ -1,12 +1,23 @@
-import 'package:Yatadabaron/presentation/shared-blocs.module.dart';
-import 'package:flutter/material.dart';
+import 'package:Yatadabaron/modules/crosscutting.module.dart';
+import 'package:Yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:Yatadabaron/presentation/modules/shared.dtos.module.dart';
 
 class ThemeBloc {
-  final CustomStreamController<ThemeData> _themeBloc = CustomStreamController<ThemeData>();
+  ThemeBloc() {
+    updateTheme(
+      ThemeDataWrapper(
+        Theming.darkTheme(),
+        AppTheme.DARK,
+      ),
+    );
+  }
 
-  Stream<ThemeData> get stream => _themeBloc.stream;
+  final CustomStreamController<ThemeDataWrapper> _themeBloc =
+      CustomStreamController<ThemeDataWrapper>();
 
-  void updateTheme(ThemeData themeData) {
-    _themeBloc.add(themeData);
+  Stream<ThemeDataWrapper> get stream => _themeBloc.stream;
+
+  void updateTheme(ThemeDataWrapper wrapper) {
+    _themeBloc.add(wrapper);
   }
 }

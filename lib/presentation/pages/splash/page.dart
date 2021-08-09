@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
+import 'package:Yatadabaron/presentation/modules/shared-widgets.module.dart';
 
 class Splash extends StatelessWidget {
   final Widget child;

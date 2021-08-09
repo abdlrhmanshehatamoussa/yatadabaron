@@ -1,5 +1,5 @@
-import 'package:Yatadabaron/presentation/pages.module.dart';
-import 'package:Yatadabaron/presentation/shared-blocs.module.dart';
+import 'package:Yatadabaron/presentation/modules/pages.module.dart';
+import 'package:Yatadabaron/presentation/modules/shared-blocs.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

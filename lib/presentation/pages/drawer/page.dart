@@ -1,10 +1,10 @@
 import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
-import 'package:Yatadabaron/presentation/pages.module.dart';
+import 'package:Yatadabaron/presentation/modules/pages.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
-import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
+import 'package:Yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc.dart';
