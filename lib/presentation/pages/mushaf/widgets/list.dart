@@ -1,7 +1,6 @@
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
 import 'package:Yatadabaron/modules/domain.module.dart';
 import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
-import 'package:Yatadabaron/presentation/mushaf/widgets/list-item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +8,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:share/share.dart';
 
 import '../bloc.dart';
+import 'list-item.dart';
 
 class VerseList extends StatelessWidget {
   @override

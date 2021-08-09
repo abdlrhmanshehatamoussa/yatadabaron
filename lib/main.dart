@@ -1,11 +1,11 @@
 import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
+import 'package:Yatadabaron/presentation/pages.module.dart';
 import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Yatadabaron/presentation/home/bloc.dart';
-import 'presentation/home/page.dart';
-import 'presentation/splash/page.dart';
+
+import 'presentation/pages/home/bloc.dart';
 
 void main() {
   runApp(App());
@@ -34,10 +34,7 @@ class App extends StatelessWidget {
         if (snapshot.hasData) {
           if (snapshot.data == true) {
             return materialApp(
-              widget: Provider(
-                create: (BuildContext context) => SearchSessionBloc(),
-                child: HomePage(),
-              ),
+              widget: HomePage.wrappedWithProvider(),
               theme: Theming.darkTheme(),
             );
           } else {

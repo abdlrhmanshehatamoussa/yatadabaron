@@ -1,17 +1,11 @@
 import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
-import 'package:Yatadabaron/presentation/about/page.dart';
+import 'package:Yatadabaron/presentation/pages.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:provider/provider.dart';
-import 'package:Yatadabaron/presentation/mushaf/bloc.dart';
-import 'package:Yatadabaron/presentation/home/bloc.dart';
-import 'package:Yatadabaron/presentation/statistics/bloc.dart';
-import '../../presentation/home/page.dart';
-import '../../presentation/mushaf/page.dart';
 import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
-import '../../presentation/statistics/page.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -36,12 +30,7 @@ class CustomDrawer extends StatelessWidget {
               title: Text(Localization.DRAWER_HOME),
               trailing: _buildTabIcon(Icons.search),
               onTap: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => Provider(
-                    child: HomePage(),
-                    create: (context) => SearchSessionBloc(),
-                  ),
-                ));
+                HomePage.pushReplacement(context);
               },
             ),
             ListTile(
@@ -53,24 +42,16 @@ class CustomDrawer extends StatelessWidget {
                     .getBookmarkChapter();
                 int? verseId = await ServiceManager.instance.userDataService
                     .getBookmarkVerse();
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => Provider(
-                    child: MushafPage(),
-                    create: (contextt) => MushafBloc(chapterId, verseId),
-                  ),
-                ));
+                if (chapterId != null && verseId != null) {
+                  MushafPage.pushReplacement(context, chapterId, verseId);
+                }
               },
             ),
             ListTile(
               title: Text(Localization.DRAWER_STATISTICS),
               trailing: _buildTabIcon(Icons.insert_chart),
               onTap: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => Provider(
-                    child: StatisticsPage(),
-                    create: (contextt) => StatisticsBloc(),
-                  ),
-                ));
+                StatisticsPage.pushReplacement(context);
               },
             ),
             ListTile(

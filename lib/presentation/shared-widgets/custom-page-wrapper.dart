@@ -1,5 +1,5 @@
+import 'package:Yatadabaron/presentation/pages.module.dart';
 import 'package:flutter/material.dart';
-import 'package:Yatadabaron/presentation/drawer/page.dart';
 
 class CustomPageWrapper extends StatelessWidget {
   final Widget? child;

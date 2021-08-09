@@ -3,7 +3,7 @@ import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Yatadabaron/presentation/statistics/bloc.dart';
+import '../bloc.dart';
 import 'package:charts_flutter/flutter.dart' as Charts;
 
 class FrequencyChart extends StatelessWidget {

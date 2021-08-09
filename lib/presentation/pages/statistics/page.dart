@@ -4,11 +4,11 @@ import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Yatadabaron/presentation/statistics/bloc.dart';
-import 'package:Yatadabaron/presentation/statistics/widgets/frequency-chart.dart';
-import 'package:Yatadabaron/presentation/statistics/widgets/frequency-table.dart';
-import 'package:Yatadabaron/presentation/statistics/widgets/statistics-form.dart';
-import 'package:Yatadabaron/presentation/statistics/widgets/statistics-summary.dart';
+import './bloc.dart';
+import './widgets/frequency-chart.dart';
+import './widgets/frequency-table.dart';
+import './widgets/statistics-form.dart';
+import './widgets/statistics-summary.dart';
 
 class StatisticsPage extends StatelessWidget {
   @override
@@ -63,6 +63,19 @@ class StatisticsPage extends StatelessWidget {
         onPressed: () {
           StatisticsForm.show(context, bloc);
         },
+      ),
+    );
+  }
+
+  static void pushReplacement(BuildContext context) {
+    Navigator.of(context).pushReplacement(_getPageRoute());
+  }
+
+  static MaterialPageRoute _getPageRoute() {
+    return MaterialPageRoute(
+      builder: (context) => Provider(
+        child: StatisticsPage(),
+        create: (context) => StatisticsBloc(),
       ),
     );
   }

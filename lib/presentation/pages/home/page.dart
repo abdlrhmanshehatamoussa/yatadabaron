@@ -84,4 +84,21 @@ class HomePage extends StatelessWidget {
       },
     );
   }
+
+  static void pushReplacement(BuildContext context) {
+    Navigator.of(context).pushReplacement(_getPageRoute());
+  }
+
+  static MaterialPageRoute _getPageRoute() {
+    return MaterialPageRoute(
+      builder: (context) => HomePage.wrappedWithProvider(),
+    );
+  }
+
+  static Provider<SearchSessionBloc> wrappedWithProvider() {
+    return Provider(
+      child: HomePage(),
+      create: (context) => SearchSessionBloc(),
+    );
+  }
 }

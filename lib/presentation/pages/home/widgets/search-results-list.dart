@@ -1,28 +1,21 @@
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
 import 'package:Yatadabaron/modules/domain.module.dart';
+import 'package:Yatadabaron/presentation/pages.module.dart';
 import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
-import 'package:Yatadabaron/presentation/mushaf/bloc.dart';
-import 'package:Yatadabaron/presentation/mushaf/page.dart';
-import 'package:Yatadabaron/presentation/home/widgets/list-item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../bloc.dart';
-
+import 'list-item.dart';
 
 class SearchResultsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void navigateToMushaf(int? chapterId, int? verseId) {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) {
-          return Provider(
-            child: MushafPage(),
-            create: (_) => MushafBloc(chapterId, verseId),
-          );
-        }),
-      );
+      if (chapterId != null && verseId != null) {
+        MushafPage.pushReplacement(context, chapterId, verseId);
+      }
     }
 
     SearchSessionBloc sessionBloc = Provider.of<SearchSessionBloc>(context);

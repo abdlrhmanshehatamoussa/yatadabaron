@@ -4,7 +4,7 @@ import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Yatadabaron/presentation/statistics/bloc.dart';
+import '../bloc.dart';
 
 class FrequencyTable extends StatelessWidget {
   @override
