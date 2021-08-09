@@ -1,6 +1,6 @@
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
 import 'package:Yatadabaron/modules/domain.module.dart';
-import 'package:Yatadabaron/modules/shared-widgets.module.dart';
+import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
 import 'package:Yatadabaron/presentation/mushaf/bloc.dart';
 import 'package:Yatadabaron/presentation/mushaf/page.dart';
 import 'package:Yatadabaron/presentation/home/widgets/list-item.dart';

@@ -10,8 +10,7 @@ import 'package:Yatadabaron/presentation/home/bloc.dart';
 import 'package:Yatadabaron/presentation/statistics/bloc.dart';
 import '../../presentation/home/page.dart';
 import '../../presentation/mushaf/page.dart';
-import '../../presentation/shared-widgets/full-logo.dart';
-import '../../presentation/shared-widgets/transparent-bar.dart';
+import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
 import '../../presentation/statistics/page.dart';
 
 class CustomDrawer extends StatelessWidget {

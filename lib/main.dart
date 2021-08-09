@@ -1,11 +1,10 @@
 import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
+import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Yatadabaron/presentation/home/bloc.dart';
 import 'presentation/home/page.dart';
-import 'presentation/shared-widgets/custom-error-widget.dart';
-import 'presentation/shared-widgets/loading-widget.dart';
 import 'presentation/splash/page.dart';
 
 void main() {

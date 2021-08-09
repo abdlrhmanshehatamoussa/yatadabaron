@@ -1,7 +1,7 @@
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
+import 'package:Yatadabaron/presentation/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../presentation/shared-widgets/custom-page-wrapper.dart';
 
 class AboutPage extends StatelessWidget {
   Widget customText(String text) {
