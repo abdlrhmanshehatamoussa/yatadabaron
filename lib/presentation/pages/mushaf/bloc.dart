@@ -7,8 +7,8 @@ class MushafBloc {
     reloadVerses(chapterId, verseId);
   }
 
-  GenericBloc<List<VerseDTO>> _versesBloc = GenericBloc();
-  GenericBloc<ChapterFullDTO> _selectedChapterBloc = GenericBloc();
+  CustomStreamController<List<VerseDTO>> _versesBloc = CustomStreamController();
+  CustomStreamController<ChapterFullDTO> _selectedChapterBloc = CustomStreamController();
 
   Stream<ChapterFullDTO> get selectedChapterStream =>
       _selectedChapterBloc.stream;

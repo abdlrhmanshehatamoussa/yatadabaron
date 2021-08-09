@@ -1,2 +1,2 @@
 export 'shared-blocs/theme-bloc.dart';
-export 'shared-blocs/generic-bloc.dart';
+export 'shared-blocs/custom-stream-controller.dart';

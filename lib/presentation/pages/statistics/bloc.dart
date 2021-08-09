@@ -7,9 +7,9 @@ class StatisticsBloc {
     _stateBloc.add(SearchState.INITIAL);
   }
 
-  GenericBloc<StatisticsSettings> _settingsBloc = GenericBloc();
-  GenericBloc<SearchState> _stateBloc = GenericBloc();
-  GenericBloc<StatisticsPayload> _payloadBloc = GenericBloc();
+  CustomStreamController<StatisticsSettings> _settingsBloc = CustomStreamController();
+  CustomStreamController<SearchState> _stateBloc = CustomStreamController();
+  CustomStreamController<StatisticsPayload> _payloadBloc = CustomStreamController();
 
   Stream<StatisticsSettings> get settingsStream => _settingsBloc.stream;
 

@@ -8,10 +8,10 @@ class SearchSessionBloc {
     _stateBloc.add(SearchState.INITIAL);
   }
 
-  GenericBloc<SearchSettings> _settingsBloc = GenericBloc();
-  GenericBloc<SearchSessionPayload> _payloadBloc = GenericBloc();
-  GenericBloc<SearchState> _stateBloc = GenericBloc();
-  GenericBloc<Exception> _errorStream = GenericBloc();
+  CustomStreamController<SearchSettings> _settingsBloc = CustomStreamController();
+  CustomStreamController<SearchSessionPayload> _payloadBloc = CustomStreamController();
+  CustomStreamController<SearchState> _stateBloc = CustomStreamController();
+  CustomStreamController<Exception> _errorStream = CustomStreamController();
 
   Future changeSettings(SearchSettings settings) async {
     String log =

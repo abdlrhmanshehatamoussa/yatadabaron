@@ -1,11 +1,37 @@
-import 'package:Yatadabaron/presentation/shared-blocs.module.dart';
+import 'package:Yatadabaron/modules/application.module.dart';
+import 'package:Yatadabaron/presentation/pages.module.dart';
 import 'package:flutter/material.dart';
+import 'package:launch_review/launch_review.dart';
 
 class DrawerBloc {
-  DrawerBloc(this._themeBloc);
+  Future navigateMushafPage(BuildContext context) async {
+    //Load the bookmark
+    int? chapterId =
+        await ServiceManager.instance.userDataService.getBookmarkChapter();
+    int? verseId =
+        await ServiceManager.instance.userDataService.getBookmarkVerse();
+    MushafPage.pushReplacement(context, chapterId, verseId);
+  }
 
-  final ThemeBloc _themeBloc;
+  Future rate() async {
+    ServiceManager.instance.analyticsService
+        .logOnTap("DRAWER", payload: "TAB=RATE");
+    await LaunchReview.launch();
+  }
 
-  Stream<bool> get DarkMode =>
-      _themeBloc.stream.map((ThemeData themeData) => true);
+  void navigateHelpPage(BuildContext context) {
+    ServiceManager.instance.analyticsService
+        .logOnTap("DRAWER", payload: "TAB=ABOUT");
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => AboutPage(),
+    ));
+  }
+
+  void navigateHomePage(BuildContext context) {
+    HomePage.pushReplacement(context);
+  }
+
+  void navigateStatisticsPage(BuildContext context) {
+    StatisticsPage.pushReplacement(context);
+  }
 }

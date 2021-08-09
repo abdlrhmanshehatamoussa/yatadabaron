@@ -13,7 +13,7 @@ class CustomPageWrapper extends StatelessWidget {
     double radius = 0;
     return Scaffold(
       drawer: Drawer(
-        child: CustomDrawer(),
+        child: CustomDrawer.providedWithBloc(),
       ),
       appBar: AppBar(
         title: Text(
