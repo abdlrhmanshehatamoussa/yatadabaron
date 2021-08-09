@@ -1,4 +1,3 @@
-import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
 
 class ChapterFullDTO {

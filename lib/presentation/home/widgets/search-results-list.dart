@@ -60,7 +60,7 @@ class SearchResultsList extends StatelessWidget {
                   keyword: settings.keyword,
                   onlyIfExact: settings.mode == SearchMode.WORD,
                   verseText: verse.verseText,
-                  matchColor: Theme.of(context).accentColor,
+                  matchColor: Theme.of(context).colorScheme.secondary,
                 ),
                 onTap: () {
                   snapshot.data!.copyVerse(verse);
@@ -100,7 +100,7 @@ class SearchResultsList extends StatelessWidget {
                         verseText: verse.verseText,
                         keyword: settings.keyword,
                         onlyIfExact: settings.mode == SearchMode.WORD,
-                        matchColor: Theme.of(context).accentColor,
+                        matchColor: Theme.of(context).colorScheme.secondary,
                       ),
                       trailing: Text(verse.chapterName!),
                       onTap: () {

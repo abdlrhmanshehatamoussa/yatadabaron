@@ -27,7 +27,7 @@ class SearchResultsListItem extends StatelessWidget {
     this.verseText,
     this.verseID,
     this.onlyIfExact = false,
-    this.color,
+    this.color = Colors.white,
     this.matchColor,
     this.textSize = 20,
     this.idSize = 28,

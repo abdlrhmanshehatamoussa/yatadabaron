@@ -31,7 +31,7 @@ class SearchSummaryWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 13,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontFamily: "Arial"
                   ),
                 ),

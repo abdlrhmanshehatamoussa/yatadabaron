@@ -96,11 +96,7 @@ class StatisticsForm extends StatelessWidget {
       required String text}) {
     return ElevatedButton(
       onPressed: onPressed as void Function()?,
-      child: Text(text),
-      style: ButtonStyle(
-        backgroundColor:
-            MaterialStateProperty.all(Theme.of(context).primaryColor),
-      ),
+      child: Text(text)
     );
   }
 

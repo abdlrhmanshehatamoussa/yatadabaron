@@ -50,7 +50,7 @@ class VerseList extends StatelessWidget {
             VerseDTO result = results[i];
             Color? color;
             if (result.isSelected) {
-              color = Theme.of(context).accentColor;
+              color = Theme.of(context).colorScheme.secondary;
             }
             return ListTile(
               title: MushafVerseListItem(

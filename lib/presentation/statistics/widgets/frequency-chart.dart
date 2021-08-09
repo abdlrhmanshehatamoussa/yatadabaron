@@ -24,7 +24,7 @@ class FrequencyChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     StatisticsBloc bloc = Provider.of<StatisticsBloc>(context);
-    Color fillColor = Theme.of(context).accentColor;
+    Color fillColor = Theme.of(context).colorScheme.secondary;
     Color? axisColor = Theme.of(context).textTheme.bodyText1!.color;
     return Container(
       padding: EdgeInsets.all(3),
