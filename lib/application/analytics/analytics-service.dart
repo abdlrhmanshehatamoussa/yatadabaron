@@ -9,30 +9,26 @@ class AnalyticsService implements IAnalyticsService {
   static const String ACTIONS_SHARED_PREF_KEY = "ytdb_actions_json";
 
   final int _appVersion;
-  final APIHelper _apiHelper;
+  final CloudHubAPIHelper _apiHelper;
   final SharedPreferences _pref;
 
-  Future<void> logAppStarted({bool push = false}) async {
+  @override
+  Future<void> logAppStarted() async {
     await _logAction(
       appVersion: this._appVersion,
       payload: "",
       category: "SYSTEM",
       description: "APP STARTED",
-      push: push,
     );
   }
 
-  Future<void> logOnTap(
-    String desc, {
-    String payload = "",
-    bool push = false,
-  }) async {
+  @override
+  Future<void> logOnTap(String desc, {String payload = ""}) async {
     await _logAction(
       appVersion: this._appVersion,
       payload: payload,
       category: "UI ELEMENT TAP",
       description: desc,
-      push: push,
     );
   }
 
@@ -46,8 +42,27 @@ class AnalyticsService implements IAnalyticsService {
       payload: payload,
       category: "FORM FILLED",
       description: desc,
-      push: push,
     );
+  }
+
+  @override
+  Future<void> syncAllLogs() async {
+    List<String> actions = _pref.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
+    if (actions.length > 0) {
+      try {
+        String payload = actions.join(",");
+        payload = "{\"actions\":[$payload]}";
+        await this._apiHelper.httpPOST(
+              endpoint: CloudHubAPIHelper.ENDPOINT_ACTIONS,
+              payload: payload,
+            );
+        await _pref.setStringList(ACTIONS_SHARED_PREF_KEY, []);
+      } catch (e) {
+        print("Error occurred while synchronizing actions: ${e.toString()}");
+      }
+    } else {
+      print("No actions found to be synchronized.");
+    }
   }
 
   Future<void> _logAction({
@@ -56,7 +71,6 @@ class AnalyticsService implements IAnalyticsService {
     required String category,
     required String description,
     DateTime? createdOn,
-    bool push = false,
   }) async {
     createdOn = createdOn ?? DateTime.now();
     Map<String, dynamic> actionMap = new Map();
@@ -70,27 +84,5 @@ class AnalyticsService implements IAnalyticsService {
         _pref.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
     existingActions.add(actionJson);
     await _pref.setStringList(ACTIONS_SHARED_PREF_KEY, existingActions);
-    if (push) {
-      this._pushEvents();
-    }
-  }
-
-  Future<void> _pushEvents() async {
-    List<String> actions = _pref.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
-    if (actions.length > 0) {
-      try {
-        String payload = actions.join(",");
-        payload = "{\"actions\":[$payload]}";
-        await this._apiHelper.httpPOST(
-              endpoint: APIHelper.ENDPOINT_ACTIONS,
-              payload: payload,
-            );
-        await _pref.setStringList(ACTIONS_SHARED_PREF_KEY, []);
-      } catch (e) {
-        print("Error occurred while synchronizing actions: ${e.toString()}");
-      }
-    } else {
-      print("No actions found to be synchronized.");
-    }
   }
 }

@@ -1,8 +1,10 @@
 abstract class IAnalyticsService {
-  Future<void> logAppStarted({bool push = false});
+  Future<void> logAppStarted();
 
-  Future<void> logOnTap(String desc, {String payload = "", bool push = false});
+  Future<void> logOnTap(String desc, {String payload = ""});
 
   Future<void> logFormFilled(String desc,
-      {String payload = "", bool push = false});
+      {String payload = ""});
+
+  Future<void> syncAllLogs();
 }

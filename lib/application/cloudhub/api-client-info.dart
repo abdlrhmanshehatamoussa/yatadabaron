@@ -1,9 +1,9 @@
-class APIClientInfo {
+class CloudHubAPIClientInfo {
   final String clientKey;
   final String clientSecret;
   final String applicationGUID;
   final String apiUrl;
-  APIClientInfo({
+  CloudHubAPIClientInfo({
     required this.clientKey,
     required this.clientSecret,
     required this.applicationGUID,

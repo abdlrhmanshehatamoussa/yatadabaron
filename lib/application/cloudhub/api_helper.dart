@@ -3,14 +3,14 @@ import 'package:http/http.dart';
 
 import 'api-client-info.dart';
 
-class APIHelper {
+class CloudHubAPIHelper {
   //Fields
-  final APIClientInfo _clientInfo;
+  final CloudHubAPIClientInfo _clientInfo;
   static const String ENDPOINT_NONCE = "nonce";
   static const String ENDPOINT_ACTIONS = "actions";
 
   //Private Constructor
-  APIHelper(this._clientInfo);
+  CloudHubAPIHelper(this._clientInfo);
 
   Map<String, String> get _basicHeaders {
     return <String, String>{

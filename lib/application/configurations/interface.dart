@@ -6,4 +6,8 @@ abstract class IConfigurationService {
   String get cloudHubClientSecret;
 
   String get cloudHubAppGuid;
+
+  String get versionName;
+
+  int get versionNumber;
 }

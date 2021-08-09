@@ -60,7 +60,8 @@ class App extends StatelessWidget {
 
   Future<bool> _initialize() async {
     await ServiceManager.initialize();
-    await ServiceManager.instance.analyticsService.logAppStarted(push: true);
+    await ServiceManager.instance.analyticsService.logAppStarted();
+    await ServiceManager.instance.analyticsService.syncAllLogs();
     return true;
   }
 }
