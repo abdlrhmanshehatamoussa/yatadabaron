@@ -52,4 +52,5 @@ class Localization {
   static const String BOOKMARK_SAVED = "تم حفظ مكان الآية !";
   static const String SUCCESS = "تم بنجاح";
   static const String OK = "تم";
+  static const String NIGHT_MODE = "الوضع الليلي";
 }

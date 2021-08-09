@@ -8,11 +8,11 @@ class UserDataService implements IUserDataService {
   UserDataService(this._repo);
   
   Future<int?> getBookmarkChapter() async {
-    return await _repo.getBookmarkChapter();
+    return _repo.getBookmarkChapter();
   }
 
   Future<int?> getBookmarkVerse() async {
-    return await _repo.getBookmarkVerse();
+    return _repo.getBookmarkVerse();
   }
 
   Future<void> setBookmarkVerse(int verseId) async {

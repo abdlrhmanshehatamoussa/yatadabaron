@@ -43,7 +43,7 @@ class App extends StatelessWidget {
           return StreamBuilder<ThemeDataWrapper>(
             stream: Provider.of<ThemeBloc>(context).stream,
             builder: (_, AsyncSnapshot<ThemeDataWrapper> themeSnapshot) {
-              ThemeData theme = Theming.darkTheme();
+              ThemeData? theme;
               if (themeSnapshot.hasData && themeSnapshot.data != null) {
                 theme = themeSnapshot.data!.themeData;
               }

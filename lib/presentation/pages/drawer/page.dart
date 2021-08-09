@@ -1,9 +1,7 @@
-import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
-import 'package:Yatadabaron/presentation/modules/pages.module.dart';
+import 'package:Yatadabaron/presentation/modules/shared-blocs.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:launch_review/launch_review.dart';
 import 'package:Yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +11,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DrawerBloc drawerBloc = Provider.of<DrawerBloc>(context);
+    ThemeBloc themeBloc = Provider.of<ThemeBloc>(context);
     Icon _buildTabIcon(IconData data) {
       return Icon(
         data,
@@ -42,7 +41,7 @@ class CustomDrawer extends StatelessWidget {
             ListTile(
               title: Text(Localization.DRAWER_STATISTICS),
               trailing: _buildTabIcon(Icons.insert_chart),
-              onTap: () =>drawerBloc.navigateStatisticsPage(context),
+              onTap: () => drawerBloc.navigateStatisticsPage(context),
             ),
             ListTile(
               title: Text(Localization.RATE),
@@ -54,6 +53,14 @@ class CustomDrawer extends StatelessWidget {
               trailing: _buildTabIcon(Icons.help),
               onTap: () => drawerBloc.navigateHelpPage(context),
             ),
+            ListTile(
+              title: Text(Localization.NIGHT_MODE),
+              trailing: Switch(
+                onChanged: (bool mode) =>
+                    drawerBloc.toggleNightMode(mode, themeBloc),
+                value: drawerBloc.isNightMode(themeBloc),
+              ),
+            )
           ],
         ),
       ),

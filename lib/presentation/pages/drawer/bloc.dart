@@ -1,5 +1,7 @@
 import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/presentation/modules/pages.module.dart';
+import 'package:Yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:Yatadabaron/presentation/shared-dtos/theme-data-wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 
@@ -33,5 +35,18 @@ class DrawerBloc {
 
   void navigateStatisticsPage(BuildContext context) {
     StatisticsPage.pushReplacement(context);
+  }
+
+  void toggleNightMode(bool mode, ThemeBloc bloc) {
+    if (mode == true) {
+      bloc.updateTheme(ThemeDataWrapper.dark());
+    } else {
+      bloc.updateTheme(ThemeDataWrapper.light());
+    }
+  }
+
+  bool isNightMode(ThemeBloc bloc) {
+    return (bloc.currentTheme != null) &&
+        (bloc.currentTheme!.appTheme == AppTheme.DARK);
   }
 }
