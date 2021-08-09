@@ -3,7 +3,7 @@ import 'package:Yatadabaron/modules/domain.module.dart';
 import 'package:Yatadabaron/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../viewmodel.dart';
+import '../bloc.dart';
 
 class SearchForm extends StatelessWidget {
   final SearchSessionBloc bloc;

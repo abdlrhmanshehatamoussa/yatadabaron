@@ -3,7 +3,7 @@ import 'package:Yatadabaron/modules/domain.module.dart';
 import 'package:Yatadabaron/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Yatadabaron/presentation/statistics/viewmodel.dart';
+import 'package:Yatadabaron/presentation/statistics/bloc.dart';
 
 class StatisticsForm extends StatelessWidget {
   final StatisticsBloc bloc;

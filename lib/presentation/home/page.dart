@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
 import './widgets/search-summary.dart';
-import './viewmodel.dart';
+import './bloc.dart';
 
 class HomePage extends StatelessWidget {
   Widget customText(String text) {

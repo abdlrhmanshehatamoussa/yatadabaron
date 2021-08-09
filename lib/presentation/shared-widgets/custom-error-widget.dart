@@ -1,5 +1,5 @@
 import 'package:Yatadabaron/crosscutting/localization.dart';
-import 'package:Yatadabaron/presentation/splash/splash.dart';
+import 'package:Yatadabaron/presentation/splash/page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

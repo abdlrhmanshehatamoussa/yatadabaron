@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:share/share.dart';
 
-import '../viewmodel.dart';
+import '../bloc.dart';
 
 class VerseList extends StatelessWidget {
   @override

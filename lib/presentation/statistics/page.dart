@@ -3,7 +3,7 @@ import 'package:Yatadabaron/modules/domain.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Yatadabaron/presentation/statistics/viewmodel.dart';
+import 'package:Yatadabaron/presentation/statistics/bloc.dart';
 import '../../presentation/shared-widgets/custom-page-wrapper.dart';
 import '../../presentation/shared-widgets/loading-widget.dart';
 import 'package:Yatadabaron/presentation/statistics/widgets/frequency-chart.dart';

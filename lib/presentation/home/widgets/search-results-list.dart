@@ -1,14 +1,14 @@
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
 import 'package:Yatadabaron/modules/domain.module.dart';
 import 'package:Yatadabaron/modules/shared-widgets.module.dart';
-import 'package:Yatadabaron/presentation/mushaf/viewmodel.dart';
-import 'package:Yatadabaron/presentation/mushaf/view.dart';
+import 'package:Yatadabaron/presentation/mushaf/bloc.dart';
+import 'package:Yatadabaron/presentation/mushaf/page.dart';
 import 'package:Yatadabaron/presentation/home/widgets/list-item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../viewmodel.dart';
+import '../bloc.dart';
 
 
 class SearchResultsList extends StatelessWidget {

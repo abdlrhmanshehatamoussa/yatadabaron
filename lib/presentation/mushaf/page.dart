@@ -4,7 +4,7 @@ import 'package:Yatadabaron/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './viewmodel.dart';
+import './bloc.dart';
 import './widgets/dropdown.dart';
 import './widgets/list.dart';
 

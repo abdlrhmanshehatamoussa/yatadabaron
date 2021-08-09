@@ -1,18 +1,18 @@
 import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
-import 'package:Yatadabaron/presentation/about/view.dart';
+import 'package:Yatadabaron/presentation/about/page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:provider/provider.dart';
-import 'package:Yatadabaron/presentation/mushaf/viewmodel.dart';
-import 'package:Yatadabaron/presentation/home/viewmodel.dart';
-import 'package:Yatadabaron/presentation/statistics/viewmodel.dart';
-import '../../presentation/home/view.dart';
-import '../../presentation/mushaf/view.dart';
+import 'package:Yatadabaron/presentation/mushaf/bloc.dart';
+import 'package:Yatadabaron/presentation/home/bloc.dart';
+import 'package:Yatadabaron/presentation/statistics/bloc.dart';
+import '../../presentation/home/page.dart';
+import '../../presentation/mushaf/page.dart';
 import '../../presentation/shared-widgets/full-logo.dart';
 import '../../presentation/shared-widgets/transparent-bar.dart';
-import '../../presentation/statistics/view.dart';
+import '../../presentation/statistics/page.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
