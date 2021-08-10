@@ -31,6 +31,10 @@ class HomePage extends StatelessWidget {
     Widget searchResultsArea = Column(
       children: <Widget>[
         SearchSummaryWidget(),
+        Divider(
+          height: 5,
+          color: Theme.of(context).colorScheme.primary,
+        ),
         Expanded(
           flex: 1,
           child: SearchResultsList(),

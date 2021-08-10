@@ -97,8 +97,8 @@ class SearchResultsListItem extends StatelessWidget {
         color: this.color,
       ),
     ));
-    return RichText(
-      text: TextSpan(
+    return Text.rich(
+      TextSpan(
         children: verseSpans,
       ),
     );

@@ -29,7 +29,9 @@ class MushafPage extends StatelessWidget {
                       builder: (_, snapshot) {
                         if (snapshot.hasData) {
                           String? chName = snapshot.data!.chapterNameAR;
-                          String chId = ArabicNumbersService.insance.convert(snapshot.data!.chapterId,reverse: false);
+                          String chId = ArabicNumbersService.insance.convert(
+                              snapshot.data!.chapterId,
+                              reverse: false);
                           String title = "$chId - $chName";
                           return ListTile(
                             title: Text(
@@ -65,7 +67,10 @@ class MushafPage extends StatelessWidget {
               },
             ),
           ),
-          Divider(),
+          Divider(
+            height: 5,
+            color: Theme.of(context).colorScheme.secondary,
+          ),
           Expanded(
             child: VerseList(),
             flex: 1,
@@ -75,12 +80,12 @@ class MushafPage extends StatelessWidget {
     );
   }
 
-
-  static void pushReplacement(BuildContext context,int? chapterId,int? verseId) {
-    Navigator.of(context).pushReplacement(_getPageRoute(chapterId,verseId));
+  static void pushReplacement(
+      BuildContext context, int? chapterId, int? verseId) {
+    Navigator.of(context).pushReplacement(_getPageRoute(chapterId, verseId));
   }
 
-  static MaterialPageRoute _getPageRoute(int? chapterId,int? verseId){
+  static MaterialPageRoute _getPageRoute(int? chapterId, int? verseId) {
     return MaterialPageRoute(
       builder: (context) => Provider(
         child: MushafPage(),

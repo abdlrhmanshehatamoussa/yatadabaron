@@ -40,12 +40,21 @@ class FrequencyTable extends StatelessWidget {
                   );
                   return DataRow(
                     cells: [
-                      DataCell(Text(lf.letter)),
+                      DataCell(
+                        Text(
+                          lf.letter,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontFamily: 'Arial',
+                          ),
+                        ),
+                      ),
                       DataCell(
                         Text(
                           freq,
                           style: TextStyle(
-                            fontFamily: 'Arial'
+                            fontFamily: 'Arial',
+                            fontSize: 20,
                           ),
                         ),
                       ),
