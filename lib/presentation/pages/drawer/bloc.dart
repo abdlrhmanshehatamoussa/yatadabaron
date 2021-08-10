@@ -43,6 +43,7 @@ class DrawerBloc {
     } else {
       bloc.updateTheme(ThemeDataWrapper.light());
     }
+    ServiceManager.instance.userDataService.setNightMode(mode);
   }
 
   bool isNightMode(ThemeBloc bloc) {
