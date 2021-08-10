@@ -56,7 +56,7 @@ class Utils {
   }
 
   static TextStyle emptyListStyle() {
-    return TextStyle(color: Colors.grey, fontStyle: FontStyle.italic);
+    return TextStyle(fontStyle: FontStyle.italic);
   }
 
   static String? findIgnoring(

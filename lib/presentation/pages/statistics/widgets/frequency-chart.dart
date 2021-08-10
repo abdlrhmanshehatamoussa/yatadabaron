@@ -25,7 +25,7 @@ class FrequencyChart extends StatelessWidget {
   Widget build(BuildContext context) {
     StatisticsBloc bloc = Provider.of<StatisticsBloc>(context);
     Color fillColor = Theme.of(context).colorScheme.secondary;
-    Color? axisColor = Theme.of(context).textTheme.bodyText1!.color;
+    Color? axisColor = Theme.of(context).colorScheme.secondary;
     return Container(
       padding: EdgeInsets.all(3),
       child: StreamBuilder<StatisticsPayload>(
@@ -38,11 +38,11 @@ class FrequencyChart extends StatelessWidget {
               series,
               primaryMeasureAxis: Charts.NumericAxisSpec(
                 tickProviderSpec: Charts.BasicNumericTickProviderSpec(
-                 desiredMinTickCount: 3
+                 desiredMinTickCount: 10
                 ),
                 renderSpec: Charts.GridlineRendererSpec(
                   labelStyle: Charts.TextStyleSpec(
-                    color: Charts.ColorUtil.fromDartColor(axisColor!),
+                    color: Charts.ColorUtil.fromDartColor(axisColor),
                   ),
                   lineStyle: Charts.LineStyleSpec(
                     thickness: 0

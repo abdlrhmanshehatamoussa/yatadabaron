@@ -21,7 +21,7 @@ class SearchSummaryWidget extends StatelessWidget {
         return Container(
           alignment: Alignment.center,
           padding: EdgeInsets.all(12),
-          color: Theme.of(context).cardColor,
+          //color: Theme.of(context).cardColor,
           child: Row(
             children: <Widget>[
               Expanded(

@@ -10,7 +10,6 @@ class CustomPageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double radius = 0;
     return Scaffold(
       drawer: Drawer(
         child: CustomDrawer.providedWithBloc(),
@@ -33,13 +32,6 @@ class CustomPageWrapper extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(0),
                 alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(radius),
-                    topRight: Radius.circular(radius),
-                  ),
-                ),
                 child: this.child,
               ),
             ),

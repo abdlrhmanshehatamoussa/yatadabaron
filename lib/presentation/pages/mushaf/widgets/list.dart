@@ -34,7 +34,8 @@ class VerseList extends StatelessWidget {
 
         int scrollIndex = 0;
         if (results.any((v) => v.isSelected)) {
-          int selectedVerseId = results.firstWhere((v) => v.isSelected).verseID!;
+          int selectedVerseId =
+              results.firstWhere((v) => v.isSelected).verseID!;
           scrollIndex = selectedVerseId - 1;
         }
         return ScrollablePositionedList.separated(
@@ -43,7 +44,8 @@ class VerseList extends StatelessWidget {
           initialScrollIndex: scrollIndex,
           separatorBuilder: (_, __) {
             return Divider(
-              color: Colors.white70,
+              height: 1,
+              color: Theme.of(context).colorScheme.primary,
             );
           },
           itemBuilder: (context, i) {
@@ -59,8 +61,7 @@ class VerseList extends StatelessWidget {
                 color: color,
               ),
               selected: result.isSelected,
-              leading:
-                  (result.isBookmark) ? Icon(Icons.bookmark) : null,
+              leading: (result.isBookmark) ? Icon(Icons.bookmark) : null,
               onTap: () {
                 String toCopy =
                     "${result.chapterName}\n${result.verseTextTashkel} {${result.verseID}}";
@@ -68,7 +69,8 @@ class VerseList extends StatelessWidget {
               },
               onLongPress: () async {
                 //Save the bookmark
-                await mushafBloc.saveBookmark(result.chapterId!, result.verseID!);
+                await mushafBloc.saveBookmark(
+                    result.chapterId!, result.verseID!);
                 Utils.showCustomDialog(
                   context: context,
                   title: Localization.BOOKMARK_SAVED,

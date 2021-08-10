@@ -18,7 +18,10 @@ class StatisticsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         StatisticsSummaryWidget(),
-        Divider(),
+        Divider(
+          height: 1,
+          color: Theme.of(context).colorScheme.primary,
+        ),
         Expanded(
           child: FrequencyChart(),
           flex: 1,

@@ -27,7 +27,7 @@ class SearchResultsListItem extends StatelessWidget {
     this.verseText,
     this.verseID,
     this.onlyIfExact = false,
-    this.color = Colors.white,
+    this.color,
     this.matchColor,
     this.textSize = 20,
     this.idSize = 28,
@@ -97,8 +97,8 @@ class SearchResultsListItem extends StatelessWidget {
         color: this.color,
       ),
     ));
-    return RichText(
-      text: TextSpan(
+    return Text.rich(
+      TextSpan(
         children: verseSpans,
       ),
     );

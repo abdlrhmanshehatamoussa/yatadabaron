@@ -17,11 +17,12 @@ class ThemeDataWrapper {
   }
 
   static ThemeData _darkTheme() {
-    Color accent = Colors.yellow;
+    Color secondary = Colors.yellow;
+    Color primary = Colors.white;
 
     ColorScheme colorScheme = ColorScheme.dark().copyWith(
-      secondary: accent,
-      primary: Colors.white,
+      secondary: secondary,
+      primary: primary,
     );
 
     TextTheme textTheme = ThemeData.dark().textTheme.apply(
@@ -31,13 +32,15 @@ class ThemeDataWrapper {
     return ThemeData.dark().copyWith(
       textTheme: textTheme,
       colorScheme: colorScheme,
-      toggleableActiveColor: accent,
+      toggleableActiveColor: secondary,
+      scaffoldBackgroundColor: Colors.black,
+      appBarTheme: ThemeData.dark().appBarTheme.copyWith(
+        color: Colors.black
+      )
     );
   }
 
   static ThemeData _lightTheme() {
-    return ThemeData.light().copyWith(
-      colorScheme: ColorScheme.light(),
-    );
+    return ThemeData.light();
   }
 }
