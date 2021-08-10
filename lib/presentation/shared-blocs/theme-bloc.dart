@@ -1,11 +1,25 @@
+import 'package:Yatadabaron/application/service-manager.dart';
 import 'package:Yatadabaron/presentation/modules/shared-blocs.module.dart';
 import 'package:Yatadabaron/presentation/modules/shared.dtos.module.dart';
 
 class ThemeBloc {
   ThemeBloc() {
-    updateTheme(
-      ThemeDataWrapper.dark(),
-    );
+    _initializae();
+  }
+
+  Future _initializae() async {
+    bool? isNightMode =
+        await ServiceManager.instance.userDataService.getNightMode();
+    switch (isNightMode) {
+      case null:
+      case true:
+        updateTheme(ThemeDataWrapper.dark());
+        break;
+      case false:
+        updateTheme(ThemeDataWrapper.light());
+        break;
+      default:
+    }
   }
 
   final CustomStreamController<ThemeDataWrapper> _themeBloc =

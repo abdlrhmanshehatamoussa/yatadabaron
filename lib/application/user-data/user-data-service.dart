@@ -22,4 +22,14 @@ class UserDataService implements IUserDataService {
   Future<void> setBookmarkChapter(int chapterId) async {
     await _repo.setBookmarkChapter(chapterId);
   }
+
+  @override
+  Future<bool?> getNightMode() async {
+    return _repo.getNightMode();
+  }
+
+  @override
+  Future<void> setNightMode(bool nightMode) async {
+    await _repo.setNightMode(nightMode);
+  }
 }
