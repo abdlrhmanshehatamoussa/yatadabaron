@@ -38,12 +38,12 @@ class TafseerPage extends StatelessWidget {
 
   Widget _tafseerTile({
     required BuildContext context,
-    required String tafseer,
+    required String? tafseer,
   }) {
     return Container(
       padding: EdgeInsets.all(15),
       child: Text(
-        tafseer,
+        tafseer ?? "يجب أن تقوم بتحميل هذا التفسير أولاً",
         style: TextStyle(fontSize: 17, fontFamily: 'Arial'),
       ),
     );
@@ -150,7 +150,7 @@ class TafseerPage extends StatelessWidget {
                           children: [
                             _tafseerSelector(
                               bloc: bloc,
-                              tafseerId: resultSnapshot.data!.tafseerId,
+                              tafseerId: resultSnapshot.data!.tafseerID,
                               tafseers: availableTafseerSnapshot.data!,
                             ),
                             Expanded(

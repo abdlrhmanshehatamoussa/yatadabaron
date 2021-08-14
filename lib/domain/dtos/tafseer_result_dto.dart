@@ -1,13 +1,9 @@
 class TafseerResultDTO {
-  final int tafseerId;
-  final String tafseerName;
-  final String tafseerNameEnglish;
-  final String tafseerText;
+  final int tafseerID;
+  final String? tafseerText;
 
   TafseerResultDTO({
-    required this.tafseerId,
-    required this.tafseerName,
-    required this.tafseerNameEnglish,
+    required this.tafseerID,
     required this.tafseerText,
   });
 }

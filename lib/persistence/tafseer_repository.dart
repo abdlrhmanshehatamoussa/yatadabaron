@@ -18,12 +18,8 @@ class TafseerRepository extends GenericRepository {
     //Prepare Query
     String query = '''
 select
-vt.tafseer as tafseer_id,
-vt.nass as tafseer_text,
-t.name as tafseer_name,
-t.name_english as tafseer_name_english
+vt.nass as tafseer_text
 from $VERSES_TAFSEER_TABLE_NAME as vt
-inner join $TAFSEER_TABLE_NAME as t on t.id = vt.tafseer
 where vt.sura = $chapterId and vt.ayah = $verseId and vt.tafseer = $tafseerId
     ''';
 
@@ -34,20 +30,21 @@ where vt.sura = $chapterId and vt.ayah = $verseId and vt.tafseer = $tafseerId
     List<Map<String, dynamic>> rows = await database!.rawQuery(query);
 
     //Map
-    var row = rows.first;
+    String? tafseerText;
+    if (rows.isNotEmpty) {
+      var row = rows.first;
+      tafseerText = row["tafseer_text"];
+    }
     TafseerResultDTO dto = TafseerResultDTO(
-      tafseerId: row["tafseer_id"],
-      tafseerText: row["tafseer_text"],
-      tafseerName: row["tafseer_name"],
-      tafseerNameEnglish: row["tafseer_name_english"],
+      tafseerText: tafseerText,
+      tafseerID: tafseerId,
     );
     return dto;
   }
 
   Future<List<TafseerDTO>> getAvailableTafseers() async {
     //Prepare Query
-    String query =
-        "select * from `$TAFSEER_TABLE_NAME`";
+    String query = "select * from `$TAFSEER_TABLE_NAME`";
 
     //Check DB
     await checkDB();
