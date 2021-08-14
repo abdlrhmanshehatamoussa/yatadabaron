@@ -1,4 +1,4 @@
-import 'package:Yatadabaron/modules/persistence.module.dart';
+import 'package:yatadabaron/modules/persistence.module.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'interface.dart';

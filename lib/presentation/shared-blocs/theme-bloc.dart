@@ -1,6 +1,6 @@
-import 'package:Yatadabaron/application/service-manager.dart';
-import 'package:Yatadabaron/presentation/modules/shared-blocs.module.dart';
-import 'package:Yatadabaron/presentation/modules/shared.dtos.module.dart';
+import 'package:yatadabaron/application/service-manager.dart';
+import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:yatadabaron/presentation/modules/shared.dtos.module.dart';
 
 class ThemeBloc {
   ThemeBloc() {

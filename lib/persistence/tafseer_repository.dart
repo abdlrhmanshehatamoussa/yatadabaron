@@ -1,4 +1,4 @@
-import 'package:Yatadabaron/modules/domain.module.dart';
+import 'package:yatadabaron/modules/domain.module.dart';
 import './generic-repository.dart';
 
 class TafseerRepository extends GenericRepository {

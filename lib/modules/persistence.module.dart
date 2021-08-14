@@ -1,6 +1,6 @@
-export 'package:Yatadabaron/persistence/chapters-repository.dart';
-export 'package:Yatadabaron/persistence/generic-repository.dart';
-export 'package:Yatadabaron/persistence/userdata-repository.dart';
-export 'package:Yatadabaron/persistence/verses-repository.dart';
-export 'package:Yatadabaron/persistence/tafseer_repository.dart';
-export 'package:Yatadabaron/persistence/database-provider.dart';
+export 'package:yatadabaron/persistence/chapters-repository.dart';
+export 'package:yatadabaron/persistence/generic-repository.dart';
+export 'package:yatadabaron/persistence/userdata-repository.dart';
+export 'package:yatadabaron/persistence/verses-repository.dart';
+export 'package:yatadabaron/persistence/tafseer_repository.dart';
+export 'package:yatadabaron/persistence/database-provider.dart';

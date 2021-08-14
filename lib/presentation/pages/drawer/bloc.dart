@@ -1,7 +1,7 @@
-import 'package:Yatadabaron/modules/application.module.dart';
-import 'package:Yatadabaron/presentation/modules/pages.module.dart';
-import 'package:Yatadabaron/presentation/modules/shared-blocs.module.dart';
-import 'package:Yatadabaron/presentation/shared-dtos/theme-data-wrapper.dart';
+import 'package:yatadabaron/modules/application.module.dart';
+import 'package:yatadabaron/presentation/modules/pages.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:yatadabaron/presentation/shared-dtos/theme-data-wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 

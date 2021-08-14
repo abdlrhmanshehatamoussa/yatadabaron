@@ -1,6 +1,6 @@
-import 'package:Yatadabaron/modules/application.module.dart';
-import 'package:Yatadabaron/modules/domain.module.dart';
-import 'package:Yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:yatadabaron/modules/application.module.dart';
+import 'package:yatadabaron/modules/domain.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
 import 'package:flutter/foundation.dart';
 
 class SearchSessionBloc {

@@ -1,7 +1,7 @@
-import 'package:Yatadabaron/modules/crosscutting.module.dart';
-import 'package:Yatadabaron/modules/domain.module.dart';
-import 'package:Yatadabaron/presentation/modules/pages.module.dart';
-import 'package:Yatadabaron/presentation/modules/shared-widgets.module.dart';
+import 'package:yatadabaron/modules/crosscutting.module.dart';
+import 'package:yatadabaron/modules/domain.module.dart';
+import 'package:yatadabaron/presentation/modules/pages.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

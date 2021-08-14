@@ -1,7 +1,7 @@
-import 'package:Yatadabaron/crosscutting/arabic-numbers-service.dart';
-import 'package:Yatadabaron/domain/dtos/verse-dto.dart';
-import 'package:Yatadabaron/modules/crosscutting.module.dart';
-import 'package:Yatadabaron/modules/domain.module.dart';
+import 'package:yatadabaron/crosscutting/arabic-numbers-service.dart';
+import 'package:yatadabaron/domain/dtos/verse-dto.dart';
+import 'package:yatadabaron/modules/crosscutting.module.dart';
+import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'bloc.dart';

@@ -1,4 +1,4 @@
-import 'package:Yatadabaron/modules/application.module.dart';
+import 'package:yatadabaron/modules/application.module.dart';
 import '../cloudhub/api-client-info.dart';
 import '../cloudhub/api_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:Yatadabaron/presentation/modules/shared-widgets.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 
 class FullLogo extends StatelessWidget{
   final double padding;

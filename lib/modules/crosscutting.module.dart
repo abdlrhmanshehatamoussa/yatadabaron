@@ -1,4 +1,4 @@
-export 'package:Yatadabaron/crosscutting/localization.dart';
-export 'package:Yatadabaron/crosscutting/extensions.dart';
-export 'package:Yatadabaron/crosscutting/utils.dart';
-export 'package:Yatadabaron/crosscutting/arabic-numbers-service.dart';
+export 'package:yatadabaron/crosscutting/localization.dart';
+export 'package:yatadabaron/crosscutting/extensions.dart';
+export 'package:yatadabaron/crosscutting/utils.dart';
+export 'package:yatadabaron/crosscutting/arabic-numbers-service.dart';

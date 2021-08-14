@@ -1,5 +1,5 @@
-import 'package:Yatadabaron/modules/domain.module.dart';
-import 'package:Yatadabaron/modules/persistence.module.dart';
+import 'package:yatadabaron/modules/domain.module.dart';
+import 'package:yatadabaron/modules/persistence.module.dart';
 
 import 'interface.dart';
 

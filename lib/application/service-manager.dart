@@ -1,4 +1,4 @@
-import 'package:Yatadabaron/modules/application.module.dart';
+import 'package:yatadabaron/modules/application.module.dart';
 
 class ServiceManager {
   final IMushafService mushafService;

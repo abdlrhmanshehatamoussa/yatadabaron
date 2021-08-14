@@ -1,8 +1,8 @@
-import 'package:Yatadabaron/modules/crosscutting.module.dart';
-import 'package:Yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:yatadabaron/modules/crosscutting.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Yatadabaron/presentation/modules/shared-widgets.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc.dart';

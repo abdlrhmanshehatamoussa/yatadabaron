@@ -1,4 +1,4 @@
-import 'package:Yatadabaron/modules/persistence.module.dart';
+import 'package:yatadabaron/modules/persistence.module.dart';
 
 import 'interface.dart';
 import 'mushaf-service.dart';

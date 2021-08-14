@@ -1,5 +1,5 @@
-import 'package:Yatadabaron/modules/application.module.dart';
-import 'package:Yatadabaron/modules/crosscutting.module.dart';
+import 'package:yatadabaron/modules/application.module.dart';
+import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:share/share.dart';
 import '../dtos/search-settings.dart';
 import '../dtos/verse-dto-collection.dart';

@@ -1,4 +1,4 @@
-import 'package:Yatadabaron/modules/crosscutting.module.dart';
+import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:flutter/material.dart';
 
 class ErrorDialog extends StatelessWidget {
