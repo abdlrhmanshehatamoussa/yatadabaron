@@ -23,6 +23,25 @@ class MushafService implements IMushafService {
         basmala, keyword, searchMode, chapterID);
   }
 
+  //Get letters frequency
+  Future<List<LetterFrequency>> getLettersByChapterId(
+      int chapterId, bool basmala) async {
+    return await _versesRepository.getLettersByChapterId(chapterId, basmala);
+  }
+
+  //Get Single Verse
+  @override
+  Future<VerseDTO> getSingleVerse(int verseId, int chapterId) async {
+    return await _versesRepository.getSingleVerse(verseId,chapterId);
+  }
+
+  //Get Verses By Chapter ID
+  Future<List<VerseDTO>> getVersesByChapterId(
+      int chapterId, bool basmala) async {
+    return await _versesRepository.getVersesByChapterId(chapterId, basmala);
+  }
+
+
   //Chapters
   //========
   //Get All Chapters Including Whole-Quran
@@ -46,18 +65,8 @@ class MushafService implements IMushafService {
     return await _chaptersRepository.getFullChapterById(chapterID);
   }
 
-  //Get Verses By Chapter ID
-  Future<List<VerseDTO>> getVersesByChapterId(
-      int chapterId, bool basmala) async {
-    return await _versesRepository.getVersesByChapterId(chapterId, basmala);
-  }
-
-  //Get letters frequency
-  Future<List<LetterFrequency>> getLettersByChapterId(
-      int chapterId, bool basmala) async {
-    return await _versesRepository.getLettersByChapterId(chapterId, basmala);
-  }
-
+  //Tafseer
+  //=======
   @override
   Future<List<TafseerDTO>> getAvailableTafseers() async {
     return await _tafseerRepository.getAvailableTafseers();

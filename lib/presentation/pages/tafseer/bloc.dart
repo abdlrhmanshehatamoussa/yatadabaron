@@ -8,15 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
 class TafseerPageBloc {
-  TafseerPageBloc(this._verse, this._onBookmarkSaved) {
+  TafseerPageBloc(this._verseId, this._chapterId, this._onBookmarkSaved) {
     _initialize();
   }
 
-  final VerseDTO _verse;
+  final int _verseId;
+  final int _chapterId;
   final Function _onBookmarkSaved;
   final CustomStreamController<TafseerResultDTO> _tafseerResultController =
       CustomStreamController<TafseerResultDTO>();
   Stream<TafseerResultDTO> get tafseerStream => _tafseerResultController.stream;
+
+  Future<VerseDTO> loadVerseDTO() async {
+    return await ServiceManager.instance.mushafService
+        .getSingleVerse(_verseId, _chapterId);
+  }
 
   Future<void> _initialize() async {
     List<TafseerDTO> tafseers = await getAvailableTafseers();
@@ -26,6 +32,7 @@ class TafseerPageBloc {
   }
 
   Future<void> shareVerse() async {
+    VerseDTO _verse = await loadVerseDTO();
     String toCopy =
         "${_verse.chapterName}\n${_verse.verseTextTashkel} {${_verse.verseID}}";
     await Share.share(toCopy);
@@ -36,22 +43,16 @@ class TafseerPageBloc {
   }
 
   Future<void> updateTafseerStream(int tafseerId) async {
-    if (_verse.verseID != null && _verse.chapterId != null) {
-      TafseerResultDTO result =
-          await ServiceManager.instance.mushafService.getTafseer(
-        tafseerId,
-        _verse.verseID!,
-        _verse.chapterId!,
-      );
-      _tafseerResultController.add(result);
-    }
+    TafseerResultDTO result = await ServiceManager.instance.mushafService
+        .getTafseer(tafseerId, _verseId, _chapterId);
+    _tafseerResultController.add(result);
   }
 
   Future<void> onSaveBookmarkClicked(BuildContext context) async {
-    int chapterId = _verse.chapterId!;
-    int verseId = _verse.verseID!;
-    await ServiceManager.instance.userDataService.setBookmarkChapter(chapterId);
-    await ServiceManager.instance.userDataService.setBookmarkVerse(verseId);
+    await ServiceManager.instance.userDataService
+        .setBookmarkChapter(this._chapterId);
+    await ServiceManager.instance.userDataService
+        .setBookmarkVerse(this._verseId);
     await _onBookmarkSaved();
     await Utils.showCustomDialog(
       context: context,

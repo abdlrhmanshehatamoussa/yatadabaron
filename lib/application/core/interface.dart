@@ -7,6 +7,16 @@ abstract class IMushafService {
   Future<List<VerseDTO>> keywordSearch(
       bool basmala, String keyword, SearchMode searchMode, int chapterID);
 
+  //Get Verses By Chapter ID
+  Future<List<VerseDTO>> getVersesByChapterId(int chapterId, bool basmala);
+
+  //Get Single Verse
+  Future<VerseDTO> getSingleVerse(int verseId, int chapterId);
+
+  //Get letters frequency
+  Future<List<LetterFrequency>> getLettersByChapterId(
+      int chapterId, bool basmala);
+
   //Chapters
   //========
   //Get All Chapters Including Whole-Quran
@@ -20,13 +30,6 @@ abstract class IMushafService {
 
   //Get Full Chapter
   Future<ChapterFullDTO> getFullChapterById(int chapterID);
-
-  //Get Verses By Chapter ID
-  Future<List<VerseDTO>> getVersesByChapterId(int chapterId, bool basmala);
-
-  //Get letters frequency
-  Future<List<LetterFrequency>> getLettersByChapterId(
-      int chapterId, bool basmala);
 
   //Tafseer
   //========

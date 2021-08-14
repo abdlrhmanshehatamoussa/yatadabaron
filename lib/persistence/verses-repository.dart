@@ -61,6 +61,36 @@ class VersesRepository extends GenericRepository {
     return results;
   }
 
+  Future<VerseDTO> getSingleVerse(int verseId, int chapterId) async {
+    //Prepare Query
+    String query =
+        "SELECT v.ayah as verse_id,text_tashkel as verse_text_tashkel,text as verse_text,c.arabic as chapter_name "
+        "FROM $TABLE_NAME_NO_BASMALA as v "
+        "INNER JOIN CHAPTERS as c on c.c0sura = v.sura "
+        "where v.ayah = $verseId and v.sura = $chapterId";
+
+    //Check DB
+    await checkDB();
+
+    //Execute
+    List<Map<String, dynamic>> verses = await database!.rawQuery(query);
+
+    //Map
+    Map<String, dynamic> verse = verses.first;
+    String chapterName = verse["chapter_name"];
+    String? verseText = verse["verse_text"];
+    String? verseTextTashkel = verse["verse_text_tashkel"];
+    int? verseID = verse["verse_id"];
+    VerseDTO result = VerseDTO(
+      chapterId,
+      chapterName,
+      verseText,
+      verseTextTashkel,
+      verseID,
+    );
+    return result;
+  }
+
   Future<List<VerseDTO>> getVersesByChapterId(int id, bool basmala) async {
     //Prepare Query
     String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;

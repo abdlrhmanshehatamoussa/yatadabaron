@@ -53,12 +53,15 @@ class MushafBloc {
   }
 
   Future<void> onVerseTap(VerseDTO result, BuildContext context) async {
-    TafseerPage.push(
-      context,
-      result,
-      () {
-        reloadVerses(result.chapterId, result.verseID);
-      },
-    );
+    if (result.verseID != null && result.chapterId != null) {
+      TafseerPage.push(
+        context: context,
+        verseId: result.verseID!,
+        chapterId: result.chapterId!,
+        onBookmarkSaved: () {
+          reloadVerses(result.chapterId, result.verseID);
+        },
+      );
+    }
   }
 }

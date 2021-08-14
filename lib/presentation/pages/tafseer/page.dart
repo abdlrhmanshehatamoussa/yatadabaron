@@ -103,12 +103,44 @@ class TafseerPage extends StatelessWidget {
             height: 5,
           ),
           Expanded(
+            flex: 1,
+            child: SingleChildScrollView(
+              child: FutureBuilder<VerseDTO>(
+                future: bloc.loadVerseDTO(),
+                builder: (_, AsyncSnapshot<VerseDTO> snapshot) {
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return _tafseerVerseTile(
+                      context: context,
+                      chapterName: snapshot.data!.chapterName ?? "",
+                      verseTextTashkeel: snapshot.data!.verseTextTashkel ?? "",
+                      verseId: snapshot.data!.verseID ?? -1,
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
+          Divider(
+            height: 5,
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+          Expanded(
+            flex: 2,
             child: FutureBuilder<List<TafseerDTO>>(
               future: bloc.getAvailableTafseers(),
               builder: (_,
                   AsyncSnapshot<List<TafseerDTO>> availableTafseerSnapshot) {
-                if (availableTafseerSnapshot.hasData &&
-                    (availableTafseerSnapshot.data?.isNotEmpty ?? false)) {
+                if (availableTafseerSnapshot.hasData == false) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (availableTafseerSnapshot.data?.isEmpty ?? true) {
+                  return Center(
+                    child: Text("لا يوجد أي تفسيرات حالية"),
+                  );
+                } else {
                   return StreamBuilder<TafseerResultDTO>(
                     stream: bloc.tafseerStream,
                     builder:
@@ -122,23 +154,6 @@ class TafseerPage extends StatelessWidget {
                               tafseers: availableTafseerSnapshot.data!,
                             ),
                             Expanded(
-                              flex: 1,
-                              child: SingleChildScrollView(
-                                child: _tafseerVerseTile(
-                                  context: context,
-                                  chapterName: resultSnapshot.data!.chapterName,
-                                  verseTextTashkeel:
-                                      resultSnapshot.data!.verseTextTashkeel,
-                                  verseId: resultSnapshot.data!.verseId,
-                                ),
-                              ),
-                            ),
-                            Divider(
-                              height: 5,
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                            Expanded(
-                              flex: 2,
                               child: SingleChildScrollView(
                                 child: _tafseerTile(
                                   context: context,
@@ -155,10 +170,6 @@ class TafseerPage extends StatelessWidget {
                       }
                     },
                   );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
                 }
               },
             ),
@@ -168,18 +179,32 @@ class TafseerPage extends StatelessWidget {
     );
   }
 
-  static void push(
-      BuildContext context, VerseDTO verse, Function onBookmarkSaved) {
-    Navigator.of(context).push(_getPageRoute(verse, onBookmarkSaved));
+  static void push({
+    required BuildContext context,
+    required int verseId,
+    required int chapterId,
+    required Function onBookmarkSaved,
+  }) {
+    Navigator.of(context).push(
+      _getPageRoute(
+        verseId: verseId,
+        chapterId: chapterId,
+        onBookmarkSaved: onBookmarkSaved,
+      ),
+    );
   }
 
-  static MaterialPageRoute _getPageRoute(
-      VerseDTO verse, Function onBookmarkSaved) {
+  static MaterialPageRoute _getPageRoute({
+    required int chapterId,
+    required int verseId,
+    required Function onBookmarkSaved,
+  }) {
     return MaterialPageRoute(
       builder: (context) => Provider(
         child: TafseerPage(),
         create: (contextt) => TafseerPageBloc(
-          verse,
+          verseId,
+          chapterId,
           onBookmarkSaved,
         ),
       ),
