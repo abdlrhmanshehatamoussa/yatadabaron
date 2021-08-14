@@ -3,8 +3,9 @@ class TafseerResultDTO {
   final int chapterId;
   final int tafseerId;
   final String tafseerName;
+  final String tafseerNameEnglish;
   final String chapterName;
-  final String tafseer;
+  final String tafseerText;
   final String verseTextTashkeel;
 
   TafseerResultDTO({
@@ -13,7 +14,8 @@ class TafseerResultDTO {
     required this.chapterId,
     required this.tafseerId,
     required this.tafseerName,
+    required this.tafseerNameEnglish,
     required this.chapterName,
-    required this.tafseer,
+    required this.tafseerText,
   });
 }

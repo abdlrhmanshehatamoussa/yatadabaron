@@ -134,7 +134,7 @@ class TafseerPage extends StatelessWidget {
                               child: SingleChildScrollView(
                                 child: _tafseerTile(
                                   context: context,
-                                  tafseer: resultSnapshot.data!.tafseer,
+                                  tafseer: resultSnapshot.data!.tafseerText,
                                 ),
                               ),
                             ),
