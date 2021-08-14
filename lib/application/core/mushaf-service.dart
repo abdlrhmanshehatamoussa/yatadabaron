@@ -4,11 +4,15 @@ import 'package:Yatadabaron/modules/persistence.module.dart';
 import 'interface.dart';
 
 class MushafService implements IMushafService {
-  MushafService(this._chaptersRepository, this._versesRepository);
+  MushafService(
+    this._chaptersRepository,
+    this._versesRepository,
+    this._tafseerRepository,
+  );
 
   final ChaptersRepository _chaptersRepository;
-
   final VersesRepository _versesRepository;
+  final TafseerRepository _tafseerRepository;
 
   //Verses
   //=========
@@ -56,11 +60,7 @@ class MushafService implements IMushafService {
 
   @override
   Future<List<TafseerDTO>> getAvailableTafseers() async {
-    //TODO:
-    return [
-      TafseerDTO(tafseerId: 1, tafseerName: "ابن كثير"),
-      TafseerDTO(tafseerId: 2, tafseerName: "الطبري"),
-    ];
+    return await _tafseerRepository.getAvailableTafseers();
   }
 
   @override
@@ -69,16 +69,10 @@ class MushafService implements IMushafService {
     int verseId,
     int chapterId,
   ) async {
-    //TODO:
-    return TafseerResultDTO(
-      verseId: verseId,
+    return await _tafseerRepository.getTafseer(
       chapterId: chapterId,
+      verseId: verseId,
       tafseerId: tafseerId,
-      tafseerName: "ابن كثير",
-      chapterName: "Test",
-      tafseer:
-          " تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير",
-      verseTextTashkeel: "Test",
     );
   }
 }
