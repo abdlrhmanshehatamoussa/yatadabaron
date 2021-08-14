@@ -27,4 +27,10 @@ abstract class IMushafService {
   //Get letters frequency
   Future<List<LetterFrequency>> getLettersByChapterId(
       int chapterId, bool basmala);
+
+  //Tafseer
+  //========
+  Future<List<TafseerDTO>> getAvailableTafseers();
+  Future<TafseerResultDTO> getTafseer(
+      int tafseerId, int verseId, int chapterId);
 }

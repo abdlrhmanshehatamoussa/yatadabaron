@@ -53,4 +53,32 @@ class MushafService implements IMushafService {
       int chapterId, bool basmala) async {
     return await _versesRepository.getLettersByChapterId(chapterId, basmala);
   }
+
+  @override
+  Future<List<TafseerDTO>> getAvailableTafseers() async {
+    //TODO:
+    return [
+      TafseerDTO(tafseerId: 1, tafseerName: "ابن كثير"),
+      TafseerDTO(tafseerId: 2, tafseerName: "الطبري"),
+    ];
+  }
+
+  @override
+  Future<TafseerResultDTO> getTafseer(
+    int tafseerId,
+    int verseId,
+    int chapterId,
+  ) async {
+    //TODO:
+    return TafseerResultDTO(
+      verseId: verseId,
+      chapterId: chapterId,
+      tafseerId: tafseerId,
+      tafseerName: "ابن كثير",
+      chapterName: "Test",
+      tafseer:
+          " تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير",
+      verseTextTashkeel: "Test",
+    );
+  }
 }

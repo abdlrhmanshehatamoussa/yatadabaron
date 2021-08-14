@@ -1,3 +1,4 @@
+import 'package:Yatadabaron/application/service-manager.dart';
 import 'package:Yatadabaron/domain/dtos/verse-dto.dart';
 import 'package:Yatadabaron/modules/application.module.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
@@ -31,37 +32,18 @@ class TafseerPageBloc {
   }
 
   Future<List<TafseerDTO>> getAvailableTafseers() async {
-    //TODO
-    return [
-      TafseerDTO(tafseerId: 1, tafseerName: "ابن كثير"),
-      TafseerDTO(tafseerId: 2, tafseerName: "الطبري"),
-    ];
+    return await ServiceManager.instance.mushafService.getAvailableTafseers();
   }
 
   Future<void> updateTafseerStream(int tafseerId) async {
-    //TODO:
-    if (tafseerId == 1) {
-      _tafseerResultController.add(
-        TafseerResultDTO(
-            verseId: _verse.verseID!,
-            chapterId: _verse.chapterId!,
-            tafseerId: tafseerId,
-            tafseerName: "ابن كثير",
-            chapterName: "تجريبي",
-            tafseer: " تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير تجريبي تفسير ابن كثير",
-            verseTextTashkeel: _verse.verseTextTashkel!),
+    if (_verse.verseID != null && _verse.chapterId != null) {
+      TafseerResultDTO result =
+          await ServiceManager.instance.mushafService.getTafseer(
+        tafseerId,
+        _verse.verseID!,
+        _verse.chapterId!,
       );
-    } else {
-      _tafseerResultController.add(
-        TafseerResultDTO(
-            verseId: _verse.verseID!,
-            chapterId: _verse.chapterId!,
-            tafseerId: tafseerId,
-            tafseerName: "الطبري",
-            chapterName: "تجريبي",
-            tafseer: " تجريبي تفسير الطبري تجريبي تفسير الطبري تجريبي تفسير الطبري تجريبي تفسير الطبري تجريبي تفسير الطبري تجريبي تفسير الطبري تجريبي تفسير الطبري تجريبي تفسير الطبري تجريبي تفسير الطبري تجريبي تفسير الطبري تجريبي تفسير الطبري",
-            verseTextTashkeel: _verse.verseTextTashkel!),
-      );
+      _tafseerResultController.add(result);
     }
   }
 

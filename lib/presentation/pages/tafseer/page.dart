@@ -1,3 +1,4 @@
+import 'package:Yatadabaron/crosscutting/arabic-numbers-service.dart';
 import 'package:Yatadabaron/domain/dtos/verse-dto.dart';
 import 'package:Yatadabaron/modules/crosscutting.module.dart';
 import 'package:Yatadabaron/modules/domain.module.dart';
@@ -12,6 +13,7 @@ class TafseerPage extends StatelessWidget {
     required String chapterName,
     required int verseId,
   }) {
+    String verseIdArabic = ArabicNumbersService.insance.convert(verseId);
     return Container(
       padding: EdgeInsets.all(5),
       child: ListTile(
@@ -23,10 +25,11 @@ class TafseerPage extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          '[$chapterName - $verseId]',
+          '$chapterName - [$verseIdArabic]',
           style: TextStyle(
             fontSize: 15,
-            color: Theme.of(context).colorScheme.secondary,
+            fontFamily: 'Arabic',
+            fontWeight: FontWeight.bold
           ),
         ),
       ),
@@ -38,10 +41,10 @@ class TafseerPage extends StatelessWidget {
     required String tafseer,
   }) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(15),
       child: Text(
         tafseer,
-        style: TextStyle(fontSize: 15, fontFamily: 'Arial'),
+        style: TextStyle(fontSize: 17, fontFamily: 'Arial'),
       ),
     );
   }
@@ -118,26 +121,36 @@ class TafseerPage extends StatelessWidget {
                               tafseerId: resultSnapshot.data!.tafseerId,
                               tafseers: availableTafseerSnapshot.data!,
                             ),
-                            _tafseerVerseTile(
-                              context: context,
-                              chapterName: resultSnapshot.data!.chapterName,
-                              verseTextTashkeel:
-                                  resultSnapshot.data!.verseTextTashkeel,
-                              verseId: resultSnapshot.data!.verseId,
+                            SingleChildScrollView(
+                              child: _tafseerVerseTile(
+                                context: context,
+                                chapterName: resultSnapshot.data!.chapterName,
+                                verseTextTashkeel:
+                                    resultSnapshot.data!.verseTextTashkeel,
+                                verseId: resultSnapshot.data!.verseId,
+                              ),
                             ),
-                            _tafseerTile(
-                              context: context,
-                              tafseer: resultSnapshot.data!.tafseer,
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: _tafseerTile(
+                                  context: context,
+                                  tafseer: resultSnapshot.data!.tafseer,
+                                ),
+                              ),
                             ),
                           ],
                         );
                       } else {
-                        return CircularProgressIndicator();
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
                     },
                   );
                 } else {
-                  return CircularProgressIndicator();
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
               },
             ),
