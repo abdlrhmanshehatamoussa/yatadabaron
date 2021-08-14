@@ -54,4 +54,8 @@ class Localization {
   static const String OK = "تم";
   static const String NIGHT_MODE = "الوضع الليلي";
   static const String TAFSEER_PAGE = "التفسير";
+  static const String NO_TRANSLATIONS_AVAILABLE =
+      "لا يوجد أي تفسيرات حالية, تأكد من اتصالك بالانترنت";
+  static const String DOWNLOAD_TRANSLATION_FIRST =
+      "يجب أن تقوم بتحميل هذا التفسير أولاً";
 }

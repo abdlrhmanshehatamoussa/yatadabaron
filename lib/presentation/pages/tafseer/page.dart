@@ -43,7 +43,7 @@ class TafseerPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(15),
       child: Text(
-        tafseer ?? "يجب أن تقوم بتحميل هذا التفسير أولاً",
+        tafseer ?? Localization.DOWNLOAD_TRANSLATION_FIRST,
         style: TextStyle(fontSize: 17, fontFamily: 'Arial'),
       ),
     );
@@ -138,7 +138,7 @@ class TafseerPage extends StatelessWidget {
                   );
                 } else if (availableTafseerSnapshot.data?.isEmpty ?? true) {
                   return Center(
-                    child: Text("لا يوجد أي تفسيرات حالية"),
+                    child: Text(Localization.NO_TRANSLATIONS_AVAILABLE),
                   );
                 } else {
                   return StreamBuilder<TafseerResultDTO>(
