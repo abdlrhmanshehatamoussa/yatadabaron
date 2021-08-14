@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DatabaseProvider {
-  static const String DB_NAME = 'quran_usmani.db';
+  static const String DB_NAME = 'quran_usmani_tafseer.db';
   static Future<String> databasePath() async {
     Directory dbDirectory = await getApplicationDocumentsDirectory();
     String databasesPath = dbDirectory.path;

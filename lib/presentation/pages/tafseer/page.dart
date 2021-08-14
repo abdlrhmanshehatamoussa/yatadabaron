@@ -20,7 +20,7 @@ class TafseerPage extends StatelessWidget {
         title: Text(
           verseTextTashkeel,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 25,
             color: Theme.of(context).colorScheme.secondary,
           ),
         ),
@@ -29,7 +29,7 @@ class TafseerPage extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             fontFamily: 'Arabic',
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -121,16 +121,24 @@ class TafseerPage extends StatelessWidget {
                               tafseerId: resultSnapshot.data!.tafseerId,
                               tafseers: availableTafseerSnapshot.data!,
                             ),
-                            SingleChildScrollView(
-                              child: _tafseerVerseTile(
-                                context: context,
-                                chapterName: resultSnapshot.data!.chapterName,
-                                verseTextTashkeel:
-                                    resultSnapshot.data!.verseTextTashkeel,
-                                verseId: resultSnapshot.data!.verseId,
+                            Expanded(
+                              flex: 1,
+                              child: SingleChildScrollView(
+                                child: _tafseerVerseTile(
+                                  context: context,
+                                  chapterName: resultSnapshot.data!.chapterName,
+                                  verseTextTashkeel:
+                                      resultSnapshot.data!.verseTextTashkeel,
+                                  verseId: resultSnapshot.data!.verseId,
+                                ),
                               ),
                             ),
+                            Divider(
+                              height: 5,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
                             Expanded(
+                              flex: 2,
                               child: SingleChildScrollView(
                                 child: _tafseerTile(
                                   context: context,

@@ -24,10 +24,11 @@ vt.ayah as verse_id,
 vt.nass as tafseer_text,
 c.arabic as chapter_name,
 v.text_tashkel as verse_text_tashkel,
+t.name as tafseer_name,
 t.name_english as tafseer_name_english
 from $VERSES_TAFSEER_TABLE_NAME as vt
 inner join ${ChaptersRepository.TABLE_NAME} as c on vt.sura = c.c0sura
-inner join ${VersesRepository.TABLE_NAME_NO_BASMALA} as v on v.ayah = vt.ayah
+inner join ${VersesRepository.TABLE_NAME_NO_BASMALA} as v on v.ayah = vt.ayah and v.sura=vt.sura
 inner join $TAFSEER_TABLE_NAME as t on t.id = vt.tafseer
 where vt.sura = $chapterId and vt.ayah = $verseId and vt.tafseer = $tafseerId
     ''';
@@ -36,27 +37,27 @@ where vt.sura = $chapterId and vt.ayah = $verseId and vt.tafseer = $tafseerId
     await checkDB();
 
     //Execute
-    List<Map<String, dynamic>> verses = await database!.rawQuery(query);
+    List<Map<String, dynamic>> rows = await database!.rawQuery(query);
 
     //Map
-    List<TafseerResultDTO> results = verses.map((Map<String, dynamic> result) {
-      return TafseerResultDTO(
-        chapterId: result["chapter_id"],
-        verseId: result["verse_id"],
-        tafseerId: result["tafseer_id"],
-        chapterName: result["chapter_name"],
-        tafseerText: result["tafseer_text"],
-        verseTextTashkeel: result["verse_text_tashkel"],
-        tafseerName: result["tafseer_name"],
-        tafseerNameEnglish: result["tafseer_name_english"],
-      );
-    }).toList();
-    return results.first;
+    var row = rows.first;
+    TafseerResultDTO dto = TafseerResultDTO(
+      chapterId: row["chapter_id"],
+      verseId: row["verse_id"],
+      tafseerId: row["tafseer_id"],
+      chapterName: row["chapter_name"],
+      tafseerText: row["tafseer_text"],
+      verseTextTashkeel: row["verse_text_tashkel"],
+      tafseerName: row["tafseer_name"],
+      tafseerNameEnglish: row["tafseer_name_english"],
+    );
+    return dto;
   }
 
   Future<List<TafseerDTO>> getAvailableTafseers() async {
     //Prepare Query
-    String query = "select * from `$TAFSEER_TABLE_NAME`";
+    String query =
+        "select * from `$TAFSEER_TABLE_NAME` where id in (select distinct tafseer from `$VERSES_TAFSEER_TABLE_NAME`)";
 
     //Check DB
     await checkDB();
