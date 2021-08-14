@@ -8,9 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
 class TafseerPageBloc {
-  TafseerPageBloc(this._verseId, this._chapterId, this._onBookmarkSaved) {
-    _initialize();
-  }
+  TafseerPageBloc(this._verseId, this._chapterId, this._onBookmarkSaved);
 
   final int _verseId;
   final int _chapterId;
@@ -24,13 +22,6 @@ class TafseerPageBloc {
         .getSingleVerse(_verseId, _chapterId);
   }
 
-  Future<void> _initialize() async {
-    List<TafseerDTO> tafseers = await getAvailableTafseers();
-    if (tafseers.isNotEmpty) {
-      await updateTafseerStream(tafseers.first.tafseerId);
-    }
-  }
-
   Future<void> shareVerse() async {
     VerseDTO _verse = await loadVerseDTO();
     String toCopy =
@@ -39,7 +30,12 @@ class TafseerPageBloc {
   }
 
   Future<List<TafseerDTO>> getAvailableTafseers() async {
-    return await ServiceManager.instance.mushafService.getAvailableTafseers();
+    var tafseers =
+        await ServiceManager.instance.mushafService.getAvailableTafseers();
+    if (tafseers.isNotEmpty) {
+      await updateTafseerStream(tafseers.first.tafseerId);
+    }
+    return tafseers;
   }
 
   Future<void> updateTafseerStream(int tafseerId) async {
