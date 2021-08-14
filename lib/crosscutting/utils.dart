@@ -129,12 +129,12 @@ class Utils {
     }
   }
 
-  static void showCustomDialog({
+  static Future<void> showCustomDialog({
     required BuildContext context,
     String? title,
     String? text,
-  }) {
-    showDialog(
+  }) async {
+    await showDialog(
       context: context,
       builder: (_) {
         return AlertDialog(

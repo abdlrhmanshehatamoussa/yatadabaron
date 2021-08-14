@@ -53,4 +53,5 @@ class Localization {
   static const String SUCCESS = "تم بنجاح";
   static const String OK = "تم";
   static const String NIGHT_MODE = "الوضع الليلي";
+  static const String TAFSEER_PAGE = "التفسير";
 }

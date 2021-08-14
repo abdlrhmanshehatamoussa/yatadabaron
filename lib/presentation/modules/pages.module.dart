@@ -5,3 +5,4 @@ export '../pages/mushaf/page.dart';
 export '../pages/splash/page.dart';
 export '../pages/statistics/page.dart';
 export '../pages/app/app.dart';
+export '../pages/tafseer/page.dart';

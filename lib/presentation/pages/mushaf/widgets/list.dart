@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:share/share.dart';
-
 import '../bloc.dart';
 import 'list-item.dart';
 
@@ -62,20 +60,7 @@ class VerseList extends StatelessWidget {
               ),
               selected: result.isSelected,
               leading: (result.isBookmark) ? Icon(Icons.bookmark) : null,
-              onTap: () {
-                String toCopy =
-                    "${result.chapterName}\n${result.verseTextTashkel} {${result.verseID}}";
-                Share.share(toCopy);
-              },
-              onLongPress: () async {
-                //Save the bookmark
-                await mushafBloc.saveBookmark(
-                    result.chapterId!, result.verseID!);
-                Utils.showCustomDialog(
-                  context: context,
-                  title: Localization.BOOKMARK_SAVED,
-                );
-              },
+              onTap: () async => await mushafBloc.onVerseTap(result, context),
             );
           },
         );
