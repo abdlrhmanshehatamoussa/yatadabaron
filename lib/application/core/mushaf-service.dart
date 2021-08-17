@@ -7,12 +7,14 @@ class MushafService implements IMushafService {
   MushafService(
     this._chaptersRepository,
     this._versesRepository,
-    this._tafseerRepository,
+    this._verseTafseerRepository,
+    this._tafseerSourceRepository,
   );
 
   final ChaptersRepository _chaptersRepository;
   final VersesRepository _versesRepository;
-  final TafseerRepository _tafseerRepository;
+  final IVerseTafseerRepository _verseTafseerRepository;
+  final ITafseerSourceRepository _tafseerSourceRepository;
 
   //Verses
   //=========
@@ -32,7 +34,7 @@ class MushafService implements IMushafService {
   //Get Single Verse
   @override
   Future<VerseDTO> getSingleVerse(int verseId, int chapterId) async {
-    return await _versesRepository.getSingleVerse(verseId,chapterId);
+    return await _versesRepository.getSingleVerse(verseId, chapterId);
   }
 
   //Get Verses By Chapter ID
@@ -40,7 +42,6 @@ class MushafService implements IMushafService {
       int chapterId, bool basmala) async {
     return await _versesRepository.getVersesByChapterId(chapterId, basmala);
   }
-
 
   //Chapters
   //========
@@ -68,17 +69,17 @@ class MushafService implements IMushafService {
   //Tafseer
   //=======
   @override
-  Future<List<TafseerDTO>> getAvailableTafseers() async {
-    return await _tafseerRepository.getAvailableTafseers();
+  Future<List<TafseerSource>> getTafseerNames() async {
+    return await _tafseerSourceRepository.getAll();
   }
 
   @override
-  Future<TafseerResultDTO> getTafseer(
+  Future<VerseTafseer> getTafseer(
     int tafseerId,
     int verseId,
     int chapterId,
   ) async {
-    return await _tafseerRepository.getTafseer(
+    return await _verseTafseerRepository.getTafseer(
       chapterId: chapterId,
       verseId: verseId,
       tafseerId: tafseerId,

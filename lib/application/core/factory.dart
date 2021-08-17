@@ -9,7 +9,8 @@ class MushafServiceFactory {
     return MushafService(
       ChaptersRepository.instance,
       VersesRepository.instance,
-      TafseerRepository.instance,
+      VerseTafseerRepository.instance,
+      TafseerSourceRepository.instance,
     );
   }
 }

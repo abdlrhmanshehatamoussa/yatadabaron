@@ -51,14 +51,14 @@ class TafseerPage extends StatelessWidget {
 
   Widget _tafseerSelector({
     required TafseerPageBloc bloc,
-    required List<TafseerDTO> tafseers,
+    required List<TafseerSource> tafseers,
     required int tafseerId,
   }) {
     return Container(
       padding: EdgeInsets.all(10),
       alignment: Alignment.centerRight,
       child: DropdownButton<int>(
-        items: tafseers.map((TafseerDTO dto) {
+        items: tafseers.map((TafseerSource dto) {
           return DropdownMenuItem<int>(
             child: Text(dto.tafseerName),
             value: dto.tafseerId,
@@ -128,10 +128,10 @@ class TafseerPage extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: FutureBuilder<List<TafseerDTO>>(
+            child: FutureBuilder<List<TafseerSource>>(
               future: bloc.getAvailableTafseers(),
               builder: (_,
-                  AsyncSnapshot<List<TafseerDTO>> availableTafseerSnapshot) {
+                  AsyncSnapshot<List<TafseerSource>> availableTafseerSnapshot) {
                 if (availableTafseerSnapshot.hasData == false) {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -141,16 +141,16 @@ class TafseerPage extends StatelessWidget {
                     child: Text(Localization.NO_TRANSLATIONS_AVAILABLE),
                   );
                 } else {
-                  return StreamBuilder<TafseerResultDTO>(
+                  return StreamBuilder<VerseTafseer>(
                     stream: bloc.tafseerStream,
                     builder:
-                        (_, AsyncSnapshot<TafseerResultDTO> resultSnapshot) {
+                        (_, AsyncSnapshot<VerseTafseer> resultSnapshot) {
                       if (resultSnapshot.hasData) {
                         return Column(
                           children: [
                             _tafseerSelector(
                               bloc: bloc,
-                              tafseerId: resultSnapshot.data!.tafseerID,
+                              tafseerId: resultSnapshot.data!.tafseerSourceID,
                               tafseers: availableTafseerSnapshot.data!,
                             ),
                             Expanded(

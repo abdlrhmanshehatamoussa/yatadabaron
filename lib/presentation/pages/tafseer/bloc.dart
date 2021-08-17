@@ -13,9 +13,9 @@ class TafseerPageBloc {
   final int _verseId;
   final int _chapterId;
   final Function _onBookmarkSaved;
-  final CustomStreamController<TafseerResultDTO> _tafseerResultController =
-      CustomStreamController<TafseerResultDTO>();
-  Stream<TafseerResultDTO> get tafseerStream => _tafseerResultController.stream;
+  final CustomStreamController<VerseTafseer> _tafseerResultController =
+      CustomStreamController<VerseTafseer>();
+  Stream<VerseTafseer> get tafseerStream => _tafseerResultController.stream;
 
   Future<VerseDTO> loadVerseDTO() async {
     return await ServiceManager.instance.mushafService
@@ -29,9 +29,9 @@ class TafseerPageBloc {
     await Share.share(toCopy);
   }
 
-  Future<List<TafseerDTO>> getAvailableTafseers() async {
+  Future<List<TafseerSource>> getAvailableTafseers() async {
     var tafseers =
-        await ServiceManager.instance.mushafService.getAvailableTafseers();
+        await ServiceManager.instance.mushafService.getTafseerNames();
     if (tafseers.isNotEmpty) {
       await updateTafseerStream(tafseers.first.tafseerId);
     }
@@ -39,7 +39,7 @@ class TafseerPageBloc {
   }
 
   Future<void> updateTafseerStream(int tafseerId) async {
-    TafseerResultDTO result = await ServiceManager.instance.mushafService
+    VerseTafseer result = await ServiceManager.instance.mushafService
         .getTafseer(tafseerId, _verseId, _chapterId);
     _tafseerResultController.add(result);
   }

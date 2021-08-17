@@ -33,7 +33,7 @@ abstract class IMushafService {
 
   //Tafseer
   //========
-  Future<List<TafseerDTO>> getAvailableTafseers();
-  Future<TafseerResultDTO> getTafseer(
+  Future<List<TafseerSource>> getTafseerNames();
+  Future<VerseTafseer> getTafseer(
       int tafseerId, int verseId, int chapterId);
 }

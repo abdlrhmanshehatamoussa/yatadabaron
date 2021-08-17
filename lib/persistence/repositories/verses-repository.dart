@@ -1,8 +1,8 @@
 import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
-import './generic-repository.dart';
+import 'package:yatadabaron/modules/persistence.module.dart';
 
-class VersesRepository extends GenericRepository {
+class VersesRepository extends DatabaseRepository {
   static VersesRepository instance = VersesRepository._();
 
   VersesRepository._();

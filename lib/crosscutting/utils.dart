@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import './localization.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
@@ -198,5 +201,16 @@ class Utils {
       }
     }
     return reduced;
+  }
+
+  static Future<File?> getFile(String filePath) async {
+    Directory parentDirectory = await getApplicationDocumentsDirectory();
+    String fullPath = join(parentDirectory.path, filePath);
+    File file = File(fullPath);
+    bool fileExist = await file.exists();
+    if (fileExist) {
+      return file;
+    }
+    return null;
   }
 }

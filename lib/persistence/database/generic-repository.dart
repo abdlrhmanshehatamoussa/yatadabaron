@@ -2,7 +2,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'database-provider.dart';
 
-class GenericRepository{
+class DatabaseRepository{
   Database? database;
 
   Future checkDB() async{

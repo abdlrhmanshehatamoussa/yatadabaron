@@ -7,6 +7,6 @@ export 'package:yatadabaron/domain/dtos/statistics-payload.dart';
 export 'package:yatadabaron/domain/dtos/statistics-settings.dart';
 export 'package:yatadabaron/domain/dtos/verse-dto-collection.dart';
 export 'package:yatadabaron/domain/dtos/verse-dto.dart';
-export 'package:yatadabaron/domain/dtos/tafseer_result_dto.dart';
-export 'package:yatadabaron/domain/dtos/tafseer_dto.dart';
+export 'package:yatadabaron/domain/dtos/verse_tafseer.dart';
+export 'package:yatadabaron/domain/dtos/tafseer_source.dart';
 export 'package:yatadabaron/domain/enums/enums.dart';
