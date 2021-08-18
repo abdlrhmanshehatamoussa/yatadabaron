@@ -3,12 +3,28 @@ import 'package:yatadabaron/persistence/repositories/tafseer_source_repository.d
 import 'interface.dart';
 import 'tafseer-service.dart';
 
+class TafseerServiceConfigurations {
+  final String tafseerSourcesURL;
+  final String tafseerTextURL;
+
+  TafseerServiceConfigurations({
+    required this.tafseerSourcesURL,
+    required this.tafseerTextURL,
+  });
+}
+
 class TafseerServiceFactory {
-  static Future<ITafseerService> create() async {
+  static Future<ITafseerService> create(
+    TafseerServiceConfigurations config
+  ) async {
     await DatabaseProvider.initialize();
     return TafseerService(
-      VerseTafseerRepository.instance,
-      TafseerSourceRepository.instance,
+      VerseTafseerRepository(
+          remoteFileURL: config.tafseerTextURL
+      ),
+      TafseerSourceRepository(
+        remoteFileURL: config.tafseerSourcesURL
+      ),
     );
   }
 }

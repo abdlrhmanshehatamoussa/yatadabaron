@@ -15,9 +15,9 @@ abstract class IVerseTafseerRepository {
 }
 
 class VerseTafseerRepository implements IVerseTafseerRepository {
-  VerseTafseerRepository._();
+  final String remoteFileURL;
 
-  static VerseTafseerRepository instance = VerseTafseerRepository._();
+  VerseTafseerRepository({required this.remoteFileURL});
 
   @override
   Future<VerseTafseer> getTafseer({
@@ -27,7 +27,7 @@ class VerseTafseerRepository implements IVerseTafseerRepository {
   }) async {
     String? tafseerText;
     String fileName = _getFileName(chapterId, verseId, tafseerId);
-    File? tafseerTextFile = await Utils.getFile(fileName);
+    File? tafseerTextFile = await FileHelper.getIfExists(fileName);
     if (tafseerTextFile != null) {
       tafseerText = await tafseerTextFile.readAsString();
     }
@@ -41,18 +41,19 @@ class VerseTafseerRepository implements IVerseTafseerRepository {
 
   @override
   Future<void> sync(int tafseerId) {
-    // TODO: implement sync (remote => local, replace)
+    //TODO: implement sync (remote => local, replace)
     throw UnimplementedError();
   }
 
   @override
   Future<bool> any(int tafseerId) async {
     String fileName = _getFileName(1, 1, tafseerId);
-    File? file = await Utils.getFile(fileName);
-    return file != null;
+    bool fileExists = await FileHelper.exists(fileName);
+    return fileExists;
   }
 
   String get _directoryName => "tafseer";
+
   String _getFileName(int chapterId, int verseId, int tafseerId) {
     return "$_directoryName/$chapterId.$verseId.$tafseerId.txt";
   }

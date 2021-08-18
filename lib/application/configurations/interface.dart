@@ -9,5 +9,9 @@ abstract class IConfigurationService {
 
   String get versionName;
 
+  String get tafseerSourcesURL;
+
+  String get tafseerTextURL;
+
   int get versionNumber;
 }

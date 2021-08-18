@@ -32,21 +32,32 @@ class ServiceManager {
   }
 
   static Future<bool> initialize() async {
-    IConfigurationService _configurationService =
-        await ConfigurationServiceFactory.create();
-    IAnalyticsService _analyticsService =
-        await AnalyticsServiceFactory.create(_configurationService);
-    IUserDataService _userDataService = await UserDataServiceFactory.create();
-    IMushafService _mushafService = await MushafServiceFactory.create();
-    ITafseerService _tafseerService = await TafseerServiceFactory.create();
+    try {
+      IConfigurationService _configurationService =
+          await ConfigurationServiceFactory.create();
+      IAnalyticsService _analyticsService =
+          await AnalyticsServiceFactory.create(_configurationService);
+      IUserDataService _userDataService = await UserDataServiceFactory.create();
+      IMushafService _mushafService = await MushafServiceFactory.create();
 
-    ServiceManager.instance = ServiceManager._(
-      mushafService: _mushafService,
-      configurationService: _configurationService,
-      userDataService: _userDataService,
-      analyticsService: _analyticsService,
-      tafseerService: _tafseerService,
-    );
-    return true;
+      TafseerServiceConfigurations tafseerConfig = TafseerServiceConfigurations(
+        tafseerSourcesURL: _configurationService.tafseerSourcesURL,
+        tafseerTextURL: _configurationService.tafseerTextURL,
+      );
+      ITafseerService _tafseerService =
+          await TafseerServiceFactory.create(tafseerConfig);
+
+      ServiceManager.instance = ServiceManager._(
+        mushafService: _mushafService,
+        configurationService: _configurationService,
+        userDataService: _userDataService,
+        analyticsService: _analyticsService,
+        tafseerService: _tafseerService,
+      );
+      return true;
+    } catch (e) {
+      print("#Error: ${e.toString()}");
+      return false;
+    }
   }
 }

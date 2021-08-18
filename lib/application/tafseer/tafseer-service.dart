@@ -13,13 +13,18 @@ class TafseerService implements ITafseerService {
 
   @override
   Future<List<TafseerSource>> getTafseerSources() async {
-    List<TafseerSource> local = await _tafseerSourceRepository.getLocal();
-    if (local.isEmpty) {
-      await _tafseerSourceRepository.sync();
-      local = await _tafseerSourceRepository.getLocal();
+    try{
+      List<TafseerSource> local = await _tafseerSourceRepository.getLocal();
+      if (local.isEmpty) {
+        await _tafseerSourceRepository.sync();
+        local = await _tafseerSourceRepository.getLocal();
+        return local;
+      }
       return local;
+    }catch(e){
+      print(e.toString());
+      return [];
     }
-    return local;
   }
 
   @override

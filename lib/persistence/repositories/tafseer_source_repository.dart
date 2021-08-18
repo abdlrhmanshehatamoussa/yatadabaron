@@ -5,22 +5,26 @@ import 'package:http/http.dart';
 
 abstract class ITafseerSourceRepository {
   Future<void> sync();
+
   Future<List<TafseerSource>> getLocal();
+
   Future<void> addLocal(List<TafseerSource> sources);
+
   Future<List<TafseerSource>> getRemote();
 }
 
 class TafseerSourceRepository implements ITafseerSourceRepository {
-  TafseerSourceRepository._();
+  final String remoteFileURL;
 
-  static TafseerSourceRepository instance = TafseerSourceRepository._();
+  TafseerSourceRepository({required this.remoteFileURL});
 
   String get _tafseerSourcesFileName => "tafseer_sources.csv";
 
   @override
   Future<List<TafseerSource>> getLocal() async {
     List<TafseerSource> results = [];
-    File? tafseerSourcesFile = await Utils.getFile(_tafseerSourcesFileName);
+    File? tafseerSourcesFile =
+        await FileHelper.getIfExists(_tafseerSourcesFileName);
     if (tafseerSourcesFile != null) {
       List<String> lines = await tafseerSourcesFile.readAsLines();
       results = _parseString(lines);
@@ -30,9 +34,7 @@ class TafseerSourceRepository implements ITafseerSourceRepository {
 
   @override
   Future<List<TafseerSource>> getRemote() async {
-    String remoteURL =
-        "https://raw.githubusercontent.com/abdlrhmanshehatamoussa/quran_tafseer/main/tafseer_sources.csv";
-    Uri uri = Uri.parse(remoteURL);
+    Uri uri = Uri.parse(this.remoteFileURL);
     final Response response = await get(uri);
     if ((response.contentLength ?? 0) > 0 && response.body.isNotEmpty) {
       String remoteContext = response.body;
@@ -77,23 +79,18 @@ class TafseerSourceRepository implements ITafseerSourceRepository {
   @override
   Future<void> addLocal(List<TafseerSource> sources) async {
     List<TafseerSource> existing = await getLocal();
-    List<String> lines = [];
+    List<String> newLines = [];
     for (var source in sources) {
       if (existing.any((e) => e.tafseerId == source.tafseerId) == false) {
-        lines.add(
+        newLines.add(
           "${source.tafseerId},${source.tafseerName},${source.tafseerNameEnglish}",
         );
       }
     }
-    if (lines.isNotEmpty) {
-      File f = new File(_tafseerSourcesFileName);
-      String content = lines.join("\n");
-
-      if (existing.isNotEmpty) {
-        await f.writeAsString(content, mode: FileMode.append);
-      } else {
-        await f.writeAsString(content,flush: true);
-      }
+    if (newLines.isNotEmpty) {
+      String content = newLines.join("\n");
+      File file = await FileHelper.create(_tafseerSourcesFileName);
+      await file.writeAsString(content, mode: FileMode.append);
     }
   }
 }

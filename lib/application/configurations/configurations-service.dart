@@ -10,6 +10,9 @@ class ConfigurationService implements IConfigurationService {
   static const String _CLOUDHUB_CLIENT_KEY = "CLOUDHUB_CLIENT_KEY";
   static const String _CLOUDHUB_CLIENT_SECRET = "CLOUDHUB_CLIENT_SECRET";
   static const String _CLOUDHUB_APP_GUID = "CLOUDHUB_APP_GUID";
+  static const String _TAFSEER_SOURCES_URL = "TAFSEER_SOURCES_URL";
+  static const String _TAFSEER_TEXT_URL = "TAFSEER_TEXT_URL";
+
   final PackageInfo _packageInfo;
 
   @override
@@ -37,6 +40,12 @@ class ConfigurationService implements IConfigurationService {
     }
   }
 
+  @override
+  String get tafseerSourcesURL => _getKey(_TAFSEER_SOURCES_URL);
+
+  @override
+  String get tafseerTextURL => _getKey(_TAFSEER_TEXT_URL);
+
   String _getKey(String key) {
     String? value = dotenv.env[key];
     if (value != null) {
@@ -44,4 +53,5 @@ class ConfigurationService implements IConfigurationService {
     }
     throw new Exception("Error while loading configurations [$key]");
   }
+
 }
