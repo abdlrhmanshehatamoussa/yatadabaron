@@ -7,14 +7,10 @@ class MushafService implements IMushafService {
   MushafService(
     this._chaptersRepository,
     this._versesRepository,
-    this._verseTafseerRepository,
-    this._tafseerSourceRepository,
   );
 
   final ChaptersRepository _chaptersRepository;
   final VersesRepository _versesRepository;
-  final IVerseTafseerRepository _verseTafseerRepository;
-  final ITafseerSourceRepository _tafseerSourceRepository;
 
   //Verses
   //=========
@@ -64,25 +60,5 @@ class MushafService implements IMushafService {
   //Get Full Chapter
   Future<ChapterFullDTO> getFullChapterById(int chapterID) async {
     return await _chaptersRepository.getFullChapterById(chapterID);
-  }
-
-  //Tafseer
-  //=======
-  @override
-  Future<List<TafseerSource>> getTafseerNames() async {
-    return await _tafseerSourceRepository.getAll();
-  }
-
-  @override
-  Future<VerseTafseer> getTafseer(
-    int tafseerId,
-    int verseId,
-    int chapterId,
-  ) async {
-    return await _verseTafseerRepository.getTafseer(
-      chapterId: chapterId,
-      verseId: verseId,
-      tafseerId: tafseerId,
-    );
   }
 }

@@ -30,10 +30,4 @@ abstract class IMushafService {
 
   //Get Full Chapter
   Future<ChapterFullDTO> getFullChapterById(int chapterID);
-
-  //Tafseer
-  //========
-  Future<List<TafseerSource>> getTafseerNames();
-  Future<VerseTafseer> getTafseer(
-      int tafseerId, int verseId, int chapterId);
 }

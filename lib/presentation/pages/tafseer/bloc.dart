@@ -31,7 +31,7 @@ class TafseerPageBloc {
 
   Future<List<TafseerSource>> getAvailableTafseers() async {
     var tafseers =
-        await ServiceManager.instance.mushafService.getTafseerNames();
+        await ServiceManager.instance.tafseerService.getTafseerSources();
     if (tafseers.isNotEmpty) {
       await updateTafseerStream(tafseers.first.tafseerId);
     }
@@ -39,7 +39,7 @@ class TafseerPageBloc {
   }
 
   Future<void> updateTafseerStream(int tafseerId) async {
-    VerseTafseer result = await ServiceManager.instance.mushafService
+    VerseTafseer result = await ServiceManager.instance.tafseerService
         .getTafseer(tafseerId, _verseId, _chapterId);
     _tafseerResultController.add(result);
   }

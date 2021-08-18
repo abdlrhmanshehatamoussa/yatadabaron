@@ -5,12 +5,14 @@ class ServiceManager {
   final IConfigurationService configurationService;
   final IUserDataService userDataService;
   final IAnalyticsService analyticsService;
+  final ITafseerService tafseerService;
 
   ServiceManager._({
     required this.mushafService,
     required this.configurationService,
     required this.userDataService,
     required this.analyticsService,
+    required this.tafseerService,
   });
 
   static ServiceManager? _instance;
@@ -36,12 +38,14 @@ class ServiceManager {
         await AnalyticsServiceFactory.create(_configurationService);
     IUserDataService _userDataService = await UserDataServiceFactory.create();
     IMushafService _mushafService = await MushafServiceFactory.create();
+    ITafseerService _tafseerService = await TafseerServiceFactory.create();
 
     ServiceManager.instance = ServiceManager._(
       mushafService: _mushafService,
       configurationService: _configurationService,
       userDataService: _userDataService,
       analyticsService: _analyticsService,
+      tafseerService: _tafseerService,
     );
     return true;
   }
