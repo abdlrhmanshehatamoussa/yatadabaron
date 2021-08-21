@@ -160,6 +160,7 @@ class Utils {
   }) async {
     await showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) {
         return AlertDialog(
           title: Text(title),
