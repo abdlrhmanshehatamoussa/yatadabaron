@@ -148,9 +148,7 @@ class SearchForm extends StatelessWidget {
       Function? onPressed,
       required String text}) {
     return ElevatedButton(
-      onPressed: onPressed as void Function()?,
-      child: Text(text)
-    );
+        onPressed: onPressed as void Function()?, child: Text(text));
   }
 
   Widget searchButton(BuildContext context) {
@@ -158,12 +156,10 @@ class SearchForm extends StatelessWidget {
       padding: EdgeInsets.all(5),
       child: _customButton(
           context: context,
-          onPressed: () {
+          onPressed: () async {
             try {
               this.bloc.changeSettings(settings);
-            } catch (e) {
-              //TODO: log
-            }
+            } catch (e) {}
             Navigator.of(context).pop();
           },
           text: Localization.SEARCH),

@@ -1,3 +1,4 @@
+import 'package:yatadabaron/application/service-manager.dart';
 import 'package:yatadabaron/application/tafseer/interface.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:yatadabaron/modules/persistence.module.dart';
@@ -22,7 +23,7 @@ class TafseerService implements ITafseerService {
       }
       return local;
     } catch (e) {
-      //TODO: log
+      await _logError("getTafseerSources", e.toString());
       return [];
     }
   }
@@ -42,11 +43,23 @@ class TafseerService implements ITafseerService {
 
   @override
   Future<bool> syncTafseer(int tafseerId) async {
-    return await _verseTafseerRepository.sync(tafseerId);
+    try {
+      return await _verseTafseerRepository.sync(tafseerId);
+    } catch (e) {
+      await _logError("syncTafseer", e.toString());
+      return false;
+    }
   }
 
   @override
   Future<int> getTafseerSizeMB(int tafseerSourceID) async {
     return await _verseTafseerRepository.getTafseerSizeMB(tafseerSourceID);
+  }
+
+  Future<void> _logError(String functionName, String error) async {
+    await ServiceManager.instance.analyticsService.logError(
+      error: "$functionName: $error",
+      location: "TAFSEER SERVICE",
+    );
   }
 }

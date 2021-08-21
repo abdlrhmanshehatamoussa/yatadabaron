@@ -6,5 +6,7 @@ abstract class IAnalyticsService {
   Future<void> logFormFilled(String desc,
       {String payload = ""});
 
+  Future<void> logError({required String location,required String error});
+
   Future<void> syncAllLogs();
 }

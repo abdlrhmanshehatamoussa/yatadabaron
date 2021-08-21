@@ -57,9 +57,19 @@ class AnalyticsService implements IAnalyticsService {
               payload: payload,
             );
         await _pref.setStringList(ACTIONS_SHARED_PREF_KEY, []);
-      } catch (e) {
-      }
+      } catch (e) {}
     }
+  }
+
+  @override
+  Future<void> logError(
+      {required String location, required String error}) async {
+    await _logAction(
+      appVersion: this._appVersion,
+      payload: error,
+      category: "ERROR",
+      description: location,
+    );
   }
 
   Future<void> _logAction({

@@ -69,7 +69,7 @@ class TafseerPageBloc {
       done = await ServiceManager.instance.tafseerService
           .syncTafseer(tafseerSourceID);
     } catch (e) {
-      //TODO: Log
+      done = false;
     }
     if (done) {
       await updateTafseerStream(tafseerSourceID);
@@ -88,7 +88,6 @@ class TafseerPageBloc {
       return await ServiceManager.instance.tafseerService
           .getTafseerSizeMB(tafseerSourceID);
     } catch (e) {
-      //TODO: log
       return 0;
     }
   }
