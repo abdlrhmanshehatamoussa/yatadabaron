@@ -37,31 +37,6 @@ class SearchResultsList extends StatelessWidget {
           );
         }
         List<VerseCollection> collections = snapshot.data!.verseCollections;
-        if (collections.length == 1) {
-          return ListView.separated(
-            itemCount: results.length,
-            separatorBuilder: (_, __) => Divider(
-              thickness: 1,
-            ),
-            itemBuilder: (_, i) {
-              VerseDTO verse = results[i];
-
-              return ListTile(
-                title: SearchResultsListItem(
-                  verseTextTashkel: verse.verseTextTashkel,
-                  verseID: verse.verseID,
-                  keyword: settings.keyword,
-                  onlyIfExact: settings.mode == SearchMode.WORD,
-                  verseText: verse.verseText,
-                  matchColor: Theme.of(context).colorScheme.secondary,
-                ),
-                onTap: () {
-                  snapshot.data!.copyVerse(verse);
-                },
-              );
-            },
-          );
-        }
         return ListView.builder(
           itemCount: collections.length,
           itemBuilder: (BuildContext context, int i) {
@@ -84,6 +59,10 @@ class SearchResultsList extends StatelessWidget {
                 ),
               ),
               children: verses.map((VerseDTO verse) {
+                Widget? trailing;
+                if(collections.length > 1){
+                  trailing = Text(verse.chapterName!);
+                }
                 return Column(
                   children: <Widget>[
                     ListTile(
@@ -95,7 +74,7 @@ class SearchResultsList extends StatelessWidget {
                         onlyIfExact: settings.mode == SearchMode.WORD,
                         matchColor: Theme.of(context).colorScheme.secondary,
                       ),
-                      trailing: Text(verse.chapterName!),
+                      trailing: trailing,
                       onTap: () {
                         navigateToMushaf(verse.chapterId, verse.verseID);
                       },
