@@ -29,7 +29,7 @@ class ChaptersDropDown extends StatelessWidget {
             itemCount: chapters.length,
             itemBuilder: (_, int i) {
               ChapterSimpleDTO chapter = chapters[i];
-              String idStr = ArabicNumbersService.insance
+              String idStr = ArabicNumbersService.instance
                   .convert(chapter.chapterID, reverse: false);
               return ListTile(
                 title: Text(

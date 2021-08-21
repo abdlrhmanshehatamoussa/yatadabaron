@@ -35,7 +35,7 @@ class TafseerSection extends StatelessWidget {
             if (snapshot.hasData) {
               String message = Localization.CLICK_TO_DOWNLOAD_TAFSEER;
               if (snapshot.data! > 0) {
-                String size = ArabicNumbersService.insance
+                String size = ArabicNumbersService.instance
                     .convert(snapshot.data, reverse: false);
                 message += " " + Localization.MEGA_BYTES.replaceFirst("%", size);
               }

@@ -16,7 +16,7 @@ class StatisticsPayload{
     results.forEach((LetterFrequency lf){
       totalCount += lf.frequency;
     });
-    String totalCountAr = ArabicNumbersService.insance.convert(totalCount,reverse: false);
+    String totalCountAr = ArabicNumbersService.instance.convert(totalCount,reverse: false);
     result = Utils.replaceMultiple(result, "#", [this.chapterName,basmalaState,totalCountAr]);
     return result;
   }

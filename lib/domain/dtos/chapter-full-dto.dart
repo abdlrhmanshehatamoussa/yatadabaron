@@ -15,7 +15,7 @@ class ChapterFullDTO {
         ? Localization.MECCA_LOCATION
         : Localization.MADINA_LOCATION;
     String versesCountInArabic =
-        ArabicNumbersService.insance.convert(versesCount,reverse: false);
+        ArabicNumbersService.instance.convert(versesCount,reverse: false);
     String prefix = Localization.VERSE;
     if (versesCount! <= 10) {
       prefix = Localization.VERSES;

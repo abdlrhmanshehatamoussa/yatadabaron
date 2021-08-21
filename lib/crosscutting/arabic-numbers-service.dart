@@ -1,8 +1,7 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
 
 class ArabicNumbersService {
-  //TODO: Rename
-  static ArabicNumbersService insance = ArabicNumbersService._();
+  static ArabicNumbersService instance = ArabicNumbersService._();
   ArabicNumbersService._();
 
   ArabicNumbers _converter = ArabicNumbers();

@@ -18,7 +18,7 @@ class MushafVerseListItem extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    String verseIdStr = ArabicNumbersService.insance.convert(this.verseID);
+    String verseIdStr = ArabicNumbersService.instance.convert(this.verseID);
     return Text.rich(
       TextSpan(
         children: [

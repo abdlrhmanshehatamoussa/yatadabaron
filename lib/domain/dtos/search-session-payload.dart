@@ -42,9 +42,9 @@ class SearchSessionPayload {
         original,
         "#",
         [
-          ArabicNumbersService.insance.convert(count, reverse: false),
+          ArabicNumbersService.instance.convert(count, reverse: false),
           settings.keyword,
-          ArabicNumbersService.insance.convert(chaptersCount, reverse: false),
+          ArabicNumbersService.instance.convert(chaptersCount, reverse: false),
         ],
       );
       return original;
@@ -54,7 +54,7 @@ class SearchSessionPayload {
         original,
         "#",
         [
-          ArabicNumbersService.insance.convert(count, reverse: false),
+          ArabicNumbersService.instance.convert(count, reverse: false),
           settings.keyword,
           chapterName,
         ],

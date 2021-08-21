@@ -111,7 +111,7 @@ class Utils {
     bool? isMasculine,
   }) {
     String countAr =
-        ArabicNumbersService.insance.convert(count, reverse: false);
+        ArabicNumbersService.instance.convert(count, reverse: false);
     if (count == 1) {
       if (isMasculine!) {
         return "$single ${Localization.ONE_MASC}";

@@ -34,7 +34,7 @@ class FrequencyTable extends StatelessWidget {
                   ),
                 ],
                 rows: snapshot.data!.results.map((LetterFrequency lf) {
-                  String freq = ArabicNumbersService.insance.convert(
+                  String freq = ArabicNumbersService.instance.convert(
                     lf.frequency,
                     reverse: false,
                   );

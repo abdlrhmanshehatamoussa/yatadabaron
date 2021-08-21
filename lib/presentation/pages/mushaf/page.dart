@@ -29,7 +29,7 @@ class MushafPage extends StatelessWidget {
                       builder: (_, snapshot) {
                         if (snapshot.hasData) {
                           String? chName = snapshot.data!.chapterNameAR;
-                          String chId = ArabicNumbersService.insance.convert(
+                          String chId = ArabicNumbersService.instance.convert(
                               snapshot.data!.chapterId,
                               reverse: false);
                           String title = "$chId - $chName";
