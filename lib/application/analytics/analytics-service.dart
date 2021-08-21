@@ -58,10 +58,7 @@ class AnalyticsService implements IAnalyticsService {
             );
         await _pref.setStringList(ACTIONS_SHARED_PREF_KEY, []);
       } catch (e) {
-        print("Error occurred while synchronizing actions: ${e.toString()}");
       }
-    } else {
-      print("No actions found to be synchronized.");
     }
   }
 

@@ -10,6 +10,13 @@ class FileHelper {
     return exists;
   }
 
+  static Future<File> createAtTemp(String fileName) async {
+    Directory tempDir = await getTemporaryDirectory();
+    String fullPath = join(tempDir.path, fileName);
+    File file = File(fullPath);
+    return file;
+  }
+
   static Future<File> create(String fileName) async {
     String fullPath = await getAppFilePath(fileName);
     File file = File(fullPath);

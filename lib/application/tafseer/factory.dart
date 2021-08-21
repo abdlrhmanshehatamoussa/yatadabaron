@@ -20,7 +20,7 @@ class TafseerServiceFactory {
     await DatabaseProvider.initialize();
     return TafseerService(
       VerseTafseerRepository(
-          remoteFileURL: config.tafseerTextURL
+          remoteURL: config.tafseerTextURL
       ),
       TafseerSourceRepository(
         remoteFileURL: config.tafseerSourcesURL

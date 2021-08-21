@@ -6,11 +6,7 @@ import 'package:http/http.dart';
 abstract class ITafseerSourceRepository {
   Future<void> sync();
 
-  Future<List<TafseerSource>> getLocal();
-
-  Future<void> addLocal(List<TafseerSource> sources);
-
-  Future<List<TafseerSource>> getRemote();
+  Future<List<TafseerSource>> fetch();
 }
 
 class TafseerSourceRepository implements ITafseerSourceRepository {
@@ -21,7 +17,7 @@ class TafseerSourceRepository implements ITafseerSourceRepository {
   String get _tafseerSourcesFileName => "tafseer_sources.csv";
 
   @override
-  Future<List<TafseerSource>> getLocal() async {
+  Future<List<TafseerSource>> fetch() async {
     List<TafseerSource> results = [];
     File? tafseerSourcesFile =
         await FileHelper.getIfExists(_tafseerSourcesFileName);
@@ -33,7 +29,21 @@ class TafseerSourceRepository implements ITafseerSourceRepository {
   }
 
   @override
-  Future<List<TafseerSource>> getRemote() async {
+  Future<void> sync() async {
+    List<TafseerSource> remote = await _getRemote();
+    List<TafseerSource> local = await fetch();
+    List<TafseerSource> diff = [];
+    for (var source in remote) {
+      bool exists =
+          local.any((TafseerSource s) => s.tafseerId == source.tafseerId);
+      if (!exists) {
+        diff.add(source);
+      }
+    }
+    await _addLocal(diff);
+  }
+
+  Future<List<TafseerSource>> _getRemote() async {
     Uri uri = Uri.parse(this.remoteFileURL);
     final Response response = await get(uri);
     if ((response.contentLength ?? 0) > 0 && response.body.isNotEmpty) {
@@ -61,24 +71,8 @@ class TafseerSourceRepository implements ITafseerSourceRepository {
     return results;
   }
 
-  @override
-  Future<void> sync() async {
-    List<TafseerSource> remote = await getRemote();
-    List<TafseerSource> local = await getLocal();
-    List<TafseerSource> diff = [];
-    for (var source in remote) {
-      bool exists =
-          local.any((TafseerSource s) => s.tafseerId == source.tafseerId);
-      if (!exists) {
-        diff.add(source);
-      }
-    }
-    await addLocal(diff);
-  }
-
-  @override
-  Future<void> addLocal(List<TafseerSource> sources) async {
-    List<TafseerSource> existing = await getLocal();
+  Future<void> _addLocal(List<TafseerSource> sources) async {
+    List<TafseerSource> existing = await fetch();
     List<String> newLines = [];
     for (var source in sources) {
       if (existing.any((e) => e.tafseerId == source.tafseerId) == false) {

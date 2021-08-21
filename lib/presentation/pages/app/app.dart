@@ -65,7 +65,6 @@ class App extends StatelessWidget {
       await ServiceManager.instance.analyticsService.syncAllLogs();
     return true;
     }catch(e){
-      print(e.toString());
       return false;
     }
   }

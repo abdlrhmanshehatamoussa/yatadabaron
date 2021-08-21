@@ -40,7 +40,6 @@ class UserDataRepository {
     try {
       return this._preferences.getInt(k);
     } catch (e) {
-      print(e);
       return null;
     }
   }

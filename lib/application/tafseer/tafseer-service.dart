@@ -13,16 +13,16 @@ class TafseerService implements ITafseerService {
 
   @override
   Future<List<TafseerSource>> getTafseerSources() async {
-    try{
-      List<TafseerSource> local = await _tafseerSourceRepository.getLocal();
+    try {
+      List<TafseerSource> local = await _tafseerSourceRepository.fetch();
       if (local.isEmpty) {
         await _tafseerSourceRepository.sync();
-        local = await _tafseerSourceRepository.getLocal();
+        local = await _tafseerSourceRepository.fetch();
         return local;
       }
       return local;
-    }catch(e){
-      print(e.toString());
+    } catch (e) {
+      //TODO: log
       return [];
     }
   }
@@ -33,10 +33,20 @@ class TafseerService implements ITafseerService {
     int verseId,
     int chapterId,
   ) async {
-    return await _verseTafseerRepository.getTafseer(
+    return await _verseTafseerRepository.fetch(
       chapterId: chapterId,
       verseId: verseId,
       tafseerId: tafseerId,
     );
+  }
+
+  @override
+  Future<bool> syncTafseer(int tafseerId) async {
+    return await _verseTafseerRepository.sync(tafseerId);
+  }
+
+  @override
+  Future<int> getTafseerSizeMB(int tafseerSourceID) async {
+    return await _verseTafseerRepository.getTafseerSizeMB(tafseerSourceID);
   }
 }

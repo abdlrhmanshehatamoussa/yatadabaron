@@ -15,6 +15,7 @@ class TafseerPageBloc {
   final Function _onBookmarkSaved;
   final CustomStreamController<VerseTafseer> _tafseerResultController =
       CustomStreamController<VerseTafseer>();
+
   Stream<VerseTafseer> get tafseerStream => _tafseerResultController.stream;
 
   Future<VerseDTO> loadVerseDTO() async {
@@ -55,5 +56,40 @@ class TafseerPageBloc {
       title: Localization.BOOKMARK_SAVED,
     );
     Navigator.of(context).pop();
+  }
+
+  Future<void> downloadTafseerSource(
+      int tafseerSourceID, BuildContext context) async {
+    bool done = false;
+    Utils.showPleaseWaitDialog(
+        context: context,
+        text: Localization.DOWNLOADING,
+        title: Localization.PLEASE_WAIT);
+    try {
+      done = await ServiceManager.instance.tafseerService
+          .syncTafseer(tafseerSourceID);
+    } catch (e) {
+      //TODO: Log
+    }
+    if (done) {
+      await updateTafseerStream(tafseerSourceID);
+      Navigator.of(context).pop();
+    } else {
+      Navigator.of(context).pop();
+      await Utils.showCustomDialog(
+          context: context,
+          text: Localization.DOWNLOAD_ERROR,
+          title: Localization.ERROR);
+    }
+  }
+
+  Future<int> getTafseerSizeMB(int tafseerSourceID) async {
+    try {
+      return await ServiceManager.instance.tafseerService
+          .getTafseerSizeMB(tafseerSourceID);
+    } catch (e) {
+      //TODO: log
+      return 0;
+    }
   }
 }

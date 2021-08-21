@@ -1,102 +1,20 @@
-import 'package:yatadabaron/crosscutting/arabic-numbers-service.dart';
 import 'package:yatadabaron/domain/dtos/verse-dto.dart';
 import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'bloc.dart';
+import 'widgets/app_bar.dart';
+import 'widgets/selector.dart';
+import 'widgets/tafseer_section.dart';
+import 'widgets/verse_section.dart';
 
 class TafseerPage extends StatelessWidget {
-  Widget _tafseerVerseTile({
-    required BuildContext context,
-    required String verseTextTashkeel,
-    required String chapterName,
-    required int verseId,
-  }) {
-    String verseIdArabic = ArabicNumbersService.insance.convert(verseId);
-    return Container(
-      padding: EdgeInsets.all(5),
-      child: ListTile(
-        title: Text(
-          verseTextTashkeel,
-          style: TextStyle(
-            fontSize: 25,
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-        ),
-        subtitle: Text(
-          '$chapterName - [$verseIdArabic]',
-          style: TextStyle(
-            fontSize: 15,
-            fontFamily: 'Arabic',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _tafseerTile({
-    required BuildContext context,
-    required String? tafseer,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(15),
-      child: Text(
-        tafseer ?? Localization.DOWNLOAD_TRANSLATION_FIRST,
-        style: TextStyle(fontSize: 17, fontFamily: 'Arial'),
-      ),
-    );
-  }
-
-  Widget _tafseerSelector({
-    required TafseerPageBloc bloc,
-    required List<TafseerSource> tafseers,
-    required int tafseerId,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      alignment: Alignment.centerRight,
-      child: DropdownButton<int>(
-        items: tafseers.map((TafseerSource dto) {
-          return DropdownMenuItem<int>(
-            child: Text(dto.tafseerName),
-            value: dto.tafseerId,
-          );
-        }).toList(),
-        value: tafseerId,
-        onChanged: (int? selection) {
-          if (selection != null) {
-            bloc.updateTafseerStream(selection);
-          }
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     TafseerPageBloc bloc = Provider.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Localization.TAFSEER_PAGE),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(40),
-          child: ButtonBar(
-            children: [
-              IconButton(
-                onPressed: () async =>
-                    await bloc.onSaveBookmarkClicked(context),
-                icon: Icon(Icons.bookmark),
-              ),
-              IconButton(
-                onPressed: () async => await bloc.shareVerse(),
-                icon: Icon(Icons.share),
-              )
-            ],
-          ),
-        ),
-      ),
+      appBar: TafseerAppBar.build(context),
       body: Column(
         children: [
           Divider(
@@ -111,8 +29,7 @@ class TafseerPage extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return CircularProgressIndicator();
                   } else {
-                    return _tafseerVerseTile(
-                      context: context,
+                    return VerseSection(
                       chapterName: snapshot.data!.chapterName ?? "",
                       verseTextTashkeel: snapshot.data!.verseTextTashkel ?? "",
                       verseId: snapshot.data!.verseID ?? -1,
@@ -143,21 +60,20 @@ class TafseerPage extends StatelessWidget {
                 } else {
                   return StreamBuilder<VerseTafseer>(
                     stream: bloc.tafseerStream,
-                    builder:
-                        (_, AsyncSnapshot<VerseTafseer> resultSnapshot) {
+                    builder: (_, AsyncSnapshot<VerseTafseer> resultSnapshot) {
                       if (resultSnapshot.hasData) {
                         return Column(
                           children: [
-                            _tafseerSelector(
-                              bloc: bloc,
+                            TafseerSelector(
                               tafseerId: resultSnapshot.data!.tafseerSourceID,
                               tafseers: availableTafseerSnapshot.data!,
                             ),
                             Expanded(
                               child: SingleChildScrollView(
-                                child: _tafseerTile(
-                                  context: context,
+                                child: TafseerSection(
                                   tafseer: resultSnapshot.data!.tafseerText,
+                                  tafseerSourceID:
+                                      resultSnapshot.data!.tafseerSourceID,
                                 ),
                               ),
                             ),

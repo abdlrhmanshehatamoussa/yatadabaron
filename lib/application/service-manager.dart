@@ -56,7 +56,6 @@ class ServiceManager {
       );
       return true;
     } catch (e) {
-      print("#Error: ${e.toString()}");
       return false;
     }
   }

@@ -162,7 +162,7 @@ class SearchForm extends StatelessWidget {
             try {
               this.bloc.changeSettings(settings);
             } catch (e) {
-              print("Error: ${e.toString()}");
+              //TODO: log
             }
             Navigator.of(context).pop();
           },

@@ -153,6 +153,35 @@ class Utils {
     );
   }
 
+  static Future<void> showPleaseWaitDialog({
+    required BuildContext context,
+    required String title,
+    required String text,
+  }) async {
+    await showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text(title),
+          content: SizedBox(
+            height: 100,
+            child: Column(
+              children: [
+                CircularProgressIndicator(),
+                Expanded(
+                  child: Center(
+                    child: Text(text),
+                  ),
+                )
+              ],
+            ),
+          ),
+          actions: [],
+        );
+      },
+    );
+  }
+
   static List<int> findIndicesOfChar(String textTashkel, String char) {
     List<int> result = [];
     if (textTashkel.isNotEmpty) {
