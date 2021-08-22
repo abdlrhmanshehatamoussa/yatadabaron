@@ -77,9 +77,10 @@ class TafseerPageBloc {
     } else {
       Navigator.of(context).pop();
       await Utils.showCustomDialog(
-          context: context,
-          text: Localization.DOWNLOAD_ERROR,
-          title: Localization.ERROR);
+        context: context,
+        text: Localization.NO_TRANSLATIONS_AVAILABLE,
+        title: Localization.ERROR,
+      );
     }
   }
 

@@ -36,6 +36,8 @@ jobs:
           echo "::set-output name=CLOUDHUB_CLIENT_KEY::${lane}_CLOUDHUB_CLIENT_KEY"
           echo "::set-output name=CLOUDHUB_CLIENT_SECRET::${lane}_CLOUDHUB_CLIENT_SECRET"
           echo "::set-output name=CLOUDHUB_APP_GUID::${lane}_CLOUDHUB_APP_GUID"
+          echo "::set-output name=TAFSEER_SOURCES_URL::${lane}_TAFSEER_SOURCES_URL"
+          echo "::set-output name=TAFSEER_TEXT_URL::${lane}_TAFSEER_TEXT_URL"
 
       - name: Creating Keystore file
         run: |
@@ -83,6 +85,8 @@ jobs:
           echo CLOUDHUB_CLIENT_KEY="${{secrets[steps.gitsecrets.outputs.CLOUDHUB_CLIENT_KEY]}}">>.env
           echo CLOUDHUB_CLIENT_SECRET="${{secrets[steps.gitsecrets.outputs.CLOUDHUB_CLIENT_SECRET]}}">>.env
           echo CLOUDHUB_APP_GUID="${{secrets[steps.gitsecrets.outputs.CLOUDHUB_APP_GUID] }}">>.env
+          echo TAFSEER_SOURCES_URL="${{secrets[steps.gitsecrets.outputs.TAFSEER_SOURCES_URL]}}">>.env
+          echo TAFSEER_TEXT_URL="${{secrets[steps.gitsecrets.outputs.TAFSEER_TEXT_URL] }}">>.env
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1

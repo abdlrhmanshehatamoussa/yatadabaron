@@ -21,6 +21,7 @@ class AboutPage extends StatelessWidget {
     List<String> statements = [
       Localization.APP_DESCRIPTION,
       Localization.MUSHAF_DESCRIPTION,
+      Localization.TAFSEER_ABOUT
     ];
     return CustomPageWrapper(
       pageTitle: Localization.ABOUT,
