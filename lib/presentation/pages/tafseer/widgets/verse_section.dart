@@ -14,7 +14,7 @@ class VerseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String verseIdArabic = ArabicNumbersService.instance.convert(verseId);
+    String verseIdArabic = ArabicNumbersService.instance.convert(verseId,reverse: true);
     return Container(
       padding: EdgeInsets.all(5),
       child: ListTile(
@@ -29,7 +29,7 @@ class VerseSection extends StatelessWidget {
           '$chapterName - [$verseIdArabic]',
           style: TextStyle(
             fontSize: 15,
-            fontFamily: 'Arabic',
+            fontFamily: 'Arial',
             fontWeight: FontWeight.bold,
           ),
         ),
