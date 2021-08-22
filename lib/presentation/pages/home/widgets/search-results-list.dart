@@ -14,7 +14,7 @@ class SearchResultsList extends StatelessWidget {
   Widget build(BuildContext context) {
     void navigateToMushaf(int? chapterId, int? verseId) {
       if (chapterId != null && verseId != null) {
-        MushafPage.pushReplacement(context, chapterId, verseId);
+        MushafPage.push(context, chapterId, verseId);
       }
     }
 

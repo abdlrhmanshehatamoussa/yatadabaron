@@ -85,6 +85,10 @@ class MushafPage extends StatelessWidget {
     Navigator.of(context).pushReplacement(_getPageRoute(chapterId, verseId));
   }
 
+  static void push(BuildContext context, int? chapterId, int? verseId) {
+    Navigator.of(context).push(_getPageRoute(chapterId, verseId));
+  }
+
   static MaterialPageRoute _getPageRoute(int? chapterId, int? verseId) {
     return MaterialPageRoute(
       builder: (context) => Provider(
