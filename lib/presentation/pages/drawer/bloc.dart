@@ -37,6 +37,10 @@ class DrawerBloc {
     StatisticsPage.pushReplacement(context);
   }
 
+  void navigateNewFeatures(BuildContext context) {
+    NewFeaturesPage.pushReplacement(context);
+  }
+
   void toggleNightMode(bool mode, ThemeBloc bloc) {
     if (mode == true) {
       bloc.updateTheme(ThemeDataWrapper.dark());

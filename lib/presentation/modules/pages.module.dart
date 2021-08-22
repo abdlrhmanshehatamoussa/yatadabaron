@@ -6,3 +6,4 @@ export '../pages/splash/page.dart';
 export '../pages/statistics/page.dart';
 export '../pages/app/app.dart';
 export '../pages/tafseer/page.dart';
+export '../pages/release_notes/page.dart';

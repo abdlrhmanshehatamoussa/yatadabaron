@@ -63,4 +63,6 @@ class Localization {
   static const String CLICK_TO_DOWNLOAD_TAFSEER = "اضغط لتحميل التفسير";
   static const String MEGA_BYTES = "[% ميجا بايت]";
   static const String TAFSEER_ABOUT = "التفسيرات المتاحة مصدرها https://github.com/Mr-DDDAlKilanny/tafseer-sqlite-db";
+  static const String RELEASE_NOTES = "أحدث الاصدارات";
+  static const String RELEASE_NAME  = "رقم الاصدار";
 }
