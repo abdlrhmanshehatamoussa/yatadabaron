@@ -14,7 +14,7 @@ class VerseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String verseIdArabic = ArabicNumbersService.instance.convert(verseId,reverse: true);
+    String verseIdArabic = ArabicNumbersService.instance.convert(verseId,reverse: false);
     return Container(
       padding: EdgeInsets.all(5),
       child: ListTile(
