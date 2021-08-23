@@ -1,6 +1,5 @@
 import './localization.dart';
 import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
 
 import 'arabic-numbers-service.dart';
 
@@ -73,13 +72,6 @@ class Utils {
     } catch (e) {
       return null;
     }
-  }
-
-  static Future<String> getVersionInfo() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String version = packageInfo.version;
-    String buildNumber = packageInfo.buildNumber;
-    return "$buildNumber | $version";
   }
 
   static List<String> splitVerseIntoTriplet(
