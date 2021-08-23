@@ -2,6 +2,7 @@ import './dtos/release_info.dart';
 
 class NewFeaturesPageBloc {
   Future<List<ReleaseInfo>> getVersions() async {
+    //TODO: This should be separated into a service and come from a remote service (My be it should be cahced)
     return [
       ReleaseInfo(
         name: "6.7.3",
