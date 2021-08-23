@@ -43,6 +43,10 @@ class TafseerPageBloc {
     VerseTafseer result = await ServiceManager.instance.tafseerService
         .getTafseer(tafseerId, _verseId, _chapterId);
     _tafseerResultController.add(result);
+    await ServiceManager.instance.analyticsService.logOnTap(
+      "TAFSEER PAGE",
+      payload: "SELECTED TAFSEER=$tafseerId",
+    );
   }
 
   Future<void> onSaveBookmarkClicked(BuildContext context) async {
@@ -82,6 +86,11 @@ class TafseerPageBloc {
         title: Localization.ERROR,
       );
     }
+    await ServiceManager.instance.analyticsService.logOnTap(
+      "TAFSEER PAGE",
+      payload:
+          "TAFSEER SOURCE ID=$tafseerSourceID|TAFSEER DOWNLOAD STATUS=$done",
+    );
   }
 
   Future<int> getTafseerSizeMB(int tafseerSourceID) async {
