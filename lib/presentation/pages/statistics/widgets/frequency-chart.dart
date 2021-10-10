@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../bloc.dart';
+import '../view_model/statistics-payload.dart';
 import 'package:charts_flutter/flutter.dart' as Charts;
 
 class FrequencyChart extends StatelessWidget {

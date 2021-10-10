@@ -15,7 +15,7 @@ class MushafService implements IMushafService {
   //Verses
   //=========
   //Search
-  Future<List<VerseDTO>> keywordSearch(bool basmala, String keyword,
+  Future<List<Verse>> keywordSearch(bool basmala, String keyword,
       SearchMode searchMode, int chapterID) async {
     return await _versesRepository.search(
         basmala, keyword, searchMode, chapterID);
@@ -29,36 +29,32 @@ class MushafService implements IMushafService {
 
   //Get Single Verse
   @override
-  Future<VerseDTO> getSingleVerse(int verseId, int chapterId) async {
+  Future<Verse> getSingleVerse(int verseId, int chapterId) async {
     return await _versesRepository.getSingleVerse(verseId, chapterId);
   }
 
   //Get Verses By Chapter ID
-  Future<List<VerseDTO>> getVersesByChapterId(
+  Future<List<Verse>> getVersesByChapterId(
       int chapterId, bool basmala) async {
     return await _versesRepository.getVersesByChapterId(chapterId, basmala);
   }
 
   //Chapters
   //========
-  //Get All Chapters Including Whole-Quran
-  Future<List<ChapterSimpleDTO>> getMushafChaptersIncludingWholeQuran() async {
-    return await _chaptersRepository.getChaptersSimple(includeWholeQuran: true);
-  }
-
   //Get All Chapters Without Quran
-  Future<List<ChapterSimpleDTO>> getMushafChapters() async {
-    return await _chaptersRepository.getChaptersSimple(
-        includeWholeQuran: false);
+  Future<List<Chapter>> getAll({required bool includeWholeQuran}) async {
+    return await _chaptersRepository.getAll(
+      includeWholeQuran: includeWholeQuran,
+    );
   }
 
   //Get Chapter Name
-  Future<String?> getChapterNameById(int chapterID) async {
+  Future<String?> getChapterName(int chapterID) async {
     return await _chaptersRepository.getChapterNameById(chapterID);
   }
 
   //Get Full Chapter
-  Future<ChapterFullDTO> getFullChapterById(int chapterID) async {
+  Future<Chapter> getChapter(int chapterID) async {
     return await _chaptersRepository.getFullChapterById(chapterID);
   }
 }

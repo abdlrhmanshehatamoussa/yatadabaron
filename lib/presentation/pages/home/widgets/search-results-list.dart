@@ -5,8 +5,9 @@ import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../bloc.dart';
+import '../view_models/search-session-payload.dart';
+import '../view_models/search-settings.dart';
 import 'list-item.dart';
 
 class SearchResultsList extends StatelessWidget {
@@ -26,7 +27,7 @@ class SearchResultsList extends StatelessWidget {
         if (!snapshot.hasData) {
           return LoadingWidget();
         }
-        List<VerseDTO> results = snapshot.data!.results;
+        List<Verse> results = snapshot.data!.results;
         SearchSettings settings = snapshot.data!.settings;
         if (results.length == 0) {
           return Center(
@@ -41,7 +42,7 @@ class SearchResultsList extends StatelessWidget {
           itemCount: collections.length,
           itemBuilder: (BuildContext context, int i) {
             String? collectionName = collections[i].collectionName;
-            List<VerseDTO> verses = collections[i].verses;
+            List<Verse> verses = collections[i].verses;
             String? versesCountArabic = Utils.numberTamyeez(
                 single: Localization.VERSE,
                 plural: Localization.VERSES,
@@ -58,7 +59,7 @@ class SearchResultsList extends StatelessWidget {
                   fontSize: 13,
                 ),
               ),
-              children: verses.map((VerseDTO verse) {
+              children: verses.map((Verse verse) {
                 Widget? trailing;
                 if(collections.length > 1){
                   trailing = Text(verse.chapterName!);

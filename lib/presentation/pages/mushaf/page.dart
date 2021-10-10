@@ -24,13 +24,13 @@ class MushafPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: StreamBuilder<ChapterFullDTO>(
+                    child: StreamBuilder<Chapter>(
                       stream: mushafBloc.selectedChapterStream,
                       builder: (_, snapshot) {
                         if (snapshot.hasData) {
                           String? chName = snapshot.data!.chapterNameAR;
                           String chId = ArabicNumbersService.instance.convert(
-                              snapshot.data!.chapterId,
+                              snapshot.data!.chapterID,
                               reverse: false);
                           String title = "$chId - $chName";
                           return ListTile(

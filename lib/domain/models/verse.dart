@@ -1,4 +1,4 @@
-class VerseDTO {
+class Verse {
   final String? chapterName;
   final String? verseText;
   final String? verseTextTashkel;
@@ -7,5 +7,5 @@ class VerseDTO {
   bool isSelected = false;
   bool isBookmark = false;
 
-  VerseDTO(this.chapterId,this.chapterName, this.verseText,this.verseTextTashkel, this.verseID);
+  Verse(this.chapterId,this.chapterName, this.verseText,this.verseTextTashkel, this.verseID);
 }

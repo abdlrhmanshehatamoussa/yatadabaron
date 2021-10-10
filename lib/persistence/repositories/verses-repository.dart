@@ -10,7 +10,7 @@ class VersesRepository extends DatabaseRepository {
   static const String TABLE_NAME_BASMALA = "verses_with_basmala";
   static const String TABLE_NAME_NO_BASMALA = "verses";
 
-  Future<List<VerseDTO>> search(
+  Future<List<Verse>> search(
       bool basmala, String keyword, SearchMode mode, int chapterId) async {
     String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;
     String chapterCondition = (chapterId > 0) ? " = $chapterId " : " > 0 ";
@@ -48,20 +48,20 @@ class VersesRepository extends DatabaseRepository {
     List<Map<String, dynamic>> verses = await database!.rawQuery(query);
 
     //Map
-    List<VerseDTO> results = verses.map((Map<String, dynamic> verse) {
+    List<Verse> results = verses.map((Map<String, dynamic> verse) {
       String? chapterName = verse["chapter_name"];
       String? verseText = verse["verse_text"];
       String? verseTextTashkel = verse["verse_text_tashkel"];
       int? verseID = verse["verse_id"];
       int? chId = verse["chapter_id"];
-      VerseDTO result =
-          VerseDTO(chId, chapterName, verseText, verseTextTashkel, verseID);
+      Verse result =
+          Verse(chId, chapterName, verseText, verseTextTashkel, verseID);
       return result;
     }).toList();
     return results;
   }
 
-  Future<VerseDTO> getSingleVerse(int verseId, int chapterId) async {
+  Future<Verse> getSingleVerse(int verseId, int chapterId) async {
     //Prepare Query
     String query =
         "SELECT v.ayah as verse_id,text_tashkel as verse_text_tashkel,text as verse_text,c.arabic as chapter_name "
@@ -81,7 +81,7 @@ class VersesRepository extends DatabaseRepository {
     String? verseText = verse["verse_text"];
     String? verseTextTashkel = verse["verse_text_tashkel"];
     int? verseID = verse["verse_id"];
-    VerseDTO result = VerseDTO(
+    Verse result = Verse(
       chapterId,
       chapterName,
       verseText,
@@ -91,7 +91,7 @@ class VersesRepository extends DatabaseRepository {
     return result;
   }
 
-  Future<List<VerseDTO>> getVersesByChapterId(int id, bool basmala) async {
+  Future<List<Verse>> getVersesByChapterId(int id, bool basmala) async {
     //Prepare Query
     String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;
     String chapterCondition = (id == 0) ? "" : "WHERE sura = $id";
@@ -107,13 +107,13 @@ class VersesRepository extends DatabaseRepository {
     List<Map<String, dynamic>> verses = await database!.rawQuery(query);
 
     //Map
-    List<VerseDTO> results = verses.map((Map<String, dynamic> verse) {
+    List<Verse> results = verses.map((Map<String, dynamic> verse) {
       String chapterName = "";
       String? verseText = verse["verse_text"];
       String? verseTextTashkel = verse["verse_text_tashkel"];
       int? verseID = verse["verse_id"];
-      VerseDTO result =
-          VerseDTO(id, chapterName, verseText, verseTextTashkel, verseID);
+      Verse result =
+          Verse(id, chapterName, verseText, verseTextTashkel, verseID);
       return result;
     }).toList();
     return results;
@@ -121,8 +121,8 @@ class VersesRepository extends DatabaseRepository {
 
   Future<List<LetterFrequency>> getLettersByChapterId(
       int chapterId, bool basmala) async {
-    List<VerseDTO> verses = await getVersesByChapterId(chapterId, basmala);
-    String chapterText = verses.map((VerseDTO verse) => verse.verseText).join();
+    List<Verse> verses = await getVersesByChapterId(chapterId, basmala);
+    String chapterText = verses.map((Verse verse) => verse.verseText).join();
 
     List<LetterFrequency> frequencies = [];
     Utils.arabicLetters().forEach((String letter) {

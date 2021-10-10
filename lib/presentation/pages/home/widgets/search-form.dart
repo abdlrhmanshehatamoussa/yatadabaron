@@ -4,6 +4,7 @@ import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../bloc.dart';
+import '../view_models/search-settings.dart';
 
 class SearchForm extends StatelessWidget {
   final SearchSessionBloc bloc;
@@ -74,15 +75,15 @@ class SearchForm extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: FutureBuilder<List<ChapterSimpleDTO>>(
+            child: FutureBuilder<List<Chapter>>(
               future: bloc.getMushafChapters(),
               builder: (BuildContext context,
-                  AsyncSnapshot<List<ChapterSimpleDTO>> snapshot) {
+                  AsyncSnapshot<List<Chapter>> snapshot) {
                 if (snapshot.hasData) {
                   List<DropdownMenuItem<int>> menuItems =
-                      snapshot.data!.map((ChapterSimpleDTO dto) {
+                      snapshot.data!.map((Chapter dto) {
                     return DropdownMenuItem<int>(
-                      child: Text(dto.chapterNameAR!),
+                      child: Text(dto.chapterNameAR),
                       value: dto.chapterID,
                     );
                   }).toList();

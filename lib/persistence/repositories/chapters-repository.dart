@@ -30,29 +30,25 @@ class ChaptersRepository extends DatabaseRepository {
     }
   }
 
-  Future<List<ChapterSimpleDTO>> getChaptersSimple(
-      {bool includeWholeQuran = false}) async {
+  Future<List<Chapter>> getAll({bool includeWholeQuran = false}) async {
     //Prepare Query
-    String query = "select c0sura as id,arabic as name from chapters";
+    String query = "select * from chapters";
 
     //Check DB
     await checkDB();
 
     //Execute
     List<Map<String, dynamic>> chapters = await database!.rawQuery(query);
-    List<ChapterSimpleDTO> results =
-        chapters.map((Map<String, dynamic> result) {
-      String? name = result["name"];
-      int? id = result["id"];
-      return ChapterSimpleDTO(id, name);
+    List<Chapter> results = chapters.map((Map<String, dynamic> chapterMap) {
+      return Chapter.fromMap(chapterMap);
     }).toList();
     if (includeWholeQuran) {
-      results.insert(0, ChapterSimpleDTO.holyQuran());
+      results.insert(0, Chapter.holyQuran());
     }
     return results;
   }
-
-  Future<ChapterFullDTO> getFullChapterById(int id) async {
+  
+  Future<Chapter> getFullChapterById(int id) async {
     //Prepare Query
     String query = "SELECT * FROM chapters WHERE c0sura = $id limit 1";
 
@@ -62,13 +58,8 @@ class ChaptersRepository extends DatabaseRepository {
     //Execute
     List<Map<String, dynamic>> chapters = await database!.rawQuery(query);
     if (chapters.length > 0) {
-      Map<String, dynamic> chapter = chapters[0];
-      int? id = chapter["c0sura"];
-      String? name = chapter["arabic"];
-      String? chapterLocation = chapter["localtion"];
-      int? versesCount = chapter["ayah"];
-      String? sajdaLocation = chapter["sajda"];
-      return ChapterFullDTO(id, name, chapterLocation, versesCount, sajdaLocation);
+      Map<String, dynamic> map = chapters[0];
+      return Chapter.fromMap(map);
     }
 
     throw Exception("Invalid Chapter Id");

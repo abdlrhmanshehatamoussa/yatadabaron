@@ -1,14 +1,12 @@
 import 'package:yatadabaron/modules/application.module.dart';
 import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:share/share.dart';
-import '../dtos/search-settings.dart';
-import '../dtos/verse-dto-collection.dart';
-import '../dtos/verse-dto.dart';
-import '../enums/enums.dart';
+import 'package:yatadabaron/modules/domain.module.dart';
+import 'search-settings.dart';
 
 class SearchSessionPayload {
   final String? chapterName;
-  final List<VerseDTO> results;
+  final List<Verse> results;
   final SearchSettings settings;
   SearchSessionPayload(this.settings, this.chapterName, this.results);
 
@@ -68,7 +66,7 @@ class SearchSessionPayload {
     List<String?> chapterNames =
         results.map((v) => v.chapterName).toSet().toList();
     chapterNames.forEach((String? chapter) {
-      List<VerseDTO> verses =
+      List<Verse> verses =
           results.where((v) => v.chapterName == chapter).toList();
       collections.add(VerseCollection(verses, chapter));
     });
@@ -78,14 +76,14 @@ class SearchSessionPayload {
 
   void copyAll() {
     String resultsStr = "$summary\n\n";
-    results.forEach((VerseDTO verseDTO) {
+    results.forEach((Verse verseDTO) {
       resultsStr +=
           "${verseDTO.chapterName}\n${verseDTO.verseTextTashkel} {${verseDTO.verseID}}\n\n";
     });
     Share.share(resultsStr);
   }
 
-  void copyVerse(VerseDTO verseDTO) {
+  void copyVerse(Verse verseDTO) {
     ServiceManager.instance.analyticsService.logOnTap("SHARE VERSE");
     String toCopy =
         "${verseDTO.chapterName}\n${verseDTO.verseTextTashkel} {${verseDTO.verseID}}";

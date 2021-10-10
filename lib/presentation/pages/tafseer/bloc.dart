@@ -1,5 +1,4 @@
 import 'package:yatadabaron/application/service-manager.dart';
-import 'package:yatadabaron/domain/dtos/verse-dto.dart';
 import 'package:yatadabaron/modules/application.module.dart';
 import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
@@ -18,13 +17,13 @@ class TafseerPageBloc {
 
   Stream<VerseTafseer> get tafseerStream => _tafseerResultController.stream;
 
-  Future<VerseDTO> loadVerseDTO() async {
+  Future<Verse> loadVerseDTO() async {
     return await ServiceManager.instance.mushafService
         .getSingleVerse(_verseId, _chapterId);
   }
 
   Future<void> shareVerse() async {
-    VerseDTO _verse = await loadVerseDTO();
+    Verse _verse = await loadVerseDTO();
     String toCopy =
         "${_verse.chapterName}\n${_verse.verseTextTashkel} {${_verse.verseID}}";
     await Share.share(toCopy);

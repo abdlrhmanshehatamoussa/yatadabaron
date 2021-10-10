@@ -1,6 +1,8 @@
 import 'package:yatadabaron/modules/application.module.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'view_model/statistics-settings.dart';
+import 'view_model/statistics-payload.dart';
 
 class StatisticsBloc {
   StatisticsBloc() {
@@ -29,7 +31,7 @@ class StatisticsBloc {
 
     try {
       String? chapterName =
-          await ServiceManager.instance.mushafService.getChapterNameById(settings.chapterId);
+          await ServiceManager.instance.mushafService.getChapterName(settings.chapterId);
       List<LetterFrequency> letterFreqs = await ServiceManager.instance.mushafService
           .getLettersByChapterId(settings.chapterId, settings.basmala);
       _payloadBloc
@@ -42,7 +44,7 @@ class StatisticsBloc {
     _stateBloc.add(SearchState.DONE);
   }
 
-  Future<List<ChapterSimpleDTO>> getMushafChapters() async {
-    return await ServiceManager.instance.mushafService.getMushafChaptersIncludingWholeQuran();
+  Future<List<Chapter>> getMushafChapters() async {
+    return await ServiceManager.instance.mushafService.getAll(includeWholeQuran:true);
   }
 }

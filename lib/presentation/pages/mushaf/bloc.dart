@@ -9,19 +9,19 @@ class MushafBloc {
     reloadVerses(chapterId, verseId);
   }
 
-  CustomStreamController<List<VerseDTO>> _versesBloc = CustomStreamController();
-  CustomStreamController<ChapterFullDTO> _selectedChapterBloc =
+  CustomStreamController<List<Verse>> _versesBloc = CustomStreamController();
+  CustomStreamController<Chapter> _selectedChapterBloc =
       CustomStreamController();
 
-  Stream<ChapterFullDTO> get selectedChapterStream =>
+  Stream<Chapter> get selectedChapterStream =>
       _selectedChapterBloc.stream;
-  Stream<List<VerseDTO>> get versesStream => _versesBloc.stream;
+  Stream<List<Verse>> get versesStream => _versesBloc.stream;
 
   Future reloadVerses(int? chapterId, int? verseId) async {
     chapterId = chapterId ?? 1;
-    ChapterFullDTO chapter = await ServiceManager.instance.mushafService
-        .getFullChapterById(chapterId);
-    List<VerseDTO> verses = await ServiceManager.instance.mushafService
+    Chapter chapter = await ServiceManager.instance.mushafService
+        .getChapter(chapterId);
+    List<Verse> verses = await ServiceManager.instance.mushafService
         .getVersesByChapterId(chapterId, false);
 
     _selectedChapterBloc.add(chapter);
@@ -41,8 +41,8 @@ class MushafBloc {
     _versesBloc.add(verses);
   }
 
-  Future<List<ChapterSimpleDTO>> get getChaptersSimple async {
-    return await ServiceManager.instance.mushafService.getMushafChapters();
+  Future<List<Chapter>> get getChaptersSimple async {
+    return await ServiceManager.instance.mushafService.getAll(includeWholeQuran:false);
   }
 
   Future<void> logChapterSelected(String chatperNameAR, int chapterID) async {
@@ -52,7 +52,7 @@ class MushafBloc {
     );
   }
 
-  Future<void> onVerseTap(VerseDTO result, BuildContext context) async {
+  Future<void> onVerseTap(Verse result, BuildContext context) async {
     if (result.verseID != null && result.chapterId != null) {
       TafseerPage.push(
         context: context,

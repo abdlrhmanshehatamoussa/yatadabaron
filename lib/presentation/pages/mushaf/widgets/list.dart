@@ -14,13 +14,13 @@ class VerseList extends StatelessWidget {
     MushafBloc mushafBloc = Provider.of<MushafBloc>(context);
     ItemScrollController _scrollController = ItemScrollController();
 
-    return StreamBuilder<List<VerseDTO>>(
+    return StreamBuilder<List<Verse>>(
       stream: mushafBloc.versesStream,
-      builder: (BuildContext context, AsyncSnapshot<List<VerseDTO>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Verse>> snapshot) {
         if (!snapshot.hasData) {
           return LoadingWidget();
         }
-        List<VerseDTO> results = snapshot.data!;
+        List<Verse> results = snapshot.data!;
         if (results.length == 0) {
           return Center(
             child: Text(
@@ -47,7 +47,7 @@ class VerseList extends StatelessWidget {
             );
           },
           itemBuilder: (context, i) {
-            VerseDTO result = results[i];
+            Verse result = results[i];
             Color? color;
             if (result.isSelected) {
               color = Theme.of(context).colorScheme.secondary;

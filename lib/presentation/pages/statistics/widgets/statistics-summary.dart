@@ -1,8 +1,8 @@
-import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../view_model/statistics-payload.dart';
 import '../bloc.dart';
 
 class StatisticsSummaryWidget extends StatelessWidget {

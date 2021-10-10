@@ -13,14 +13,13 @@ class ChaptersDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MushafBloc mushafBloc = Provider.of<MushafBloc>(this.parentContext);
-    return FutureBuilder<List<ChapterSimpleDTO>>(
+    return FutureBuilder<List<Chapter>>(
       future: mushafBloc.getChaptersSimple,
-      builder: (BuildContext context,
-          AsyncSnapshot<List<ChapterSimpleDTO>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Chapter>> snapshot) {
         if (!snapshot.hasData) {
           return LoadingWidget();
         }
-        List<ChapterSimpleDTO> chapters = snapshot.data!;
+        List<Chapter> chapters = snapshot.data!;
         return Container(
           height: 300,
           width: double.maxFinite,
@@ -28,12 +27,12 @@ class ChaptersDropDown extends StatelessWidget {
             separatorBuilder: (_, __) => Divider(),
             itemCount: chapters.length,
             itemBuilder: (_, int i) {
-              ChapterSimpleDTO chapter = chapters[i];
+              Chapter chapter = chapters[i];
               String idStr = ArabicNumbersService.instance
                   .convert(chapter.chapterID, reverse: false);
               return ListTile(
                 title: Text(
-                  chapter.chapterNameAR!,
+                  chapter.chapterNameAR,
                   style: TextStyle(
                     fontSize: 18,
                   ),
@@ -43,14 +42,11 @@ class ChaptersDropDown extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontFamily: "Arial"),
                 ),
                 onTap: () async {
-                  if (chapter.chapterID != null &&
-                      chapter.chapterNameAR != null) {
-                    await mushafBloc.logChapterSelected(
-                      chapter.chapterNameAR!,
-                      chapter.chapterID!,
-                    );
-                    mushafBloc.reloadVerses(chapter.chapterID, null);
-                  }
+                  await mushafBloc.logChapterSelected(
+                    chapter.chapterNameAR,
+                    chapter.chapterID,
+                  );
+                  mushafBloc.reloadVerses(chapter.chapterID, null);
                   Navigator.of(context).pop();
                 },
               );

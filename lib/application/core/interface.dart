@@ -4,14 +4,14 @@ abstract class IMushafService {
   //Verses
   //=========
   //Search
-  Future<List<VerseDTO>> keywordSearch(
+  Future<List<Verse>> keywordSearch(
       bool basmala, String keyword, SearchMode searchMode, int chapterID);
 
   //Get Verses By Chapter ID
-  Future<List<VerseDTO>> getVersesByChapterId(int chapterId, bool basmala);
+  Future<List<Verse>> getVersesByChapterId(int chapterId, bool basmala);
 
   //Get Single Verse
-  Future<VerseDTO> getSingleVerse(int verseId, int chapterId);
+  Future<Verse> getSingleVerse(int verseId, int chapterId);
 
   //Get letters frequency
   Future<List<LetterFrequency>> getLettersByChapterId(
@@ -19,15 +19,12 @@ abstract class IMushafService {
 
   //Chapters
   //========
-  //Get All Chapters Including Whole-Quran
-  Future<List<ChapterSimpleDTO>> getMushafChaptersIncludingWholeQuran();
-
   //Get All Chapters Without Quran
-  Future<List<ChapterSimpleDTO>> getMushafChapters();
+  Future<List<Chapter>> getAll({required bool includeWholeQuran});
 
   //Get Chapter Name
-  Future<String?> getChapterNameById(int chapterID);
+  Future<String?> getChapterName(int chapterID);
 
   //Get Full Chapter
-  Future<ChapterFullDTO> getFullChapterById(int chapterID);
+  Future<Chapter> getChapter(int chapterID);
 }

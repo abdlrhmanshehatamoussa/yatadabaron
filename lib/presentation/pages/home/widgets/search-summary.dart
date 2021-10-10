@@ -1,9 +1,8 @@
-import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../view_models/search-session-payload.dart';
 import '../bloc.dart';
 
 class SearchSummaryWidget extends StatelessWidget {
@@ -21,7 +20,6 @@ class SearchSummaryWidget extends StatelessWidget {
         return Container(
           alignment: Alignment.center,
           padding: EdgeInsets.all(12),
-          //color: Theme.of(context).cardColor,
           child: Row(
             children: <Widget>[
               Expanded(

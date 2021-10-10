@@ -1,6 +1,5 @@
 import 'package:yatadabaron/modules/crosscutting.module.dart';
-
-import '../dtos/letter-frequency.dart';
+import 'package:yatadabaron/modules/domain.module.dart';
 
 class StatisticsPayload{
   final String? chapterName;

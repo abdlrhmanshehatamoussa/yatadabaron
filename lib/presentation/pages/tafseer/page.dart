@@ -1,4 +1,3 @@
-import 'package:yatadabaron/domain/dtos/verse-dto.dart';
 import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +22,9 @@ class TafseerPage extends StatelessWidget {
           Expanded(
             flex: 1,
             child: SingleChildScrollView(
-              child: FutureBuilder<VerseDTO>(
+              child: FutureBuilder<Verse>(
                 future: bloc.loadVerseDTO(),
-                builder: (_, AsyncSnapshot<VerseDTO> snapshot) {
+                builder: (_, AsyncSnapshot<Verse> snapshot) {
                   if (!snapshot.hasData) {
                     return CircularProgressIndicator();
                   } else {

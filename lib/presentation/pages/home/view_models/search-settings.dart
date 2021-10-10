@@ -1,4 +1,4 @@
-import '../enums/enums.dart';
+import 'package:yatadabaron/modules/domain.module.dart';
 
 class SearchSettings{
   String keyword;
