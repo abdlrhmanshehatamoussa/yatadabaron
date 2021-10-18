@@ -4,6 +4,7 @@ import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:http/http.dart';
 
 abstract class ITafseerSourceRepository {
+  //TODO: Move this abstract to the application layer
   Future<void> sync();
 
   Future<List<TafseerSource>> fetch();

@@ -6,6 +6,7 @@ class ServiceManager {
   final IUserDataService userDataService;
   final IAnalyticsService analyticsService;
   final ITafseerService tafseerService;
+  final IReleaseInfoService releaseInfoService;
 
   ServiceManager._({
     required this.mushafService,
@@ -13,6 +14,7 @@ class ServiceManager {
     required this.userDataService,
     required this.analyticsService,
     required this.tafseerService,
+    required this.releaseInfoService,
   });
 
   static ServiceManager? _instance;
@@ -47,13 +49,16 @@ class ServiceManager {
       ITafseerService _tafseerService =
           await TafseerServiceFactory.create(tafseerConfig);
 
+      IReleaseInfoService _releaseInfoService =
+          await ReleaseInfoServiceFactory.create();
+
       ServiceManager.instance = ServiceManager._(
-        mushafService: _mushafService,
-        configurationService: _configurationService,
-        userDataService: _userDataService,
-        analyticsService: _analyticsService,
-        tafseerService: _tafseerService,
-      );
+          mushafService: _mushafService,
+          configurationService: _configurationService,
+          userDataService: _userDataService,
+          analyticsService: _analyticsService,
+          tafseerService: _tafseerService,
+          releaseInfoService: _releaseInfoService);
       return true;
     } catch (e) {
       return false;

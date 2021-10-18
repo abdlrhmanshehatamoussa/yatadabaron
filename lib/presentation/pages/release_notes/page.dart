@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yatadabaron/modules/crosscutting.module.dart';
+import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
-import 'dtos/release_info.dart';
 import './bloc.dart';
 
 class NewFeaturesPage extends StatelessWidget {

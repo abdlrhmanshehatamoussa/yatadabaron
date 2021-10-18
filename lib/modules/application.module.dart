@@ -13,4 +13,8 @@ export 'package:yatadabaron/application/user-data/factory.dart';
 export 'package:yatadabaron/application/tafseer/interface.dart';
 export 'package:yatadabaron/application/tafseer/factory.dart';
 
+export 'package:yatadabaron/application/release_info/interface.dart';
+export 'package:yatadabaron/application/release_info/factory.dart';
+export 'package:yatadabaron/application/release_info/repo.dart';
+
 export 'package:yatadabaron/application/service-manager.dart';

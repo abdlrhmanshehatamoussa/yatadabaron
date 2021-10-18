@@ -5,6 +5,7 @@ import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
 
 abstract class IVerseTafseerRepository {
+  //TODO: Move this abstract to the application layer
   Future<VerseTafseer> fetch({
     required int chapterId,
     required int verseId,
