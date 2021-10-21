@@ -1,5 +1,5 @@
 import 'package:yatadabaron/application/service-manager.dart';
-import 'package:yatadabaron/presentation/modules/controllers.module.dart';
+import 'package:yatadabaron/presentation/modules/commons.module.dart';
 import 'package:yatadabaron/presentation/modules/viewmodels.module.dart';
 
 class ThemeController {

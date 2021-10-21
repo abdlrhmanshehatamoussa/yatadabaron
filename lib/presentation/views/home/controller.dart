@@ -1,6 +1,6 @@
 import 'package:yatadabaron/modules/application.module.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
-import 'package:yatadabaron/presentation/modules/controllers.module.dart';
+import 'package:yatadabaron/presentation/modules/commons.module.dart';
 import 'package:flutter/foundation.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';

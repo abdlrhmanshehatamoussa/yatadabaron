@@ -53,15 +53,4 @@ class ReleaseNotesPage extends StatelessWidget {
       floatingButton: null,
     );
   }
-
-  static void pushReplacement(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => Provider(
-          child: ReleaseNotesPage(),
-          create: (_) => ReleaseNotesController(),
-        ),
-      ),
-    );
-  }
 }

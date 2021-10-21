@@ -1,8 +1,9 @@
-import 'package:yatadabaron/modules/application.module.dart';
-import 'package:yatadabaron/presentation/modules/views.module.dart';
-import 'package:yatadabaron/presentation/modules/controllers.module.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
+import 'package:yatadabaron/modules/application.module.dart';
+import 'package:yatadabaron/presentation/modules/commons.module.dart';
+import 'package:yatadabaron/presentation/modules/views.module.dart';
+import 'package:yatadabaron/presentation/modules/controllers.module.dart';
 import 'package:yatadabaron/presentation/modules/viewmodels.module.dart';
 
 class CustomDrawerController {
@@ -38,7 +39,7 @@ class CustomDrawerController {
   }
 
   void navigateNewFeatures(BuildContext context) {
-    ReleaseNotesPage.pushReplacement(context);
+    PageNavigator.releaseNotesReplace(context);
   }
 
   void toggleNightMode(bool mode, ThemeController bloc) {
