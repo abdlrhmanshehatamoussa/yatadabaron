@@ -1,6 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
-
 import 'configurations-service.dart';
 import 'interface.dart';
 

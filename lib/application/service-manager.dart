@@ -1,4 +1,6 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/modules/application.module.dart';
+import 'package:yatadabaron/modules/domain.module.dart';
 
 class ServiceManager {
   final IMushafService mushafService;
@@ -35,20 +37,33 @@ class ServiceManager {
 
   static Future<bool> initialize() async {
     try {
+      await SharedPreferences.getInstance();
+      SharedPreferences pref = await SharedPreferences.getInstance();
+
+      //Configurations Service
       IConfigurationService _configurationService =
           await ConfigurationServiceFactory.create();
+      AppSettings appSettings = await _configurationService.getAppSettings();
+
+      //Analytics Service
       IAnalyticsService _analyticsService =
-          await AnalyticsServiceFactory.create(_configurationService);
+          await AnalyticsServiceFactory.create(appSettings, pref);
+
+      //UserData Service
       IUserDataService _userDataService = await UserDataServiceFactory.create();
+
+      //Mushaf Service
       IMushafService _mushafService = await MushafServiceFactory.create();
 
+      //Tafseer Service
       TafseerServiceConfigurations tafseerConfig = TafseerServiceConfigurations(
-        tafseerSourcesURL: _configurationService.tafseerSourcesURL,
-        tafseerTextURL: _configurationService.tafseerTextURL,
+        tafseerSourcesURL: appSettings.tafseerSourcesURL,
+        tafseerTextURL: appSettings.tafseerTextURL,
       );
       ITafseerService _tafseerService =
           await TafseerServiceFactory.create(tafseerConfig);
 
+      //Release Info Service
       IReleaseInfoService _releaseInfoService =
           await ReleaseInfoServiceFactory.create();
 

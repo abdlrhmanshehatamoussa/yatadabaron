@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
+import 'package:yatadabaron/domain/models/app_settings.dart';
 
 import 'interface.dart';
 
@@ -15,37 +16,6 @@ class ConfigurationService implements IConfigurationService {
 
   final PackageInfo _packageInfo;
 
-  @override
-  String get cloudHubApiUrl => _getKey(_CLOUDHUB_API_URL);
-
-  @override
-  String get cloudHubClientKey => _getKey(_CLOUDHUB_CLIENT_KEY);
-
-  @override
-  String get cloudHubClientSecret => _getKey(_CLOUDHUB_CLIENT_SECRET);
-
-  @override
-  String get cloudHubAppGuid => _getKey(_CLOUDHUB_APP_GUID);
-
-  @override
-  String get versionName => _packageInfo.version;
-
-  @override
-  int get versionNumber {
-    int? number = int.tryParse(_packageInfo.buildNumber);
-    if (number != null) {
-      return number;
-    } else {
-      return 0;
-    }
-  }
-
-  @override
-  String get tafseerSourcesURL => _getKey(_TAFSEER_SOURCES_URL);
-
-  @override
-  String get tafseerTextURL => _getKey(_TAFSEER_TEXT_URL);
-
   String _getKey(String key) {
     String? value = dotenv.env[key];
     if (value != null) {
@@ -54,4 +24,25 @@ class ConfigurationService implements IConfigurationService {
     throw new Exception("Error while loading configurations [$key]");
   }
 
+  @override
+  Future<AppSettings> getAppSettings() async {
+    String cloudHubApiUrl = _getKey(_CLOUDHUB_API_URL);
+    String cloudHubClientKey = _getKey(_CLOUDHUB_CLIENT_KEY);
+    String cloudHubClientSecret = _getKey(_CLOUDHUB_CLIENT_SECRET);
+    String cloudHubAppGuid = _getKey(_CLOUDHUB_APP_GUID);
+    String versionName = _packageInfo.version;
+    String tafseerSourcesURL = _getKey(_TAFSEER_SOURCES_URL);
+    String tafseerTextURL = _getKey(_TAFSEER_TEXT_URL);
+    int versionNumber = int.tryParse(_packageInfo.buildNumber) ?? 0;
+    return AppSettings(
+      cloudHubApiUrl: cloudHubApiUrl,
+      cloudHubAppGuid: cloudHubAppGuid,
+      versionName: versionName,
+      cloudHubClientKey: cloudHubClientKey,
+      cloudHubClientSecret: cloudHubClientSecret,
+      tafseerSourcesURL: tafseerSourcesURL,
+      tafseerTextURL: tafseerTextURL,
+      versionNumber: versionNumber,
+    );
+  }
 }
