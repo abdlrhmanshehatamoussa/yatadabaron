@@ -11,7 +11,7 @@ import './widgets/list.dart';
 class MushafPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    MushafBloc mushafBloc = Provider.of<MushafBloc>(context);
+    MushafController mushafBloc = Provider.of<MushafController>(context);
     return CustomPageWrapper(
       pageTitle: Localization.DRAWER_QURAN,
       child: Column(
@@ -93,7 +93,7 @@ class MushafPage extends StatelessWidget {
     return MaterialPageRoute(
       builder: (context) => Provider(
         child: MushafPage(),
-        create: (contextt) => MushafBloc(chapterId, verseId),
+        create: (contextt) => MushafController(chapterId, verseId),
       ),
     );
   }

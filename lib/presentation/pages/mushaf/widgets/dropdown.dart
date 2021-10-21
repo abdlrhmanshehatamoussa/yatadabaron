@@ -12,7 +12,7 @@ class ChaptersDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MushafBloc mushafBloc = Provider.of<MushafBloc>(this.parentContext);
+    MushafController mushafBloc = Provider.of<MushafController>(this.parentContext);
     return FutureBuilder<List<Chapter>>(
       future: mushafBloc.getChaptersSimple,
       builder: (BuildContext context, AsyncSnapshot<List<Chapter>> snapshot) {

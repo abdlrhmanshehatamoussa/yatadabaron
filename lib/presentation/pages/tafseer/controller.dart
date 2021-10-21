@@ -2,7 +2,7 @@ import 'package:yatadabaron/application/service-manager.dart';
 import 'package:yatadabaron/modules/application.module.dart';
 import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
-import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-controllers.module.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 

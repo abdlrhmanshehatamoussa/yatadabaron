@@ -1,6 +1,6 @@
 import 'package:yatadabaron/modules/application.module.dart';
 import 'package:yatadabaron/presentation/modules/pages.module.dart';
-import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-controllers.module.dart';
 import 'package:yatadabaron/presentation/shared-dtos/theme-data-wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';

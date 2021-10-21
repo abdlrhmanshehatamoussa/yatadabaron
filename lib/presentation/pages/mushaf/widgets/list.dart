@@ -11,7 +11,7 @@ import 'list-item.dart';
 class VerseList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    MushafBloc mushafBloc = Provider.of<MushafBloc>(context);
+    MushafController mushafBloc = Provider.of<MushafController>(context);
     ItemScrollController _scrollController = ItemScrollController();
 
     return StreamBuilder<List<Verse>>(

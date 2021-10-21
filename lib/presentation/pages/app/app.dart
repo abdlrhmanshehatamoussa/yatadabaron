@@ -1,7 +1,7 @@
 import 'package:yatadabaron/modules/application.module.dart';
 import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:yatadabaron/presentation/modules/pages.module.dart';
-import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-controllers.module.dart';
 import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:yatadabaron/presentation/modules/shared.dtos.module.dart';
 import 'package:flutter/material.dart';

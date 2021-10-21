@@ -1,6 +1,6 @@
 import 'package:yatadabaron/modules/application.module.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
-import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-controllers.module.dart';
 import 'view_model/statistics-settings.dart';
 import 'view_model/statistics-payload.dart';
 

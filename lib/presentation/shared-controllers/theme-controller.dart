@@ -1,5 +1,5 @@
 import 'package:yatadabaron/application/service-manager.dart';
-import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-controllers.module.dart';
 import 'package:yatadabaron/presentation/modules/shared.dtos.module.dart';
 
 class ThemeController {

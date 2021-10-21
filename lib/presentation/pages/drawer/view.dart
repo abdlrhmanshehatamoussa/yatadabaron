@@ -1,5 +1,5 @@
 import 'package:yatadabaron/modules/crosscutting.module.dart';
-import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
+import 'package:yatadabaron/presentation/modules/shared-controllers.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
