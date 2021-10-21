@@ -7,7 +7,7 @@ void main() {
   runApp(MultiProvider(
     providers: [
       Provider(
-        create: (_) => ThemeBloc(),
+        create: (_) => ThemeController(),
       ),
     ],
     child: App(),

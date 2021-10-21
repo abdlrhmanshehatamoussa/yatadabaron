@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import '../bloc.dart';
+import '../controller.dart';
 import 'list-item.dart';
 
 class VerseList extends StatelessWidget {

@@ -3,12 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
-import './bloc.dart';
+import 'controller.dart';
 
-class NewFeaturesPage extends StatelessWidget {
+class ReleaseNotesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    NewFeaturesPageBloc bloc = Provider.of<NewFeaturesPageBloc>(context);
+    ReleaseNotesController bloc = Provider.of<ReleaseNotesController>(context);
     return CustomPageWrapper(
       pageTitle: Localization.RELEASE_NOTES,
       child: Container(
@@ -58,8 +58,8 @@ class NewFeaturesPage extends StatelessWidget {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (_) => Provider(
-          child: NewFeaturesPage(),
-          create: (_) => NewFeaturesPageBloc(),
+          child: ReleaseNotesPage(),
+          create: (_) => ReleaseNotesController(),
         ),
       ),
     );

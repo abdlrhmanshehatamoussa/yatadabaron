@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_models/search-session-payload.dart';
-import '../bloc.dart';
+import '../controller.dart';
 
 class SearchSummaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SearchSessionBloc bloc = Provider.of<SearchSessionBloc>(context);
+    SearchSessionController bloc = Provider.of<SearchSessionController>(context);
     return StreamBuilder<SearchSessionPayload>(
       stream: bloc.payloadStream,
       builder:

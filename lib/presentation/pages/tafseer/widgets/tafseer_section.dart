@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yatadabaron/modules/crosscutting.module.dart';
 
-import '../bloc.dart';
+import '../controller.dart';
 
 class TafseerSection extends StatelessWidget {
   final String? tafseer;
@@ -15,7 +15,7 @@ class TafseerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TafseerPageBloc bloc = Provider.of(context);
+    TafseerPageController bloc = Provider.of(context);
     if (tafseer != null) {
       return Container(
         padding: EdgeInsets.all(15),

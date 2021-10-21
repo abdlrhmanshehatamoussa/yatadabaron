@@ -1,4 +1,4 @@
-export '../pages/drawer/page.dart';
+export '../pages/drawer/view.dart';
 export '../shared-widgets/custom-error-widget.dart';
 export '../shared-widgets/custom-page-wrapper.dart';
 export '../shared-widgets/error-dialog.dart';

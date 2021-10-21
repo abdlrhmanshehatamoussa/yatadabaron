@@ -4,13 +4,13 @@ import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../bloc.dart';
+import '../controller.dart';
 import '../view_model/statistics-payload.dart';
 
 class FrequencyTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    StatisticsBloc bloc = Provider.of<StatisticsBloc>(context);
+    StatisticsController bloc = Provider.of<StatisticsController>(context);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Container(

@@ -4,8 +4,8 @@ import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
 import 'view_model/statistics-settings.dart';
 import 'view_model/statistics-payload.dart';
 
-class StatisticsBloc {
-  StatisticsBloc() {
+class StatisticsController {
+  StatisticsController() {
     _stateBloc.add(SearchState.INITIAL);
   }
 

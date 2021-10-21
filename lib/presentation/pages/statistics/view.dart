@@ -4,7 +4,7 @@ import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './bloc.dart';
+import 'controller.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';
 import './widgets/statistics-form.dart';
@@ -39,7 +39,7 @@ class StatisticsPage extends StatelessWidget {
       style: Utils.emptyListStyle(),
     );
 
-    StatisticsBloc bloc = Provider.of<StatisticsBloc>(context);
+    StatisticsController bloc = Provider.of<StatisticsController>(context);
     return CustomPageWrapper(
       pageTitle: Localization.DRAWER_STATISTICS,
       child: StreamBuilder<SearchState>(
@@ -78,7 +78,7 @@ class StatisticsPage extends StatelessWidget {
     return MaterialPageRoute(
       builder: (context) => Provider(
         child: StatisticsPage(),
-        create: (context) => StatisticsBloc(),
+        create: (context) => StatisticsController(),
       ),
     );
   }

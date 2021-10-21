@@ -41,7 +41,7 @@ class App extends StatelessWidget {
           );
         } else {
           return StreamBuilder<ThemeDataWrapper>(
-            stream: Provider.of<ThemeBloc>(context).stream,
+            stream: Provider.of<ThemeController>(context).stream,
             builder: (_, AsyncSnapshot<ThemeDataWrapper> themeSnapshot) {
               ThemeData? theme;
               if (themeSnapshot.hasData && themeSnapshot.data != null) {

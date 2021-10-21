@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_model/statistics-payload.dart';
-import '../bloc.dart';
+import '../controller.dart';
 
 class StatisticsSummaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    StatisticsBloc bloc = Provider.of<StatisticsBloc>(context);
+    StatisticsController bloc = Provider.of<StatisticsController>(context);
     return Center(
       child: StreamBuilder<StatisticsPayload>(
         stream: bloc.payloadStream,

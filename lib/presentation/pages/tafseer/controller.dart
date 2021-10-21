@@ -6,8 +6,8 @@ import 'package:yatadabaron/presentation/modules/shared-blocs.module.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
-class TafseerPageBloc {
-  TafseerPageBloc(this._verseId, this._chapterId, this._onBookmarkSaved);
+class TafseerPageController {
+  TafseerPageController(this._verseId, this._chapterId, this._onBookmarkSaved);
 
   final int _verseId;
   final int _chapterId;

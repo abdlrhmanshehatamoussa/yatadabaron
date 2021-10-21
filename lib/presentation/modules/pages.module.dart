@@ -1,9 +1,9 @@
 export '../pages/about/page.dart';
-export '../pages/drawer/page.dart';
-export '../pages/home/page.dart';
-export '../pages/mushaf/page.dart';
-export '../pages/splash/page.dart';
-export '../pages/statistics/page.dart';
+export '../pages/drawer/view.dart';
+export '../pages/home/view.dart';
+export '../pages/mushaf/view.dart';
+export '../pages/splash/view.dart';
+export '../pages/statistics/view.dart';
 export '../pages/app/app.dart';
-export '../pages/tafseer/page.dart';
-export '../pages/release_notes/page.dart';
+export '../pages/tafseer/view.dart';
+export '../pages/release_notes/view.dart';

@@ -3,11 +3,11 @@ import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../bloc.dart';
+import '../controller.dart';
 import '../view_models/search-settings.dart';
 
 class SearchForm extends StatelessWidget {
-  final SearchSessionBloc bloc;
+  final SearchSessionController bloc;
   final SearchSettings settings = SearchSettings.empty();
   final TextEditingController keywordController = TextEditingController();
 
@@ -204,7 +204,7 @@ class SearchForm extends StatelessWidget {
     );
   }
 
-  static void show(BuildContext context, SearchSessionBloc bloc) {
+  static void show(BuildContext context, SearchSessionController bloc) {
     showDialog(
       context: context,
       barrierDismissible: false,

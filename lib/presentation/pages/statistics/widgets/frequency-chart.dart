@@ -3,7 +3,7 @@ import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../bloc.dart';
+import '../controller.dart';
 import '../view_model/statistics-payload.dart';
 import 'package:charts_flutter/flutter.dart' as Charts;
 
@@ -24,7 +24,7 @@ class FrequencyChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StatisticsBloc bloc = Provider.of<StatisticsBloc>(context);
+    StatisticsController bloc = Provider.of<StatisticsController>(context);
     Color fillColor = Theme.of(context).colorScheme.secondary;
     Color? axisColor = Theme.of(context).colorScheme.secondary;
     return Container(

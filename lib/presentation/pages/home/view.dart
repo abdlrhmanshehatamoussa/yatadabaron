@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
 import './widgets/search-summary.dart';
-import './bloc.dart';
+import 'controller.dart';
 
 class HomePage extends StatelessWidget {
   Widget customText(String text) {
@@ -23,8 +23,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SearchSessionBloc sessionBloc =
-        Provider.of<SearchSessionBloc>(context, listen: false);
+    SearchSessionController sessionBloc =
+        Provider.of<SearchSessionController>(context, listen: false);
     sessionBloc.errorStream.listen((Exception e) {
       //ErrorDialog.show(context, TextProvider.SEARCH_ERROR);
     });
@@ -99,10 +99,10 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  static Provider<SearchSessionBloc> wrappedWithProvider() {
+  static Provider<SearchSessionController> wrappedWithProvider() {
     return Provider(
       child: HomePage(),
-      create: (context) => SearchSessionBloc(),
+      create: (context) => SearchSessionController(),
     );
   }
 }

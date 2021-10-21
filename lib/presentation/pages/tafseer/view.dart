@@ -2,7 +2,7 @@ import 'package:yatadabaron/modules/crosscutting.module.dart';
 import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'bloc.dart';
+import 'controller.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/selector.dart';
 import 'widgets/tafseer_section.dart';
@@ -11,7 +11,7 @@ import 'widgets/verse_section.dart';
 class TafseerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TafseerPageBloc bloc = Provider.of(context);
+    TafseerPageController bloc = Provider.of(context);
     return Scaffold(
       appBar: TafseerAppBar.build(context),
       body: Column(
@@ -117,7 +117,7 @@ class TafseerPage extends StatelessWidget {
     return MaterialPageRoute(
       builder: (context) => Provider(
         child: TafseerPage(),
-        create: (contextt) => TafseerPageBloc(
+        create: (contextt) => TafseerPageController(
           verseId,
           chapterId,
           onBookmarkSaved,

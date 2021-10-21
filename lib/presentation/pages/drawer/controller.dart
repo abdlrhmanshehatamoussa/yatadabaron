@@ -5,7 +5,7 @@ import 'package:yatadabaron/presentation/shared-dtos/theme-data-wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 
-class DrawerBloc {
+class CustomDrawerController {
   Future navigateMushafPage(BuildContext context) async {
     //Load the bookmark
     int? chapterId =
@@ -38,10 +38,10 @@ class DrawerBloc {
   }
 
   void navigateNewFeatures(BuildContext context) {
-    NewFeaturesPage.pushReplacement(context);
+    ReleaseNotesPage.pushReplacement(context);
   }
 
-  void toggleNightMode(bool mode, ThemeBloc bloc) {
+  void toggleNightMode(bool mode, ThemeController bloc) {
     if (mode == true) {
       bloc.updateTheme(ThemeDataWrapper.dark());
     } else {
@@ -50,7 +50,7 @@ class DrawerBloc {
     ServiceManager.instance.userDataService.setNightMode(mode);
   }
 
-  bool isNightMode(ThemeBloc bloc) {
+  bool isNightMode(ThemeController bloc) {
     return (bloc.currentTheme != null) &&
         (bloc.currentTheme!.appTheme == AppTheme.DARK);
   }

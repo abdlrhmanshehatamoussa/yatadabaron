@@ -4,7 +4,7 @@ import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../bloc.dart';
+import '../controller.dart';
 
 class ChaptersDropDown extends StatelessWidget {
   final BuildContext parentContext;

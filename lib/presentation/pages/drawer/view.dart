@@ -4,14 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:provider/provider.dart';
-
-import 'bloc.dart';
+import 'controller.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    DrawerBloc drawerBloc = Provider.of<DrawerBloc>(context);
-    ThemeBloc themeBloc = Provider.of<ThemeBloc>(context);
+    CustomDrawerController drawerBloc = Provider.of<CustomDrawerController>(context);
+    ThemeController themeBloc = Provider.of<ThemeController>(context);
     Icon _buildTabIcon(IconData data) {
       return Icon(
         data,
@@ -84,9 +83,9 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
-  static Provider<DrawerBloc> providedWithBloc() {
+  static Provider<CustomDrawerController> providedWithBloc() {
     return Provider(
-      create: (_) => DrawerBloc(),
+      create: (_) => CustomDrawerController(),
       child: CustomDrawer(),
     );
   }

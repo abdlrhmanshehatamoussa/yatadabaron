@@ -3,11 +3,11 @@ import 'package:yatadabaron/modules/domain.module.dart';
 import 'package:yatadabaron/presentation/modules/shared-widgets.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../bloc.dart';
+import '../controller.dart';
 import '../view_model/statistics-settings.dart';
 
 class StatisticsForm extends StatelessWidget {
-  final StatisticsBloc bloc;
+  final StatisticsController bloc;
   final StatisticsSettings settings = StatisticsSettings.empty();
 
   StatisticsForm(this.bloc);
@@ -146,7 +146,7 @@ class StatisticsForm extends StatelessWidget {
     );
   }
 
-  static void show(BuildContext context, StatisticsBloc bloc) {
+  static void show(BuildContext context, StatisticsController bloc) {
     showDialog(
       context: context,
       barrierDismissible: false,

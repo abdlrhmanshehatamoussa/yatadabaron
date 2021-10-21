@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
-class SearchSessionBloc {
-  SearchSessionBloc() {
+class SearchSessionController {
+  SearchSessionController() {
     _stateBloc.add(SearchState.INITIAL);
   }
 
