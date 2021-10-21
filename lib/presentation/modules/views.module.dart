@@ -4,6 +4,5 @@ export '../views/home/view.dart';
 export '../views/mushaf/view.dart';
 export '../views/splash/view.dart';
 export '../views/statistics/view.dart';
-export '../views/app/app.dart';
 export '../views/tafseer/view.dart';
 export '../views/release_notes/view.dart';
