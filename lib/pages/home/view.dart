@@ -1,12 +1,10 @@
-import 'package:yatadabaron/app_start/navigation_manager.dart';
+import 'package:yatadabaron/app_start/page_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/mvc/base_view.dart';
-import 'package:yatadabaron/pages/drawer/view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
@@ -28,7 +26,6 @@ class HomePage extends BaseView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    ControllerManager manager = Provider.of<ControllerManager>(context);
     Widget searchResultsArea = Column(
       children: <Widget>[
         SearchSummaryWidget(),
@@ -46,10 +43,12 @@ class HomePage extends BaseView<HomeController> {
               int? chapterId = verse.chapterId;
               int? verseID = verse.verseID;
               if (chapterId != null && verseID != null) {
-                NavigationManager.of(context).goMushaf(
-                  chapterId: chapterId,
-                  verseId: verseID,
-                  replace: false,
+                navigatePush(
+                  context: context,
+                  view: PageManager.instance.mushaf(
+                    chapterId: chapterId,
+                    verseId: verseID,
+                  ),
                 );
               }
             },
@@ -97,7 +96,7 @@ class HomePage extends BaseView<HomeController> {
           return LoadingWidget();
         }
         return CustomPageWrapper(
-          drawer: CustomDrawer(manager.drawerController()),
+          drawer: PageManager.instance.drawer(),
           pageTitle: Localization.DRAWER_HOME,
           child: body,
           floatingButton: btn,

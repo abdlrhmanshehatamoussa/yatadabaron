@@ -7,11 +7,11 @@ abstract class BaseView<T extends BaseController> extends StatelessWidget {
 
   _navigate({
     required BuildContext context,
-    required BaseView view,
+    required Widget view,
     bool replace = true,
   }) {
     MaterialPageRoute route = MaterialPageRoute(
-      builder: (_) => view,
+      builder: (_) => view as BaseView,
     );
     if (replace) {
       Navigator.of(context).pushReplacement(route);
@@ -22,7 +22,7 @@ abstract class BaseView<T extends BaseController> extends StatelessWidget {
 
   navigatePush({
     required BuildContext context,
-    required BaseView view,
+    required Widget view,
   }) {
     _navigate(
       context: context,
@@ -33,7 +33,7 @@ abstract class BaseView<T extends BaseController> extends StatelessWidget {
 
   navigateReplace({
     required BuildContext context,
-    required BaseView view,
+    required Widget view,
   }) {
     _navigate(
       context: context,

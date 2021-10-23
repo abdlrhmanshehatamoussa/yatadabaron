@@ -1,16 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:yatadabaron/app_start/navigation_manager.dart';
+import 'package:yatadabaron/app_start/page_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/mvc/base_controller.dart';
 import 'package:yatadabaron/mvc/base_view.dart';
 import 'package:yatadabaron/pages/about/page.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
-import 'package:yatadabaron/pages/home/view.dart';
-import 'package:yatadabaron/pages/mushaf/view.dart';
-import 'package:yatadabaron/pages/release_notes/view.dart';
-import 'package:yatadabaron/pages/statistics/view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
 class CustomDrawer extends BaseView<CustomDrawerController> {
@@ -24,7 +19,6 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
       );
     }
 
-    ControllerManager manager = Provider.of<ControllerManager>(context);
     return Container(
       padding: EdgeInsets.all(0),
       child: Center(
@@ -53,24 +47,22 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                       trailing: _buildTabIcon(Icons.search),
                       onTap: () => navigateReplace(
                         context: context,
-                        view: HomePage(
-                          manager.homeController(),
-                        ),
+                        view: PageManager.instance.home(),
                       ),
                     ),
                     ListTile(
                       title: Text(Localization.DRAWER_QURAN),
                       trailing: _buildTabIcon(Icons.book),
                       onTap: () async {
-                        int? chapterId = await controller.getSavedChapterId();
-                        int? verseId = await controller.getSavedVerseId();
+                        int? chapterId =
+                            await controller.getSavedChapterId() ?? 0;
+                        int? verseId = await controller.getSavedVerseId() ?? 0;
+
                         navigateReplace(
                           context: context,
-                          view: MushafPage(
-                            manager.mushafController(
-                              chapterId: chapterId,
-                              verseId: verseId,
-                            ),
+                          view: PageManager.instance.mushaf(
+                            chapterId: chapterId,
+                            verseId: verseId,
                           ),
                         );
                       },
@@ -80,9 +72,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                       trailing: _buildTabIcon(Icons.insert_chart),
                       onTap: () => navigateReplace(
                         context: context,
-                        view: StatisticsPage(
-                          manager.statisticsController(),
-                        ),
+                        view: PageManager.instance.statistics(),
                       ),
                     ),
                     ListTile(
@@ -90,9 +80,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                       trailing: _buildTabIcon(Icons.new_releases_rounded),
                       onTap: () => navigateReplace(
                         context: context,
-                        view: ReleaseNotesPage(
-                          manager.releaseNotesController(),
-                        ),
+                        view: PageManager.instance.releaseNotes(),
                       ),
                     ),
                     ListTile(
@@ -105,7 +93,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                       trailing: _buildTabIcon(Icons.help),
                       onTap: () => navigateReplace(
                         context: context,
-                        view: AboutPage(BaseController()),
+                        view: PageManager.instance.about(),
                       ),
                     )
                   ],

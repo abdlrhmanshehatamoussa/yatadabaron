@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yatadabaron/app_start/navigation_manager.dart';
+import 'package:yatadabaron/app_start/page_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/pages/home/view.dart';
 import 'package:yatadabaron/pages/splash/view.dart';
 import 'package:yatadabaron/services/helpers/database-provider.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
@@ -19,35 +17,44 @@ import 'service_manager.dart';
 import 'session_manager.dart';
 
 class App extends StatelessWidget {
-  Future<ControllerManager> _start() async {
+  Future<bool> _start() async {
     try {
-      //TODO: Change database intialization technique
-      await DatabaseProvider.initialize();
-      await dotenv.load(fileName: 'assets/.env');
+      //Load platform specific providers
       SharedPreferences pref = await SharedPreferences.getInstance();
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
+      //Initialize configurations
+      await dotenv.load(fileName: 'assets/.env');
       ConfigurationManager configurationManager = ConfigurationManager(
         versionName: packageInfo.version,
         buildNumber: int.tryParse(packageInfo.buildNumber) ?? 0,
         configurationValues: dotenv.env,
       );
-
       AppSettings settings = await configurationManager.getAppSettings();
+
+      //Intializate service manager
       ServiceManager serviceManager = ServiceManager(
         preferences: pref,
         settings: settings,
       );
-      NavigationManager.initialize(serviceManager);
+
+      //Initialize database provider
+      //TODO: Change database intialization technique
+      await DatabaseProvider.initialize();
+
+      //Initialize the navigation manager
+      PageManager.instance = PageManager(serviceManager: serviceManager);
 
       IAnalyticsService analyticsService =
           serviceManager.getService<IAnalyticsService>();
       IUserDataService userDataService =
           serviceManager.getService<IUserDataService>();
 
+      //Log events
       await analyticsService.logAppStarted();
       await analyticsService.syncAllLogs();
 
+      //Initialize the session
       bool? isNightMode = await userDataService.getNightMode();
       switch (isNightMode) {
         case null:
@@ -60,11 +67,9 @@ class App extends StatelessWidget {
         default:
       }
 
-      return ControllerManager(
-        serviceManager: serviceManager,
-      );
+      return true;
     } catch (e) {
-      throw UnimplementedError();
+      throw Exception("Initialization error: $e");
     }
   }
 
@@ -94,15 +99,12 @@ class App extends StatelessWidget {
     );
   }
 
-  Widget _body(ControllerManager manager) {
+  Widget _body(BuildContext context) {
     return StreamBuilder<AppSession>(
       stream: AppSessionManager.instance.stream,
       builder: (_, AsyncSnapshot<AppSession> sessionSnapshot) {
         return CustomMaterialApp(
-          widget: Provider(
-            child: HomePage(manager.homeController()),
-            create: (context) => manager,
-          ),
+          widget: PageManager.instance.home(),
           theme: sessionSnapshot.data!.themeDataWrapper.themeData,
         );
       },
@@ -111,18 +113,18 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<ControllerManager>(
+    return FutureBuilder<bool>(
       future: _start(),
       builder: (
         BuildContext context,
-        AsyncSnapshot<ControllerManager> managerSnapshot,
+        AsyncSnapshot<bool> snapshot,
       ) {
-        if (!managerSnapshot.hasData) {
+        if (!snapshot.hasData) {
           return _loading();
         }
-        ControllerManager? manager = managerSnapshot.data;
-        if (manager != null) {
-          return _body(manager);
+        bool? done = snapshot.data;
+        if (done == true) {
+          return _body(context);
         } else {
           return _error();
         }

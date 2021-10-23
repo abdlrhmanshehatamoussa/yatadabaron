@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app_start/navigation_manager.dart';
+import 'package:yatadabaron/app_start/page_manager.dart';
 import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/mvc/base_view.dart';
-import 'package:yatadabaron/pages/tafseer/view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'controller.dart';
 import './widgets/dropdown.dart';
@@ -17,7 +16,7 @@ class MushafPage extends BaseView<MushafController> {
   @override
   Widget build(BuildContext context) {
     return CustomPageWrapper(
-      drawer: NavigationManager.of(context).getDrawer(),
+      drawer: PageManager.instance.drawer(),
       pageTitle: Localization.DRAWER_QURAN,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -82,13 +81,16 @@ class MushafPage extends BaseView<MushafController> {
               versesStream: this.controller.versesStream,
               onItemTap: (Verse result) {
                 if (result.verseID != null && result.chapterId != null) {
-                  NavigationManager.of(context).goTafseer(
-                    replace: true,
-                    verseId: result.verseID!,
-                    chapterId: result.chapterId!,
-                    onBookmarkSaved: () {
-                      controller.reloadVerses(result.chapterId, result.verseID);
-                    },
+                  navigateReplace(
+                    context: context,
+                    view: PageManager.instance.tafseer(
+                      verseId: result.verseID!,
+                      chapterId: result.chapterId!,
+                      onBookmarkSaved: () {
+                        controller.reloadVerses(
+                            result.chapterId, result.verseID);
+                      },
+                    ),
                   );
                 }
               },

@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:yatadabaron/app_start/navigation_manager.dart';
+import 'package:yatadabaron/app_start/page_manager.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/mvc/base_view.dart';
-import 'package:yatadabaron/pages/drawer/view.dart';
 import 'controller.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';
@@ -19,8 +17,6 @@ class StatisticsPage extends BaseView<StatisticsController> {
 
   @override
   Widget build(BuildContext context) {
-    ControllerManager manager = Provider.of<ControllerManager>(context);
-
     Widget resultsArea = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -48,7 +44,7 @@ class StatisticsPage extends BaseView<StatisticsController> {
     );
 
     return CustomPageWrapper(
-      drawer: CustomDrawer(manager.drawerController()),
+      drawer: PageManager.instance.drawer(),
       pageTitle: Localization.DRAWER_STATISTICS,
       child: StreamBuilder<SearchState>(
         stream: controller.stateStream,

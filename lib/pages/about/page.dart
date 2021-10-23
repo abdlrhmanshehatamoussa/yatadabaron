@@ -1,9 +1,7 @@
-import 'package:provider/provider.dart';
-import 'package:yatadabaron/app_start/navigation_manager.dart';
+import 'package:yatadabaron/app_start/page_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/mvc/base_controller.dart';
 import 'package:yatadabaron/mvc/base_view.dart';
-import 'package:yatadabaron/pages/drawer/view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,14 +23,13 @@ class AboutPage extends BaseView {
 
   @override
   Widget build(BuildContext context) {
-    ControllerManager manager = Provider.of<ControllerManager>(context);
     List<String> statements = [
       Localization.APP_DESCRIPTION,
       Localization.MUSHAF_DESCRIPTION,
       Localization.TAFSEER_ABOUT
     ];
     return CustomPageWrapper(
-      drawer: CustomDrawer(manager.drawerController()),
+      drawer: PageManager.instance.drawer(),
       pageTitle: Localization.ABOUT,
       child: Container(
         padding: EdgeInsets.all(5),

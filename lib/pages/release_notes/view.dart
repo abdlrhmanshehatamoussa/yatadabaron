@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:yatadabaron/app_start/navigation_manager.dart';
+import 'package:yatadabaron/app_start/page_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/mvc/base_view.dart';
-import 'package:yatadabaron/pages/drawer/view.dart';
 import 'package:yatadabaron/pages/release_notes/controller.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
@@ -13,9 +11,8 @@ class ReleaseNotesPage extends BaseView<ReleaseNotesController> {
 
   @override
   Widget build(BuildContext context) {
-    ControllerManager manager = Provider.of<ControllerManager>(context);
     return CustomPageWrapper(
-      drawer: CustomDrawer(manager.drawerController()),
+      drawer: PageManager.instance.drawer(),
       pageTitle: Localization.RELEASE_NOTES,
       child: Container(
         padding: EdgeInsets.all(5),
