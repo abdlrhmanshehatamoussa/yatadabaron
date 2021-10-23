@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:yatadabaron/app_start/controller_manager.dart';
+import 'package:yatadabaron/app_start/navigation_manager.dart';
 import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/mvc/base_view.dart';
-import 'package:yatadabaron/pages/drawer/view.dart';
 import 'package:yatadabaron/pages/tafseer/view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'controller.dart';
@@ -18,9 +16,8 @@ class MushafPage extends BaseView<MushafController> {
 
   @override
   Widget build(BuildContext context) {
-    ControllerManager manager = Provider.of<ControllerManager>(context);
     return CustomPageWrapper(
-      drawer: CustomDrawer(manager.drawerController()),
+      drawer: NavigationManager.of(context).getDrawer(),
       pageTitle: Localization.DRAWER_QURAN,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -85,20 +82,13 @@ class MushafPage extends BaseView<MushafController> {
               versesStream: this.controller.versesStream,
               onItemTap: (Verse result) {
                 if (result.verseID != null && result.chapterId != null) {
-                  navigatePush(
-                    context: context,
-                    view: TafseerPage(
-                      manager.tafseerPageController(
-                        verseId: result.verseID!,
-                        chapterId: result.chapterId!,
-                        onBookmarkSaved: () {
-                          this.controller.reloadVerses(
-                                result.chapterId,
-                                result.verseID,
-                              );
-                        },
-                      ),
-                    ),
+                  NavigationManager.of(context).goTafseer(
+                    replace: true,
+                    verseId: result.verseID!,
+                    chapterId: result.chapterId!,
+                    onBookmarkSaved: () {
+                      controller.reloadVerses(result.chapterId, result.verseID);
+                    },
                   );
                 }
               },

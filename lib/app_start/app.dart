@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yatadabaron/app_start/controller_manager.dart';
+import 'package:yatadabaron/app_start/navigation_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/home/view.dart';
@@ -38,6 +38,7 @@ class App extends StatelessWidget {
         preferences: pref,
         settings: settings,
       );
+      NavigationManager.initialize(serviceManager);
 
       IAnalyticsService analyticsService =
           serviceManager.getService<IAnalyticsService>();

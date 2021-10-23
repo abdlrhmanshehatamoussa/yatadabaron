@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yatadabaron/app_start/controller_manager.dart';
+import 'package:yatadabaron/app_start/navigation_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/mvc/base_controller.dart';
 import 'package:yatadabaron/mvc/base_view.dart';

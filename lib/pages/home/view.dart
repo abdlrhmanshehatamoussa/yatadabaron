@@ -1,4 +1,4 @@
-import 'package:yatadabaron/app_start/controller_manager.dart';
+import 'package:yatadabaron/app_start/navigation_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/mvc/base_view.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
-import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
@@ -47,14 +46,10 @@ class HomePage extends BaseView<HomeController> {
               int? chapterId = verse.chapterId;
               int? verseID = verse.verseID;
               if (chapterId != null && verseID != null) {
-                navigatePush(
-                  context: context,
-                  view: MushafPage(
-                    manager.mushafController(
-                      chapterId: chapterId,
-                      verseId: verseID,
-                    ),
-                  ),
+                NavigationManager.of(context).goMushaf(
+                  chapterId: chapterId,
+                  verseId: verseID,
+                  replace: false,
                 );
               }
             },
