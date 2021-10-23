@@ -1,42 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:yatadabaron/app_start/controller_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/pages/tafseer/view.dart';
 import 'package:yatadabaron/widgets/module.dart';
-import '../controller.dart';
 import 'list-item.dart';
 
 class VerseList extends StatelessWidget {
+  final Stream<List<Verse>> versesStream;
+  final Function(Verse verse) onItemTap;
+
+  const VerseList({
+    required this.versesStream,
+    required this.onItemTap,
+  });
+
   @override
   Widget build(BuildContext context) {
-    ControllerManager manager = Provider.of<ControllerManager>(context);
-    MushafController mushafController = manager.mushafController();
     ItemScrollController _scrollController = ItemScrollController();
 
-    _navigate(Verse result) {
-      if (result.verseID != null && result.chapterId != null) {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => Provider(
-            child: TafseerPage(),
-            create: (_) => manager.tafseerPageController(
-              verseId: result.verseID!,
-              chapterId: result.chapterId!,
-              onBookmarkSaved: () {
-                mushafController.reloadVerses(result.chapterId, result.verseID);
-              },
-            ),
-          ),
-        ));
-      }
-    }
-
     return StreamBuilder<List<Verse>>(
-      stream: mushafController.versesStream,
+      stream: this.versesStream,
       builder: (BuildContext context, AsyncSnapshot<List<Verse>> snapshot) {
         if (!snapshot.hasData) {
           return LoadingWidget();
@@ -81,7 +66,7 @@ class VerseList extends StatelessWidget {
               ),
               selected: result.isSelected,
               leading: (result.isBookmark) ? Icon(Icons.bookmark) : null,
-              onTap: () async => _navigate(result),
+              onTap: () async => await this.onItemTap(result),
             );
           },
         );

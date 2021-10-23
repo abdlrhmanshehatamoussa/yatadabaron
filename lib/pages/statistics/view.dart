@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yatadabaron/app_start/controller_manager.dart';
 import 'package:yatadabaron/commons/utils.dart';
+import 'package:yatadabaron/mvc/base_view.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
 import 'controller.dart';
 import './widgets/frequency-chart.dart';
@@ -13,11 +14,12 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class StatisticsPage extends StatelessWidget {
+class StatisticsPage extends BaseView<StatisticsController> {
+  StatisticsPage(StatisticsController controller) : super(controller);
+
   @override
   Widget build(BuildContext context) {
     ControllerManager manager = Provider.of<ControllerManager>(context);
-    StatisticsController controller = Provider.of<StatisticsController>(context);
 
     Widget resultsArea = Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -46,10 +48,7 @@ class StatisticsPage extends StatelessWidget {
     );
 
     return CustomPageWrapper(
-      drawer: Provider(
-        create: (_) => manager.drawerController(),
-        child: CustomDrawer(),
-      ),
+      drawer: CustomDrawer(manager.drawerController()),
       pageTitle: Localization.DRAWER_STATISTICS,
       child: StreamBuilder<SearchState>(
         stream: controller.stateStream,

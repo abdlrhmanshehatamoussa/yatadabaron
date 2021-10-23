@@ -1,6 +1,6 @@
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/helpers/generic-repository.dart';
+import 'package:yatadabaron/services/helpers/database_repository.dart';
 import 'interfaces/i_verses_service.dart';
 
 class VersesService extends DatabaseRepository implements IVersesService {

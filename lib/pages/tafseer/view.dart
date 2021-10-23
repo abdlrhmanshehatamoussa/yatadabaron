@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/mvc/base_view.dart';
 import 'controller.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/selector.dart';
 import 'widgets/tafseer_section.dart';
 import 'widgets/verse_section.dart';
 
-class TafseerPage extends StatelessWidget {
+class TafseerPage extends BaseView<TafseerPageController> {
+  TafseerPage(TafseerPageController controller) : super(controller);
+
   @override
   Widget build(BuildContext context) {
-    TafseerPageController controller = Provider.of<TafseerPageController>(context);
-    
     return Scaffold(
       appBar: TafseerAppBar.build(context),
       body: Column(

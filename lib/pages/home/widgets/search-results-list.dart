@@ -1,23 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:yatadabaron/app_start/controller_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
-import '../controller.dart';
 import 'list-item.dart';
 
 class SearchResultsList extends StatelessWidget {
+  final Stream<SearchSessionPayload> payloadStream;
+  final Function(Verse verse) onItemPress;
+  final Function(Verse verse) onItemLongPress;
+
+  const SearchResultsList({
+    required this.payloadStream,
+    required this.onItemPress,
+    required this.onItemLongPress,
+  });
+
   @override
   Widget build(BuildContext context) {
-    ControllerManager manager = Provider.of<ControllerManager>(context);
-    HomeController controller = manager.homeController();
     return StreamBuilder<SearchSessionPayload>(
-      stream: controller.payloadStream,
+      stream: this.payloadStream,
       builder:
           (BuildContext context, AsyncSnapshot<SearchSessionPayload> snapshot) {
         if (!snapshot.hasData) {
@@ -72,26 +76,8 @@ class SearchResultsList extends StatelessWidget {
                         matchColor: Theme.of(context).colorScheme.secondary,
                       ),
                       trailing: trailing,
-                      onTap: () {
-                        int? chapterId = verse.chapterId;
-                        int? verseID = verse.verseID;
-                        if (chapterId != null && verseID != null) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => Provider(
-                                child: MushafPage(),
-                                create: (_)=>manager.mushafController(
-                                  chapterId: chapterId,
-                                  verseId: verseID
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                      onLongPress: () async {
-                        await controller.copyVerse(verse);
-                      },
+                      onTap: this.onItemPress(verse),
+                      onLongPress: this.onItemLongPress(verse),
                     ),
                     Divider(
                       thickness: 1,

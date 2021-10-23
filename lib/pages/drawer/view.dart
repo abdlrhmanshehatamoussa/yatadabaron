@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yatadabaron/app_start/controller_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
+import 'package:yatadabaron/mvc/base_controller.dart';
+import 'package:yatadabaron/mvc/base_view.dart';
 import 'package:yatadabaron/pages/about/page.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
 import 'package:yatadabaron/pages/home/view.dart';
@@ -11,12 +13,10 @@ import 'package:yatadabaron/pages/release_notes/view.dart';
 import 'package:yatadabaron/pages/statistics/view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends BaseView<CustomDrawerController> {
+  CustomDrawer(CustomDrawerController controller) : super(controller);
   @override
   Widget build(BuildContext context) {
-    ControllerManager manager = Provider.of<ControllerManager>(context);
-    CustomDrawerController controller = Provider.of<CustomDrawerController>(context);
-
     Icon _buildTabIcon(IconData data) {
       return Icon(
         data,
@@ -24,24 +24,7 @@ class CustomDrawer extends StatelessWidget {
       );
     }
 
-    void _navigate({
-      required Widget page,
-      required dynamic controller,
-      bool replace = false,
-    }) {
-      MaterialPageRoute route = MaterialPageRoute(
-        builder: (_) => Provider(
-          child: page,
-          create: (_) => controller,
-        ),
-      );
-      if (replace) {
-        Navigator.of(context).pushReplacement(route);
-      } else {
-        Navigator.of(context).push(route);
-      }
-    }
-
+    ControllerManager manager = Provider.of<ControllerManager>(context);
     return Container(
       padding: EdgeInsets.all(0),
       child: Center(
@@ -68,9 +51,11 @@ class CustomDrawer extends StatelessWidget {
                     ListTile(
                       title: Text(Localization.DRAWER_HOME),
                       trailing: _buildTabIcon(Icons.search),
-                      onTap: () => _navigate(
-                        page: HomePage(),
-                        controller: manager.homeController(),
+                      onTap: () => navigateReplace(
+                        context: context,
+                        view: HomePage(
+                          manager.homeController(),
+                        ),
                       ),
                     ),
                     ListTile(
@@ -79,11 +64,13 @@ class CustomDrawer extends StatelessWidget {
                       onTap: () async {
                         int? chapterId = await controller.getSavedChapterId();
                         int? verseId = await controller.getSavedVerseId();
-                        _navigate(
-                          page: MushafPage(),
-                          controller: manager.mushafController(
-                            chapterId: chapterId,
-                            verseId: verseId,
+                        navigateReplace(
+                          context: context,
+                          view: MushafPage(
+                            manager.mushafController(
+                              chapterId: chapterId,
+                              verseId: verseId,
+                            ),
                           ),
                         );
                       },
@@ -91,17 +78,21 @@ class CustomDrawer extends StatelessWidget {
                     ListTile(
                       title: Text(Localization.DRAWER_STATISTICS),
                       trailing: _buildTabIcon(Icons.insert_chart),
-                      onTap: () => _navigate(
-                        page: StatisticsPage(),
-                        controller: manager.statisticsController(),
+                      onTap: () => navigateReplace(
+                        context: context,
+                        view: StatisticsPage(
+                          manager.statisticsController(),
+                        ),
                       ),
                     ),
                     ListTile(
                       title: Text(Localization.RELEASE_NOTES),
                       trailing: _buildTabIcon(Icons.new_releases_rounded),
-                      onTap: () => _navigate(
-                        page: ReleaseNotesPage(),
-                        controller: manager.releaseNotesController(),
+                      onTap: () => navigateReplace(
+                        context: context,
+                        view: ReleaseNotesPage(
+                          manager.releaseNotesController(),
+                        ),
                       ),
                     ),
                     ListTile(
@@ -112,9 +103,9 @@ class CustomDrawer extends StatelessWidget {
                     ListTile(
                       title: Text(Localization.ABOUT),
                       trailing: _buildTabIcon(Icons.help),
-                      onTap: () => _navigate(
-                        page: AboutPage(),
-                        controller: null,
+                      onTap: () => navigateReplace(
+                        context: context,
+                        view: AboutPage(BaseController()),
                       ),
                     )
                   ],

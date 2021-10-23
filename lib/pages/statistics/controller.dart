@@ -1,11 +1,12 @@
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/mvc/base_controller.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_chapters_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class StatisticsController {
+class StatisticsController extends BaseController {
   final IAnalyticsService analyticsService;
   final IChaptersService chaptersService;
   final IVersesService versesService;

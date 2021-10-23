@@ -5,15 +5,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/mvc/base_view.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
+import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/widgets/module.dart';
-
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
 import './widgets/search-summary.dart';
 import 'controller.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends BaseView<HomeController> {
+  HomePage(controller) : super(controller);
+
   Widget customText(String text) {
     return Center(
       child: Text(
@@ -27,7 +30,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ControllerManager manager = Provider.of<ControllerManager>(context);
-    HomeController controller = Provider.of<HomeController>(context, listen: false);
     Widget searchResultsArea = Column(
       children: <Widget>[
         SearchSummaryWidget(),
@@ -37,7 +39,26 @@ class HomePage extends StatelessWidget {
         ),
         Expanded(
           flex: 1,
-          child: SearchResultsList(),
+          child: SearchResultsList(
+            payloadStream: this.controller.payloadStream,
+            onItemLongPress: (Verse verse) async =>
+                await controller.copyVerse(verse),
+            onItemPress: (Verse verse) async {
+              int? chapterId = verse.chapterId;
+              int? verseID = verse.verseID;
+              if (chapterId != null && verseID != null) {
+                navigatePush(
+                  context: context,
+                  view: MushafPage(
+                    manager.mushafController(
+                      chapterId: chapterId,
+                      verseId: verseID,
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
         )
       ],
     );
@@ -81,10 +102,7 @@ class HomePage extends StatelessWidget {
           return LoadingWidget();
         }
         return CustomPageWrapper(
-          drawer: Provider(
-            create: (_) => manager.drawerController(),
-            child: CustomDrawer(),
-          ),
+          drawer: CustomDrawer(manager.drawerController()),
           pageTitle: Localization.DRAWER_HOME,
           child: body,
           floatingButton: btn,

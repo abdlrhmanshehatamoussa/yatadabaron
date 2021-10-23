@@ -3,20 +3,19 @@ import 'package:provider/provider.dart';
 import 'package:yatadabaron/app_start/controller_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/mvc/base_view.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
+import 'package:yatadabaron/pages/release_notes/controller.dart';
 import 'package:yatadabaron/widgets/module.dart';
-import 'controller.dart';
 
-class ReleaseNotesPage extends StatelessWidget {
+class ReleaseNotesPage extends BaseView<ReleaseNotesController> {
+  ReleaseNotesPage(ReleaseNotesController controller) : super(controller);
+
   @override
   Widget build(BuildContext context) {
     ControllerManager manager = Provider.of<ControllerManager>(context);
-    ReleaseNotesController controller = Provider.of<ReleaseNotesController>(context);
     return CustomPageWrapper(
-      drawer: Provider(
-        create: (_) => manager.drawerController(),
-        child: CustomDrawer(),
-      ),
+      drawer: CustomDrawer(manager.drawerController()),
       pageTitle: Localization.RELEASE_NOTES,
       child: Container(
         padding: EdgeInsets.all(5),

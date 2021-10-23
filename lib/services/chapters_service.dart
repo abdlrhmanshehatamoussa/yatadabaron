@@ -1,6 +1,6 @@
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/helpers/generic-repository.dart';
+import 'package:yatadabaron/services/helpers/database_repository.dart';
 import 'interfaces/i_chapters_service.dart';
 
 class ChaptersService extends DatabaseRepository implements IChaptersService {

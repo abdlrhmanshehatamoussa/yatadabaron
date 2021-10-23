@@ -5,22 +5,22 @@ import 'package:yatadabaron/app_start/controller_manager.dart';
 import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/mvc/base_view.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
+import 'package:yatadabaron/pages/tafseer/view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'controller.dart';
 import './widgets/dropdown.dart';
 import './widgets/list.dart';
 
-class MushafPage extends StatelessWidget {
+class MushafPage extends BaseView<MushafController> {
+  MushafPage(MushafController controller) : super(controller);
+
   @override
   Widget build(BuildContext context) {
     ControllerManager manager = Provider.of<ControllerManager>(context);
-    MushafController controller = Provider.of<MushafController>(context);
     return CustomPageWrapper(
-      drawer: Provider(
-        create: (_) => manager.drawerController(),
-        child: CustomDrawer(),
-      ),
+      drawer: CustomDrawer(manager.drawerController()),
       pageTitle: Localization.DRAWER_QURAN,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -38,8 +38,9 @@ class MushafPage extends StatelessWidget {
                         if (snapshot.hasData) {
                           String? chName = snapshot.data!.chapterNameAR;
                           String chId = ArabicNumbersService.instance.convert(
-                              snapshot.data!.chapterID,
-                              reverse: false);
+                            snapshot.data!.chapterID,
+                            reverse: false,
+                          );
                           String title = "$chId - $chName";
                           return ListTile(
                             title: Text(
@@ -80,7 +81,28 @@ class MushafPage extends StatelessWidget {
             color: Theme.of(context).colorScheme.secondary,
           ),
           Expanded(
-            child: VerseList(),
+            child: VerseList(
+              versesStream: this.controller.versesStream,
+              onItemTap: (Verse result) {
+                if (result.verseID != null && result.chapterId != null) {
+                  navigatePush(
+                    context: context,
+                    view: TafseerPage(
+                      manager.tafseerPageController(
+                        verseId: result.verseID!,
+                        chapterId: result.chapterId!,
+                        onBookmarkSaved: () {
+                          this.controller.reloadVerses(
+                                result.chapterId,
+                                result.verseID,
+                              );
+                        },
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
             flex: 1,
           )
         ],

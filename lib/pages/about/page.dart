@@ -1,12 +1,16 @@
 import 'package:provider/provider.dart';
 import 'package:yatadabaron/app_start/controller_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
+import 'package:yatadabaron/mvc/base_controller.dart';
+import 'package:yatadabaron/mvc/base_view.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AboutPage extends StatelessWidget {
+class AboutPage extends BaseView {
+  AboutPage(BaseController controller) : super(controller);
+
   Widget customText(String text) {
     return Text(
       text,
@@ -28,10 +32,7 @@ class AboutPage extends StatelessWidget {
       Localization.TAFSEER_ABOUT
     ];
     return CustomPageWrapper(
-      drawer: Provider(
-        create: (_) => manager.drawerController(),
-        child: CustomDrawer(),
-      ),
+      drawer: CustomDrawer(manager.drawerController()),
       pageTitle: Localization.ABOUT,
       child: Container(
         padding: EdgeInsets.all(5),

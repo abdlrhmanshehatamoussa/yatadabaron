@@ -2,12 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:share/share.dart';
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/mvc/base_controller.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_chapters_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class HomeController {
+class HomeController extends BaseController {
   final IChaptersService chaptersService;
   final IVersesService versesService;
   final IAnalyticsService analyticsService;
