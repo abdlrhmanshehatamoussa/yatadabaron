@@ -8,6 +8,7 @@ import '../controller.dart';
 class SearchSummaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //TODO: Remove dependency on controller and pass direct parameters to the widget
     HomeController controller = Provider.of<HomeController>(context);
     return StreamBuilder<SearchSessionPayload>(
       stream: controller.payloadStream,

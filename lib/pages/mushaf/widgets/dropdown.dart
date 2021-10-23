@@ -13,6 +13,7 @@ class ChaptersDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Remove dependency on controller and pass direct parameters to the widget
     MushafController mushafBloc = Provider.of<MushafController>(this.parentContext);
     return FutureBuilder<List<Chapter>>(
       future: mushafBloc.getChaptersSimple,

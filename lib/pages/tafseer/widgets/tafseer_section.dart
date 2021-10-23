@@ -15,6 +15,7 @@ class TafseerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Remove dependency on controller and pass direct parameters to the widget
     TafseerPageController bloc = Provider.of(context);
     if (tafseer != null) {
       return Container(

@@ -5,6 +5,7 @@ import '../controller.dart';
 
 class TafseerAppBar{
   static AppBar build(BuildContext context) {
+    //TODO: Remove dependency on controller and pass direct parameters to the widget
     TafseerPageController bloc = Provider.of(context);
     return AppBar(
       title: Text(Localization.TAFSEER_PAGE),

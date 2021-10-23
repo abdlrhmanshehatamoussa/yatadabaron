@@ -8,6 +8,7 @@ import '../controller.dart';
 class StatisticsSummaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //TODO: Remove dependency on controller and pass direct parameters to the widget
     StatisticsController bloc = Provider.of<StatisticsController>(context);
     return Center(
       child: StreamBuilder<StatisticsPayload>(

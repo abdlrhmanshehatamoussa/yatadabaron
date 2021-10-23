@@ -25,6 +25,7 @@ class FrequencyChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     StatisticsController bloc = Provider.of<StatisticsController>(context);
+    //TODO: Remove dependency on controller and pass direct parameters to the widget
     Color fillColor = Theme.of(context).colorScheme.secondary;
     Color? axisColor = Theme.of(context).colorScheme.secondary;
     return Container(
