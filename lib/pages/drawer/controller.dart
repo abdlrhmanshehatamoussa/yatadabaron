@@ -21,7 +21,7 @@ class CustomDrawerController extends BaseController {
   String get versionLabel {
     String buildName = this.appSettings.versionName;
     int buildNumber = this.appSettings.versionNumber;
-    return Utils.getversionLabel(buildName,buildNumber);
+    return Utils.getversionLabel(buildName, buildNumber.toString());
   }
 
   Future rate() async {

@@ -222,7 +222,7 @@ class Utils {
     return reduced;
   }
 
-  static String getversionLabel(String buildName, int buildNumber) {
+  static String getversionLabel(String buildName, String buildNumber) {
     return [buildName, buildNumber].join(" | ");
   }
 }
