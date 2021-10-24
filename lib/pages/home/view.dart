@@ -4,7 +4,7 @@ import 'package:yatadabaron/commons/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/app/mvc/base_view.dart';
+import 'package:yatadabaron/commons/base_view.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/search-form.dart';

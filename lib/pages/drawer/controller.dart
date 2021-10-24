@@ -1,6 +1,8 @@
 import 'package:launch_review/launch_review.dart';
 import 'package:yatadabaron/app/session_manager.dart';
-import 'package:yatadabaron/app/mvc/base_controller.dart';
+import 'package:yatadabaron/commons/base_controller.dart';
+import 'package:yatadabaron/commons/utils.dart';
+import 'package:yatadabaron/models/app_settings.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
@@ -8,11 +10,19 @@ import 'package:yatadabaron/viewmodels/module.dart';
 class CustomDrawerController extends BaseController {
   final IAnalyticsService analyticsService;
   final IUserDataService userDataService;
+  final AppSettings appSettings;
 
   CustomDrawerController({
     required this.analyticsService,
     required this.userDataService,
+    required this.appSettings,
   });
+
+  String get versionLabel {
+    String buildName = this.appSettings.versionName;
+    int buildNumber = this.appSettings.versionNumber;
+    return Utils.getversionLabel(buildName,buildNumber);
+  }
 
   Future rate() async {
     analyticsService.logOnTap("DRAWER", payload: "TAB=RATE");

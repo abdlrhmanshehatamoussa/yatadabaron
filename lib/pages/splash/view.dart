@@ -4,8 +4,11 @@ import 'package:yatadabaron/widgets/module.dart';
 
 class Splash extends StatelessWidget {
   final Widget child;
-
-  Splash(this.child);
+  final String versionLabel;
+  Splash({
+    required this.child,
+    required this.versionLabel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,9 @@ class Splash extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: LogoTansparent(),
+                child: LogoTansparent(
+                  versionLabel: versionLabel,
+                ),
                 flex: 1,
               ),
               Expanded(

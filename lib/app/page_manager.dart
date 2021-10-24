@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/app/service_manager.dart';
-import 'package:yatadabaron/app/mvc/base_controller.dart';
+import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/pages/about/page.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
@@ -50,6 +50,7 @@ class PageManager {
       CustomDrawerController(
         analyticsService: serviceManager.getService<IAnalyticsService>(),
         userDataService: serviceManager.getService<IUserDataService>(),
+        appSettings: serviceManager.settings,
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/app/page_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/app/mvc/base_view.dart';
+import 'package:yatadabaron/commons/base_view.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
@@ -25,6 +25,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
             TransparentTopBar(),
             FullLogo(
               padding: 40,
+              versionLabel: controller.versionLabel,
             ),
             ListTile(
               title: Text(Localization.NIGHT_MODE),

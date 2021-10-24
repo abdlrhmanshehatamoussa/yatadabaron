@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'logo-transparent.dart';
 
-class FullLogo extends StatelessWidget{
+class FullLogo extends StatelessWidget {
   final double padding;
+  final String versionLabel;
 
-  const FullLogo({this.padding = 0});
+  const FullLogo({
+    this.padding = 0,
+    required this.versionLabel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +21,9 @@ class FullLogo extends StatelessWidget{
           fit: BoxFit.fill,
         ),
       ),
-      child: LogoTansparent(),
+      child: LogoTansparent(
+        versionLabel: versionLabel,
+      ),
     );
   }
-
 }

@@ -10,15 +10,15 @@ import 'package:yatadabaron/services/helpers/database-provider.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
-import 'package:yatadabaron/widgets/custom-page-wrapper.dart';
 import 'package:yatadabaron/widgets/custom_material_app.dart';
 import 'package:yatadabaron/widgets/loading-widget.dart';
 import 'configuration_manager.dart';
 import 'service_manager.dart';
 import 'session_manager.dart';
 
-class App extends StatelessWidget {
-  Future<bool> _start() async {
+
+class App{
+  static Future<AppSettings> start() async {
     try {
       //Load platform specific providers
       SharedPreferences pref = await SharedPreferences.getInstance();
@@ -31,12 +31,12 @@ class App extends StatelessWidget {
         buildNumber: int.tryParse(packageInfo.buildNumber) ?? 0,
         configurationValues: dotenv.env,
       );
-      AppSettings settings = await configurationManager.getAppSettings();
+      AppSettings appSettings = configurationManager.getAppSettings();
 
       //Intializate service manager
       ServiceManager serviceManager = ServiceManager(
         preferences: pref,
-        settings: settings,
+        settings: appSettings,
       );
 
       //Initialize database provider
@@ -68,25 +68,29 @@ class App extends StatelessWidget {
         default:
       }
 
-      return true;
+      return appSettings;
     } catch (e) {
       throw Exception("Initialization error: $e");
     }
   }
+}
 
-  Widget _loading() {
+class AppView extends StatelessWidget {
+  Widget _loading(String versionLabel) {
     return CustomMaterialApp(
       widget: Splash(
-        LoadingWidget(),
+        child:LoadingWidget(),
+        versionLabel: versionLabel,
       ),
       theme: ThemeData.light(),
     );
   }
 
-  Widget _error() {
+  Widget _error(String versionLabel) {
     return CustomMaterialApp(
       widget: Splash(
-        Text(
+        versionLabel: versionLabel,
+        child:Text(
           Localization.LOADING_ERROR,
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -109,28 +113,30 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: _start(),
+    //TODO: Load version label properly
+    String versionLabel = "";
+    return FutureBuilder<AppSettings>(
+      future: App.start(),
       builder: (
         BuildContext context,
-        AsyncSnapshot<bool> snapshot,
+        AsyncSnapshot<AppSettings> snapshot,
       ) {
         if (!snapshot.hasData) {
-          return _loading();
+          return _loading(versionLabel);
         }
-        bool? done = snapshot.data;
-        if (done == true) {
+        AppSettings? appSettings = snapshot.data;
+        if (appSettings != null) {
           return StreamBuilder<AppSession>(
             stream: AppSessionManager.instance.stream,
             builder: (_, AsyncSnapshot<AppSession> sessionSnapshot) {
               if (!sessionSnapshot.hasData) {
-                return _loading();
+                return _loading(versionLabel);
               }
               return _body(sessionSnapshot.data!);
             },
           );
         } else {
-          return _error();
+          return _error(versionLabel);
         }
       },
     );

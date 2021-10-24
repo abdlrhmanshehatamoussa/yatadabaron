@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/app/page_manager.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/app/mvc/base_view.dart';
+import 'package:yatadabaron/commons/base_view.dart';
 import 'controller.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';

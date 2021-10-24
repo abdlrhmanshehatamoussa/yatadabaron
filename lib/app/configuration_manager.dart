@@ -26,7 +26,7 @@ class ConfigurationManager {
     throw new Exception("Error while loading configurations [$key]");
   }
 
-  Future<AppSettings> getAppSettings() async {
+  AppSettings getAppSettings() {
     String cloudHubApiUrl = _getKey(_CLOUDHUB_API_URL);
     String cloudHubClientKey = _getKey(_CLOUDHUB_CLIENT_KEY);
     String cloudHubClientSecret = _getKey(_CLOUDHUB_CLIENT_SECRET);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/app/mvc/base_view.dart';
+import 'package:yatadabaron/commons/base_view.dart';
 import 'controller.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/selector.dart';

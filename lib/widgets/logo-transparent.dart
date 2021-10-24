@@ -1,13 +1,19 @@
-import 'package:package_info/package_info.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 
 class LogoTansparent extends StatelessWidget {
-  TextStyle customStyle(
-      {double fontSize = 47,
-      FontWeight fontWeight = FontWeight.bold,
-      Color color = Colors.black}) {
+  final String versionLabel;
+
+  const LogoTansparent({
+    Key? key,
+    required this.versionLabel,
+  }) : super(key: key);
+
+  TextStyle customStyle({
+    double fontSize = 47,
+    FontWeight fontWeight = FontWeight.bold,
+    Color color = Colors.black,
+  }) {
     return TextStyle(
       color: color,
       fontSize: fontSize,
@@ -29,25 +35,11 @@ class LogoTansparent extends StatelessWidget {
           textAlign: TextAlign.center,
           style: customStyle(fontSize: 11, fontWeight: FontWeight.normal),
         ),
-        FutureBuilder<String>(
-          future: _getVersionInfo(),
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            String info = snapshot.data ?? "";
-            return Text(
-              info,
-              style: customStyle(fontSize: 11, fontWeight: FontWeight.normal),
-            );
-          },
+        Text(
+          versionLabel,
+          style: customStyle(fontSize: 11, fontWeight: FontWeight.normal),
         )
       ],
     );
-  }
-
-  Future<String> _getVersionInfo() async {
-    //TODO: I'm still not happy about that
-    PackageInfo _info = await PackageInfo.fromPlatform();
-    String name = _info.version;
-    String buildNumber = _info.buildNumber;
-    return [name, buildNumber].join(" | ");
   }
 }
