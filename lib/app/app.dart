@@ -12,26 +12,23 @@ import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/custom_material_app.dart';
 import 'package:yatadabaron/widgets/loading-widget.dart';
-import 'configuration_manager.dart';
 import 'service_manager.dart';
 import 'session_manager.dart';
 
-
-class App{
+class App {
   static Future<AppSettings> start() async {
     try {
       //Load platform specific providers
       SharedPreferences pref = await SharedPreferences.getInstance();
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-      //Initialize configurations
+      //Initialize App Settings
       await dotenv.load(fileName: 'assets/.env');
-      ConfigurationManager configurationManager = ConfigurationManager(
+      AppSettings appSettings = AppSettings.fromMap(
         versionName: packageInfo.version,
         buildNumber: int.tryParse(packageInfo.buildNumber) ?? 0,
         configurationValues: dotenv.env,
       );
-      AppSettings appSettings = configurationManager.getAppSettings();
 
       //Intializate service manager
       ServiceManager serviceManager = ServiceManager(
@@ -44,7 +41,10 @@ class App{
       await DatabaseProvider.initialize();
 
       //Initialize the navigation manager
-      PageManager.instance = PageManager(serviceManager: serviceManager);
+      PageManager.instance = PageManager(
+        serviceManager: serviceManager,
+        appSettings: appSettings,
+      );
 
       IAnalyticsService analyticsService =
           serviceManager.getService<IAnalyticsService>();
@@ -79,7 +79,7 @@ class AppView extends StatelessWidget {
   Widget _loading(String versionLabel) {
     return CustomMaterialApp(
       widget: Splash(
-        child:LoadingWidget(),
+        child: LoadingWidget(),
         versionLabel: versionLabel,
       ),
       theme: ThemeData.light(),
@@ -90,7 +90,7 @@ class AppView extends StatelessWidget {
     return CustomMaterialApp(
       widget: Splash(
         versionLabel: versionLabel,
-        child:Text(
+        child: Text(
           Localization.LOADING_ERROR,
           textAlign: TextAlign.center,
           style: TextStyle(

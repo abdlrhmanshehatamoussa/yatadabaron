@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/app/service_manager.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
+import 'package:yatadabaron/models/app_settings.dart';
 import 'package:yatadabaron/pages/about/page.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
@@ -26,9 +27,11 @@ import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
 class PageManager {
   PageManager({
     required this.serviceManager,
+    required this.appSettings,
   });
 
-  final ServiceManager serviceManager;
+  final IServiceManager serviceManager;
+  final AppSettings appSettings;
   static PageManager? _instance;
 
   static set instance(PageManager m) {
@@ -50,7 +53,7 @@ class PageManager {
       CustomDrawerController(
         analyticsService: serviceManager.getService<IAnalyticsService>(),
         userDataService: serviceManager.getService<IUserDataService>(),
-        appSettings: serviceManager.settings,
+        appSettings: this.appSettings,
       ),
     );
   }

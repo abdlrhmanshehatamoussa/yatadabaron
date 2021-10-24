@@ -16,7 +16,11 @@ import 'package:yatadabaron/services/tafseer_sources_service.dart';
 import 'package:yatadabaron/services/user_data_service.dart';
 import 'package:yatadabaron/services/verses_service.dart';
 
-class ServiceManager {
+abstract class IServiceManager {
+  T getService<T>();
+}
+
+class ServiceManager implements IServiceManager {
   ServiceManager({
     required this.settings,
     required this.preferences,
@@ -25,6 +29,7 @@ class ServiceManager {
   final AppSettings settings;
   final SharedPreferences preferences;
 
+  @override
   T getService<T>() {
     Map<String, dynamic> values = Map();
     values[(IAnalyticsService).toString()] = _analyticsService;
