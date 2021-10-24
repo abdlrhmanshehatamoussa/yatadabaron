@@ -4,16 +4,18 @@ import 'package:yatadabaron/services/helpers/database_repository.dart';
 import 'interfaces/i_chapters_service.dart';
 
 class ChaptersService extends DatabaseRepository implements IChaptersService {
+  ChaptersService({
+    required String databasePath,
+  }) : super(databaseFilePath: databasePath);
+
   @override
   Future<List<Chapter>> getAll({required bool includeWholeQuran}) async {
     //Prepare Query
     String query = "select * from chapters";
 
-    //Check DB
-    await checkDB();
-
     //Execute
-    List<Map<String, dynamic>> chapters = await database!.rawQuery(query);
+    var db = await database;
+    List<Map<String, dynamic>> chapters = await db.rawQuery(query);
     List<Chapter> results = chapters.map((Map<String, dynamic> chapterMap) {
       return Chapter.fromMap(chapterMap);
     }).toList();
@@ -33,11 +35,9 @@ class ChaptersService extends DatabaseRepository implements IChaptersService {
     String query =
         "select arabic as name from chapters where c0sura = $chapterID limit 1";
 
-    //Check DB
-    await checkDB();
-
     //Execute
-    List<Map<String, dynamic>> results = await database!.rawQuery(query);
+    var db = await database;
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
     if (results.length > 0) {
       return results[0]["name"];
     } else {
@@ -50,11 +50,9 @@ class ChaptersService extends DatabaseRepository implements IChaptersService {
     //Prepare Query
     String query = "SELECT * FROM chapters WHERE c0sura = $chapterID limit 1";
 
-    //Check DB
-    await checkDB();
-
     //Execute
-    List<Map<String, dynamic>> chapters = await database!.rawQuery(query);
+    var db = await database;
+    List<Map<String, dynamic>> chapters = await db.rawQuery(query);
     if (chapters.length > 0) {
       Map<String, dynamic> map = chapters[0];
       return Chapter.fromMap(map);

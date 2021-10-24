@@ -1,15 +1,20 @@
 import 'package:sqflite/sqflite.dart';
-import 'database-provider.dart';
 
-class DatabaseRepository{
-  Database? database;
+class DatabaseRepository {
+  DatabaseRepository({
+    required this.databaseFilePath,
+  });
 
-  Future checkDB() async{
-    if(database == null || (database!.isOpen == false)){
-      database =  await DatabaseProvider.getDatabase();
-      if(database!.isOpen == false){
-        throw Exception("Error openeing database !");
-      }
+  final String databaseFilePath;
+  Database? _database;
+
+  Future<Database> get database async {
+    if (_database == null || (_database!.isOpen == false)) {
+      _database = await openDatabase(databaseFilePath, readOnly: true);
     }
+    if (_database!.isOpen == false) {
+      throw Exception("Error openeing database !");
+    }
+    return _database!;
   }
 }

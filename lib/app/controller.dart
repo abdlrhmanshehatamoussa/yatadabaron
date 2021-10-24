@@ -2,9 +2,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
+import 'package:yatadabaron/commons/database_helper.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/helpers/database-provider.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
@@ -13,38 +13,33 @@ import 'config/service_provider.dart';
 import 'config/session_manager.dart';
 
 class AppController extends BaseController {
-  SharedPreferences? _sharedPreferences;
-  Future<SharedPreferences> get sharedPreferences async {
-    if (_sharedPreferences == null) {
-      _sharedPreferences = await SharedPreferences.getInstance();
-    }
-    return _sharedPreferences!;
-  }
-
-  PackageInfo? _packageInfo;
-  Future<PackageInfo> get packageInfo async {
-    if (_packageInfo == null) {
-      _packageInfo = await PackageInfo.fromPlatform();
-    }
-    return _packageInfo!;
-  }
+  static const String ASSETS_DB_NAME = 'quran_usmani.db';
+  static const String ASSETS_DB_DIRECTORY = "assets/data";
+  static const String ASSETS_ENV = 'assets/.env';
 
   Future<String> getVersionLabel() async {
-    var _info = await packageInfo;
+    var _info = await PackageInfo.fromPlatform();
     return Utils.getversionLabel(_info.version, _info.buildNumber);
   }
 
   Future<bool> start() async {
     try {
-      var _pref = await sharedPreferences;
-      var _info = await packageInfo;
-      
+      var _pref = await SharedPreferences.getInstance();
+      var _info = await PackageInfo.fromPlatform();
+
+      //Initialize database provider
+      String databaseFilePath = await DatabaseHelper.initializeDatabase(
+        dbAssetsDirectory: ASSETS_DB_DIRECTORY,
+        dbAssetsName: ASSETS_DB_NAME,
+      );
+
       //Initialize App Settings
-      await dotenv.load(fileName: 'assets/.env');
+      await dotenv.load(fileName: ASSETS_ENV);
       AppSettings appSettings = AppSettings.fromMap(
         versionName: _info.version,
         buildNumber: int.tryParse(_info.buildNumber) ?? 0,
         configurationValues: dotenv.env,
+        dbFilePath: databaseFilePath,
       );
 
       //Intializate service manager
@@ -52,10 +47,6 @@ class AppController extends BaseController {
         preferences: _pref,
         settings: appSettings,
       );
-
-      //Initialize database provider
-      //TODO: Change database intialization technique
-      await DatabaseProvider.initialize();
 
       //Initialize the navigation manager
       PageManager.instance = PageManager(

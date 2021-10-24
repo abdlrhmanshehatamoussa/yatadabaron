@@ -4,10 +4,13 @@ import 'package:yatadabaron/services/helpers/database_repository.dart';
 import 'interfaces/i_verses_service.dart';
 
 class VersesService extends DatabaseRepository implements IVersesService {
+  VersesService({
+    required String databaseFilePath,
+  }) : super(databaseFilePath: databaseFilePath);
+
   static const String TABLE_NAME_BASMALA = "verses_with_basmala";
   static const String TABLE_NAME_NO_BASMALA = "verses";
-  //Verses
-  //=========
+
   //Search
   @override
   Future<List<Verse>> keywordSearch(
@@ -45,11 +48,10 @@ class VersesService extends DatabaseRepository implements IVersesService {
         "WHERE ve.sura $chapterCondition "
         "and $textCondition";
 
-    //Check DB
-    await checkDB();
+    var db = await database;
 
     //Execute
-    List<Map<String, dynamic>> verses = await database!.rawQuery(query);
+    List<Map<String, dynamic>> verses = await db.rawQuery(query);
 
     //Map
     List<Verse> results = verses.map((Map<String, dynamic> verse) {
@@ -95,10 +97,10 @@ class VersesService extends DatabaseRepository implements IVersesService {
         "where v.ayah = $verseId and v.sura = $chapterId";
 
     //Check DB
-    await checkDB();
+    var db = await database;
 
     //Execute
-    List<Map<String, dynamic>> verses = await database!.rawQuery(query);
+    List<Map<String, dynamic>> verses = await db.rawQuery(query);
 
     //Map
     Map<String, dynamic> verse = verses.first;
@@ -128,10 +130,10 @@ class VersesService extends DatabaseRepository implements IVersesService {
         "$chapterCondition";
 
     //Check DB
-    await checkDB();
+    var db = await database;
 
     //Execute
-    List<Map<String, dynamic>> verses = await database!.rawQuery(query);
+    List<Map<String, dynamic>> verses = await db.rawQuery(query);
 
     //Map
     List<Verse> results = verses.map((Map<String, dynamic> verse) {

@@ -14,6 +14,7 @@ class AppSettings {
   final String tafseerSourcesURL;
   final String tafseerTextURL;
   final int versionNumber;
+  final String databaseFilePath;
 
   AppSettings({
     required this.cloudHubApiUrl,
@@ -24,12 +25,14 @@ class AppSettings {
     required this.tafseerSourcesURL,
     required this.tafseerTextURL,
     required this.versionNumber,
+    required this.databaseFilePath,
   });
 
   static AppSettings fromMap({
-    required Map<String, String> configurationValues,
+    required Map<String, dynamic> configurationValues,
     required String versionName,
     required int buildNumber,
+    required String dbFilePath,
   }) {
     String _getKey(String key) {
       String? value = configurationValues[key];
@@ -54,6 +57,7 @@ class AppSettings {
       tafseerSourcesURL: tafseerSourcesURL,
       tafseerTextURL: tafseerTextURL,
       versionNumber: buildNumber,
+      databaseFilePath: dbFilePath,
     );
   }
 }

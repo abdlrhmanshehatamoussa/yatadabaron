@@ -64,11 +64,15 @@ class ServiceProvider implements IServiceProvider {
   }
 
   IChaptersService get _chaptersService {
-    return ChaptersService();
+    return ChaptersService(
+      databasePath: settings.databaseFilePath,
+    );
   }
 
   IVersesService get _versesService {
-    return VersesService();
+    return VersesService(
+      databaseFilePath: settings.databaseFilePath,
+    );
   }
 
   ITafseerService get _tafseerService {
