@@ -13,7 +13,7 @@ class SearchSessionPayload {
   String get summary {
     int count = 0;
     for (var result in results) {
-      List<String> words = result.verseText!.split(" ");
+      List<String> words = result.verseText.split(" ");
       for (var word in words) {
         bool found = false;
         switch (settings.mode) {

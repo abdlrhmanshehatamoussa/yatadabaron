@@ -48,7 +48,7 @@ class HomePage extends BaseView<HomeController> {
             onItemPress: (Verse verse) async {
               int? chapterId = verse.chapterId;
               int? verseID = verse.verseID;
-              if (chapterId != null && verseID != null) {
+              if (chapterId != null) {
                 navigatePush(
                   context: context,
                   view: PageRouter.instance.mushaf(

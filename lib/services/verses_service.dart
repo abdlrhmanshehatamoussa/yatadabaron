@@ -55,13 +55,18 @@ class VersesService extends DatabaseRepository implements IVersesService {
 
     //Map
     List<Verse> results = verses.map((Map<String, dynamic> verse) {
-      String? chapterName = verse["chapter_name"];
-      String? verseText = verse["verse_text"];
-      String? verseTextTashkel = verse["verse_text_tashkel"];
-      int? verseID = verse["verse_id"];
-      int? chId = verse["chapter_id"];
-      Verse result =
-          Verse(chId, chapterName, verseText, verseTextTashkel, verseID);
+      String chapterName = verse["chapter_name"];
+      String verseText = verse["verse_text"];
+      String verseTextTashkel = verse["verse_text_tashkel"];
+      int verseID = verse["verse_id"];
+      int chId = verse["chapter_id"];
+      Verse result = Verse(
+        chapterId: chId,
+        chapterName: chapterName,
+        verseText: verseText,
+        verseTextTashkel: verseTextTashkel,
+        verseID: verseID,
+      );
       return result;
     }).toList();
     return results;
@@ -105,15 +110,15 @@ class VersesService extends DatabaseRepository implements IVersesService {
     //Map
     Map<String, dynamic> verse = verses.first;
     String chapterName = verse["chapter_name"];
-    String? verseText = verse["verse_text"];
-    String? verseTextTashkel = verse["verse_text_tashkel"];
-    int? verseID = verse["verse_id"];
+    String verseText = verse["verse_text"];
+    String verseTextTashkel = verse["verse_text_tashkel"];
+    int verseID = verse["verse_id"];
     Verse result = Verse(
-      chapterId,
-      chapterName,
-      verseText,
-      verseTextTashkel,
-      verseID,
+      chapterId: chapterId,
+      chapterName: chapterName,
+      verseText: verseText,
+      verseTextTashkel: verseTextTashkel,
+      verseID: verseID,
     );
     return result;
   }
@@ -137,12 +142,15 @@ class VersesService extends DatabaseRepository implements IVersesService {
 
     //Map
     List<Verse> results = verses.map((Map<String, dynamic> verse) {
-      String chapterName = "";
-      String? verseText = verse["verse_text"];
-      String? verseTextTashkel = verse["verse_text_tashkel"];
-      int? verseID = verse["verse_id"];
-      Verse result =
-          Verse(chapterId, chapterName, verseText, verseTextTashkel, verseID);
+      String verseText = verse["verse_text"];
+      String verseTextTashkel = verse["verse_text_tashkel"];
+      int verseID = verse["verse_id"];
+      Verse result = Verse(
+        chapterId: chapterId,
+        verseText: verseText,
+        verseTextTashkel: verseTextTashkel,
+        verseID: verseID,
+      );
       return result;
     }).toList();
     return results;

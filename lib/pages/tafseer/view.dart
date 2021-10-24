@@ -36,8 +36,8 @@ class TafseerPage extends BaseView<TafseerPageController> {
                   } else {
                     return VerseSection(
                       chapterName: snapshot.data!.chapterName ?? "",
-                      verseTextTashkeel: snapshot.data!.verseTextTashkel ?? "",
-                      verseId: snapshot.data!.verseID ?? -1,
+                      verseTextTashkeel: snapshot.data!.verseTextTashkel,
+                      verseId: snapshot.data!.verseID,
                     );
                   }
                 },

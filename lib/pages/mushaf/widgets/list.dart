@@ -39,7 +39,7 @@ class VerseList extends StatelessWidget {
         int scrollIndex = 0;
         if (results.any((v) => v.isSelected)) {
           int selectedVerseId =
-              results.firstWhere((v) => v.isSelected).verseID!;
+              results.firstWhere((v) => v.isSelected).verseID;
           scrollIndex = selectedVerseId - 1;
         }
         return ScrollablePositionedList.separated(

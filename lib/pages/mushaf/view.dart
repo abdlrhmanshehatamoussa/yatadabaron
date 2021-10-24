@@ -93,11 +93,11 @@ class MushafPage extends BaseView<MushafController> {
             child: VerseList(
               versesStream: this.controller.versesStream,
               onItemTap: (Verse result) {
-                if (result.verseID != null && result.chapterId != null) {
+                if (result.chapterId != null) {
                   navigatePush(
                     context: context,
                     view: PageRouter.instance.tafseer(
-                      verseId: result.verseID!,
+                      verseId: result.verseID,
                       chapterId: result.chapterId!,
                       onBookmarkSaved: () {
                         controller.reloadVerses(

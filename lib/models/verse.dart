@@ -1,12 +1,17 @@
 class Verse {
-  //TODO: Variables shouldn't be nullable
   final String? chapterName;
-  final String? verseText;
-  final String? verseTextTashkel;
-  final int? verseID;
   final int? chapterId;
+  final String verseText;
+  final String verseTextTashkel;
+  final int verseID;
   bool isSelected = false;
   bool isBookmark = false;
 
-  Verse(this.chapterId,this.chapterName, this.verseText,this.verseTextTashkel, this.verseID);
+  Verse({
+    this.chapterId,
+    this.chapterName,
+    required this.verseText,
+    required this.verseTextTashkel,
+    required this.verseID,
+  });
 }
