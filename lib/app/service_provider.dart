@@ -16,12 +16,12 @@ import 'package:yatadabaron/services/tafseer_sources_service.dart';
 import 'package:yatadabaron/services/user_data_service.dart';
 import 'package:yatadabaron/services/verses_service.dart';
 
-abstract class IServiceManager {
+abstract class IServiceProvider {
   T getService<T>();
 }
 
-class ServiceManager implements IServiceManager {
-  ServiceManager({
+class ServiceProvider implements IServiceProvider {
+  ServiceProvider({
     required this.settings,
     required this.preferences,
   });

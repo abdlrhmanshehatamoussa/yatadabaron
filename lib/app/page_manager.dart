@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app/service_manager.dart';
+import 'package:yatadabaron/app/service_provider.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/models/app_settings.dart';
 import 'package:yatadabaron/pages/about/page.dart';
@@ -26,11 +25,11 @@ import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
 
 class PageManager {
   PageManager({
-    required this.serviceManager,
+    required this.serviceProvider,
     required this.appSettings,
   });
 
-  final IServiceManager serviceManager;
+  final IServiceProvider serviceProvider;
   final AppSettings appSettings;
   static PageManager? _instance;
 
@@ -51,8 +50,8 @@ class PageManager {
   Widget drawer() {
     return CustomDrawer(
       CustomDrawerController(
-        analyticsService: serviceManager.getService<IAnalyticsService>(),
-        userDataService: serviceManager.getService<IUserDataService>(),
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
+        userDataService: serviceProvider.getService<IUserDataService>(),
         appSettings: this.appSettings,
       ),
     );
@@ -61,9 +60,9 @@ class PageManager {
   Widget home() {
     return HomePage(
       HomeController(
-        analyticsService: serviceManager.getService<IAnalyticsService>(),
-        chaptersService: serviceManager.getService<IChaptersService>(),
-        versesService: serviceManager.getService<IVersesService>(),
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
+        chaptersService: serviceProvider.getService<IChaptersService>(),
+        versesService: serviceProvider.getService<IVersesService>(),
       ),
     );
   }
@@ -74,10 +73,10 @@ class PageManager {
   }) {
     return MushafPage(
       MushafController(
-        analyticsService: serviceManager.getService<IAnalyticsService>(),
-        chaptersService: serviceManager.getService<IChaptersService>(),
-        versesService: serviceManager.getService<IVersesService>(),
-        userDataService: serviceManager.getService<IUserDataService>(),
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
+        chaptersService: serviceProvider.getService<IChaptersService>(),
+        versesService: serviceProvider.getService<IVersesService>(),
+        userDataService: serviceProvider.getService<IUserDataService>(),
         chapterId: chapterId,
         verseId: verseId,
       ),
@@ -91,15 +90,15 @@ class PageManager {
   }) {
     return TafseerPage(
       TafseerPageController(
-        analyticsService: serviceManager.getService<IAnalyticsService>(),
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
         chapterId: chapterId,
-        userDataService: serviceManager.getService<IUserDataService>(),
-        versesService: serviceManager.getService<IVersesService>(),
+        userDataService: serviceProvider.getService<IUserDataService>(),
+        versesService: serviceProvider.getService<IVersesService>(),
         verseId: verseId,
         onBookmarkSaved: onBookmarkSaved,
-        tafseerService: serviceManager.getService<ITafseerService>(),
+        tafseerService: serviceProvider.getService<ITafseerService>(),
         tafseerSourcesService:
-            serviceManager.getService<ITafseerSourcesService>(),
+            serviceProvider.getService<ITafseerSourcesService>(),
       ),
     );
   }
@@ -107,9 +106,9 @@ class PageManager {
   Widget statistics() {
     return StatisticsPage(
       StatisticsController(
-        analyticsService: serviceManager.getService<IAnalyticsService>(),
-        chaptersService: serviceManager.getService<IChaptersService>(),
-        versesService: serviceManager.getService<IVersesService>(),
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
+        chaptersService: serviceProvider.getService<IChaptersService>(),
+        versesService: serviceProvider.getService<IVersesService>(),
       ),
     );
   }
@@ -117,7 +116,7 @@ class PageManager {
   Widget releaseNotes() {
     return ReleaseNotesPage(
       ReleaseNotesController(
-        releaseInfoService: serviceManager.getService<IReleaseInfoService>(),
+        releaseInfoService: serviceProvider.getService<IReleaseInfoService>(),
       ),
     );
   }
