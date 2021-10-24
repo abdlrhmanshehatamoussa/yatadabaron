@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app/page_manager.dart';
 import 'package:yatadabaron/commons/base_view.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/pages/splash/view.dart';
@@ -7,7 +6,8 @@ import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/custom_material_app.dart';
 import 'package:yatadabaron/widgets/loading-widget.dart';
 import 'controller.dart';
-import 'session_manager.dart';
+import 'config/page_manager.dart';
+import 'config/session_manager.dart';
 
 class AppView extends BaseView<AppController> {
   AppView(AppController controller) : super(controller);

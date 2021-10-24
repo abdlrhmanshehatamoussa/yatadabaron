@@ -8,9 +8,9 @@ import 'package:yatadabaron/services/helpers/database-provider.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
-import 'page_manager.dart';
-import 'service_provider.dart';
-import 'session_manager.dart';
+import 'config/page_manager.dart';
+import 'config/service_provider.dart';
+import 'config/session_manager.dart';
 
 class AppController extends BaseController {
   SharedPreferences? _sharedPreferences;

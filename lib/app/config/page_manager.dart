@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app/service_provider.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/models/app_settings.dart';
 import 'package:yatadabaron/pages/about/page.dart';
@@ -22,6 +21,7 @@ import 'package:yatadabaron/services/interfaces/i_tafseer_service.dart';
 import 'package:yatadabaron/services/interfaces/i_tafseer_sources_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
+import 'service_provider.dart';
 
 class PageManager {
   PageManager({

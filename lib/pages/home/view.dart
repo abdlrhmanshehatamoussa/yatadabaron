@@ -1,4 +1,4 @@
-import 'package:yatadabaron/app/page_manager.dart';
+import 'package:yatadabaron/app/config/page_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:flutter/cupertino.dart';
