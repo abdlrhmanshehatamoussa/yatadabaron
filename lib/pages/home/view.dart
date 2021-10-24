@@ -1,10 +1,11 @@
-import 'package:yatadabaron/app_start/page_manager.dart';
+import 'package:yatadabaron/app/page_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/mvc/base_view.dart';
+import 'package:yatadabaron/app/mvc/base_view.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
@@ -28,7 +29,12 @@ class HomePage extends BaseView<HomeController> {
   Widget build(BuildContext context) {
     Widget searchResultsArea = Column(
       children: <Widget>[
-        SearchSummaryWidget(),
+        SearchSummaryWidget(
+          payloadStream: controller.payloadStream,
+          onPressed: (SearchSessionPayload payload) async {
+            await controller.copyAll(payload);
+          },
+        ),
         Divider(
           height: 5,
           color: Theme.of(context).colorScheme.primary,
@@ -58,8 +64,14 @@ class HomePage extends BaseView<HomeController> {
     );
 
     Widget floatingButton = FloatingActionButton(
-      onPressed: () {
-        SearchForm.show(context, controller);
+      onPressed: () async {
+        await SearchForm.show(
+          context: context,
+          chaptersFuture: controller.getMushafChapters(),
+          onSearch: (SearchSettings settings) async {
+            await controller.changeSettings(settings);
+          },
+        );
       },
       child: Icon(Icons.search),
       mini: true,

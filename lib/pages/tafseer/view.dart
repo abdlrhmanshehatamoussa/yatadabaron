@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/mvc/base_view.dart';
+import 'package:yatadabaron/app/mvc/base_view.dart';
 import 'controller.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/selector.dart';
@@ -14,7 +14,12 @@ class TafseerPage extends BaseView<TafseerPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TafseerAppBar.build(context),
+      appBar: TafseerAppBar.build(
+        context: context,
+        onShare: () async => await controller.shareVerse(),
+        onSaveBookmark: () async =>
+            await controller.onSaveBookmarkClicked(context),
+      ),
       body: Column(
         children: [
           Divider(
@@ -62,18 +67,27 @@ class TafseerPage extends BaseView<TafseerPageController> {
                     stream: controller.tafseerStream,
                     builder: (_, AsyncSnapshot<VerseTafseer> resultSnapshot) {
                       if (resultSnapshot.hasData) {
+                        VerseTafseer result = resultSnapshot.data!;
                         return Column(
                           children: [
                             TafseerSelector(
-                              tafseerId: resultSnapshot.data!.tafseerSourceID,
+                              tafseerId: result.tafseerSourceID,
                               tafseers: availableTafseerSnapshot.data!,
+                              onTafseerSourceSelected: (int id) async {
+                                await controller.updateTafseerStream(id);
+                              },
                             ),
                             Expanded(
                               child: SingleChildScrollView(
                                 child: TafseerSection(
-                                  tafseer: resultSnapshot.data!.tafseerText,
-                                  tafseerSourceID:
-                                      resultSnapshot.data!.tafseerSourceID,
+                                  tafseer: result.tafseerText,
+                                  tafseerSourceID: result.tafseerSourceID,
+                                  onDownloadSource: (int id) async {
+                                    controller.downloadTafseerSource(
+                                        id, context);
+                                  },
+                                  getTafseerSize: controller
+                                      .getTafseerSizeMB(result.tafseerSourceID),
                                 ),
                               ),
                             ),

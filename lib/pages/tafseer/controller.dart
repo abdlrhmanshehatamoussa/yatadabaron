@@ -4,7 +4,7 @@ import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/mvc/base_controller.dart';
+import 'package:yatadabaron/app/mvc/base_controller.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_tafseer_service.dart';
 import 'package:yatadabaron/services/interfaces/i_tafseer_sources_service.dart';

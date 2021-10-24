@@ -1,6 +1,6 @@
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/mvc/base_controller.dart';
+import 'package:yatadabaron/app/mvc/base_controller.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_chapters_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
@@ -53,7 +53,9 @@ class MushafController extends BaseController {
   }
 
   Future<List<Chapter>> get getChaptersSimple async {
-    return await chaptersService.getAll(includeWholeQuran: false);
+    List<Chapter> chapters =
+        await chaptersService.getAll(includeWholeQuran: false);
+    return chapters;
   }
 
   Future<void> logChapterSelected(String chatperNameAR, int chapterID) async {

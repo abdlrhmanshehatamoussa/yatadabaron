@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app_start/page_manager.dart';
+import 'package:yatadabaron/app/page_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/mvc/base_view.dart';
+import 'package:yatadabaron/app/mvc/base_view.dart';
 import 'package:yatadabaron/pages/release_notes/controller.dart';
 import 'package:yatadabaron/widgets/module.dart';
 

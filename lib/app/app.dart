@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yatadabaron/app_start/page_manager.dart';
+import 'package:yatadabaron/app/page_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/splash/view.dart';
@@ -10,6 +10,7 @@ import 'package:yatadabaron/services/helpers/database-provider.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
+import 'package:yatadabaron/widgets/custom-page-wrapper.dart';
 import 'package:yatadabaron/widgets/custom_material_app.dart';
 import 'package:yatadabaron/widgets/loading-widget.dart';
 import 'configuration_manager.dart';
@@ -99,15 +100,10 @@ class App extends StatelessWidget {
     );
   }
 
-  Widget _body(BuildContext context) {
-    return StreamBuilder<AppSession>(
-      stream: AppSessionManager.instance.stream,
-      builder: (_, AsyncSnapshot<AppSession> sessionSnapshot) {
-        return CustomMaterialApp(
-          widget: PageManager.instance.home(),
-          theme: sessionSnapshot.data!.themeDataWrapper.themeData,
-        );
-      },
+  Widget _body(AppSession appSession) {
+    return CustomMaterialApp(
+      widget: PageManager.instance.home(),
+      theme: appSession.themeDataWrapper.themeData,
     );
   }
 
@@ -124,7 +120,15 @@ class App extends StatelessWidget {
         }
         bool? done = snapshot.data;
         if (done == true) {
-          return _body(context);
+          return StreamBuilder<AppSession>(
+            stream: AppSessionManager.instance.stream,
+            builder: (_, AsyncSnapshot<AppSession> sessionSnapshot) {
+              if (!sessionSnapshot.hasData) {
+                return _loading();
+              }
+              return _body(sessionSnapshot.data!);
+            },
+          );
         } else {
           return _error();
         }

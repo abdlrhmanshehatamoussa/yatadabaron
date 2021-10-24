@@ -1,19 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
-import '../controller.dart';
 
 class SearchSummaryWidget extends StatelessWidget {
+  final Stream<SearchSessionPayload> payloadStream;
+  final Function(SearchSessionPayload payload) onPressed;
+
+  const SearchSummaryWidget({
+    required this.payloadStream,
+    required this.onPressed,
+  });
+
   @override
   Widget build(BuildContext context) {
-    //TODO: Remove dependency on controller and pass direct parameters to the widget
-    HomeController controller = Provider.of<HomeController>(context);
     return StreamBuilder<SearchSessionPayload>(
-      stream: controller.payloadStream,
-      builder:
-          (BuildContext context, AsyncSnapshot<SearchSessionPayload> snapshot) {
+      stream: this.payloadStream,
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<SearchSessionPayload> snapshot,
+      ) {
         SearchSessionPayload? searchSummary = snapshot.data;
         if (searchSummary == null) {
           return LoadingWidget();
@@ -31,16 +37,14 @@ class SearchSummaryWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 13,
                     color: Theme.of(context).colorScheme.secondary,
-                    fontFamily: "Arial"
+                    fontFamily: "Arial",
                   ),
                 ),
               ),
               Expanded(
                 child: FloatingActionButton(
                   child: Icon(Icons.share),
-                  onPressed: () async {
-                    await controller.copyAll(snapshot.data!);
-                  },
+                  onPressed: () async => await this.onPressed(searchSummary),
                   mini: true,
                   heroTag: null,
                 ),

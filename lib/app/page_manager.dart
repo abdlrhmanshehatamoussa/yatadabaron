@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app_start/service_manager.dart';
-import 'package:yatadabaron/mvc/base_controller.dart';
+import 'package:yatadabaron/app/service_manager.dart';
+import 'package:yatadabaron/app/mvc/base_controller.dart';
 import 'package:yatadabaron/pages/about/page.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
@@ -65,8 +65,8 @@ class PageManager {
   }
 
   Widget mushaf({
-    required int chapterId,
-    required int verseId,
+    required int? chapterId,
+    required int? verseId,
   }) {
     return MushafPage(
       MushafController(

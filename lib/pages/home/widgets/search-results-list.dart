@@ -76,8 +76,8 @@ class SearchResultsList extends StatelessWidget {
                         matchColor: Theme.of(context).colorScheme.secondary,
                       ),
                       trailing: trailing,
-                      onTap: this.onItemPress(verse),
-                      onLongPress: this.onItemLongPress(verse),
+                      onTap: () => this.onItemPress(verse),
+                      onLongPress: () => this.onItemLongPress(verse),
                     ),
                     Divider(
                       thickness: 1,

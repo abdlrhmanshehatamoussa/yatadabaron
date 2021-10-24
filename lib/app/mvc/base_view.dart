@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/mvc/base_controller.dart';
+import 'base_controller.dart';
 
 abstract class BaseView<T extends BaseController> extends StatelessWidget {
   final T controller;

@@ -4,14 +4,17 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
-import '../controller.dart';
 
 class SearchForm extends StatelessWidget {
-  final HomeController bloc;
+  final Future<List<Chapter>> chaptersFuture;
+  final Function(SearchSettings settings) onSearch;
   final SearchSettings settings = SearchSettings.empty();
   final TextEditingController keywordController = TextEditingController();
 
-  SearchForm(this.bloc);
+  SearchForm({
+    required this.chaptersFuture,
+    required this.onSearch,
+  });
 
   Widget searchKeywordWidget() {
     return TextField(
@@ -76,7 +79,7 @@ class SearchForm extends StatelessWidget {
           Expanded(
             flex: 1,
             child: FutureBuilder<List<Chapter>>(
-              future: bloc.getMushafChapters(),
+              future: this.chaptersFuture,
               builder: (BuildContext context,
                   AsyncSnapshot<List<Chapter>> snapshot) {
                 if (snapshot.hasData) {
@@ -144,26 +147,32 @@ class SearchForm extends StatelessWidget {
     );
   }
 
-  Widget _customButton(
-      {required BuildContext context,
-      Function? onPressed,
-      required String text}) {
+  Widget _customButton({
+    required BuildContext context,
+    required Function onTap,
+    required String text,
+  }) {
     return ElevatedButton(
-        onPressed: onPressed as void Function()?, child: Text(text));
+      onPressed: () async {
+        await onTap();
+      },
+      child: Text(text),
+    );
   }
 
   Widget searchButton(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(5),
       child: _customButton(
-          context: context,
-          onPressed: () async {
-            try {
-              this.bloc.changeSettings(settings);
-            } catch (e) {}
-            Navigator.of(context).pop();
-          },
-          text: Localization.SEARCH),
+        context: context,
+        onTap: () async {
+          try {
+            this.onSearch(settings);
+          } catch (e) {}
+          Navigator.of(context).pop();
+        },
+        text: Localization.SEARCH,
+      ),
     );
   }
 
@@ -172,7 +181,7 @@ class SearchForm extends StatelessWidget {
       padding: EdgeInsets.all(5),
       child: _customButton(
           context: context,
-          onPressed: () {
+          onTap: () {
             Navigator.of(context).pop();
           },
           text: Localization.CLOSE),
@@ -204,8 +213,12 @@ class SearchForm extends StatelessWidget {
     );
   }
 
-  static void show(BuildContext context, HomeController bloc) {
-    showDialog(
+  static Future show({
+    required BuildContext context,
+    required Future<List<Chapter>> chaptersFuture,
+    required Function(SearchSettings settings) onSearch,
+  }) async {
+    await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -213,7 +226,10 @@ class SearchForm extends StatelessWidget {
           children: <Widget>[
             Container(
               padding: EdgeInsets.all(10),
-              child: SearchForm(bloc),
+              child: SearchForm(
+                onSearch: onSearch,
+                chaptersFuture: chaptersFuture,
+              ),
             )
           ],
         );

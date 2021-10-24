@@ -1,18 +1,21 @@
 import 'package:yatadabaron/widgets/module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
-import '../controller.dart';
 
 class StatisticsSummaryWidget extends StatelessWidget {
+  final Stream<StatisticsPayload> payloadStream;
+
+  const StatisticsSummaryWidget({
+    Key? key,
+    required this.payloadStream,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    //TODO: Remove dependency on controller and pass direct parameters to the widget
-    StatisticsController bloc = Provider.of<StatisticsController>(context);
     return Center(
       child: StreamBuilder<StatisticsPayload>(
-        stream: bloc.payloadStream,
+        stream: this.payloadStream,
         builder: (_, AsyncSnapshot<StatisticsPayload> snapshot) {
           if (snapshot.hasData) {
             return Container(
@@ -21,11 +24,10 @@ class StatisticsSummaryWidget extends StatelessWidget {
                 snapshot.data!.summary,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 12,
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Arial"
-                ),
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Arial"),
               ),
             );
           }

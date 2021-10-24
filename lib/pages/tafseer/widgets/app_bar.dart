@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import '../controller.dart';
 
-class TafseerAppBar{
-  static AppBar build(BuildContext context) {
-    //TODO: Remove dependency on controller and pass direct parameters to the widget
-    TafseerPageController bloc = Provider.of(context);
+class TafseerAppBar {
+  static AppBar build({
+    required BuildContext context,
+    required Function onShare,
+    required Function onSaveBookmark,
+  }) {
     return AppBar(
       title: Text(Localization.TAFSEER_PAGE),
       bottom: PreferredSize(
@@ -14,11 +14,11 @@ class TafseerAppBar{
         child: ButtonBar(
           children: [
             IconButton(
-              onPressed: () async => await bloc.onSaveBookmarkClicked(context),
+              onPressed: () => onSaveBookmark(),
               icon: Icon(Icons.bookmark),
             ),
             IconButton(
-              onPressed: () async => await bloc.shareVerse(),
+              onPressed: () => onShare(),
               icon: Icon(Icons.share),
             )
           ],

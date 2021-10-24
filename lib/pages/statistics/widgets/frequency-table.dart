@@ -1,24 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
-import '../controller.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
 class FrequencyTable extends StatelessWidget {
+  final Stream<StatisticsPayload> payloadStream;
+
+  const FrequencyTable({
+    required this.payloadStream,
+  });
+
   @override
   Widget build(BuildContext context) {
-    //TODO: Remove dependency on controller and pass direct parameters to the widget
-    StatisticsController bloc = Provider.of<StatisticsController>(context);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Container(
         alignment: Alignment.center,
         child: StreamBuilder<StatisticsPayload>(
-          stream: bloc.payloadStream,
+          stream: this.payloadStream,
           builder: (_, AsyncSnapshot<StatisticsPayload> snapshot) {
             if (snapshot.hasData) {
               return DataTable(

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app_start/page_manager.dart';
+import 'package:yatadabaron/app/page_manager.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/mvc/base_view.dart';
+import 'package:yatadabaron/app/mvc/base_view.dart';
 import 'controller.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';
@@ -21,18 +21,24 @@ class StatisticsPage extends BaseView<StatisticsController> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        StatisticsSummaryWidget(),
+        StatisticsSummaryWidget(
+          payloadStream: this.controller.payloadStream,
+        ),
         Divider(
           height: 1,
           color: Theme.of(context).colorScheme.primary,
         ),
         Expanded(
-          child: FrequencyChart(),
+          child: FrequencyChart(
+            payloadStream: this.controller.payloadStream,
+          ),
           flex: 1,
         ),
         Divider(),
         Expanded(
-          child: FrequencyTable(),
+          child: FrequencyTable(
+            payloadStream: this.controller.payloadStream,
+          ),
           flex: 1,
         ),
       ],

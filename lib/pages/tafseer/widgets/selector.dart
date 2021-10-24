@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yatadabaron/models/module.dart';
-import '../controller.dart';
 
 class TafseerSelector extends StatelessWidget {
   final List<TafseerSource> tafseers;
   final int tafseerId;
+  final Function(int tafseerSourceId) onTafseerSourceSelected;
 
   TafseerSelector({
     required this.tafseers,
     required this.tafseerId,
+    required this.onTafseerSourceSelected,
   });
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Remove dependency on controller and pass direct parameters to the widget
-    TafseerPageController bloc = Provider.of(context);
     return Container(
       padding: EdgeInsets.all(10),
       alignment: Alignment.centerRight,
@@ -27,9 +25,9 @@ class TafseerSelector extends StatelessWidget {
           );
         }).toList(),
         value: tafseerId,
-        onChanged: (int? selection) {
+        onChanged: (int? selection) async {
           if (selection != null) {
-            bloc.updateTafseerStream(selection);
+            await onTafseerSourceSelected(selection);
           }
         },
       ),

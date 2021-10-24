@@ -1,66 +1,54 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/widgets/module.dart';
-import '../controller.dart';
 
 class ChaptersDropDown extends StatelessWidget {
-  final BuildContext parentContext;
-  const ChaptersDropDown(this.parentContext);
+  final List<Chapter> chapters;
+  final Function(Chapter chapter) onChapterSelected;
+
+  ChaptersDropDown({
+    required this.chapters,
+    required this.onChapterSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Remove dependency on controller and pass direct parameters to the widget
-    MushafController mushafBloc = Provider.of<MushafController>(this.parentContext);
-    return FutureBuilder<List<Chapter>>(
-      future: mushafBloc.getChaptersSimple,
-      builder: (BuildContext context, AsyncSnapshot<List<Chapter>> snapshot) {
-        if (!snapshot.hasData) {
-          return LoadingWidget();
-        }
-        List<Chapter> chapters = snapshot.data!;
-        return Container(
-          height: 300,
-          width: double.maxFinite,
-          child: ListView.separated(
-            separatorBuilder: (_, __) => Divider(),
-            itemCount: chapters.length,
-            itemBuilder: (_, int i) {
-              Chapter chapter = chapters[i];
-              String idStr = ArabicNumbersService.instance
-                  .convert(chapter.chapterID, reverse: false);
-              return ListTile(
-                title: Text(
-                  chapter.chapterNameAR,
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-                leading: Text(
-                  "$idStr",
-                  style: TextStyle(fontSize: 18, fontFamily: "Arial"),
-                ),
-                onTap: () async {
-                  await mushafBloc.logChapterSelected(
-                    chapter.chapterNameAR,
-                    chapter.chapterID,
-                  );
-                  mushafBloc.reloadVerses(chapter.chapterID, null);
-                  Navigator.of(context).pop();
-                },
-              );
-            },
-          ),
-        );
-      },
+    return Container(
+      height: 300,
+      width: double.maxFinite,
+      child: ListView.separated(
+        separatorBuilder: (_, __) => Divider(),
+        itemCount: chapters.length,
+        itemBuilder: (_, int i) {
+          Chapter chapter = chapters[i];
+          String idStr = ArabicNumbersService.instance
+              .convert(chapter.chapterID, reverse: false);
+          return ListTile(
+            title: Text(
+              chapter.chapterNameAR,
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            leading: Text(
+              "$idStr",
+              style: TextStyle(fontSize: 18, fontFamily: "Arial"),
+            ),
+            onTap: () => this.onChapterSelected(chapter),
+          );
+        },
+      ),
     );
   }
 
-  static show(BuildContext context) {
-    showDialog(
+  static Future show({
+    required BuildContext context,
+    required List<Chapter> chapters,
+    required Function(Chapter chapter) onChapterSelected,
+  }) async {
+    await showDialog(
       context: context,
       builder: (_) {
         return SimpleDialog(
@@ -70,7 +58,10 @@ class ChaptersDropDown extends StatelessWidget {
           ),
           contentPadding: EdgeInsets.all(5),
           children: <Widget>[
-            ChaptersDropDown(context),
+            ChaptersDropDown(
+              chapters: chapters,
+              onChapterSelected: onChapterSelected,
+            ),
           ],
         );
       },

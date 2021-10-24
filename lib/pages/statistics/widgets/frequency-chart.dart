@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
-import '../controller.dart';
 import 'package:charts_flutter/flutter.dart' as Charts;
 
 class FrequencyChart extends StatelessWidget {
+  final Stream<StatisticsPayload> payloadStream;
+
+  const FrequencyChart({
+    required this.payloadStream,
+  });
+
   List<Charts.Series<LetterFrequency, String>> _getSeries(
       List<LetterFrequency> freqs, Color color) {
     List<Charts.Series<LetterFrequency, String>> seriesList = [
@@ -24,14 +28,12 @@ class FrequencyChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StatisticsController bloc = Provider.of<StatisticsController>(context);
-    //TODO: Remove dependency on controller and pass direct parameters to the widget
     Color fillColor = Theme.of(context).colorScheme.secondary;
     Color? axisColor = Theme.of(context).colorScheme.secondary;
     return Container(
       padding: EdgeInsets.all(3),
       child: StreamBuilder<StatisticsPayload>(
-        stream: bloc.payloadStream,
+        stream: this.payloadStream,
         builder: (_, AsyncSnapshot<StatisticsPayload> snapshot) {
           if (snapshot.hasData) {
             List<Charts.Series<LetterFrequency, String>> series =

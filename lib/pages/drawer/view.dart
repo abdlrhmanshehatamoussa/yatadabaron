@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app_start/page_manager.dart';
+import 'package:yatadabaron/app/page_manager.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/mvc/base_controller.dart';
-import 'package:yatadabaron/mvc/base_view.dart';
-import 'package:yatadabaron/pages/about/page.dart';
+import 'package:yatadabaron/app/mvc/base_view.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
@@ -54,9 +52,8 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                       title: Text(Localization.DRAWER_QURAN),
                       trailing: _buildTabIcon(Icons.book),
                       onTap: () async {
-                        int? chapterId =
-                            await controller.getSavedChapterId() ?? 0;
-                        int? verseId = await controller.getSavedVerseId() ?? 0;
+                        int? chapterId = await controller.getSavedChapterId();
+                        int? verseId = await controller.getSavedVerseId();
 
                         navigateReplace(
                           context: context,

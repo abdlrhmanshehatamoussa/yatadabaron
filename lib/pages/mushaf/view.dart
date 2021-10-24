@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app_start/page_manager.dart';
+import 'package:yatadabaron/app/page_manager.dart';
 import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/mvc/base_view.dart';
+import 'package:yatadabaron/app/mvc/base_view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'controller.dart';
 import './widgets/dropdown.dart';
@@ -67,8 +67,21 @@ class MushafPage extends BaseView<MushafController> {
                   )
                 ],
               ),
-              onTap: () {
-                ChaptersDropDown.show(context);
+              onTap: () async {
+                List<Chapter> chapters =
+                    await this.controller.getChaptersSimple;
+                await ChaptersDropDown.show(
+                  context: context,
+                  chapters: chapters,
+                  onChapterSelected: (Chapter chapter) async {
+                    await this.controller.logChapterSelected(
+                          chapter.chapterNameAR,
+                          chapter.chapterID,
+                        );
+                    this.controller.reloadVerses(chapter.chapterID, null);
+                    Navigator.of(context).pop();
+                  },
+                );
               },
             ),
           ),
@@ -81,14 +94,16 @@ class MushafPage extends BaseView<MushafController> {
               versesStream: this.controller.versesStream,
               onItemTap: (Verse result) {
                 if (result.verseID != null && result.chapterId != null) {
-                  navigateReplace(
+                  navigatePush(
                     context: context,
                     view: PageManager.instance.tafseer(
                       verseId: result.verseID!,
                       chapterId: result.chapterId!,
                       onBookmarkSaved: () {
                         controller.reloadVerses(
-                            result.chapterId, result.verseID);
+                          result.chapterId,
+                          result.verseID,
+                        );
                       },
                     ),
                   );
