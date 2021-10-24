@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app/config/page_manager.dart';
+import 'package:yatadabaron/app/config/page_router.dart';
 import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
@@ -16,7 +16,7 @@ class MushafPage extends BaseView<MushafController> {
   @override
   Widget build(BuildContext context) {
     return CustomPageWrapper(
-      drawer: PageManager.instance.drawer(),
+      drawer: PageRouter.instance.drawer(),
       pageTitle: Localization.DRAWER_QURAN,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -96,7 +96,7 @@ class MushafPage extends BaseView<MushafController> {
                 if (result.verseID != null && result.chapterId != null) {
                   navigatePush(
                     context: context,
-                    view: PageManager.instance.tafseer(
+                    view: PageRouter.instance.tafseer(
                       verseId: result.verseID!,
                       chapterId: result.chapterId!,
                       onBookmarkSaved: () {

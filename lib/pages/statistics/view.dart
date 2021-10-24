@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app/config/page_manager.dart';
+import 'package:yatadabaron/app/config/page_router.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/commons/base_view.dart';
 import 'controller.dart';
@@ -50,7 +50,7 @@ class StatisticsPage extends BaseView<StatisticsController> {
     );
 
     return CustomPageWrapper(
-      drawer: PageManager.instance.drawer(),
+      drawer: PageRouter.instance.drawer(),
       pageTitle: Localization.DRAWER_STATISTICS,
       child: StreamBuilder<SearchState>(
         stream: controller.stateStream,

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app/config/page_manager.dart';
+import 'package:yatadabaron/app/config/page_router.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/base_view.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
@@ -46,7 +46,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                       trailing: _buildTabIcon(Icons.search),
                       onTap: () => navigateReplace(
                         context: context,
-                        view: PageManager.instance.home(),
+                        view: PageRouter.instance.home(),
                       ),
                     ),
                     ListTile(
@@ -58,7 +58,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
 
                         navigateReplace(
                           context: context,
-                          view: PageManager.instance.mushaf(
+                          view: PageRouter.instance.mushaf(
                             chapterId: chapterId,
                             verseId: verseId,
                           ),
@@ -70,7 +70,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                       trailing: _buildTabIcon(Icons.insert_chart),
                       onTap: () => navigateReplace(
                         context: context,
-                        view: PageManager.instance.statistics(),
+                        view: PageRouter.instance.statistics(),
                       ),
                     ),
                     ListTile(
@@ -78,7 +78,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                       trailing: _buildTabIcon(Icons.new_releases_rounded),
                       onTap: () => navigateReplace(
                         context: context,
-                        view: PageManager.instance.releaseNotes(),
+                        view: PageRouter.instance.releaseNotes(),
                       ),
                     ),
                     ListTile(
@@ -91,7 +91,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                       trailing: _buildTabIcon(Icons.help),
                       onTap: () => navigateReplace(
                         context: context,
-                        view: PageManager.instance.about(),
+                        view: PageRouter.instance.about(),
                       ),
                     )
                   ],

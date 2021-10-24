@@ -1,4 +1,4 @@
-import 'package:yatadabaron/app/config/page_manager.dart';
+import 'package:yatadabaron/app/config/page_router.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,7 +51,7 @@ class HomePage extends BaseView<HomeController> {
               if (chapterId != null && verseID != null) {
                 navigatePush(
                   context: context,
-                  view: PageManager.instance.mushaf(
+                  view: PageRouter.instance.mushaf(
                     chapterId: chapterId,
                     verseId: verseID,
                   ),
@@ -108,7 +108,7 @@ class HomePage extends BaseView<HomeController> {
           return LoadingWidget();
         }
         return CustomPageWrapper(
-          drawer: PageManager.instance.drawer(),
+          drawer: PageRouter.instance.drawer(),
           pageTitle: Localization.DRAWER_HOME,
           child: body,
           floatingButton: btn,

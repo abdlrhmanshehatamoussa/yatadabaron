@@ -8,7 +8,7 @@ import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
-import 'config/page_manager.dart';
+import 'config/page_router.dart';
 import 'config/service_provider.dart';
 import 'config/session_manager.dart';
 
@@ -49,7 +49,7 @@ class AppController extends BaseController {
       );
 
       //Initialize the navigation manager
-      PageManager.instance = PageManager(
+      PageRouter.instance = PageRouter(
         serviceProvider: serviceProvider,
         appSettings: appSettings,
       );

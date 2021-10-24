@@ -6,7 +6,7 @@ import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/custom_material_app.dart';
 import 'package:yatadabaron/widgets/loading-widget.dart';
 import 'controller.dart';
-import 'config/page_manager.dart';
+import 'config/page_router.dart';
 import 'config/session_manager.dart';
 
 class AppView extends BaseView<AppController> {
@@ -57,7 +57,7 @@ class AppView extends BaseView<AppController> {
           return _loading();
         }
         return CustomMaterialApp(
-          widget: PageManager.instance.home(),
+          widget: PageRouter.instance.home(),
           theme: sessionSnapshot.data!.themeDataWrapper.themeData,
         );
       },

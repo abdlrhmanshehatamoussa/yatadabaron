@@ -23,23 +23,23 @@ import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
 import 'service_provider.dart';
 
-class PageManager {
-  PageManager({
+class PageRouter {
+  PageRouter({
     required this.serviceProvider,
     required this.appSettings,
   });
 
   final IServiceProvider serviceProvider;
   final AppSettings appSettings;
-  static PageManager? _instance;
+  static PageRouter? _instance;
 
-  static set instance(PageManager m) {
+  static set instance(PageRouter m) {
     if (_instance == null) {
       _instance = m;
     }
   }
 
-  static PageManager get instance {
+  static PageRouter get instance {
     if (_instance != null) {
       return _instance!;
     } else {

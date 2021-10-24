@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app/config/page_manager.dart';
+import 'package:yatadabaron/app/config/page_router.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/commons/base_view.dart';
@@ -12,7 +12,7 @@ class ReleaseNotesPage extends BaseView<ReleaseNotesController> {
   @override
   Widget build(BuildContext context) {
     return CustomPageWrapper(
-      drawer: PageManager.instance.drawer(),
+      drawer: PageRouter.instance.drawer(),
       pageTitle: Localization.RELEASE_NOTES,
       child: Container(
         padding: EdgeInsets.all(5),
