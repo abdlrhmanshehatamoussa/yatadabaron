@@ -3,11 +3,11 @@ import 'logo-transparent.dart';
 
 class FullLogo extends StatelessWidget {
   final double padding;
-  final String versionLabel;
+  final String? versionLabel;
 
   const FullLogo({
     this.padding = 0,
-    required this.versionLabel,
+    this.versionLabel,
   });
 
   @override

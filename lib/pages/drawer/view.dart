@@ -24,8 +24,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
           children: <Widget>[
             TransparentTopBar(),
             FullLogo(
-              padding: 40,
-              versionLabel: controller.versionLabel,
+              padding: 20,
             ),
             ListTile(
               title: Text(Localization.NIGHT_MODE),
@@ -58,6 +57,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                 ),
               ),
             ),
+            Text("${Localization.RELEASE_NAME}    ${controller.versionLabel}")
           ],
         ),
       ),
