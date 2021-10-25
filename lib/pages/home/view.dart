@@ -40,6 +40,7 @@ class HomePage extends BaseView<HomeController> {
     }
 
     return CustomPageWrapper(
+      drawer: PageRouter.instance.drawer(),
       pageTitle: Localization.APP_TITLE,
       child: Container(
         padding: EdgeInsets.all(20),
@@ -91,7 +92,6 @@ class HomePage extends BaseView<HomeController> {
           ],
         ),
       ),
-      drawer: PageRouter.instance.drawer(),
     );
   }
 }

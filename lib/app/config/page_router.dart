@@ -51,7 +51,10 @@ class PageRouter {
 
   Widget home() {
     return HomePage(
-      HomeController(),
+      HomeController(
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
+        userDataService: serviceProvider.getService<IUserDataService>(),
+      ),
     );
   }
 
