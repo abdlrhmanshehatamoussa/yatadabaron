@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
+import '../view_models/search-settings.dart';
+import '../view_models/search-session-payload.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'list-item.dart';
 

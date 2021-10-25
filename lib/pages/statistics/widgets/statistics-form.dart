@@ -4,7 +4,7 @@ import 'package:yatadabaron/widgets/module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../controller.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
+import '../view_models/statistics-settings.dart';
 
 class StatisticsForm extends StatelessWidget {
   final StatisticsController bloc;

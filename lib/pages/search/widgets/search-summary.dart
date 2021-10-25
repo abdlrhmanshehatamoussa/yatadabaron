@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
+import '../view_models/search-session-payload.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
 class SearchSummaryWidget extends StatelessWidget {
