@@ -9,7 +9,7 @@ class CustomPageWrapper extends StatelessWidget {
   CustomPageWrapper({
     required this.child,
     required this.pageTitle,
-    required this.drawer,
+    this.drawer,
     this.floatingButton,
   });
 

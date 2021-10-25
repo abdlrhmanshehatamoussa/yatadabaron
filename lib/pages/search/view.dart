@@ -108,7 +108,6 @@ class SearchPage extends BaseView<SearchController> {
           return LoadingWidget();
         }
         return CustomPageWrapper(
-          drawer: PageRouter.instance.drawer(),
           pageTitle: Localization.DRAWER_SEARCH,
           child: body,
           floatingButton: btn,

@@ -42,46 +42,6 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                 child: Column(
                   children: [
                     ListTile(
-                      title: Text(Localization.DRAWER_SEARCH),
-                      trailing: _buildTabIcon(Icons.search),
-                      onTap: () => navigateReplace(
-                        context: context,
-                        view: PageRouter.instance.search(),
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(Localization.DRAWER_QURAN),
-                      trailing: _buildTabIcon(Icons.book),
-                      onTap: () async {
-                        int? chapterId = await controller.getSavedChapterId();
-                        int? verseId = await controller.getSavedVerseId();
-
-                        navigateReplace(
-                          context: context,
-                          view: PageRouter.instance.mushaf(
-                            chapterId: chapterId,
-                            verseId: verseId,
-                          ),
-                        );
-                      },
-                    ),
-                    ListTile(
-                      title: Text(Localization.DRAWER_STATISTICS),
-                      trailing: _buildTabIcon(Icons.insert_chart),
-                      onTap: () => navigateReplace(
-                        context: context,
-                        view: PageRouter.instance.statistics(),
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(Localization.RELEASE_NOTES),
-                      trailing: _buildTabIcon(Icons.new_releases_rounded),
-                      onTap: () => navigateReplace(
-                        context: context,
-                        view: PageRouter.instance.releaseNotes(),
-                      ),
-                    ),
-                    ListTile(
                       title: Text(Localization.RATE),
                       trailing: _buildTabIcon(Icons.star),
                       onTap: () async => await controller.rate(),
@@ -89,7 +49,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                     ListTile(
                       title: Text(Localization.ABOUT),
                       trailing: _buildTabIcon(Icons.help),
-                      onTap: () => navigateReplace(
+                      onTap: () => navigatePush(
                         context: context,
                         view: PageRouter.instance.about(),
                       ),
