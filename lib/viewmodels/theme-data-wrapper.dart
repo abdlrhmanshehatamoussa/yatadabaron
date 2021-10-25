@@ -34,12 +34,7 @@ class ThemeDataWrapper {
       primary: primary,
     );
 
-    TextTheme textTheme = ThemeData.dark().textTheme.apply(
-          fontFamily: "Usmani",
-        );
-
     return ThemeData.dark().copyWith(
-        textTheme: textTheme,
         colorScheme: colorScheme,
         toggleableActiveColor: secondary,
         scaffoldBackgroundColor: Colors.black,
