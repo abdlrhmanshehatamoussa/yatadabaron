@@ -16,7 +16,6 @@ class MushafPage extends BaseView<MushafController> {
   @override
   Widget build(BuildContext context) {
     return CustomPageWrapper(
-      drawer: PageRouter.instance.drawer(),
       pageTitle: Localization.DRAWER_QURAN,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

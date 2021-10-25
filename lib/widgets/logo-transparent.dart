@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 
 class LogoTansparent extends StatelessWidget {
-  final String versionLabel;
+  final String? versionLabel;
 
   const LogoTansparent({
     Key? key,
-    required this.versionLabel,
+    this.versionLabel,
   }) : super(key: key);
 
   TextStyle customStyle({
@@ -36,7 +36,7 @@ class LogoTansparent extends StatelessWidget {
           style: customStyle(fontSize: 11, fontWeight: FontWeight.normal),
         ),
         Text(
-          versionLabel,
+          versionLabel ?? "",
           style: customStyle(fontSize: 11, fontWeight: FontWeight.normal),
         )
       ],

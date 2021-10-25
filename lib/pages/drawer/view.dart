@@ -24,8 +24,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
           children: <Widget>[
             TransparentTopBar(),
             FullLogo(
-              padding: 40,
-              versionLabel: controller.versionLabel,
+              padding: 20,
             ),
             ListTile(
               title: Text(Localization.NIGHT_MODE),
@@ -42,62 +41,15 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                 child: Column(
                   children: [
                     ListTile(
-                      title: Text(Localization.DRAWER_HOME),
-                      trailing: _buildTabIcon(Icons.search),
-                      onTap: () => navigateReplace(
-                        context: context,
-                        view: PageRouter.instance.home(),
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(Localization.DRAWER_QURAN),
-                      trailing: _buildTabIcon(Icons.book),
-                      onTap: () async {
-                        int? chapterId = await controller.getSavedChapterId();
-                        int? verseId = await controller.getSavedVerseId();
-
-                        navigateReplace(
-                          context: context,
-                          view: PageRouter.instance.mushaf(
-                            chapterId: chapterId,
-                            verseId: verseId,
-                          ),
-                        );
-                      },
-                    ),
-                    ListTile(
-                      title: Text(Localization.DRAWER_STATISTICS),
-                      trailing: _buildTabIcon(Icons.insert_chart),
-                      onTap: () => navigateReplace(
-                        context: context,
-                        view: PageRouter.instance.statistics(),
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(Localization.RELEASE_NOTES),
-                      trailing: _buildTabIcon(Icons.new_releases_rounded),
-                      onTap: () => navigateReplace(
-                        context: context,
-                        view: PageRouter.instance.releaseNotes(),
-                      ),
-                    ),
-                    ListTile(
                       title: Text(Localization.RATE),
                       trailing: _buildTabIcon(Icons.star),
                       onTap: () async => await controller.rate(),
                     ),
-                    ListTile(
-                      title: Text(Localization.ABOUT),
-                      trailing: _buildTabIcon(Icons.help),
-                      onTap: () => navigateReplace(
-                        context: context,
-                        view: PageRouter.instance.about(),
-                      ),
-                    )
                   ],
                 ),
               ),
             ),
+            Text("${Localization.RELEASE_NAME}    ${controller.versionLabel}")
           ],
         ),
       ),

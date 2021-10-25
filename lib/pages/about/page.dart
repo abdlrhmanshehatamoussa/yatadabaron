@@ -1,4 +1,3 @@
-import 'package:yatadabaron/app/config/page_router.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/commons/base_view.dart';
@@ -29,7 +28,6 @@ class AboutPage extends BaseView {
       Localization.TAFSEER_ABOUT
     ];
     return CustomPageWrapper(
-      drawer: PageRouter.instance.drawer(),
       pageTitle: Localization.ABOUT,
       child: Container(
         padding: EdgeInsets.all(5),
