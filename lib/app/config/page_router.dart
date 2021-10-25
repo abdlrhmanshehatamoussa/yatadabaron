@@ -4,6 +4,8 @@ import 'package:yatadabaron/models/app_settings.dart';
 import 'package:yatadabaron/pages/about/page.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
+import 'package:yatadabaron/pages/home/controller.dart';
+import 'package:yatadabaron/pages/home/view.dart';
 import 'package:yatadabaron/pages/search/controller.dart';
 import 'package:yatadabaron/pages/search/view.dart';
 import 'package:yatadabaron/pages/mushaf/controller.dart';
@@ -45,6 +47,12 @@ class PageRouter {
     } else {
       throw Exception("Page manager has not been initialized!");
     }
+  }
+
+  Widget home() {
+    return HomePage(
+      HomeController(),
+    );
   }
 
   Widget drawer() {
