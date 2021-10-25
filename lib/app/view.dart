@@ -57,7 +57,7 @@ class AppView extends BaseView<AppController> {
           return _loading();
         }
         return CustomMaterialApp(
-          widget: PageRouter.instance.home(),
+          widget: PageRouter.instance.search(),
           theme: sessionSnapshot.data!.themeDataWrapper.themeData,
         );
       },

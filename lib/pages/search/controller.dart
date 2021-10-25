@@ -8,12 +8,12 @@ import 'package:yatadabaron/services/interfaces/i_chapters_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class HomeController extends BaseController {
+class SearchController extends BaseController {
   final IChaptersService chaptersService;
   final IVersesService versesService;
   final IAnalyticsService analyticsService;
 
-  HomeController({
+  SearchController({
     required this.analyticsService,
     required this.chaptersService,
     required this.versesService,

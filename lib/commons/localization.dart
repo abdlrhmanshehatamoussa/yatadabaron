@@ -3,7 +3,7 @@ class Localization {
   static const String APP_DESCRIPTION =
       "يتدبرون - محرك بحث قرآني مفتوح المصدر صدر في شوال 1439هـ\nهذا التطبيق مجاني لكل الباحثين في القرآن الكريم وغير مقصود من ورائه التربح بأي شكل من الأشكال";
   static const String DRAWER_QURAN = 'المصحف الشريف';
-  static const String DRAWER_HOME = 'ابحث في القرآن الكريم';
+  static const String DRAWER_SEARCH = 'ابحث في القرآن الكريم';
   static const String ENTER_SEARCH_KEYWORD = 'ادخل كلمة البحث هنا';
   static const String SEARCH_MODE = 'نوع البحث';
   static const String BASMALA_MODE = 'اعتبار البسملة';

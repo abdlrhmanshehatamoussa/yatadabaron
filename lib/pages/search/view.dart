@@ -12,8 +12,8 @@ import './widgets/search-results-list.dart';
 import './widgets/search-summary.dart';
 import 'controller.dart';
 
-class HomePage extends BaseView<HomeController> {
-  HomePage(controller) : super(controller);
+class SearchPage extends BaseView<SearchController> {
+  SearchPage(controller) : super(controller);
 
   Widget customText(String text) {
     return Center(
@@ -109,7 +109,7 @@ class HomePage extends BaseView<HomeController> {
         }
         return CustomPageWrapper(
           drawer: PageRouter.instance.drawer(),
-          pageTitle: Localization.DRAWER_HOME,
+          pageTitle: Localization.DRAWER_SEARCH,
           child: body,
           floatingButton: btn,
         );

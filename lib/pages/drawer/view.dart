@@ -42,11 +42,11 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                 child: Column(
                   children: [
                     ListTile(
-                      title: Text(Localization.DRAWER_HOME),
+                      title: Text(Localization.DRAWER_SEARCH),
                       trailing: _buildTabIcon(Icons.search),
                       onTap: () => navigateReplace(
                         context: context,
-                        view: PageRouter.instance.home(),
+                        view: PageRouter.instance.search(),
                       ),
                     ),
                     ListTile(
