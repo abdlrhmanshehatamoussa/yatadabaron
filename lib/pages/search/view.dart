@@ -5,12 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/commons/base_view.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
 import './widgets/search-summary.dart';
 import 'controller.dart';
+import 'view_models/search-session-payload.dart';
+import 'view_models/search-settings.dart';
 
 class SearchPage extends BaseView<SearchController> {
   SearchPage(controller) : super(controller);

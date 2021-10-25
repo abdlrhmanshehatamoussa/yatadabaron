@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'package:charts_flutter/flutter.dart' as Charts;
+import '../view_models/statistics-payload.dart';
 
 class FrequencyChart extends StatelessWidget {
   final Stream<StatisticsPayload> payloadStream;

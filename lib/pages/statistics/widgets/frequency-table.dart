@@ -4,7 +4,7 @@ import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
+import '../view_models/statistics-payload.dart';
 
 class FrequencyTable extends StatelessWidget {
   final Stream<StatisticsPayload> payloadStream;

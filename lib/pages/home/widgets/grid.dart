@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/viewmodels/home_grid_item.dart';
+import '../viewmodels/home_grid_item.dart';
 import 'gird_item.dart';
 
 class HomeGrid extends StatelessWidget {

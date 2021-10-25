@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/app/config/page_router.dart';
 import 'package:yatadabaron/commons/base_view.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/viewmodels/home_grid_item.dart';
+import 'viewmodels/home_grid_item.dart';
 import 'controller.dart';
 import 'widgets/grid.dart';
 import 'widgets/header.dart';
