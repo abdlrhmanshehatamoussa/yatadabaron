@@ -28,14 +28,10 @@ class HomePage extends BaseView<HomeController> {
         title: Localization.DRAWER_QURAN,
         icon: Icons.book,
         onTap: () async {
-          int? chapterId = await controller.getSavedChapterId();
-          int? verseId = await controller.getSavedVerseId();
-
           navigatePush(
             context: context,
             view: PageRouter.instance.mushaf(
-              chapterId: chapterId,
-              verseId: verseId,
+              mushafLocation: null,
             ),
           );
         },

@@ -5,7 +5,6 @@ class Verse {
   final String verseTextTashkel;
   final int verseID;
   bool isSelected = false;
-  bool isBookmark = false;
 
   Verse({
     this.chapterId,

@@ -65,7 +65,7 @@ class VerseList extends StatelessWidget {
                 color: color,
               ),
               selected: result.isSelected,
-              leading: (result.isBookmark) ? Icon(Icons.bookmark) : null,
+              leading: null,
               onTap: () async => await this.onItemTap(result),
             );
           },

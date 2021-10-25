@@ -52,8 +52,10 @@ class SearchPage extends BaseView<SearchController> {
                 navigatePush(
                   context: context,
                   view: PageRouter.instance.mushaf(
-                    chapterId: chapterId,
-                    verseId: verseID,
+                    mushafLocation: MushafLocation(
+                      chapterId: chapterId,
+                      verseId: verseID,
+                    ),
                   ),
                 );
               }

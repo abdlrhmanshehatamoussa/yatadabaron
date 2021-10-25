@@ -11,18 +11,15 @@ class MushafController extends BaseController {
   final IVersesService versesService;
   final IUserDataService userDataService;
   final IAnalyticsService analyticsService;
-  final int? chapterId;
-  final int? verseId;
 
   MushafController({
-    required this.chapterId,
-    required this.verseId,
+    required mushafLocation,
     required this.chaptersService,
     required this.versesService,
     required this.userDataService,
     required this.analyticsService,
   }) {
-    reloadVerses(chapterId, verseId);
+    reloadVerses(mushafLocation);
   }
 
   StreamObject<List<Verse>> _versesBloc = StreamObject();
@@ -31,24 +28,22 @@ class MushafController extends BaseController {
   Stream<Chapter> get selectedChapterStream => _selectedChapterBloc.stream;
   Stream<List<Verse>> get versesStream => _versesBloc.stream;
 
-  Future reloadVerses(int? chapterId, int? verseId) async {
-    chapterId = chapterId ?? 1;
+  Future reloadVerses(MushafLocation? mushafLocation) async {
+    if (mushafLocation == null) {
+      //TODO: Try to Get the latest bookmarked mushaf location
+    }
+    mushafLocation ??= MushafLocation(
+      chapterId: 1,
+      verseId: 1,
+    );
+    int chapterId = mushafLocation.chapterId;
+    int verseId = mushafLocation.verseId;
     Chapter chapter = await chaptersService.getChapter(chapterId);
     List<Verse> verses =
         await versesService.getVersesByChapterId(chapterId, false);
 
     _selectedChapterBloc.add(chapter);
-    if (verseId != null && verseId > 0) {
-      verses.firstWhere((v) => v.verseID == verseId).isSelected = true;
-    }
-    //Load the bookmarks
-    int? bmC = await userDataService.getBookmarkChapter();
-    if (bmC != null) {
-      if (bmC == chapterId) {
-        int? bmV = await userDataService.getBookmarkVerse();
-        verses.firstWhere((v) => v.verseID == bmV).isBookmark = true;
-      }
-    }
+    verses.firstWhere((v) => v.verseID == verseId).isSelected = true;
     _versesBloc.add(verses);
   }
 

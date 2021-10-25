@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/models/app_settings.dart';
+import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/about/page.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
@@ -79,8 +80,7 @@ class PageRouter {
   }
 
   Widget mushaf({
-    required int? chapterId,
-    required int? verseId,
+    required MushafLocation? mushafLocation,
   }) {
     return MushafPage(
       MushafController(
@@ -88,8 +88,7 @@ class PageRouter {
         chaptersService: serviceProvider.getService<IChaptersService>(),
         versesService: serviceProvider.getService<IVersesService>(),
         userDataService: serviceProvider.getService<IUserDataService>(),
-        chapterId: chapterId,
-        verseId: verseId,
+        mushafLocation: mushafLocation,
       ),
     );
   }

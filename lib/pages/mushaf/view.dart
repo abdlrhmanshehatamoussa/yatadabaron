@@ -77,7 +77,12 @@ class MushafPage extends BaseView<MushafController> {
                           chapter.chapterNameAR,
                           chapter.chapterID,
                         );
-                    this.controller.reloadVerses(chapter.chapterID, null);
+                    this.controller.reloadVerses(
+                          MushafLocation(
+                            chapterId: chapter.chapterID,
+                            verseId: 1,
+                          ),
+                        );
                     Navigator.of(context).pop();
                   },
                 );
@@ -100,8 +105,10 @@ class MushafPage extends BaseView<MushafController> {
                       chapterId: result.chapterId!,
                       onBookmarkSaved: () {
                         controller.reloadVerses(
-                          result.chapterId,
-                          result.verseID,
+                          MushafLocation(
+                            chapterId: result.chapterId!,
+                            verseId: result.verseID,
+                          ),
                         );
                       },
                     ),
