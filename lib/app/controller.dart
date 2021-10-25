@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';

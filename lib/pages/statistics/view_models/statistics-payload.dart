@@ -1,7 +1,7 @@
 import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 
 class StatisticsPayload {
   final String? chapterName;

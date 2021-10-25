@@ -5,6 +5,7 @@ import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_chapters_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 
 class MushafController extends BaseController {
   final IChaptersService chaptersService;

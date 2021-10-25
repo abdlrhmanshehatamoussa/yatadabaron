@@ -4,6 +4,7 @@ import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_chapters_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 import 'view_models/statistics-payload.dart';
 import 'view_models/statistics-settings.dart';
 
