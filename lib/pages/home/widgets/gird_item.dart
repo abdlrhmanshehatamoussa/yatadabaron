@@ -17,8 +17,10 @@ class HomeGridItem extends StatelessWidget {
     return GestureDetector(
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).secondaryHeaderColor,
-          borderRadius: BorderRadius.all(Radius.circular(15))
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.all(
+            Radius.circular(15),
+          ),
         ),
         child: Column(
           children: [

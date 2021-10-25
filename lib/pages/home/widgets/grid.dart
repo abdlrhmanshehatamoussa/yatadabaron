@@ -22,7 +22,7 @@ class HomeGrid extends StatelessWidget {
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
         ),
-        color: Theme.of(context).cardColor,
+        color: Theme.of(context).secondaryHeaderColor,
       ),
       padding: EdgeInsets.all(20),
       child: GridView.count(

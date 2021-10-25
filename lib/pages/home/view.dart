@@ -55,10 +55,18 @@ class HomePage extends BaseView<HomeController> {
           context: context,
           view: PageRouter.instance.releaseNotes(),
         ),
-      )
+      ),
+      HomeGridItemViewModel(
+        title: Localization.ABOUT,
+        icon: Icons.help,
+        onTap: () => navigatePush(
+          context: context,
+          view: PageRouter.instance.about(),
+        ),
+      ),
     ];
 
-    Color? mainContainerColor = Theme.of(context).secondaryHeaderColor;
+    Color? mainContainerColor = Theme.of(context).cardColor;
     return Scaffold(
       key: _key,
       drawer: Drawer(
