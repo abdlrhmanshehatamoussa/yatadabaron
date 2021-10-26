@@ -3,8 +3,8 @@ class Localization {
   static const String APP_DESCRIPTION =
       "يتدبرون - محرك بحث قرآني مفتوح المصدر صدر في شوال 1439هـ\nهذا التطبيق مجاني لكل الباحثين في القرآن الكريم وغير مقصود من ورائه التربح بأي شكل من الأشكال";
   //TODO: Rename drawer variables
-  static const String DRAWER_QURAN = 'المصحف الشريف';
-  static const String DRAWER_SEARCH = 'ابحث في القرآن';
+  static const String MUSHAF_SHARIF = 'المصحف الشريف';
+  static const String SEARCH_IN_QURAN = 'ابحث في القرآن';
   static const String ENTER_SEARCH_KEYWORD = 'ادخل كلمة البحث هنا';
   static const String SEARCH_MODE = 'نوع البحث';
   static const String BASMALA_MODE = 'اعتبار البسملة';
@@ -29,7 +29,7 @@ class Localization {
       'حدث خطأ ما أثناء اعداد التطبيق, برجاء التواصل مع ادارة التطبيق!';
   static const String DARK_MODE = 'الوضع الليلي';
   static const String WHOLE_QURAN = 'القرآن الكريم كاملاً';
-  static const String DRAWER_STATISTICS = 'احصائيات القرآن';
+  static const String QURAN_STATISTICS = 'احصائيات القرآن';
   static const String TAP_STAT_BUTTON =
       'اضغط علي علامة الرسم البياني لاظهار الاحصائيات';
   static const String FREQUENCY = 'التكرار';

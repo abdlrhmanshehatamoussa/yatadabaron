@@ -113,7 +113,7 @@ class SearchPage extends BaseView<SearchController> {
           return LoadingWidget();
         }
         return CustomPageWrapper(
-          pageTitle: Localization.DRAWER_SEARCH,
+          pageTitle: Localization.SEARCH_IN_QURAN,
           child: body,
           floatingButton: btn,
         );

@@ -76,7 +76,7 @@ class MushafPage extends BaseView<MushafController> {
               }
               MushafPageState state = stateSnapshot.data!;
               return CustomPageWrapper(
-                pageTitle: Localization.DRAWER_QURAN,
+                pageTitle: Localization.MUSHAF_SHARIF,
                 child: _body(context, chapters, state),
               );
             },

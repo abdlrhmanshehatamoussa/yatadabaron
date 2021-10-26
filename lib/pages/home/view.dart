@@ -17,7 +17,7 @@ class HomePage extends BaseView<HomeController> {
   Widget build(BuildContext context) {
     List<HomeGridItemViewModel> _gridItems = [
       HomeGridItemViewModel(
-        title: Localization.DRAWER_SEARCH,
+        title: Localization.SEARCH_IN_QURAN,
         icon: Icons.search,
         onTap: () => navigatePush(
           context: context,
@@ -25,7 +25,7 @@ class HomePage extends BaseView<HomeController> {
         ),
       ),
       HomeGridItemViewModel(
-        title: Localization.DRAWER_QURAN,
+        title: Localization.MUSHAF_SHARIF,
         icon: Icons.book,
         onTap: () async {
           navigatePush(
@@ -37,7 +37,7 @@ class HomePage extends BaseView<HomeController> {
         },
       ),
       HomeGridItemViewModel(
-        title: Localization.DRAWER_STATISTICS,
+        title: Localization.QURAN_STATISTICS,
         icon: Icons.insert_chart,
         onTap: () => navigatePush(
           context: context,
