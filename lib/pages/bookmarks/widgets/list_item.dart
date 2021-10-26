@@ -42,7 +42,6 @@ class BookmarkListItem extends StatelessWidget {
       trailing: IconButton(
         icon: Icon(
           Icons.delete_forever,
-          //color: Colors.red,
           size: 30,
         ),
         onPressed: () async => await onBookmarkRemove(
