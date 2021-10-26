@@ -70,14 +70,12 @@ class HomePage extends BaseView<HomeController> {
       ),
     ];
 
-    Color? mainContainerColor = Theme.of(context).cardColor;
     return Scaffold(
       key: _key,
       drawer: Drawer(
         child: PageRouter.instance.drawer(),
       ),
       body: Container(
-        color: mainContainerColor,
         alignment: Alignment.center,
         child: Column(
           children: <Widget>[

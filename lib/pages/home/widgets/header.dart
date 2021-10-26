@@ -38,6 +38,7 @@ class HomeHeader extends StatelessWidget {
                   Localization.APP_TITLE,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
+                    fontFamily: "Usmani",
                     fontSize: 36,
                   ),
                 ),
