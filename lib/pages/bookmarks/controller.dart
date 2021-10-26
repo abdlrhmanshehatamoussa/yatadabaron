@@ -1,19 +1,25 @@
 import 'package:yatadabaron/commons/base_controller.dart';
+import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
 class BookmarksController extends BaseController {
-  final IVersesService versesService;
-  final IUserDataService userDataService;
-
   BookmarksController({
     required this.versesService,
     required this.userDataService,
-  });
+  }) {
+    reloadBookmarks();
+  }
 
-  Future<List<Verse>> getBookmarkedVerses() async {
+  final IVersesService versesService;
+  final IUserDataService userDataService;
+
+  StreamObject<List<Verse>> _versesStreamObj = StreamObject();
+  Stream<List<Verse>> get bookmarkedVersesStream => _versesStreamObj.stream;
+
+  Future<void> reloadBookmarks() async {
     List<Verse> results = [];
     List<MushafLocation> locations = await userDataService.getMushafLocations();
     for (var location in locations) {
@@ -21,6 +27,11 @@ class BookmarksController extends BaseController {
           location.verseId, location.chapterId);
       results.add(v);
     }
-    return results;
+    _versesStreamObj.add(results);
+  }
+
+  Future<void> removeBookmark(MushafLocation loc) async {
+    await userDataService.removeMushafLocation(loc);
+    await reloadBookmarks();
   }
 }

@@ -10,6 +10,7 @@ import 'package:yatadabaron/services/interfaces/i_tafseer_service.dart';
 import 'package:yatadabaron/services/interfaces/i_tafseer_sources_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 
 class TafseerPageController extends BaseController {
   TafseerPageController({
@@ -64,7 +65,12 @@ class TafseerPageController extends BaseController {
   }
 
   Future<void> onSaveBookmarkClicked(BuildContext context) async {
-    bool done = await userDataService.addMushafLocation(chapterId, verseId);
+    bool done = await userDataService.addMushafLocation(
+      MushafLocation(
+        chapterId: chapterId,
+        verseId: verseId,
+      ),
+    );
     if (done) {
       await Utils.showCustomDialog(
         context: context,

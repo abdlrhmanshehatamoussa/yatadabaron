@@ -24,31 +24,19 @@ class UserDataService implements IUserDataService {
   }
 
   @override
-  Future<bool> addMushafLocation(int chapterId, int verseId) async {
+  Future<bool> addMushafLocation(MushafLocation toAdd) async {
     //Fetch
     List<MushafLocation> locations = await getMushafLocations();
 
     //Check
-    MushafLocation toAdd = MushafLocation(
-      chapterId: chapterId,
-      verseId: verseId,
-    );
     bool exists =
         locations.any((MushafLocation loc) => loc.uniqueId == toAdd.uniqueId);
     if (!exists) {
       //Add
       locations.add(toAdd);
 
-      //Encode
-      List<String> encoded = [];
-      for (var location in locations) {
-        String json = jsonEncode(location.toJson());
-        encoded.add(json);
-      }
-
-      //Save
-      await this.preferences.setStringList(_MUSHAF_LOCATIONS_KEY, []);
-      await this.preferences.setStringList(_MUSHAF_LOCATIONS_KEY, encoded);
+      //Update
+      _replaceBookmarksList(locations);
       return true;
     }
     return false;
@@ -78,6 +66,22 @@ class UserDataService implements IUserDataService {
     return results;
   }
 
+  @override
+  Future<void> removeMushafLocation(MushafLocation location) async {
+    //Fetch
+    List<MushafLocation> locations = await getMushafLocations();
+
+    int index = locations
+        .indexWhere((MushafLocation l) => l.uniqueId == location.uniqueId);
+    if (index >= 0) {
+      //Remove
+      locations.removeAt(index);
+
+      //Update
+      await _replaceBookmarksList(locations);
+    }
+  }
+
   bool? _getBool(String k) {
     try {
       return this.preferences.getBool(k);
@@ -92,5 +96,18 @@ class UserDataService implements IUserDataService {
     } catch (e) {
       return null;
     }
+  }
+
+  Future _replaceBookmarksList(List<MushafLocation> locations) async {
+    //Encode
+    List<String> encoded = [];
+    for (var location in locations) {
+      String json = jsonEncode(location.toJson());
+      encoded.add(json);
+    }
+
+    //Save
+    await this.preferences.setStringList(_MUSHAF_LOCATIONS_KEY, []);
+    await this.preferences.setStringList(_MUSHAF_LOCATIONS_KEY, encoded);
   }
 }

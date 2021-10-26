@@ -17,8 +17,8 @@ class BookmarksView extends BaseView<BookmarksController> {
     return CustomPageWrapper(
       pageTitle: Localization.BOOKMARKS,
       child: Center(
-        child: FutureBuilder<List<Verse>>(
-          future: controller.getBookmarkedVerses(),
+        child: StreamBuilder<List<Verse>>(
+          stream: controller.bookmarkedVersesStream,
           builder: (_, snapshot) {
             if (!snapshot.hasData) {
               return LoadingWidget();
@@ -37,6 +37,7 @@ class BookmarksView extends BaseView<BookmarksController> {
                   ),
                 );
               },
+              onBookmarkRemove: (MushafLocation loc) async => await controller.removeBookmark(loc),
             );
           },
         ),
