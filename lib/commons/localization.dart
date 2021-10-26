@@ -1,6 +1,7 @@
 class Localization {
   static const String APP_TITLE = 'يَتَدَبَّرُونْ';
-  static const String APP_DESCRIPTION ="يتدبرون - محرك بحث قرآني مفتوح المصدر صدر في شوال 1439هـ\nهذا التطبيق مجاني لكل الباحثين في القرآن الكريم وغير مقصود من ورائه التربح بأي شكل من الأشكال";
+  static const String APP_DESCRIPTION =
+      "يتدبرون - محرك بحث قرآني مفتوح المصدر صدر في شوال 1439هـ\nهذا التطبيق مجاني لكل الباحثين في القرآن الكريم وغير مقصود من ورائه التربح بأي شكل من الأشكال";
   static const String MUSHAF_SHARIF = 'المصحف الشريف';
   static const String SEARCH_IN_QURAN = 'ابحث في القرآن';
   static const String ENTER_SEARCH_KEYWORD = 'ادخل كلمة البحث هنا';
@@ -61,7 +62,9 @@ class Localization {
   static const String DOWNLOADING = "جاري التحميل";
   static const String CLICK_TO_DOWNLOAD_TAFSEER = "اضغط لتحميل التفسير";
   static const String MEGA_BYTES = "[% ميجا بايت]";
-  static const String TAFSEER_ABOUT = "التفسيرات المتاحة مصدرها https://github.com/Mr-DDDAlKilanny/tafseer-sqlite-db";
+  static const String TAFSEER_ABOUT =
+      "التفسيرات المتاحة مصدرها https://github.com/Mr-DDDAlKilanny/tafseer-sqlite-db";
   static const String RELEASE_NOTES = "أحدث الاصدارات";
-  static const String RELEASE_NAME  = "رقم الاصدار";
+  static const String RELEASE_NAME = "رقم الاصدار";
+  static const String BOOKMARKS = "المرجعيات";
 }

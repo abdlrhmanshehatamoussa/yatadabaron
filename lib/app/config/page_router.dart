@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/pages/about/page.dart';
+import 'package:yatadabaron/pages/bookmarks/controller.dart';
+import 'package:yatadabaron/pages/bookmarks/view.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
 import 'package:yatadabaron/pages/home/controller.dart';
@@ -49,6 +51,15 @@ class PageRouter {
     }
   }
 
+  Widget bookmarks() {
+    return BookmarksView(
+      BookmarksController(
+        versesService: serviceProvider.getService<IVersesService>(),
+        userDataService: serviceProvider.getService<IUserDataService>(),
+      ),
+    );
+  }
+
   Widget home() {
     return HomePage(
       HomeController(
@@ -79,7 +90,7 @@ class PageRouter {
   }
 
   Widget mushaf({
-    required MushafSettings? mushafLocation,
+    required MushafSettings? mushafSettings,
   }) {
     return MushafPage(
       MushafController(
@@ -87,7 +98,7 @@ class PageRouter {
         chaptersService: serviceProvider.getService<IChaptersService>(),
         versesService: serviceProvider.getService<IVersesService>(),
         userDataService: serviceProvider.getService<IUserDataService>(),
-        mushafSettings: mushafLocation,
+        mushafSettings: mushafSettings,
       ),
     );
   }

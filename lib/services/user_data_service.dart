@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yatadabaron/viewmodels/mushaf_location.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 import 'interfaces/i_user_data_service.dart';
 
 class UserDataService implements IUserDataService {
@@ -13,7 +13,7 @@ class UserDataService implements IUserDataService {
 
   @override
   Future<bool?> getNightMode() async {
-    return this.preferences.getBool(_NIGHT_MODE_KEY);
+    return _getBool(_NIGHT_MODE_KEY);
   }
 
   @override
@@ -43,9 +43,9 @@ class UserDataService implements IUserDataService {
     return locations;
   }
 
-  int? _getInt(String k) {
+  bool? _getBool(String k) {
     try {
-      return this.preferences.getInt(k);
+      return this.preferences.getBool(k);
     } catch (e) {
       return null;
     }

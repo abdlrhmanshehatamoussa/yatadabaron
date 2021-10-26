@@ -26,22 +26,30 @@ class HomePage extends BaseView<HomeController> {
       ),
       HomeGridItemViewModel(
         title: Localization.MUSHAF_SHARIF,
-        icon: Icons.book,
+        icon: Icons.book_sharp,
         onTap: () async {
           navigatePush(
             context: context,
             view: PageRouter.instance.mushaf(
-              mushafLocation: null,
+              mushafSettings: null,
             ),
           );
         },
       ),
       HomeGridItemViewModel(
         title: Localization.QURAN_STATISTICS,
-        icon: Icons.insert_chart,
+        icon: Icons.insert_chart_sharp,
         onTap: () => navigatePush(
           context: context,
           view: PageRouter.instance.statistics(),
+        ),
+      ),
+      HomeGridItemViewModel(
+        title: Localization.BOOKMARKS,
+        icon: Icons.bookmark_sharp,
+        onTap: () => navigatePush(
+          context: context,
+          view: PageRouter.instance.bookmarks(),
         ),
       ),
       HomeGridItemViewModel(

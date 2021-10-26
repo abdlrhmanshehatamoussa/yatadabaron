@@ -1,4 +1,4 @@
-import 'package:yatadabaron/viewmodels/mushaf_location.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 
 abstract class IUserDataService {
   Future<void> addMushafLocation(int chapterId, int verseId);
