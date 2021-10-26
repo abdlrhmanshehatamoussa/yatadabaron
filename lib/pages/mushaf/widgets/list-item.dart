@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 
 class MushafVerseListItem extends StatelessWidget {
-  final String? text;
-  final int? verseID;
+  final String text;
+  final int verseID;
   final double textSize;
   final double idSize;
   final Color? color;
 
   MushafVerseListItem({
-    this.text,
-    this.verseID,
+    required this.text,
+    required this.verseID,
     this.color,
     this.textSize = 20,
     this.idSize = 28,

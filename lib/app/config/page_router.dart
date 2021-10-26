@@ -79,7 +79,7 @@ class PageRouter {
   }
 
   Widget mushaf({
-    required MushafLocation? mushafLocation,
+    required MushafSettings? mushafLocation,
   }) {
     return MushafPage(
       MushafController(
@@ -87,7 +87,7 @@ class PageRouter {
         chaptersService: serviceProvider.getService<IChaptersService>(),
         versesService: serviceProvider.getService<IVersesService>(),
         userDataService: serviceProvider.getService<IUserDataService>(),
-        mushafLocation: mushafLocation,
+        mushafSettings: mushafLocation,
       ),
     );
   }
@@ -95,7 +95,6 @@ class PageRouter {
   Widget tafseer({
     required int verseId,
     required int chapterId,
-    required Function onBookmarkSaved,
   }) {
     return TafseerPage(
       TafseerPageController(
@@ -104,7 +103,6 @@ class PageRouter {
         userDataService: serviceProvider.getService<IUserDataService>(),
         versesService: serviceProvider.getService<IVersesService>(),
         verseId: verseId,
-        onBookmarkSaved: onBookmarkSaved,
         tafseerService: serviceProvider.getService<ITafseerService>(),
         tafseerSourcesService:
             serviceProvider.getService<ITafseerSourcesService>(),

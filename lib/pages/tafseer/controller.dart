@@ -17,7 +17,6 @@ class TafseerPageController extends BaseController {
     required this.userDataService,
     required this.verseId,
     required this.chapterId,
-    required this.onBookmarkSaved,
     required this.versesService,
     required this.analyticsService,
     required this.tafseerSourcesService,
@@ -25,14 +24,13 @@ class TafseerPageController extends BaseController {
 
   final int verseId;
   final int chapterId;
-  final Function onBookmarkSaved;
-  final StreamObject<VerseTafseer> _tafseerResultController =
-      StreamObject<VerseTafseer>();
   final IVersesService versesService;
   final IAnalyticsService analyticsService;
   final ITafseerService tafseerService;
   final ITafseerSourcesService tafseerSourcesService;
   final IUserDataService userDataService;
+  final StreamObject<VerseTafseer> _tafseerResultController =
+      StreamObject<VerseTafseer>();
 
   Stream<VerseTafseer> get tafseerStream => _tafseerResultController.stream;
 
@@ -68,12 +66,10 @@ class TafseerPageController extends BaseController {
   Future<void> onSaveBookmarkClicked(BuildContext context) async {
     await userDataService.setBookmarkChapter(this.chapterId);
     await userDataService.setBookmarkVerse(this.verseId);
-    await onBookmarkSaved();
     await Utils.showCustomDialog(
       context: context,
       title: Localization.BOOKMARK_SAVED,
     );
-    Navigator.of(context).pop();
   }
 
   Future<void> downloadTafseerSource(
