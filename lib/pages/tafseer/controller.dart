@@ -64,11 +64,18 @@ class TafseerPageController extends BaseController {
   }
 
   Future<void> onSaveBookmarkClicked(BuildContext context) async {
-    await userDataService.addMushafLocation(chapterId, verseId);
-    await Utils.showCustomDialog(
-      context: context,
-      title: Localization.BOOKMARK_SAVED,
-    );
+    bool done = await userDataService.addMushafLocation(chapterId, verseId);
+    if (done) {
+      await Utils.showCustomDialog(
+        context: context,
+        title: Localization.BOOKMARK_SAVED,
+      );
+    } else {
+      await Utils.showCustomDialog(
+        context: context,
+        title: Localization.BOOKMARK_ALREADY_EXISTS,
+      );
+    }
   }
 
   Future<void> downloadTafseerSource(

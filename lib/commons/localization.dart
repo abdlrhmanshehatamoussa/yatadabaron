@@ -67,4 +67,5 @@ class Localization {
   static const String RELEASE_NOTES = "أحدث الاصدارات";
   static const String RELEASE_NAME = "رقم الاصدار";
   static const String BOOKMARKS = "المرجعيات";
+  static const String BOOKMARK_ALREADY_EXISTS = "الآية مسجلة بالفعل !";
 }
