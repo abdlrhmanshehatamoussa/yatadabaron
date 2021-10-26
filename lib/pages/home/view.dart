@@ -90,7 +90,7 @@ class HomePage extends BaseView<HomeController> {
                 child: Column(
                   children: <Widget>[
                     HomeHeader(
-                      size: 120,
+                      size: 100,
                       drawerOnTap: () => _key.currentState!.openDrawer(),
                     ),
                     Expanded(
