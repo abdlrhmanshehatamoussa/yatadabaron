@@ -1,8 +1,6 @@
 class Localization {
   static const String APP_TITLE = 'يَتَدَبَّرُونْ';
-  static const String APP_DESCRIPTION =
-      "يتدبرون - محرك بحث قرآني مفتوح المصدر صدر في شوال 1439هـ\nهذا التطبيق مجاني لكل الباحثين في القرآن الكريم وغير مقصود من ورائه التربح بأي شكل من الأشكال";
-  //TODO: Rename drawer variables
+  static const String APP_DESCRIPTION ="يتدبرون - محرك بحث قرآني مفتوح المصدر صدر في شوال 1439هـ\nهذا التطبيق مجاني لكل الباحثين في القرآن الكريم وغير مقصود من ورائه التربح بأي شكل من الأشكال";
   static const String MUSHAF_SHARIF = 'المصحف الشريف';
   static const String SEARCH_IN_QURAN = 'ابحث في القرآن';
   static const String ENTER_SEARCH_KEYWORD = 'ادخل كلمة البحث هنا';

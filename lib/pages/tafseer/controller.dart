@@ -64,8 +64,7 @@ class TafseerPageController extends BaseController {
   }
 
   Future<void> onSaveBookmarkClicked(BuildContext context) async {
-    await userDataService.setBookmarkChapter(this.chapterId);
-    await userDataService.setBookmarkVerse(this.verseId);
+    await userDataService.addMushafLocation(chapterId, verseId);
     await Utils.showCustomDialog(
       context: context,
       title: Localization.BOOKMARK_SAVED,

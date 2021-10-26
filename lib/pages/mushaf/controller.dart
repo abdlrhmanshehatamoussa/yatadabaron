@@ -7,6 +7,7 @@ import 'package:yatadabaron/services/interfaces/i_chapters_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
+import 'package:yatadabaron/viewmodels/mushaf_location.dart';
 
 class MushafController extends BaseController {
   MushafController({
@@ -27,20 +28,25 @@ class MushafController extends BaseController {
   StreamObject<MushafPageState> _stateStreamObj = StreamObject();
   Stream<MushafPageState> get stateStream => _stateStreamObj.stream;
 
-  Future reloadVerses(MushafSettings? mushafLocation) async {
-    if (mushafLocation == null) {
-      //TODO: Try to Get the latest bookmarked mushaf location
+  Future reloadVerses(MushafSettings? mushafSettings) async {
+    if (mushafSettings == null) {
+      MushafLocation? lastLocation = await userDataService.getLastMushafLocation();
+      if (lastLocation != null) {
+        mushafSettings = MushafSettings.fromBookmark(
+          chapterId: lastLocation.chapterId,
+          verseId: lastLocation.verseId,
+        );
+      }
 
-      if (mushafLocation == null) {
-        mushafLocation = MushafSettings(
+      if (mushafSettings == null) {
+        mushafSettings = MushafSettings.fromSelection(
           chapterId: 1,
           verseId: 1,
-          mode: MushafMode.SELECTION,
         );
       }
     }
-    int chapterId = mushafLocation.chapterId;
-    int verseId = mushafLocation.verseId;
+    int chapterId = mushafSettings.location.chapterId;
+    int verseId = mushafSettings.location.verseId;
     Chapter chapter = await chaptersService.getChapter(chapterId);
     List<Verse> verses =
         await versesService.getVersesByChapterId(chapterId, false);
@@ -49,7 +55,7 @@ class MushafController extends BaseController {
       chapter: chapter,
       verses: verses,
       startFromVerse: verseId,
-      mode: mushafLocation.mode,
+      mode: mushafSettings.mode,
     );
     _stateStreamObj.add(state);
   }
@@ -72,11 +78,11 @@ class MushafController extends BaseController {
       chapter.chapterNameAR,
       chapter.chapterID,
     );
+
     await reloadVerses(
-      MushafSettings(
+      MushafSettings.fromSelection(
         chapterId: chapter.chapterID,
         verseId: 1,
-        mode: MushafMode.SELECTION,
       ),
     );
   }
