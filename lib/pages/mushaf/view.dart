@@ -20,8 +20,14 @@ class MushafPage extends BaseView<MushafController> {
     MushafPageState state,
   ) {
     int? highlightedVerseId;
+    IconData? icon;
     if (state.mode == MushafMode.BOOKMARK || state.mode == MushafMode.SEARCH) {
       highlightedVerseId = state.startFromVerse;
+      if (state.mode == MushafMode.BOOKMARK) {
+        icon = Icons.bookmark_added_sharp;
+      } else {
+        icon = Icons.search_sharp;
+      }
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -41,6 +47,7 @@ class MushafPage extends BaseView<MushafController> {
             verses: state.verses,
             highlightedVerse: highlightedVerseId,
             startFromVerse: state.startFromVerse,
+            icon: icon,
             onItemTap: (Verse result) {
               if (result.chapterId != null) {
                 navigatePush(

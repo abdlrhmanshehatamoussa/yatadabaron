@@ -10,11 +10,13 @@ class VerseList extends StatelessWidget {
   final List<Verse> verses;
   final int startFromVerse;
   final int? highlightedVerse;
+  final IconData? icon;
   final Function(Verse verse) onItemTap;
 
   const VerseList({
     required this.verses,
     required this.onItemTap,
+    required this.icon,
     required this.startFromVerse,
     required this.highlightedVerse,
   });
@@ -55,7 +57,7 @@ class VerseList extends StatelessWidget {
             color: color,
           ),
           selected: isHighlighted,
-          leading: null,
+          leading: isHighlighted ? Icon(icon) : null,
           onTap: () async => await this.onItemTap(result),
         );
       },
