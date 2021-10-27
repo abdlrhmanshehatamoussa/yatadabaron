@@ -35,11 +35,9 @@ class ThemeDataWrapper {
     );
 
     return ThemeData.dark().copyWith(
-        colorScheme: colorScheme,
-        toggleableActiveColor: secondary,
-        scaffoldBackgroundColor: Colors.black,
-        appBarTheme:
-            ThemeData.dark().appBarTheme.copyWith(color: Colors.black));
+      colorScheme: colorScheme,
+      toggleableActiveColor: secondary,
+    );
   }
 
   static ThemeData _lightTheme() {

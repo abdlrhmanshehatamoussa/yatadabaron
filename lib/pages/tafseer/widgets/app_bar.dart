@@ -15,7 +15,7 @@ class TafseerAppBar {
           children: [
             IconButton(
               onPressed: () => onSaveBookmark(),
-              icon: Icon(Icons.bookmark),
+              icon: Icon(Icons.bookmark_add_sharp),
             ),
             IconButton(
               onPressed: () => onShare(),

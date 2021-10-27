@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/services/analytics-service.dart';
 import 'package:yatadabaron/services/chapters_service.dart';
 import 'package:yatadabaron/services/helpers/api_helper.dart';

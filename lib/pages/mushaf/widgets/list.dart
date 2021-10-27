@@ -4,71 +4,61 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/widgets/module.dart';
 import 'list-item.dart';
 
 class VerseList extends StatelessWidget {
-  final Stream<List<Verse>> versesStream;
+  final List<Verse> verses;
+  final int startFromVerse;
+  final int? highlightedVerse;
+  final IconData? icon;
   final Function(Verse verse) onItemTap;
 
   const VerseList({
-    required this.versesStream,
+    required this.verses,
     required this.onItemTap,
+    required this.icon,
+    required this.startFromVerse,
+    required this.highlightedVerse,
   });
 
   @override
   Widget build(BuildContext context) {
-    ItemScrollController _scrollController = ItemScrollController();
+    if (verses.length == 0) {
+      return Center(
+        child: Text(
+          Localization.EMPTY_SEARCH_RESULTS,
+          style: Utils.emptyListStyle(),
+        ),
+      );
+    }
 
-    return StreamBuilder<List<Verse>>(
-      stream: this.versesStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Verse>> snapshot) {
-        if (!snapshot.hasData) {
-          return LoadingWidget();
+    int scrollIndex = startFromVerse - 1;
+    return ScrollablePositionedList.separated(
+      itemScrollController: ItemScrollController(),
+      itemCount: verses.length,
+      initialScrollIndex: scrollIndex,
+      separatorBuilder: (_, __) {
+        return Divider(
+          height: 1,
+          color: Theme.of(context).colorScheme.primary,
+        );
+      },
+      itemBuilder: (context, i) {
+        Verse result = verses[i];
+        Color? color;
+        bool isHighlighted = result.verseID == (highlightedVerse ?? 0);
+        if (isHighlighted) {
+          color = Theme.of(context).colorScheme.secondary;
         }
-        List<Verse> results = snapshot.data!;
-        if (results.length == 0) {
-          return Center(
-            child: Text(
-              Localization.EMPTY_SEARCH_RESULTS,
-              style: Utils.emptyListStyle(),
-            ),
-          );
-        }
-
-        int scrollIndex = 0;
-        if (results.any((v) => v.isSelected)) {
-          int selectedVerseId =
-              results.firstWhere((v) => v.isSelected).verseID;
-          scrollIndex = selectedVerseId - 1;
-        }
-        return ScrollablePositionedList.separated(
-          itemScrollController: _scrollController,
-          itemCount: results.length,
-          initialScrollIndex: scrollIndex,
-          separatorBuilder: (_, __) {
-            return Divider(
-              height: 1,
-              color: Theme.of(context).colorScheme.primary,
-            );
-          },
-          itemBuilder: (context, i) {
-            Verse result = results[i];
-            Color? color;
-            if (result.isSelected) {
-              color = Theme.of(context).colorScheme.secondary;
-            }
-            return ListTile(
-              title: MushafVerseListItem(
-                text: result.verseTextTashkel,
-                verseID: result.verseID,
-                color: color,
-              ),
-              selected: result.isSelected,
-              leading: (result.isBookmark) ? Icon(Icons.bookmark) : null,
-              onTap: () async => await this.onItemTap(result),
-            );
-          },
+        return ListTile(
+          title: MushafVerseListItem(
+            text: result.verseTextTashkel,
+            verseID: result.verseID,
+            color: color,
+          ),
+          selected: isHighlighted,
+          leading: isHighlighted ? Icon(icon) : null,
+          onTap: () async => await this.onItemTap(result),
         );
       },
     );

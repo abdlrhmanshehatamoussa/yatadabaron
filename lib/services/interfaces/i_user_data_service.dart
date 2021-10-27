@@ -1,11 +1,13 @@
+import 'package:yatadabaron/viewmodels/module.dart';
+
 abstract class IUserDataService {
-  Future<int?> getBookmarkChapter();
+  Future<void> removeMushafLocation(MushafLocation location);
 
-  Future<int?> getBookmarkVerse();
+  Future<bool> addMushafLocation(MushafLocation location);
 
-  Future<void> setBookmarkVerse(int verseId);
+  Future<List<MushafLocation>> getMushafLocations();
 
-  Future<void> setBookmarkChapter(int chapterId);
+  Future<MushafLocation?> getLastMushafLocation();
 
   Future<bool?> getNightMode();
 

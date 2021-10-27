@@ -49,7 +49,7 @@ class StatisticsPage extends BaseView<StatisticsController> {
     );
 
     return CustomPageWrapper(
-      pageTitle: Localization.DRAWER_STATISTICS,
+      pageTitle: Localization.QURAN_STATISTICS,
       child: StreamBuilder<SearchState>(
         stream: controller.stateStream,
         builder: (_, AsyncSnapshot<SearchState> snapshot) {

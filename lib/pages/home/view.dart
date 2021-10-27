@@ -17,7 +17,7 @@ class HomePage extends BaseView<HomeController> {
   Widget build(BuildContext context) {
     List<HomeGridItemViewModel> _gridItems = [
       HomeGridItemViewModel(
-        title: Localization.DRAWER_SEARCH,
+        title: Localization.SEARCH_IN_QURAN,
         icon: Icons.search,
         onTap: () => navigatePush(
           context: context,
@@ -25,27 +25,31 @@ class HomePage extends BaseView<HomeController> {
         ),
       ),
       HomeGridItemViewModel(
-        title: Localization.DRAWER_QURAN,
-        icon: Icons.book,
+        title: Localization.MUSHAF_SHARIF,
+        icon: Icons.book_sharp,
         onTap: () async {
-          int? chapterId = await controller.getSavedChapterId();
-          int? verseId = await controller.getSavedVerseId();
-
           navigatePush(
             context: context,
             view: PageRouter.instance.mushaf(
-              chapterId: chapterId,
-              verseId: verseId,
+              mushafSettings: null,
             ),
           );
         },
       ),
       HomeGridItemViewModel(
-        title: Localization.DRAWER_STATISTICS,
-        icon: Icons.insert_chart,
+        title: Localization.QURAN_STATISTICS,
+        icon: Icons.insert_chart_sharp,
         onTap: () => navigatePush(
           context: context,
           view: PageRouter.instance.statistics(),
+        ),
+      ),
+      HomeGridItemViewModel(
+        title: Localization.BOOKMARKS,
+        icon: Icons.bookmark_sharp,
+        onTap: () => navigatePush(
+          context: context,
+          view: PageRouter.instance.bookmarks(),
         ),
       ),
       HomeGridItemViewModel(
@@ -66,14 +70,12 @@ class HomePage extends BaseView<HomeController> {
       ),
     ];
 
-    Color? mainContainerColor = Theme.of(context).cardColor;
     return Scaffold(
       key: _key,
       drawer: Drawer(
         child: PageRouter.instance.drawer(),
       ),
       body: Container(
-        color: mainContainerColor,
         alignment: Alignment.center,
         child: Column(
           children: <Widget>[
@@ -88,7 +90,7 @@ class HomePage extends BaseView<HomeController> {
                 child: Column(
                   children: <Widget>[
                     HomeHeader(
-                      size: 120,
+                      size: 100,
                       drawerOnTap: () => _key.currentState!.openDrawer(),
                     ),
                     Expanded(

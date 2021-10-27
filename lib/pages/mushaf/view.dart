@@ -1,118 +1,95 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/app/config/page_router.dart';
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/commons/base_view.dart';
+import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
+import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'controller.dart';
-import './widgets/dropdown.dart';
 import './widgets/list.dart';
 
 class MushafPage extends BaseView<MushafController> {
   MushafPage(MushafController controller) : super(controller);
 
+  Widget _body(
+    BuildContext context,
+    List<Chapter> chapters,
+    MushafPageState state,
+  ) {
+    int? highlightedVerseId;
+    IconData? icon;
+    if (state.mode == MushafMode.BOOKMARK || state.mode == MushafMode.SEARCH) {
+      highlightedVerseId = state.startFromVerse;
+      if (state.mode == MushafMode.BOOKMARK) {
+        icon = Icons.bookmark_added_sharp;
+      } else {
+        icon = Icons.search_sharp;
+      }
+    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        MushafDropDownWrapper(
+          onChapterSelected: (Chapter chapter) async =>
+              await controller.onChapterSelected(chapter),
+          chapters: chapters,
+          selectedChapter: state.chapter,
+        ),
+        Divider(
+          height: 5,
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+        Expanded(
+          child: VerseList(
+            verses: state.verses,
+            highlightedVerse: highlightedVerseId,
+            startFromVerse: state.startFromVerse,
+            icon: icon,
+            onItemTap: (Verse result) {
+              if (result.chapterId != null) {
+                navigatePush(
+                  context: context,
+                  view: PageRouter.instance.tafseer(
+                    verseId: result.verseID,
+                    chapterId: result.chapterId!,
+                  ),
+                );
+              }
+            },
+          ),
+          flex: 1,
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CustomPageWrapper(
-      pageTitle: Localization.DRAWER_QURAN,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(5),
-            child: GestureDetector(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: StreamBuilder<Chapter>(
-                      stream: controller.selectedChapterStream,
-                      builder: (_, snapshot) {
-                        if (snapshot.hasData) {
-                          String? chName = snapshot.data!.chapterNameAR;
-                          String chId = ArabicNumbersService.instance.convert(
-                            snapshot.data!.chapterID,
-                            reverse: false,
-                          );
-                          String title = "$chId - $chName";
-                          return ListTile(
-                            title: Text(
-                              title,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Arial",
-                                fontSize: 20,
-                              ),
-                            ),
-                            subtitle: Text(
-                              snapshot.data!.summary,
-                              style: TextStyle(
-                                fontFamily: "Arial",
-                                fontSize: 12,
-                              ),
-                            ),
-                          );
-                        }
-                        return LoadingWidget();
-                      },
-                    ),
-                    flex: 5,
-                  ),
-                  Expanded(
-                    child: Icon(Icons.keyboard_arrow_down),
-                    flex: 1,
-                  )
-                ],
-              ),
-              onTap: () async {
-                List<Chapter> chapters =
-                    await this.controller.getChaptersSimple;
-                await ChaptersDropDown.show(
-                  context: context,
-                  chapters: chapters,
-                  onChapterSelected: (Chapter chapter) async {
-                    await this.controller.logChapterSelected(
-                          chapter.chapterNameAR,
-                          chapter.chapterID,
-                        );
-                    this.controller.reloadVerses(chapter.chapterID, null);
-                    Navigator.of(context).pop();
-                  },
-                );
-              },
-            ),
-          ),
-          Divider(
-            height: 5,
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-          Expanded(
-            child: VerseList(
-              versesStream: this.controller.versesStream,
-              onItemTap: (Verse result) {
-                if (result.chapterId != null) {
-                  navigatePush(
-                    context: context,
-                    view: PageRouter.instance.tafseer(
-                      verseId: result.verseID,
-                      chapterId: result.chapterId!,
-                      onBookmarkSaved: () {
-                        controller.reloadVerses(
-                          result.chapterId,
-                          result.verseID,
-                        );
-                      },
-                    ),
-                  );
-                }
-              },
-            ),
-            flex: 1,
-          )
-        ],
-      ),
+    return FutureBuilder<List<Chapter>>(
+      future: controller.getChaptersSimple,
+      builder: (_, chaptersSnapshot) {
+        if (!chaptersSnapshot.hasData) {
+          return LoadingWidget();
+        } else {
+          List<Chapter> chapters = chaptersSnapshot.data!;
+          return StreamBuilder<MushafPageState>(
+            stream: controller.stateStream,
+            builder: (_, stateSnapshot) {
+              if (!stateSnapshot.hasData) {
+                return LoadingWidget();
+              }
+              MushafPageState state = stateSnapshot.data!;
+              return CustomPageWrapper(
+                pageTitle: Localization.MUSHAF_SHARIF,
+                child: _body(context, chapters, state),
+              );
+            },
+          );
+        }
+      },
     );
   }
 }

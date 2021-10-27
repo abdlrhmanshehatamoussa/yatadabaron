@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
-import 'package:yatadabaron/models/app_settings.dart';
 import 'package:yatadabaron/pages/about/page.dart';
+import 'package:yatadabaron/pages/bookmarks/controller.dart';
+import 'package:yatadabaron/pages/bookmarks/view.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
 import 'package:yatadabaron/pages/home/controller.dart';
@@ -23,6 +24,7 @@ import 'package:yatadabaron/services/interfaces/i_tafseer_service.dart';
 import 'package:yatadabaron/services/interfaces/i_tafseer_sources_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 import 'service_provider.dart';
 
 class PageRouter {
@@ -47,6 +49,15 @@ class PageRouter {
     } else {
       throw Exception("Page manager has not been initialized!");
     }
+  }
+
+  Widget bookmarks() {
+    return BookmarksView(
+      BookmarksController(
+        versesService: serviceProvider.getService<IVersesService>(),
+        userDataService: serviceProvider.getService<IUserDataService>(),
+      ),
+    );
   }
 
   Widget home() {
@@ -79,8 +90,7 @@ class PageRouter {
   }
 
   Widget mushaf({
-    required int? chapterId,
-    required int? verseId,
+    required MushafSettings? mushafSettings,
   }) {
     return MushafPage(
       MushafController(
@@ -88,8 +98,7 @@ class PageRouter {
         chaptersService: serviceProvider.getService<IChaptersService>(),
         versesService: serviceProvider.getService<IVersesService>(),
         userDataService: serviceProvider.getService<IUserDataService>(),
-        chapterId: chapterId,
-        verseId: verseId,
+        mushafSettings: mushafSettings,
       ),
     );
   }
@@ -97,7 +106,6 @@ class PageRouter {
   Widget tafseer({
     required int verseId,
     required int chapterId,
-    required Function onBookmarkSaved,
   }) {
     return TafseerPage(
       TafseerPageController(
@@ -106,7 +114,6 @@ class PageRouter {
         userDataService: serviceProvider.getService<IUserDataService>(),
         versesService: serviceProvider.getService<IVersesService>(),
         verseId: verseId,
-        onBookmarkSaved: onBookmarkSaved,
         tafseerService: serviceProvider.getService<ITafseerService>(),
         tafseerSourcesService:
             serviceProvider.getService<ITafseerSourcesService>(),

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/commons/base_view.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
@@ -53,8 +54,10 @@ class SearchPage extends BaseView<SearchController> {
                 navigatePush(
                   context: context,
                   view: PageRouter.instance.mushaf(
-                    chapterId: chapterId,
-                    verseId: verseID,
+                    mushafSettings: MushafSettings.fromSearch(
+                      chapterId: chapterId,
+                      verseId: verseID,
+                    ),
                   ),
                 );
               }
@@ -109,7 +112,7 @@ class SearchPage extends BaseView<SearchController> {
           return LoadingWidget();
         }
         return CustomPageWrapper(
-          pageTitle: Localization.DRAWER_SEARCH,
+          pageTitle: Localization.SEARCH_IN_QURAN,
           child: body,
           floatingButton: btn,
         );

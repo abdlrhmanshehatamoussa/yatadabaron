@@ -5,7 +5,7 @@ abstract class BaseView<T extends BaseController> extends StatelessWidget {
   final T controller;
   BaseView(this.controller);
 
-  _navigate({
+  void _navigate({
     required BuildContext context,
     required Widget view,
     bool replace = true,
@@ -20,7 +20,7 @@ abstract class BaseView<T extends BaseController> extends StatelessWidget {
     }
   }
 
-  navigatePush({
+  void navigatePush({
     required BuildContext context,
     required Widget view,
   }) {
@@ -31,7 +31,7 @@ abstract class BaseView<T extends BaseController> extends StatelessWidget {
     );
   }
 
-  navigateReplace({
+  void navigateReplace({
     required BuildContext context,
     required Widget view,
   }) {

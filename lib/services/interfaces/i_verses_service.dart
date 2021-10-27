@@ -1,4 +1,5 @@
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 
 abstract class IVersesService {
   //Search

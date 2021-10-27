@@ -10,12 +10,4 @@ class HomeController extends BaseController {
     required this.analyticsService,
     required this.userDataService,
   });
-
-  Future<int?> getSavedChapterId() async {
-    return await userDataService.getBookmarkChapter();
-  }
-
-  Future<int?> getSavedVerseId() async {
-    return await userDataService.getBookmarkVerse();
-  }
 }

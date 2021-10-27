@@ -10,6 +10,7 @@ import 'package:yatadabaron/services/interfaces/i_tafseer_service.dart';
 import 'package:yatadabaron/services/interfaces/i_tafseer_sources_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 
 class TafseerPageController extends BaseController {
   TafseerPageController({
@@ -17,7 +18,6 @@ class TafseerPageController extends BaseController {
     required this.userDataService,
     required this.verseId,
     required this.chapterId,
-    required this.onBookmarkSaved,
     required this.versesService,
     required this.analyticsService,
     required this.tafseerSourcesService,
@@ -25,14 +25,13 @@ class TafseerPageController extends BaseController {
 
   final int verseId;
   final int chapterId;
-  final Function onBookmarkSaved;
-  final StreamObject<VerseTafseer> _tafseerResultController =
-      StreamObject<VerseTafseer>();
   final IVersesService versesService;
   final IAnalyticsService analyticsService;
   final ITafseerService tafseerService;
   final ITafseerSourcesService tafseerSourcesService;
   final IUserDataService userDataService;
+  final StreamObject<VerseTafseer> _tafseerResultController =
+      StreamObject<VerseTafseer>();
 
   Stream<VerseTafseer> get tafseerStream => _tafseerResultController.stream;
 
@@ -66,14 +65,23 @@ class TafseerPageController extends BaseController {
   }
 
   Future<void> onSaveBookmarkClicked(BuildContext context) async {
-    await userDataService.setBookmarkChapter(this.chapterId);
-    await userDataService.setBookmarkVerse(this.verseId);
-    await onBookmarkSaved();
-    await Utils.showCustomDialog(
-      context: context,
-      title: Localization.BOOKMARK_SAVED,
+    bool done = await userDataService.addMushafLocation(
+      MushafLocation(
+        chapterId: chapterId,
+        verseId: verseId,
+      ),
     );
-    Navigator.of(context).pop();
+    if (done) {
+      await Utils.showCustomDialog(
+        context: context,
+        title: Localization.BOOKMARK_SAVED,
+      );
+    } else {
+      await Utils.showCustomDialog(
+        context: context,
+        title: Localization.BOOKMARK_ALREADY_EXISTS,
+      );
+    }
   }
 
   Future<void> downloadTafseerSource(

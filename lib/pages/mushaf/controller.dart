@@ -1,55 +1,62 @@
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
+import 'view_models/mushaf_state.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_chapters_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 
 class MushafController extends BaseController {
-  final IChaptersService chaptersService;
-  final IVersesService versesService;
-  final IUserDataService userDataService;
-  final IAnalyticsService analyticsService;
-  final int? chapterId;
-  final int? verseId;
-
   MushafController({
-    required this.chapterId,
-    required this.verseId,
+    required mushafSettings,
     required this.chaptersService,
     required this.versesService,
     required this.userDataService,
     required this.analyticsService,
   }) {
-    reloadVerses(chapterId, verseId);
+    reloadVerses(mushafSettings);
   }
 
-  StreamObject<List<Verse>> _versesBloc = StreamObject();
-  StreamObject<Chapter> _selectedChapterBloc = StreamObject();
+  final IChaptersService chaptersService;
+  final IVersesService versesService;
+  final IUserDataService userDataService;
+  final IAnalyticsService analyticsService;
 
-  Stream<Chapter> get selectedChapterStream => _selectedChapterBloc.stream;
-  Stream<List<Verse>> get versesStream => _versesBloc.stream;
+  StreamObject<MushafPageState> _stateStreamObj = StreamObject();
+  Stream<MushafPageState> get stateStream => _stateStreamObj.stream;
 
-  Future reloadVerses(int? chapterId, int? verseId) async {
-    chapterId = chapterId ?? 1;
+  Future reloadVerses(MushafSettings? mushafSettings) async {
+    if (mushafSettings == null) {
+      MushafLocation? lastLocation = await userDataService.getLastMushafLocation();
+      if (lastLocation != null) {
+        mushafSettings = MushafSettings.fromBookmark(
+          chapterId: lastLocation.chapterId,
+          verseId: lastLocation.verseId,
+        );
+      }
+
+      if (mushafSettings == null) {
+        mushafSettings = MushafSettings.fromSelection(
+          chapterId: 1,
+          verseId: 1,
+        );
+      }
+    }
+    int chapterId = mushafSettings.location.chapterId;
+    int verseId = mushafSettings.location.verseId;
     Chapter chapter = await chaptersService.getChapter(chapterId);
     List<Verse> verses =
         await versesService.getVersesByChapterId(chapterId, false);
 
-    _selectedChapterBloc.add(chapter);
-    if (verseId != null && verseId > 0) {
-      verses.firstWhere((v) => v.verseID == verseId).isSelected = true;
-    }
-    //Load the bookmarks
-    int? bmC = await userDataService.getBookmarkChapter();
-    if (bmC != null) {
-      if (bmC == chapterId) {
-        int? bmV = await userDataService.getBookmarkVerse();
-        verses.firstWhere((v) => v.verseID == bmV).isBookmark = true;
-      }
-    }
-    _versesBloc.add(verses);
+    MushafPageState state = MushafPageState(
+      chapter: chapter,
+      verses: verses,
+      startFromVerse: verseId,
+      mode: mushafSettings.mode,
+    );
+    _stateStreamObj.add(state);
   }
 
   Future<List<Chapter>> get getChaptersSimple async {
@@ -62,6 +69,20 @@ class MushafController extends BaseController {
     analyticsService.logOnTap(
       "CHAPTER SELECTED",
       payload: "NAME=$chatperNameAR|ID=$chapterID",
+    );
+  }
+
+  Future<void> onChapterSelected(Chapter chapter) async {
+    await logChapterSelected(
+      chapter.chapterNameAR,
+      chapter.chapterID,
+    );
+
+    await reloadVerses(
+      MushafSettings.fromSelection(
+        chapterId: chapter.chapterID,
+        verseId: 1,
+      ),
     );
   }
 }

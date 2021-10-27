@@ -2,8 +2,8 @@ class Localization {
   static const String APP_TITLE = 'يَتَدَبَّرُونْ';
   static const String APP_DESCRIPTION =
       "يتدبرون - محرك بحث قرآني مفتوح المصدر صدر في شوال 1439هـ\nهذا التطبيق مجاني لكل الباحثين في القرآن الكريم وغير مقصود من ورائه التربح بأي شكل من الأشكال";
-  static const String DRAWER_QURAN = 'المصحف الشريف';
-  static const String DRAWER_SEARCH = 'ابحث في القرآن';
+  static const String MUSHAF_SHARIF = 'المصحف الشريف';
+  static const String SEARCH_IN_QURAN = 'ابحث في القرآن';
   static const String ENTER_SEARCH_KEYWORD = 'ادخل كلمة البحث هنا';
   static const String SEARCH_MODE = 'نوع البحث';
   static const String BASMALA_MODE = 'اعتبار البسملة';
@@ -28,7 +28,7 @@ class Localization {
       'حدث خطأ ما أثناء اعداد التطبيق, برجاء التواصل مع ادارة التطبيق!';
   static const String DARK_MODE = 'الوضع الليلي';
   static const String WHOLE_QURAN = 'القرآن الكريم كاملاً';
-  static const String DRAWER_STATISTICS = 'احصائيات القرآن';
+  static const String QURAN_STATISTICS = 'احصائيات القرآن';
   static const String TAP_STAT_BUTTON =
       'اضغط علي علامة الرسم البياني لاظهار الاحصائيات';
   static const String FREQUENCY = 'التكرار';
@@ -62,7 +62,12 @@ class Localization {
   static const String DOWNLOADING = "جاري التحميل";
   static const String CLICK_TO_DOWNLOAD_TAFSEER = "اضغط لتحميل التفسير";
   static const String MEGA_BYTES = "[% ميجا بايت]";
-  static const String TAFSEER_ABOUT = "التفسيرات المتاحة مصدرها https://github.com/Mr-DDDAlKilanny/tafseer-sqlite-db";
+  static const String TAFSEER_ABOUT =
+      "التفسيرات المتاحة مصدرها https://github.com/Mr-DDDAlKilanny/tafseer-sqlite-db";
   static const String RELEASE_NOTES = "أحدث الاصدارات";
-  static const String RELEASE_NAME  = "رقم الاصدار";
+  static const String RELEASE_NAME = "رقم الاصدار";
+  static const String BOOKMARKS = "المرجعيات";
+  static const String BOOKMARK_ALREADY_EXISTS = "الآية مسجلة بالفعل !";
+
+  static const String EMPTY_BOOKMARKS = "لا يوجد أي مرجعيات مسجلة!";
 }
