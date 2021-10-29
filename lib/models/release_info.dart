@@ -16,4 +16,14 @@ class ReleaseInfo {
   String get uniqueId {
     return "$major.$minor.$build";
   }
+
+  static ReleaseInfo fromJson(Map<String, dynamic> releasesJson) {
+    return ReleaseInfo(
+      build: releasesJson["build"],
+      minor: releasesJson["minor"],
+      major: releasesJson["major"],
+      releaseDate: DateTime.parse(releasesJson["created_on"]),
+      releaseNotes: releasesJson["release_notes"],
+    );
+  }
 }

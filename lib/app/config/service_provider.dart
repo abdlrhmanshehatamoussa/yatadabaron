@@ -45,18 +45,21 @@ class ServiceProvider implements IServiceProvider {
     return values[T.toString()] as T;
   }
 
-  IAnalyticsService get _analyticsService {
+  CloudHubAPIHelper _buildCloudHubApiHelper() {
     CloudHubAPIClientInfo info = CloudHubAPIClientInfo(
       apiUrl: appSettings.cloudHubApiUrl,
       applicationGUID: appSettings.cloudHubAppGuid,
       clientKey: appSettings.cloudHubClientKey,
       clientSecret: appSettings.cloudHubClientSecret,
     );
-    CloudHubAPIHelper helper = CloudHubAPIHelper(info);
+    return CloudHubAPIHelper(info);
+  }
+
+  IAnalyticsService get _analyticsService {
     return AnalyticsService(
       preferences: preferences,
       appVersion: appSettings.versionNumber,
-      apiHelper: helper,
+      apiHelper: _buildCloudHubApiHelper(),
     );
   }
 
@@ -96,6 +99,7 @@ class ServiceProvider implements IServiceProvider {
       preferences: preferences,
       appSettings: appSettings,
       packageInfo: packageInfo,
+      apiHelper: _buildCloudHubApiHelper(),
     );
   }
 }
