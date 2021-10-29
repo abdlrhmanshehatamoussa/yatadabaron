@@ -10,6 +10,7 @@ class ReleaseNotesPage extends BaseView<ReleaseNotesController> {
 
   @override
   Widget build(BuildContext context) {
+    String currentVersion = controller.getCurrentVersion();
     return CustomPageWrapper(
       pageTitle: Localization.RELEASE_NOTES,
       child: Container(
@@ -19,22 +20,24 @@ class ReleaseNotesPage extends BaseView<ReleaseNotesController> {
             future: controller.getVersions(),
             builder: (_, AsyncSnapshot<List<ReleaseInfo>> snapshot) {
               if (snapshot.hasData) {
-                List<ReleaseInfo> versions = snapshot.data!;
+                List<ReleaseInfo> releases = snapshot.data!;
                 return ListView.separated(
                   itemBuilder: (_, int i) {
-                    ReleaseInfo version = versions[i];
+                    ReleaseInfo release = releases[i];
                     List<String> parts = [
                       Localization.RELEASE_NAME,
-                      version.name
+                      release.uniqueId,
                     ];
                     String fullName = parts.join(" : ");
+                    bool isCurrent = release.uniqueId == currentVersion;
                     return ListTile(
                       title: Text(
                         fullName,
                       ),
                       subtitle: Text(
-                        version.description,
+                        release.releaseNotes,
                       ),
+                      trailing: isCurrent ? Icon(Icons.done) : null,
                     );
                   },
                   separatorBuilder: (_, __) {
@@ -42,7 +45,7 @@ class ReleaseNotesPage extends BaseView<ReleaseNotesController> {
                       height: 2,
                     );
                   },
-                  itemCount: versions.length,
+                  itemCount: releases.length,
                 );
               } else {
                 return CircularProgressIndicator();

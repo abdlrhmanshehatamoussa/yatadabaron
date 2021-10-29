@@ -1,3 +1,4 @@
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/services/analytics-service.dart';
@@ -22,12 +23,14 @@ abstract class IServiceProvider {
 
 class ServiceProvider implements IServiceProvider {
   ServiceProvider({
-    required this.settings,
+    required this.appSettings,
+    required this.packageInfo,
     required this.preferences,
   });
 
-  final AppSettings settings;
+  final AppSettings appSettings;
   final SharedPreferences preferences;
+  final PackageInfo packageInfo;
 
   @override
   T getService<T>() {
@@ -44,15 +47,15 @@ class ServiceProvider implements IServiceProvider {
 
   IAnalyticsService get _analyticsService {
     CloudHubAPIClientInfo info = CloudHubAPIClientInfo(
-      apiUrl: settings.cloudHubApiUrl,
-      applicationGUID: settings.cloudHubAppGuid,
-      clientKey: settings.cloudHubClientKey,
-      clientSecret: settings.cloudHubClientSecret,
+      apiUrl: appSettings.cloudHubApiUrl,
+      applicationGUID: appSettings.cloudHubAppGuid,
+      clientKey: appSettings.cloudHubClientKey,
+      clientSecret: appSettings.cloudHubClientSecret,
     );
     CloudHubAPIHelper helper = CloudHubAPIHelper(info);
     return AnalyticsService(
       preferences: preferences,
-      appVersion: settings.versionNumber,
+      appVersion: appSettings.versionNumber,
       apiHelper: helper,
     );
   }
@@ -65,30 +68,34 @@ class ServiceProvider implements IServiceProvider {
 
   IChaptersService get _chaptersService {
     return ChaptersService(
-      databasePath: settings.databaseFilePath,
+      databasePath: appSettings.databaseFilePath,
     );
   }
 
   IVersesService get _versesService {
     return VersesService(
-      databaseFilePath: settings.databaseFilePath,
+      databaseFilePath: appSettings.databaseFilePath,
     );
   }
 
   ITafseerService get _tafseerService {
     return TafseerService(
         analyticsService: _analyticsService,
-        tafseerURL: settings.tafseerTextURL);
+        tafseerURL: appSettings.tafseerTextURL);
   }
 
   ITafseerSourcesService get _tafseerSourcesService {
     return TafseerSourcesService(
       analyticsService: _analyticsService,
-      tafseerSourcesFileURL: settings.tafseerSourcesURL,
+      tafseerSourcesFileURL: appSettings.tafseerSourcesURL,
     );
   }
 
   IReleaseInfoService get _releaseInfoService {
-    return ReleaseInfoService(preferences: preferences);
+    return ReleaseInfoService(
+      preferences: preferences,
+      appSettings: appSettings,
+      packageInfo: packageInfo,
+    );
   }
 }

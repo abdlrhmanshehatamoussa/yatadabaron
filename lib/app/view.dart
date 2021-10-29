@@ -24,7 +24,7 @@ class AppView extends BaseView<AppController> {
 
   Widget _error() {
     return FutureBuilder<String>(
-      future: this.controller.getVersionLabel(),
+      future: this.controller.getPackageBuildInfo(),
       builder: (_, AsyncSnapshot<String> snapshot) {
         if (!snapshot.hasData) {
           return _loading();

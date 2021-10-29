@@ -74,7 +74,7 @@ class PageRouter {
       CustomDrawerController(
         analyticsService: serviceProvider.getService<IAnalyticsService>(),
         userDataService: serviceProvider.getService<IUserDataService>(),
-        appSettings: this.appSettings,
+        releaseInfoService: serviceProvider.getService<IReleaseInfoService>(),
       ),
     );
   }

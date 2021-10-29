@@ -1,7 +1,7 @@
 import 'package:launch_review/launch_review.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
-import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
+import 'package:yatadabaron/services/interfaces/i_release_info_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/app/config/session_manager.dart';
@@ -9,18 +9,16 @@ import 'package:yatadabaron/app/config/session_manager.dart';
 class CustomDrawerController extends BaseController {
   final IAnalyticsService analyticsService;
   final IUserDataService userDataService;
-  final AppSettings appSettings;
+  final IReleaseInfoService releaseInfoService;
 
   CustomDrawerController({
     required this.analyticsService,
     required this.userDataService,
-    required this.appSettings,
+    required this.releaseInfoService,
   });
 
-  String get versionLabel {
-    String buildName = this.appSettings.versionName;
-    int buildNumber = this.appSettings.versionNumber;
-    return Utils.getversionLabel(buildName, buildNumber.toString());
+  String get currentVersion {
+    return this.releaseInfoService.getCurrentVersion();
   }
 
   Future rate() async {

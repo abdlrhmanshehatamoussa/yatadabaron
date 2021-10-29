@@ -16,6 +16,8 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
       );
     }
 
+    String versionLabel =
+        [Localization.RELEASE_NAME, controller.currentVersion].join(" : ");
     return Container(
       padding: EdgeInsets.all(0),
       child: Center(
@@ -48,7 +50,7 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
                 ),
               ),
             ),
-            Text("${Localization.RELEASE_NAME}    ${controller.versionLabel}")
+            Text(versionLabel)
           ],
         ),
       ),

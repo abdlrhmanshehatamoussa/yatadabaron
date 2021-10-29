@@ -10,4 +10,8 @@ class ReleaseNotesController extends BaseController {
   Future<List<ReleaseInfo>> getVersions() async {
     return await releaseInfoService.getReleases();
   }
+
+  String getCurrentVersion() {
+    return this.releaseInfoService.getCurrentVersion();
+  }
 }
