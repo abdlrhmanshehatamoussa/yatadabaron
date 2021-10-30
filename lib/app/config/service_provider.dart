@@ -97,8 +97,6 @@ class ServiceProvider implements IServiceProvider {
   IReleaseInfoService get _releaseInfoService {
     return ReleaseInfoService(
       preferences: preferences,
-      appSettings: appSettings,
-      packageInfo: packageInfo,
       apiHelper: _buildCloudHubApiHelper(),
     );
   }

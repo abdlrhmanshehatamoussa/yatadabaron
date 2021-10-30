@@ -17,7 +17,9 @@ class ReleaseNotesController extends BaseController {
   }
 
   String getCurrentVersion() {
-    return this.releaseInfoService.getCurrentVersion();
+    //TODO: Fix this
+    return "";
+    //return this.releaseInfoService.getCurrentVersion();
   }
 
   Future<int> syncReleases() async {

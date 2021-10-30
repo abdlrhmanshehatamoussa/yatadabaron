@@ -18,7 +18,9 @@ class CustomDrawerController extends BaseController {
   });
 
   String get currentVersion {
-    return this.releaseInfoService.getCurrentVersion();
+    //TODO: Fix this
+    return "";
+    //return this.releaseInfoService.getCurrentVersion();
   }
 
   Future rate() async {

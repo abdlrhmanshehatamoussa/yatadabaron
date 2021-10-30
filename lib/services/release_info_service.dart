@@ -1,23 +1,17 @@
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/helpers/api_helper.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
 import 'interfaces/i_release_info_service.dart';
 
 class ReleaseInfoService extends IReleaseInfoService {
   ReleaseInfoService({
     required this.preferences,
-    required this.packageInfo,
-    required this.appSettings,
     required this.apiHelper,
   });
 
   final SharedPreferences preferences;
-  final AppSettings appSettings;
-  final PackageInfo packageInfo;
   final CloudHubAPIHelper apiHelper;
   static const String _RELEASES_KEY = "YATADABARON_RELEASES";
 
@@ -79,10 +73,5 @@ class ReleaseInfoService extends IReleaseInfoService {
     List<ReleaseInfo> local = await _getLocal();
     local.sort((a, b) => b.uniqueId.compareTo(a.uniqueId));
     return local;
-  }
-
-  @override
-  String getCurrentVersion() {
-    return this.packageInfo.version;
   }
 }
