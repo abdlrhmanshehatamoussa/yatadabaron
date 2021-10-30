@@ -10,17 +10,17 @@ class CustomDrawerController extends BaseController {
   final IAnalyticsService analyticsService;
   final IUserDataService userDataService;
   final IReleaseInfoService releaseInfoService;
+  final AppSettings appSettings;
 
   CustomDrawerController({
     required this.analyticsService,
     required this.userDataService,
     required this.releaseInfoService,
+    required this.appSettings,
   });
 
   String get currentVersion {
-    //TODO: Fix this
-    return "";
-    //return this.releaseInfoService.getCurrentVersion();
+    return this.appSettings.versionName;
   }
 
   Future rate() async {

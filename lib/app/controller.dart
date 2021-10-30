@@ -44,7 +44,6 @@ class AppController extends BaseController {
       //Intializate service manager
       ServiceProvider serviceProvider = ServiceProvider(
         preferences: _pref,
-        packageInfo: _info,
         appSettings: appSettings,
       );
 

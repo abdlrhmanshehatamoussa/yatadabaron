@@ -75,6 +75,7 @@ class PageRouter {
         analyticsService: serviceProvider.getService<IAnalyticsService>(),
         userDataService: serviceProvider.getService<IUserDataService>(),
         releaseInfoService: serviceProvider.getService<IReleaseInfoService>(),
+        appSettings: appSettings,
       ),
     );
   }
@@ -135,6 +136,7 @@ class PageRouter {
     return ReleaseNotesPage(
       ReleaseNotesController(
         releaseInfoService: serviceProvider.getService<IReleaseInfoService>(),
+        appSettings: appSettings,
       ),
     );
   }

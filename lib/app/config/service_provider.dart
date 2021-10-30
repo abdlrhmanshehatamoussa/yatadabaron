@@ -1,4 +1,3 @@
-import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/services/analytics-service.dart';
@@ -24,13 +23,11 @@ abstract class IServiceProvider {
 class ServiceProvider implements IServiceProvider {
   ServiceProvider({
     required this.appSettings,
-    required this.packageInfo,
     required this.preferences,
   });
 
   final AppSettings appSettings;
   final SharedPreferences preferences;
-  final PackageInfo packageInfo;
 
   @override
   T getService<T>() {
