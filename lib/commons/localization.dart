@@ -70,4 +70,5 @@ class Localization {
   static const String BOOKMARK_ALREADY_EXISTS = "الآية مسجلة بالفعل !";
   static const String EMPTY_BOOKMARKS = "لا يوجد أي مرجعيات مسجلة!";
   static const String EMPTY_LIST = "لا يوجد أي بيانات حالية !";
+  static const String UPDATE_DONE = "تم التحديث بنجاح";
 }

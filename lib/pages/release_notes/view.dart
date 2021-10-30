@@ -60,12 +60,11 @@ class ReleaseNotesPage extends BaseView<ReleaseNotesController> {
       ),
       floatingButton: FloatingActionButton(
         onPressed: () async {
-          //TODO: Update UI with results
-          int results = await controller.syncReleases();
-          Utils.showCustomDialog(
+          await controller.syncReleases();
+          await Utils.showCustomDialog(
             context: context,
-            text: Localization.OK,
-            title: ""
+            text: "",
+            title: Localization.UPDATE_DONE,
           );
         },
         child: Icon(Icons.refresh),
