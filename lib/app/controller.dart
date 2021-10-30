@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
+import 'package:yatadabaron/services/interfaces/i_release_info_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'config/page_router.dart';
@@ -57,10 +58,12 @@ class AppController extends BaseController {
           serviceProvider.getService<IAnalyticsService>();
       IUserDataService userDataService =
           serviceProvider.getService<IUserDataService>();
+      IReleaseInfoService releaseInfoService = serviceProvider.getService<IReleaseInfoService>();
 
       //Log events
       await analyticsService.logAppStarted();
       await analyticsService.syncAllLogs();
+      await releaseInfoService.syncReleases();
 
       //Initialize the session
       bool? isNightMode = await userDataService.getNightMode();

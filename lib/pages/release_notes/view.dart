@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
+import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/commons/base_view.dart';
 import 'package:yatadabaron/pages/release_notes/controller.dart';
@@ -21,6 +22,9 @@ class ReleaseNotesPage extends BaseView<ReleaseNotesController> {
             builder: (_, AsyncSnapshot<List<ReleaseInfo>> snapshot) {
               if (snapshot.hasData) {
                 List<ReleaseInfo> releases = snapshot.data!;
+                if (releases.length == 0) {
+                  return Text(Localization.EMPTY_LIST);
+                }
                 return ListView.separated(
                   itemBuilder: (_, int i) {
                     ReleaseInfo release = releases[i];
@@ -54,7 +58,18 @@ class ReleaseNotesPage extends BaseView<ReleaseNotesController> {
           ),
         ),
       ),
-      floatingButton: null,
+      floatingButton: FloatingActionButton(
+        onPressed: () async {
+          //TODO: Update UI with results
+          int results = await controller.syncReleases();
+          Utils.showCustomDialog(
+            context: context,
+            text: Localization.OK,
+            title: ""
+          );
+        },
+        child: Icon(Icons.refresh),
+      ),
     );
   }
 }

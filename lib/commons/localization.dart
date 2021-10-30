@@ -68,6 +68,6 @@ class Localization {
   static const String RELEASE_NAME = "رقم الاصدار";
   static const String BOOKMARKS = "المرجعيات";
   static const String BOOKMARK_ALREADY_EXISTS = "الآية مسجلة بالفعل !";
-
   static const String EMPTY_BOOKMARKS = "لا يوجد أي مرجعيات مسجلة!";
+  static const String EMPTY_LIST = "لا يوجد أي بيانات حالية !";
 }
