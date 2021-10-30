@@ -29,36 +29,13 @@ class ReleaseInfoService extends IReleaseInfoService {
     List<dynamic> releasesJson = jsonDecode(body);
     List<ReleaseInfo> results =
         releasesJson.map((dynamic json) => ReleaseInfo.fromJson(json)).toList();
+    results.sort((a, b) => b.uniqueId.compareTo(a.uniqueId));
     return results;
   }
 
   @override
   Future<List<ReleaseInfo>> getReleases() async {
-    return [
-      ReleaseInfo(
-        releaseDate: DateTime.parse("2021-10-29"),
-        major: 6,
-        minor: 7,
-        build: 4,
-        releaseNotes: "تم اضافة الصفحة الرئيسية وصفحة المرجعيات",
-      ),
-      ReleaseInfo(
-        releaseDate: DateTime.parse("2021-08-23"),
-        major: 6,
-        minor: 7,
-        build: 3,
-        releaseNotes:
-            "تم اضافة خاصية تحميل التفاسير - يمكنك الضغط علي الآية وستظهر لك التفاسير المتاحة يمكنك الاختيار بينها وتحميلها - لابد من اتصالك بالانترنت لتتمكن من التحميل",
-      ),
-      ReleaseInfo(
-        releaseDate: DateTime.parse("2021-08-11"),
-        minor: 6,
-        major: 6,
-        build: 9,
-        releaseNotes:
-            "تم اضافة خاصية الوضع الليلي - بحيث تتغير جميع الالوان في التطبيق بشكل مريح أكثر للعين في حالات الإضاءة المنخفضة - كما يمكن أيضاً العودة للوضع العادي",
-      ),
-    ];
+    return _getRemote();
   }
 
   @override

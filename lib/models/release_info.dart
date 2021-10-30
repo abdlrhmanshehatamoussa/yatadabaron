@@ -22,7 +22,7 @@ class ReleaseInfo {
       build: releasesJson["build"],
       minor: releasesJson["minor"],
       major: releasesJson["major"],
-      releaseDate: DateTime.parse(releasesJson["created_on"]),
+      releaseDate: DateTime.parse(releasesJson["release_date"]),
       releaseNotes: releasesJson["release_notes"],
     );
   }
