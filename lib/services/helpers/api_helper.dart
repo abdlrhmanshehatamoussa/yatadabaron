@@ -21,6 +21,7 @@ class CloudHubAPIHelper {
   final CloudHubAPIClientInfo _clientInfo;
   static const String ENDPOINT_NONCE = "nonce";
   static const String ENDPOINT_ACTIONS = "actions";
+  static const String ENDPOINT_RELEASES = "releases";
 
   //Private Constructor
   CloudHubAPIHelper(this._clientInfo);

@@ -3,8 +3,8 @@ import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
-import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
+import 'package:yatadabaron/services/interfaces/i_release_info_service.dart';
 import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'config/page_router.dart';
@@ -16,9 +16,9 @@ class AppController extends BaseController {
   static const String ASSETS_DB_DIRECTORY = "assets/data";
   static const String ASSETS_ENV = 'assets/.env';
 
-  Future<String> getVersionLabel() async {
+  Future<String> getPackageBuildInfo() async {
     var _info = await PackageInfo.fromPlatform();
-    return Utils.getversionLabel(_info.version, _info.buildNumber);
+    return [_info.version, _info.buildNumber].join(" | ");
   }
 
   Future<bool> start() async {
@@ -44,7 +44,7 @@ class AppController extends BaseController {
       //Intializate service manager
       ServiceProvider serviceProvider = ServiceProvider(
         preferences: _pref,
-        settings: appSettings,
+        appSettings: appSettings,
       );
 
       //Initialize the navigation manager
@@ -57,10 +57,12 @@ class AppController extends BaseController {
           serviceProvider.getService<IAnalyticsService>();
       IUserDataService userDataService =
           serviceProvider.getService<IUserDataService>();
+      IReleaseInfoService releaseInfoService = serviceProvider.getService<IReleaseInfoService>();
 
       //Log events
       await analyticsService.logAppStarted();
       await analyticsService.syncAllLogs();
+      await releaseInfoService.syncReleases();
 
       //Initialize the session
       bool? isNightMode = await userDataService.getNightMode();

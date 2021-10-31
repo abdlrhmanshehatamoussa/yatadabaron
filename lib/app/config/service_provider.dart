@@ -22,11 +22,11 @@ abstract class IServiceProvider {
 
 class ServiceProvider implements IServiceProvider {
   ServiceProvider({
-    required this.settings,
+    required this.appSettings,
     required this.preferences,
   });
 
-  final AppSettings settings;
+  final AppSettings appSettings;
   final SharedPreferences preferences;
 
   @override
@@ -42,18 +42,21 @@ class ServiceProvider implements IServiceProvider {
     return values[T.toString()] as T;
   }
 
-  IAnalyticsService get _analyticsService {
+  CloudHubAPIHelper _buildCloudHubApiHelper() {
     CloudHubAPIClientInfo info = CloudHubAPIClientInfo(
-      apiUrl: settings.cloudHubApiUrl,
-      applicationGUID: settings.cloudHubAppGuid,
-      clientKey: settings.cloudHubClientKey,
-      clientSecret: settings.cloudHubClientSecret,
+      apiUrl: appSettings.cloudHubApiUrl,
+      applicationGUID: appSettings.cloudHubAppGuid,
+      clientKey: appSettings.cloudHubClientKey,
+      clientSecret: appSettings.cloudHubClientSecret,
     );
-    CloudHubAPIHelper helper = CloudHubAPIHelper(info);
+    return CloudHubAPIHelper(info);
+  }
+
+  IAnalyticsService get _analyticsService {
     return AnalyticsService(
       preferences: preferences,
-      appVersion: settings.versionNumber,
-      apiHelper: helper,
+      appVersion: appSettings.versionNumber,
+      apiHelper: _buildCloudHubApiHelper(),
     );
   }
 
@@ -65,30 +68,33 @@ class ServiceProvider implements IServiceProvider {
 
   IChaptersService get _chaptersService {
     return ChaptersService(
-      databasePath: settings.databaseFilePath,
+      databasePath: appSettings.databaseFilePath,
     );
   }
 
   IVersesService get _versesService {
     return VersesService(
-      databaseFilePath: settings.databaseFilePath,
+      databaseFilePath: appSettings.databaseFilePath,
     );
   }
 
   ITafseerService get _tafseerService {
     return TafseerService(
         analyticsService: _analyticsService,
-        tafseerURL: settings.tafseerTextURL);
+        tafseerURL: appSettings.tafseerTextURL);
   }
 
   ITafseerSourcesService get _tafseerSourcesService {
     return TafseerSourcesService(
       analyticsService: _analyticsService,
-      tafseerSourcesFileURL: settings.tafseerSourcesURL,
+      tafseerSourcesFileURL: appSettings.tafseerSourcesURL,
     );
   }
 
   IReleaseInfoService get _releaseInfoService {
-    return ReleaseInfoService(preferences: preferences);
+    return ReleaseInfoService(
+      preferences: preferences,
+      apiHelper: _buildCloudHubApiHelper(),
+    );
   }
 }

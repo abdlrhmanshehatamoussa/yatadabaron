@@ -4,3 +4,4 @@ export 'full-logo.dart';
 export 'loading-widget.dart';
 export 'logo-transparent.dart';
 export 'transparent-bar.dart';
+export 'splash.dart';

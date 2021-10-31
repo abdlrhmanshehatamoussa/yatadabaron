@@ -1,27 +1,77 @@
+import 'dart:convert';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/services/helpers/api_helper.dart';
 import 'interfaces/i_release_info_service.dart';
 
 class ReleaseInfoService extends IReleaseInfoService {
-  final SharedPreferences preferences;
-
   ReleaseInfoService({
     required this.preferences,
+    required this.apiHelper,
   });
+
+  final SharedPreferences preferences;
+  final CloudHubAPIHelper apiHelper;
+  static const String _RELEASES_KEY = "YATADABARON_RELEASES";
+
+  Future<List<ReleaseInfo>> _getRemote() async {
+    try {
+      Response response = await this.apiHelper.httpGET(
+            endpoint: CloudHubAPIHelper.ENDPOINT_RELEASES,
+          );
+      String body = response.body;
+      List<dynamic> releasesJson = jsonDecode(body);
+      List<ReleaseInfo> results = releasesJson
+          .map((dynamic json) => ReleaseInfo.fromJson(json))
+          .toList();
+      return results;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<ReleaseInfo>> _getLocal() async {
+    List<ReleaseInfo> results = [];
+    List<String>? releaseAsStrX =
+        this.preferences.getStringList(_RELEASES_KEY) ?? [];
+    for (String releaseAsStr in releaseAsStrX) {
+      Map<String, dynamic> releaseAsJson = jsonDecode(releaseAsStr);
+      ReleaseInfo release = ReleaseInfo.fromJson(releaseAsJson);
+      results.add(release);
+    }
+    return results;
+  }
+
+  Future<void> _addLocal(List<ReleaseInfo> toAdd) async {
+    List<ReleaseInfo> locals = await _getLocal();
+    locals.addAll(toAdd);
+    List<String> localStr = locals.map((l) => l.toJson()).toList();
+    await this.preferences.setStringList(_RELEASES_KEY, localStr);
+  }
+
+  @override
+  Future<int> syncReleases() async {
+    List<ReleaseInfo> remotes = await _getRemote();
+    List<ReleaseInfo> locals = await _getLocal();
+    List<ReleaseInfo> toAdd = [];
+    for (var remote in remotes) {
+      bool exists =
+          locals.any((ReleaseInfo local) => local.uniqueId == remote.uniqueId);
+      if (exists == false) {
+        toAdd.add(remote);
+      }
+    }
+    if (toAdd.length > 0) {
+      _addLocal(toAdd);
+    }
+    return toAdd.length;
+  }
 
   @override
   Future<List<ReleaseInfo>> getReleases() async {
-    return [
-      ReleaseInfo(
-          name: "6.7.3",
-          buildNumber: 37,
-          description:
-              "تم اضافة خاصية تحميل التفاسير - يمكنك الضغط علي الآية وستظهر لك التفاسير المتاحة يمكنك الاختيار بينها وتحميلها - لابد من اتصالك بالانترنت لتتمكن من التحميل"),
-      ReleaseInfo(
-          name: "6.6.9",
-          buildNumber: 33,
-          description:
-              "تم اضافة خاصية الوضع الليلي - بحيث تتغير جميع الالوان في التطبيق بشكل مريح أكثر للعين في حالات الإضاءة المنخفضة - كما يمكن أيضاً العودة للوضع العادي")
-    ];
+    List<ReleaseInfo> local = await _getLocal();
+    local.sort((a, b) => b.uniqueId.compareTo(a.uniqueId));
+    return local;
   }
 }

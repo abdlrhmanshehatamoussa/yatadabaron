@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/base_view.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/pages/splash/view.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/custom_material_app.dart';
 import 'package:yatadabaron/widgets/loading-widget.dart';
+import 'package:yatadabaron/widgets/module.dart';
 import 'controller.dart';
 import 'config/page_router.dart';
 import 'config/session_manager.dart';
@@ -24,7 +24,7 @@ class AppView extends BaseView<AppController> {
 
   Widget _error() {
     return FutureBuilder<String>(
-      future: this.controller.getVersionLabel(),
+      future: this.controller.getPackageBuildInfo(),
       builder: (_, AsyncSnapshot<String> snapshot) {
         if (!snapshot.hasData) {
           return _loading();
