@@ -61,7 +61,7 @@ class MyApp extends SimpleApp {
   }
 
   @override
-  Future<List<SimpleService>> registerServices() async {
+  Future<List<ISimpleService>> registerServices() async {
     var _pref = await SharedPreferences.getInstance();
     var _info = await PackageInfo.fromPlatform();
 

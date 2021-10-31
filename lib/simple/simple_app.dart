@@ -18,7 +18,7 @@ class _Payload {
 }
 
 abstract class SimpleApp extends StatelessWidget {
-  Future<List<SimpleService>> registerServices();
+  Future<List<ISimpleService>> registerServices();
   Future<void> onStart(
     SimpleServiceProvider serviceProvider,
   );
@@ -28,7 +28,7 @@ abstract class SimpleApp extends StatelessWidget {
 
   Future<_Payload> start() async {
     try {
-      List<SimpleService> services = await registerServices();
+      List<ISimpleService> services = await registerServices();
       SimpleServiceProvider serviceProvider = SimpleServiceProvider(services);
       await onStart(serviceProvider);
       return _Payload(

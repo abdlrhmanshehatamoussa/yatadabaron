@@ -1,14 +1,20 @@
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/helpers/database_service.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'interfaces/module.dart';
 
-class ChaptersService extends IChaptersService with DatabaseService {
+class ChaptersService
+    with DatabaseService
+    implements IChaptersService, ISimpleService {
   final String databasePath;
 
   ChaptersService({
     required this.databasePath,
   });
+
+  @override
+  Type get getAs => IChaptersService;
 
   @override
   Future<List<Chapter>> getAll({required bool includeWholeQuran}) async {

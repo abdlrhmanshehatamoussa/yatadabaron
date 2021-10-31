@@ -4,8 +4,7 @@ import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'interfaces/module.dart';
 
-class UserDataService extends SimpleService<IUserDataService>
-    implements IUserDataService {
+class UserDataService implements IUserDataService, ISimpleService {
   UserDataService({
     required this.preferences,
   });
@@ -14,6 +13,9 @@ class UserDataService extends SimpleService<IUserDataService>
 
   static const String _NIGHT_MODE_KEY = "yatadabaron_night_mode";
   static const String _MUSHAF_LOCATIONS_KEY = "yatadabaron_mushaf_locations";
+
+  @override
+  Type get getAs => IUserDataService;
 
   @override
   Future<bool?> getNightMode() async {

@@ -1,7 +1,6 @@
-import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-abstract class IUserDataService extends SimpleService<IUserDataService> {
+abstract class IUserDataService{
   Future<void> removeMushafLocation(MushafLocation location);
 
   Future<bool> addMushafLocation(MushafLocation location);

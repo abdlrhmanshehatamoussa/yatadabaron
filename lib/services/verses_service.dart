@@ -1,10 +1,13 @@
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/helpers/database_service.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'interfaces/module.dart';
 
-class VersesService extends IVersesService with DatabaseService {
+class VersesService
+    with DatabaseService
+    implements IVersesService, ISimpleService {
   final String databaseFilePath;
 
   VersesService({
@@ -13,6 +16,9 @@ class VersesService extends IVersesService with DatabaseService {
 
   static const String TABLE_NAME_BASMALA = "verses_with_basmala";
   static const String TABLE_NAME_NO_BASMALA = "verses";
+
+  @override
+  Type get getAs => IVersesService;
 
   //Search
   @override

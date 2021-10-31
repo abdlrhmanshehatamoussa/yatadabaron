@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'helpers/api_helper.dart';
 import 'interfaces/module.dart';
 
-class AnalyticsService extends IAnalyticsService {
+class AnalyticsService implements IAnalyticsService, ISimpleService {
   AnalyticsService({
     required this.preferences,
     required this.appVersion,
@@ -15,6 +16,9 @@ class AnalyticsService extends IAnalyticsService {
   final int appVersion;
   final CloudHubAPIHelper apiHelper;
   final SharedPreferences preferences;
+
+  @override
+  Type get getAs => IAnalyticsService;
 
   @override
   Future<void> logAppStarted() async {

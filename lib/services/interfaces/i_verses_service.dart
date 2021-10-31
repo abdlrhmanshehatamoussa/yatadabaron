@@ -1,8 +1,7 @@
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-abstract class IVersesService extends SimpleService<IVersesService> {
+abstract class IVersesService {
   //Search
   Future<List<Verse>> keywordSearch(
       bool basmala, String keyword, SearchMode searchMode, int chapterID);

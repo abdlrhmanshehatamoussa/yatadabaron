@@ -3,9 +3,10 @@ import 'package:archive/archive.dart';
 import 'package:http/http.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'interfaces/module.dart';
 
-class TafseerService extends ITafseerService {
+class TafseerService implements ITafseerService, ISimpleService {
   TafseerService({
     required this.tafseerURL,
   });
@@ -75,4 +76,7 @@ class TafseerService extends ITafseerService {
       return 0;
     }
   }
+
+  @override
+  Type get getAs => ITafseerService;
 }
