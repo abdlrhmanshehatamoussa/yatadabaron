@@ -7,6 +7,10 @@ class SimpleServiceProvider {
   SimpleServiceProvider(this._services);
 
   T getService<T>() {
-    return this._services.firstWhere((s) => s.serviceId == T.toString()) as T;
+    int index = this._services.indexWhere((s) => s.serviceId == T.toString());
+    if (index == -1) {
+      throw Exception("Unregistered service: ${T.toString()}");
+    }
+    return this._services[index] as T;
   }
 }

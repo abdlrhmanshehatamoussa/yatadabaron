@@ -3,7 +3,7 @@ import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/helpers/database_service.dart';
 import 'interfaces/module.dart';
 
-class ChaptersService extends DatabaseSimpleService<ChaptersService> implements IChaptersService {
+class ChaptersService extends DatabaseSimpleService<IChaptersService> implements IChaptersService {
   ChaptersService({
     required String databasePath,
   }) : super(databaseFilePath: databasePath);

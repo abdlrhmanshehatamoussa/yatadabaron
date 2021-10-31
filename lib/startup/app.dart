@@ -7,6 +7,7 @@ import 'package:yatadabaron/pages/home/view.dart';
 import 'package:yatadabaron/services/helpers/api_helper.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/services/module.dart';
+import 'package:yatadabaron/services/version_info_service.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/custom_material_app.dart';
@@ -97,6 +98,10 @@ class MyApp extends SimpleApp {
       ),
       TafseerSourcesService(
         tafseerSourcesFileURL: settings[_TAFSEER_SOURCES_URL]!,
+      ),
+      VersionInfoService(
+        buildNumber: int.tryParse(_info.buildNumber) ?? 0,
+        versionName: _info.version,
       ),
     ];
   }
