@@ -2,11 +2,9 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/simple/module.dart';
 import 'interfaces/module.dart';
 
-class TafseerSourcesService extends SimpleService<ITafseerSourcesService>
-    implements ITafseerSourcesService {
+class TafseerSourcesService extends ITafseerSourcesService {
   TafseerSourcesService({
     required this.tafseerSourcesFileURL,
   });

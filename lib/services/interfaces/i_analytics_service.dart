@@ -1,4 +1,6 @@
-abstract class IAnalyticsService {
+import 'package:yatadabaron/simple/module.dart';
+
+abstract class IAnalyticsService extends SimpleService<IAnalyticsService> {
   Future<void> logAppStarted();
 
   Future<void> logOnTap(String desc, {String payload = ""});

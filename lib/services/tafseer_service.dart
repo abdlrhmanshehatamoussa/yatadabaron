@@ -3,11 +3,9 @@ import 'package:archive/archive.dart';
 import 'package:http/http.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/simple/module.dart';
 import 'interfaces/module.dart';
 
-class TafseerService extends SimpleService<ITafseerService>
-    implements ITafseerService {
+class TafseerService extends ITafseerService {
   TafseerService({
     required this.tafseerURL,
   });

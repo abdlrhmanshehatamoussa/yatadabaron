@@ -4,11 +4,12 @@ import 'package:yatadabaron/services/helpers/database_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'interfaces/module.dart';
 
-class VersesService extends DatabaseSimpleService<IVersesService>
-    implements IVersesService {
+class VersesService extends IVersesService with DatabaseService {
+  final String databaseFilePath;
+
   VersesService({
-    required String databaseFilePath,
-  }) : super(databaseFilePath: databaseFilePath);
+    required this.databaseFilePath,
+  });
 
   static const String TABLE_NAME_BASMALA = "verses_with_basmala";
   static const String TABLE_NAME_NO_BASMALA = "verses";
@@ -50,7 +51,7 @@ class VersesService extends DatabaseSimpleService<IVersesService>
         "WHERE ve.sura $chapterCondition "
         "and $textCondition";
 
-    var db = await database;
+    var db = await database(this.databaseFilePath);
 
     //Execute
     List<Map<String, dynamic>> verses = await db.rawQuery(query);
@@ -104,7 +105,7 @@ class VersesService extends DatabaseSimpleService<IVersesService>
         "where v.ayah = $verseId and v.sura = $chapterId";
 
     //Check DB
-    var db = await database;
+    var db = await database(this.databaseFilePath);
 
     //Execute
     List<Map<String, dynamic>> verses = await db.rawQuery(query);
@@ -137,7 +138,7 @@ class VersesService extends DatabaseSimpleService<IVersesService>
         "$chapterCondition";
 
     //Check DB
-    var db = await database;
+    var db = await database(this.databaseFilePath);
 
     //Execute
     List<Map<String, dynamic>> verses = await db.rawQuery(query);

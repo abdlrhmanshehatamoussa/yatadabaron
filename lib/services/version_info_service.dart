@@ -1,8 +1,6 @@
 import 'package:yatadabaron/services/interfaces/module.dart';
-import 'package:yatadabaron/simple/module.dart';
 
-class VersionInfoService extends SimpleService<IVersionInfoService>
-    implements IVersionInfoService {
+class VersionInfoService extends IVersionInfoService {
   final int? buildNumber;
   final String versionName;
 

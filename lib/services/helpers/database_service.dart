@@ -1,15 +1,9 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:yatadabaron/simple/module.dart';
 
-class DatabaseSimpleService<T> extends SimpleService<T> {
-  DatabaseSimpleService({
-    required this.databaseFilePath,
-  });
-
-  final String databaseFilePath;
+mixin DatabaseService {
   Database? _database;
 
-  Future<Database> get database async {
+  Future<Database> database(String databaseFilePath) async {
     if (_database == null || (_database!.isOpen == false)) {
       _database = await openDatabase(databaseFilePath, readOnly: true);
     }
