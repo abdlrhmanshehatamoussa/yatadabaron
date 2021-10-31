@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'helpers/api_helper.dart';
 import 'interfaces/i_analytics_service.dart';
 
-class AnalyticsService implements IAnalyticsService {
+class AnalyticsService extends SimpleService<IAnalyticsService> implements IAnalyticsService {
   AnalyticsService({
     required this.preferences,
     required this.appVersion,
@@ -51,7 +52,8 @@ class AnalyticsService implements IAnalyticsService {
 
   @override
   Future<void> syncAllLogs() async {
-    List<String> actions = preferences.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
+    List<String> actions =
+        preferences.getStringList(ACTIONS_SHARED_PREF_KEY) ?? [];
     if (actions.length > 0) {
       try {
         String payload = actions.join(",");

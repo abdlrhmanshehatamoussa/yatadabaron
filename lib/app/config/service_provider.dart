@@ -79,14 +79,11 @@ class ServiceProvider implements IServiceProvider {
   }
 
   ITafseerService get _tafseerService {
-    return TafseerService(
-        analyticsService: _analyticsService,
-        tafseerURL: appSettings.tafseerTextURL);
+    return TafseerService(tafseerURL: appSettings.tafseerTextURL);
   }
 
   ITafseerSourcesService get _tafseerSourcesService {
     return TafseerSourcesService(
-      analyticsService: _analyticsService,
       tafseerSourcesFileURL: appSettings.tafseerSourcesURL,
     );
   }

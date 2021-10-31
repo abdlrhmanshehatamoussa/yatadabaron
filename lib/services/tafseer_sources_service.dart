@@ -2,17 +2,16 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'interfaces/i_tafseer_sources_service.dart';
 
-class TafseerSourcesService implements ITafseerSourcesService {
+class TafseerSourcesService extends SimpleService<ITafseerSourcesService>
+    implements ITafseerSourcesService {
   TafseerSourcesService({
-    required this.analyticsService,
     required this.tafseerSourcesFileURL,
   });
 
   final String tafseerSourcesFileURL;
-  final IAnalyticsService analyticsService;
   final String _tafseerSourcesFileName = "tafseer_sources.csv";
 
   Future<List<TafseerSource>> _fetch() async {
@@ -85,13 +84,6 @@ class TafseerSourcesService implements ITafseerSourcesService {
     }
   }
 
-  Future<void> _logError(String functionName, String error) async {
-    await analyticsService.logError(
-      error: "$functionName: $error",
-      location: "TAFSEER SERVICE",
-    );
-  }
-
   @override
   Future<List<TafseerSource>> getTafseerSources() async {
     try {
@@ -103,7 +95,6 @@ class TafseerSourcesService implements ITafseerSourcesService {
       }
       return local;
     } catch (e) {
-      await _logError("getTafseerSources", e.toString());
       return [];
     }
   }

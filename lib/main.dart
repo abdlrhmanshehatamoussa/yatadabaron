@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-import 'app/controller.dart';
-import 'app/view.dart';
 
+// import 'app/controller.dart';
+// import 'app/view.dart';
+// void main() {
+//   runApp(AppView(AppController()));
+// }
+
+import 'package:yatadabaron/startup/app.dart';
 void main() {
-  runApp(AppView(AppController()));
+  runApp(
+    MyApp(),
+  );
 }

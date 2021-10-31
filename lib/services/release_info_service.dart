@@ -3,9 +3,11 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/helpers/api_helper.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'interfaces/i_release_info_service.dart';
 
-class ReleaseInfoService extends IReleaseInfoService {
+class ReleaseInfoService extends SimpleService<IReleaseInfoService>
+    implements IReleaseInfoService {
   ReleaseInfoService({
     required this.preferences,
     required this.apiHelper,
@@ -74,4 +76,7 @@ class ReleaseInfoService extends IReleaseInfoService {
     local.sort((a, b) => b.uniqueId.compareTo(a.uniqueId));
     return local;
   }
+
+  @override
+  String get serviceId => (IReleaseInfoService).toString();
 }

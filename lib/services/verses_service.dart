@@ -1,10 +1,11 @@
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/helpers/database_repository.dart';
+import 'package:yatadabaron/services/helpers/database_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'interfaces/i_verses_service.dart';
 
-class VersesService extends DatabaseRepository implements IVersesService {
+class VersesService extends NamedDatabaseSimpleService<IVersesService>
+    implements IVersesService {
   VersesService({
     required String databaseFilePath,
   }) : super(databaseFilePath: databaseFilePath);

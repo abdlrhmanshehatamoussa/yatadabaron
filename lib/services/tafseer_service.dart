@@ -3,17 +3,16 @@ import 'package:archive/archive.dart';
 import 'package:http/http.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'interfaces/i_tafseer_service.dart';
 
-class TafseerService implements ITafseerService {
+class TafseerService extends SimpleService<ITafseerService>
+    implements ITafseerService {
   TafseerService({
-    required this.analyticsService,
     required this.tafseerURL,
   });
 
   final String tafseerURL;
-  final IAnalyticsService analyticsService;
 
   Uri _getRemoteUri(int tafseerSourceId) {
     String fileName = "$tafseerSourceId.zip";
@@ -24,13 +23,6 @@ class TafseerService implements ITafseerService {
 
   String _getFileName(int chapterId, int verseId, int tafseerId) {
     return "$tafseerId.$chapterId.$verseId";
-  }
-
-  Future<void> _logError(String functionName, String error) async {
-    await analyticsService.logError(
-      error: "$functionName: $error",
-      location: "TAFSEER SERVICE",
-    );
   }
 
   @override
@@ -68,7 +60,6 @@ class TafseerService implements ITafseerService {
       }
       return false;
     } catch (e) {
-      await _logError("syncTafseer", e.toString());
       return false;
     }
   }

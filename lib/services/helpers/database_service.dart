@@ -1,7 +1,8 @@
 import 'package:sqflite/sqflite.dart';
+import 'package:yatadabaron/simple/module.dart';
 
-class DatabaseRepository {
-  DatabaseRepository({
+class NamedDatabaseSimpleService<T> extends SimpleService<T> {
+  NamedDatabaseSimpleService({
     required this.databaseFilePath,
   });
 

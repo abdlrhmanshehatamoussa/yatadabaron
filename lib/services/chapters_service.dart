@@ -1,9 +1,9 @@
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/helpers/database_repository.dart';
+import 'package:yatadabaron/services/helpers/database_service.dart';
 import 'interfaces/i_chapters_service.dart';
 
-class ChaptersService extends DatabaseRepository implements IChaptersService {
+class ChaptersService extends NamedDatabaseSimpleService<ChaptersService> implements IChaptersService {
   ChaptersService({
     required String databasePath,
   }) : super(databaseFilePath: databasePath);
