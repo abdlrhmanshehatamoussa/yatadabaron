@@ -1,19 +1,17 @@
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/simple/controller.dart';
 import 'view_models/mushaf_state.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class MushafController {
+class MushafController implements ISimpleController{
   MushafController({
-    required mushafSettings,
     required this.chaptersService,
     required this.versesService,
     required this.userDataService,
     required this.analyticsService,
-  }) {
-    reloadVerses(mushafSettings);
-  }
+  });
 
   final IChaptersService chaptersService;
   final IVersesService versesService;

@@ -7,15 +7,13 @@ import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class ReleaseNotesPage extends SimpleView {
+class ReleaseNotesPage extends SimpleView<ReleaseNotesController> {
   @override
   Widget build(BuildContext context) {
     IVersionInfoService versionInfoService =
         getService<IVersionInfoService>(context);
 
-    ReleaseNotesController controller = ReleaseNotesController(
-      releaseInfoService: getService<IReleaseInfoService>(context),
-    );
+    ReleaseNotesController controller = getController(context);
     String currentVersion = versionInfoService.getVersionName();
     return CustomPageWrapper(
       pageTitle: Localization.RELEASE_NOTES,

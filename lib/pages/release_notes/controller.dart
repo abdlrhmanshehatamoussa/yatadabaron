@@ -1,7 +1,8 @@
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/simple/controller.dart';
 
-class ReleaseNotesController {
+class ReleaseNotesController implements ISimpleController {
   final IReleaseInfoService releaseInfoService;
 
   ReleaseNotesController({

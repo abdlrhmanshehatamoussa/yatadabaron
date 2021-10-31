@@ -12,8 +12,9 @@ import 'package:yatadabaron/simple/module.dart';
 import 'viewmodels/home_grid_item.dart';
 import 'widgets/grid.dart';
 import 'widgets/header.dart';
+import 'controller.dart';
 
-class HomePage extends SimpleView {
+class HomePage extends SimpleView<HomeController> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override

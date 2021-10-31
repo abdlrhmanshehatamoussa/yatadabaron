@@ -4,23 +4,22 @@ import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/simple/controller.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class TafseerPageController extends BaseController {
+class TafseerPageController implements ISimpleController {
   TafseerPageController({
     required this.tafseerService,
     required this.userDataService,
-    required this.verseId,
-    required this.chapterId,
     required this.versesService,
     required this.analyticsService,
     required this.tafseerSourcesService,
   });
 
-  final int verseId;
-  final int chapterId;
+  //TODO: Solve this issue
+  final int verseId = 1;
+  final int chapterId = 1;
   final IVersesService versesService;
   final IAnalyticsService analyticsService;
   final ITafseerService tafseerService;

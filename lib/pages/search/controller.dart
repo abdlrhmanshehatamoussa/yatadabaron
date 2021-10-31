@@ -3,10 +3,11 @@ import 'package:share/share.dart';
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/simple/controller.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
-class SearchController {
+class SearchController implements ISimpleController {
   final IChaptersService chaptersService;
   final IVersesService versesService;
   final IAnalyticsService analyticsService;
@@ -19,10 +20,8 @@ class SearchController {
     _stateBloc.add(SearchState.INITIAL);
   }
 
-  StreamObject<SearchSettings> _settingsBloc =
-      StreamObject();
-  StreamObject<SearchSessionPayload> _payloadBloc =
-      StreamObject();
+  StreamObject<SearchSettings> _settingsBloc = StreamObject();
+  StreamObject<SearchSessionPayload> _payloadBloc = StreamObject();
   StreamObject<SearchState> _stateBloc = StreamObject();
   StreamObject<Exception> _errorStream = StreamObject();
 

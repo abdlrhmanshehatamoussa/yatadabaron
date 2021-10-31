@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/pages/statistics/controller.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';
@@ -12,14 +11,10 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class StatisticsPage extends SimpleView {
+class StatisticsPage extends SimpleView<StatisticsController> {
   @override
   Widget build(BuildContext context) {
-    StatisticsController controller = StatisticsController(
-      analyticsService: getService<IAnalyticsService>(context),
-      versesService: getService<IVersesService>(context),
-      chaptersService: getService<IChaptersService>(context),
-    );
+    StatisticsController controller = getController(context);
     Widget resultsArea = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/pages/search/controller.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
@@ -14,7 +13,7 @@ import './widgets/search-summary.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
-class SearchPage extends SimpleView {
+class SearchPage extends SimpleView<SearchController> {
   Widget customText(String text) {
     return Center(
       child: Text(
@@ -27,11 +26,7 @@ class SearchPage extends SimpleView {
 
   @override
   Widget build(BuildContext context) {
-    SearchController controller = SearchController(
-      analyticsService: getService<IAnalyticsService>(context),
-      chaptersService: getService<IChaptersService>(context),
-      versesService: getService<IVersesService>(context),
-    );
+    SearchController controller = getController(context);
     Widget searchResultsArea = Column(
       children: <Widget>[
         SearchSummaryWidget(

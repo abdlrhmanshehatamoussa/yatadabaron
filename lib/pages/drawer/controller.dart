@@ -1,9 +1,10 @@
 import 'package:launch_review/launch_review.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/startup/session_manager.dart';
 
-class CustomDrawerController {
+class CustomDrawerController implements ISimpleController {
   final IAnalyticsService analyticsService;
   final IUserDataService userDataService;
   final IReleaseInfoService releaseInfoService;

@@ -2,10 +2,15 @@ abstract class ISimpleService {
   Type get getAs;
 }
 
-class SimpleServiceProvider {
-  final List<ISimpleService> _services;
-  SimpleServiceProvider(this._services);
+abstract class ISimpleServiceProvider {
+  T getService<T>();
+}
 
+class EagerServiceProvider implements ISimpleServiceProvider {
+  final List<ISimpleService> _services;
+  EagerServiceProvider(this._services);
+
+  @override
   T getService<T>() {
     int index =
         this._services.indexWhere((s) => s.getAs.toString() == T.toString());

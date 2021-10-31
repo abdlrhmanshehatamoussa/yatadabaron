@@ -6,13 +6,12 @@ import 'package:yatadabaron/pages/mushaf/controller.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
 import 'package:yatadabaron/pages/tafseer/view.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/list.dart';
 
-class MushafPage extends SimpleView {
+class MushafPage extends SimpleView<MushafController> {
   final MushafSettings? mushafSettings;
 
   MushafPage({
@@ -21,13 +20,8 @@ class MushafPage extends SimpleView {
 
   @override
   Widget build(BuildContext context) {
-    MushafController controller = MushafController(
-      analyticsService: getService<IAnalyticsService>(context),
-      chaptersService: getService<IChaptersService>(context),
-      userDataService: getService<IUserDataService>(context),
-      versesService: getService<IVersesService>(context),
-      mushafSettings: this.mushafSettings,
-    );
+    MushafController controller = getController(context);
+    controller.reloadVerses(this.mushafSettings);
     return FutureBuilder<List<Chapter>>(
       future: controller.getChaptersSimple,
       builder: (_, chaptersSnapshot) {

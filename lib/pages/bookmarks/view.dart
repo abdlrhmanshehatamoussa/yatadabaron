@@ -3,20 +3,15 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/bookmarks/controller.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'widgets/list.dart';
 
-class BookmarksView extends SimpleView {
+class BookmarksView extends SimpleView<BookmarksController> {
   @override
   Widget build(BuildContext context) {
-    BookmarksController controller = BookmarksController(
-      userDataService: getService<IUserDataService>(context),
-      versesService: getService<IVersesService>(context),
-    );
-
+    BookmarksController controller = getController(context);
     return CustomPageWrapper(
       pageTitle: Localization.BOOKMARKS,
       child: Center(

@@ -3,7 +3,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yatadabaron/pages/bookmarks/controller.dart';
+import 'package:yatadabaron/pages/drawer/controller.dart';
+import 'package:yatadabaron/pages/home/controller.dart';
 import 'package:yatadabaron/pages/home/view.dart';
+import 'package:yatadabaron/pages/mushaf/controller.dart';
+import 'package:yatadabaron/pages/search/controller.dart';
+import 'package:yatadabaron/pages/statistics/controller.dart';
+import 'package:yatadabaron/pages/tafseer/controller.dart';
 import 'package:yatadabaron/services/helpers/api_helper.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/services/module.dart';
@@ -61,7 +68,7 @@ class MyApp extends SimpleApp {
   }
 
   @override
-  Future<List<ISimpleService>> registerServices() async {
+  Future<ISimpleServiceProvider> providerServices() async {
     var _pref = await SharedPreferences.getInstance();
     var _info = await PackageInfo.fromPlatform();
 
@@ -85,7 +92,7 @@ class MyApp extends SimpleApp {
       ),
     );
 
-    return [
+    List<ISimpleService> services = [
       UserDataService(preferences: _pref),
       ChaptersService(databasePath: databaseFilePath),
       VersesService(databaseFilePath: databaseFilePath),
@@ -104,11 +111,58 @@ class MyApp extends SimpleApp {
         versionName: _info.version,
       ),
     ];
+    return EagerServiceProvider(services);
   }
 
   @override
-  Future<void> onStart(
-    SimpleServiceProvider serviceProvider,
+  Future<ISimpleControllerProvider> provideControllers(
+    ISimpleServiceProvider serviceProvider,
+  ) async {
+    List<ISimpleController> _controllers = [
+      HomeController(
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
+        userDataService: serviceProvider.getService<IUserDataService>(),
+      ),
+      StatisticsController(
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
+        chaptersService: serviceProvider.getService<IChaptersService>(),
+        versesService: serviceProvider.getService<IVersesService>(),
+      ),
+      CustomDrawerController(
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
+        userDataService: serviceProvider.getService<IUserDataService>(),
+        releaseInfoService: serviceProvider.getService<IReleaseInfoService>(),
+      ),
+      BookmarksController(
+        versesService: serviceProvider.getService<IVersesService>(),
+        userDataService: serviceProvider.getService<IUserDataService>(),
+      ),
+      SearchController(
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
+        chaptersService: serviceProvider.getService<IChaptersService>(),
+        versesService: serviceProvider.getService<IVersesService>(),
+      ),
+      TafseerPageController(
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
+        userDataService: serviceProvider.getService<IUserDataService>(),
+        versesService: serviceProvider.getService<IVersesService>(),
+        tafseerService: serviceProvider.getService<ITafseerService>(),
+        tafseerSourcesService:
+            serviceProvider.getService<ITafseerSourcesService>(),
+      ),
+      MushafController(
+        analyticsService: serviceProvider.getService<IAnalyticsService>(),
+        chaptersService: serviceProvider.getService<IChaptersService>(),
+        userDataService: serviceProvider.getService<IUserDataService>(),
+        versesService: serviceProvider.getService<IVersesService>(),
+      )
+    ];
+    return EagerControllerProvider(_controllers);
+  }
+
+  @override
+  Future<void> initialize(
+    ISimpleServiceProvider serviceProvider,
   ) async {
     //Load releases
     IReleaseInfoService releaseInfoService =
@@ -117,7 +171,7 @@ class MyApp extends SimpleApp {
     //Log events
     IAnalyticsService analyticsService =
         serviceProvider.getService<IAnalyticsService>();
-    
+
     await analyticsService.logAppStarted();
     await analyticsService.syncAllLogs();
     await releaseInfoService.syncReleases();

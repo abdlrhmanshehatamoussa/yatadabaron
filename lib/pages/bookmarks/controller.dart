@@ -1,9 +1,10 @@
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/simple/controller.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class BookmarksController{
+class BookmarksController implements ISimpleController {
   BookmarksController({
     required this.versesService,
     required this.userDataService,

@@ -6,17 +6,13 @@ import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class CustomDrawer extends SimpleView {
+class CustomDrawer extends SimpleView<CustomDrawerController> {
   @override
   Widget build(BuildContext context) {
     IVersionInfoService versionInfoService =
         getService<IVersionInfoService>(context);
 
-    CustomDrawerController controller = CustomDrawerController(
-      analyticsService: getService<IAnalyticsService>(context),
-      userDataService: getService<IUserDataService>(context),
-      releaseInfoService: getService<IReleaseInfoService>(context),
-    );
+    CustomDrawerController controller = getController(context);
 
     Icon _buildTabIcon(IconData data) {
       return Icon(
