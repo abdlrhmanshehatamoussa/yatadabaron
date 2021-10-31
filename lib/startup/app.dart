@@ -118,9 +118,9 @@ class MyApp extends SimpleApp {
     IAnalyticsService analyticsService =
         serviceProvider.getService<IAnalyticsService>();
     
-    // await analyticsService.logAppStarted();
-    // await analyticsService.syncAllLogs();
-    // await releaseInfoService.syncReleases();
+    await analyticsService.logAppStarted();
+    await analyticsService.syncAllLogs();
+    await releaseInfoService.syncReleases();
 
     //Initialize the session
     IUserDataService userDataService =
