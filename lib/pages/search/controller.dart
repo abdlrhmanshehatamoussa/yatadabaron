@@ -2,12 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:share/share.dart';
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
-class SearchController extends BaseController {
+class SearchController {
   final IChaptersService chaptersService;
   final IVersesService versesService;
   final IAnalyticsService analyticsService;

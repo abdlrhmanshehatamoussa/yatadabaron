@@ -1,11 +1,10 @@
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/commons/base_controller.dart';
 import 'view_models/mushaf_state.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class MushafController extends BaseController {
+class MushafController {
   MushafController({
     required mushafSettings,
     required this.chaptersService,
@@ -26,7 +25,8 @@ class MushafController extends BaseController {
 
   Future reloadVerses(MushafSettings? mushafSettings) async {
     if (mushafSettings == null) {
-      MushafLocation? lastLocation = await userDataService.getLastMushafLocation();
+      MushafLocation? lastLocation =
+          await userDataService.getLastMushafLocation();
       if (lastLocation != null) {
         mushafSettings = MushafSettings.fromBookmark(
           chapterId: lastLocation.chapterId,
