@@ -1,8 +1,6 @@
 import 'package:launch_review/launch_review.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
-import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
-import 'package:yatadabaron/services/interfaces/i_release_info_service.dart';
-import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/startup/session_manager.dart';
 

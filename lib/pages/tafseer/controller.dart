@@ -5,11 +5,7 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
-import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
-import 'package:yatadabaron/services/interfaces/i_tafseer_service.dart';
-import 'package:yatadabaron/services/interfaces/i_tafseer_sources_service.dart';
-import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
-import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
 class TafseerPageController extends BaseController {

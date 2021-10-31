@@ -1,8 +1,7 @@
 import 'package:yatadabaron/commons/base_controller.dart';
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
-import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
 class BookmarksController extends BaseController {

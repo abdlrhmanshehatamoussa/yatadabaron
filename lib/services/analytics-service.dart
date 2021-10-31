@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'helpers/api_helper.dart';
-import 'interfaces/i_analytics_service.dart';
+import 'interfaces/module.dart';
 
 class AnalyticsService extends SimpleService<IAnalyticsService> implements IAnalyticsService {
   AnalyticsService({

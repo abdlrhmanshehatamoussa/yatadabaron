@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/helpers/api_helper.dart';
 import 'package:yatadabaron/simple/module.dart';
-import 'interfaces/i_release_info_service.dart';
+import 'interfaces/module.dart';
 
 class ReleaseInfoService extends SimpleService<IReleaseInfoService>
     implements IReleaseInfoService {

@@ -1,7 +1,7 @@
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/helpers/database_service.dart';
-import 'interfaces/i_chapters_service.dart';
+import 'interfaces/module.dart';
 
 class ChaptersService extends NamedDatabaseSimpleService<ChaptersService> implements IChaptersService {
   ChaptersService({

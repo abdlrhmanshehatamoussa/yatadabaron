@@ -1,5 +1,5 @@
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/simple/simple_view.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

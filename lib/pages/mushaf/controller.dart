@@ -2,10 +2,7 @@ import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/commons/base_controller.dart';
 import 'view_models/mushaf_state.dart';
-import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
-import 'package:yatadabaron/services/interfaces/i_chapters_service.dart';
-import 'package:yatadabaron/services/interfaces/i_user_data_service.dart';
-import 'package:yatadabaron/services/interfaces/i_verses_service.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
 class MushafController extends BaseController {

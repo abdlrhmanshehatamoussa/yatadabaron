@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
-import 'interfaces/i_user_data_service.dart';
+import 'interfaces/module.dart';
 
 class UserDataService extends SimpleService<IUserDataService>
     implements IUserDataService {

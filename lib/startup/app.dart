@@ -5,8 +5,6 @@ import 'package:yatadabaron/commons/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/pages/home/view.dart';
 import 'package:yatadabaron/services/helpers/api_helper.dart';
-import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
-import 'package:yatadabaron/services/interfaces/i_release_info_service.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
