@@ -5,3 +5,4 @@ export 'i_tafseer_service.dart';
 export 'i_tafseer_sources_service.dart';
 export 'i_user_data_service.dart';
 export 'i_verses_service.dart';
+export 'i_version_info_service.dart';

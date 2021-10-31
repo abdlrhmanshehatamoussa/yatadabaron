@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/commons/base_view.dart';
-import 'controller.dart';
+import 'package:yatadabaron/pages/statistics/controller.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/simple/simple_view.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';
 import './widgets/statistics-form.dart';
@@ -11,17 +12,20 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class StatisticsPage extends BaseView<StatisticsController> {
-  StatisticsPage(StatisticsController controller) : super(controller);
-
+class StatisticsPage extends SimpleView {
   @override
   Widget build(BuildContext context) {
+    StatisticsController controller = StatisticsController(
+      analyticsService: getService<IAnalyticsService>(context),
+      versesService: getService<IVersesService>(context),
+      chaptersService: getService<IChaptersService>(context),
+    );
     Widget resultsArea = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         StatisticsSummaryWidget(
-          payloadStream: this.controller.payloadStream,
+          payloadStream: controller.payloadStream,
         ),
         Divider(
           height: 1,
@@ -29,14 +33,14 @@ class StatisticsPage extends BaseView<StatisticsController> {
         ),
         Expanded(
           child: FrequencyChart(
-            payloadStream: this.controller.payloadStream,
+            payloadStream: controller.payloadStream,
           ),
           flex: 1,
         ),
         Divider(),
         Expanded(
           child: FrequencyTable(
-            payloadStream: this.controller.payloadStream,
+            payloadStream: controller.payloadStream,
           ),
           flex: 1,
         ),

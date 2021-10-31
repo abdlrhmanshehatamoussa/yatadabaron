@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app/config/page_router.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/pages/bookmarks/controller.dart';
+import 'package:yatadabaron/pages/mushaf/view.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
-import 'controller.dart';
-import 'package:yatadabaron/commons/base_view.dart';
-
 import 'widgets/list.dart';
 
-class BookmarksView extends BaseView<BookmarksController> {
-  BookmarksView(BookmarksController controller) : super(controller);
-
+class BookmarksView extends SimpleView {
   @override
   Widget build(BuildContext context) {
+    BookmarksController controller = BookmarksController(
+      userDataService: getService<IUserDataService>(context),
+      versesService: getService<IVersesService>(context),
+    );
+
     return CustomPageWrapper(
       pageTitle: Localization.BOOKMARKS,
       child: Center(
@@ -29,7 +32,7 @@ class BookmarksView extends BaseView<BookmarksController> {
               onBookmarkClick: (MushafLocation loc) {
                 navigateReplace(
                   context: context,
-                  view: PageRouter.instance.mushaf(
+                  view: MushafPage(
                     mushafSettings: MushafSettings.fromBookmark(
                       chapterId: loc.chapterId,
                       verseId: loc.verseId,
@@ -37,7 +40,8 @@ class BookmarksView extends BaseView<BookmarksController> {
                   ),
                 );
               },
-              onBookmarkRemove: (MushafLocation loc) async => await controller.removeBookmark(loc),
+              onBookmarkRemove: (MushafLocation loc) async =>
+                  await controller.removeBookmark(loc),
             );
           },
         ),

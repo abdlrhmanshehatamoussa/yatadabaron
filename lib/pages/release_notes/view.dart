@@ -2,16 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/commons/base_view.dart';
 import 'package:yatadabaron/pages/release_notes/controller.dart';
+import 'package:yatadabaron/services/interfaces/i_release_info_service.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class ReleaseNotesPage extends BaseView<ReleaseNotesController> {
-  ReleaseNotesPage(ReleaseNotesController controller) : super(controller);
-
+class ReleaseNotesPage extends SimpleView {
   @override
   Widget build(BuildContext context) {
-    String currentVersion = controller.getCurrentVersion();
+    IVersionInfoService versionInfoService =
+        getService<IVersionInfoService>(context);
+
+    ReleaseNotesController controller = ReleaseNotesController(
+      releaseInfoService: getService<IReleaseInfoService>(context),
+    );
+    String currentVersion = versionInfoService.getVersionName();
     return CustomPageWrapper(
       pageTitle: Localization.RELEASE_NOTES,
       child: Container(

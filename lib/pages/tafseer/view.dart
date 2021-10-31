@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/commons/base_view.dart';
-import 'controller.dart';
+import 'package:yatadabaron/pages/tafseer/controller.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/selector.dart';
 import 'widgets/tafseer_section.dart';
 import 'widgets/verse_section.dart';
 
-class TafseerPage extends BaseView<TafseerPageController> {
-  TafseerPage(TafseerPageController controller) : super(controller);
+class TafseerPage extends SimpleView {
+  final int verseId;
+  final int chapterId;
 
+  TafseerPage({
+    required this.verseId,
+    required this.chapterId,
+  });
   @override
   Widget build(BuildContext context) {
+    TafseerPageController controller = TafseerPageController(
+      chapterId: this.chapterId,
+      verseId: this.verseId,
+      analyticsService: getService<IAnalyticsService>(context),
+      userDataService: getService<IUserDataService>(context),
+      versesService: getService<IVersesService>(context),
+      tafseerService: getService<ITafseerService>(context),
+      tafseerSourcesService: getService<ITafseerSourcesService>(context),
+    );
     return Scaffold(
       appBar: TafseerAppBar.build(
         context: context,

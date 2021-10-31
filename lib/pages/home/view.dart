@@ -1,17 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/app/config/page_router.dart';
-import 'package:yatadabaron/commons/base_view.dart';
 import 'package:yatadabaron/commons/localization.dart';
+import 'package:yatadabaron/pages/about/page.dart';
+import 'package:yatadabaron/pages/bookmarks/view.dart';
+import 'package:yatadabaron/pages/drawer/view.dart';
+import 'package:yatadabaron/pages/mushaf/view.dart';
+import 'package:yatadabaron/pages/release_notes/view.dart';
+import 'package:yatadabaron/pages/search/view.dart';
+import 'package:yatadabaron/pages/statistics/view.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'viewmodels/home_grid_item.dart';
-import 'controller.dart';
 import 'widgets/grid.dart';
 import 'widgets/header.dart';
 
-class HomePage extends BaseView<HomeController> {
+class HomePage extends SimpleView {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
-
-  HomePage(HomeController controller) : super(controller);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class HomePage extends BaseView<HomeController> {
         icon: Icons.search,
         onTap: () => navigatePush(
           context: context,
-          view: PageRouter.instance.search(),
+          view: SearchPage(),
         ),
       ),
       HomeGridItemViewModel(
@@ -30,7 +33,7 @@ class HomePage extends BaseView<HomeController> {
         onTap: () async {
           navigatePush(
             context: context,
-            view: PageRouter.instance.mushaf(
+            view: MushafPage(
               mushafSettings: null,
             ),
           );
@@ -41,7 +44,7 @@ class HomePage extends BaseView<HomeController> {
         icon: Icons.insert_chart_sharp,
         onTap: () => navigatePush(
           context: context,
-          view: PageRouter.instance.statistics(),
+          view: StatisticsPage(),
         ),
       ),
       HomeGridItemViewModel(
@@ -49,7 +52,7 @@ class HomePage extends BaseView<HomeController> {
         icon: Icons.bookmark_sharp,
         onTap: () => navigatePush(
           context: context,
-          view: PageRouter.instance.bookmarks(),
+          view: BookmarksView(),
         ),
       ),
       HomeGridItemViewModel(
@@ -57,7 +60,7 @@ class HomePage extends BaseView<HomeController> {
         icon: Icons.new_releases_rounded,
         onTap: () => navigatePush(
           context: context,
-          view: PageRouter.instance.releaseNotes(),
+          view: ReleaseNotesPage(),
         ),
       ),
       HomeGridItemViewModel(
@@ -65,7 +68,7 @@ class HomePage extends BaseView<HomeController> {
         icon: Icons.help,
         onTap: () => navigatePush(
           context: context,
-          view: PageRouter.instance.about(),
+          view: AboutPage(),
         ),
       ),
     ];
@@ -73,7 +76,7 @@ class HomePage extends BaseView<HomeController> {
     return Scaffold(
       key: _key,
       drawer: Drawer(
-        child: PageRouter.instance.drawer(),
+        child: CustomDrawer(),
       ),
       body: Container(
         alignment: Alignment.center,

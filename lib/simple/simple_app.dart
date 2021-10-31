@@ -22,7 +22,7 @@ abstract class SimpleApp extends StatelessWidget {
   Future<void> onStart(
     SimpleServiceProvider serviceProvider,
   );
-  Widget homeWidget();
+  Widget app();
   Widget splashWidget();
   Widget startupErrorWidget(String errorMessage);
 
@@ -58,15 +58,13 @@ abstract class SimpleApp extends StatelessWidget {
         _Payload payload = snapshot.data!;
         switch (payload.status) {
           case _Status.DONE:
-            return MaterialApp(
-              home: MultiProvider(
-                child: homeWidget(),
-                providers: [
-                  Provider<SimpleServiceProvider>(
-                    create: (_) => payload.serviceProvider!,
-                  ),
-                ],
-              ),
+            return MultiProvider(
+              child: app(),
+              providers: [
+                Provider<SimpleServiceProvider>(
+                  create: (_) => payload.serviceProvider!,
+                ),
+              ],
             );
           case _Status.UNKNOWN_ERROR:
           default:

@@ -3,14 +3,17 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yatadabaron/pages/home/view.dart';
 import 'package:yatadabaron/services/helpers/api_helper.dart';
 import 'package:yatadabaron/services/interfaces/i_analytics_service.dart';
 import 'package:yatadabaron/services/interfaces/i_release_info_service.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
-import 'package:yatadabaron/startup/view.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
+import 'package:yatadabaron/widgets/custom_material_app.dart';
 import 'package:yatadabaron/widgets/module.dart';
+import 'session_manager.dart';
 
 class MyApp extends SimpleApp {
   static const String _ASSETS_DB_NAME = 'quran_usmani.db';
@@ -33,8 +36,21 @@ class MyApp extends SimpleApp {
   }
 
   @override
-  Widget homeWidget() {
-    return TestPage();
+  Widget app() {
+    return StreamBuilder<AppSession>(
+      stream: AppSessionManager.instance.stream,
+      builder: (_, AsyncSnapshot<AppSession> sessionSnapshot) {
+        if (!sessionSnapshot.hasData) {
+          return CustomMaterialApp(
+            widget: splashWidget(),
+          );
+        }
+        return CustomMaterialApp(
+          widget: HomePage(),
+          theme: sessionSnapshot.data!.themeDataWrapper.themeData,
+        );
+      },
+    );
   }
 
   @override
@@ -71,30 +87,19 @@ class MyApp extends SimpleApp {
     );
 
     return [
+      UserDataService(preferences: _pref),
+      ChaptersService(databasePath: databaseFilePath),
+      VersesService(databaseFilePath: databaseFilePath),
+      TafseerService(tafseerURL: settings[_TAFSEER_TEXT_URL]!),
+      ReleaseInfoService(preferences: _pref, apiHelper: _cloudHubHelper),
       AnalyticsService(
         preferences: _pref,
         appVersion: int.tryParse(_info.buildNumber) ?? 0,
         apiHelper: _cloudHubHelper,
       ),
-      UserDataService(
-        preferences: _pref,
-      ),
-      ChaptersService(
-        databasePath: databaseFilePath,
-      ),
-      VersesService(
-        databaseFilePath: databaseFilePath,
-      ),
-      TafseerService(
-        tafseerURL: settings[_TAFSEER_TEXT_URL]!,
-      ),
       TafseerSourcesService(
         tafseerSourcesFileURL: settings[_TAFSEER_SOURCES_URL]!,
       ),
-      ReleaseInfoService(
-        preferences: _pref,
-        apiHelper: _cloudHubHelper,
-      )
     ];
   }
 
@@ -120,10 +125,10 @@ class MyApp extends SimpleApp {
     switch (isNightMode) {
       case null:
       case true:
-        //AppSessionManager.instance.updateTheme(ThemeDataWrapper.dark());
+        AppSessionManager.instance.updateTheme(ThemeDataWrapper.dark());
         break;
       case false:
-        //AppSessionManager.instance.updateTheme(ThemeDataWrapper.light());
+        AppSessionManager.instance.updateTheme(ThemeDataWrapper.light());
         break;
       default:
     }

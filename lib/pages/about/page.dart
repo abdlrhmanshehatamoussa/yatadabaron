@@ -1,13 +1,10 @@
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/commons/base_controller.dart';
-import 'package:yatadabaron/commons/base_view.dart';
+import 'package:yatadabaron/simple/simple_view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AboutPage extends BaseView {
-  AboutPage(BaseController controller) : super(controller);
-
+class AboutPage extends SimpleView {
   Widget customText(String text) {
     return Text(
       text,

@@ -1,22 +1,20 @@
-import 'package:yatadabaron/app/config/page_router.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/commons/base_view.dart';
+import 'package:yatadabaron/pages/mushaf/view.dart';
+import 'package:yatadabaron/pages/search/controller.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
 import './widgets/search-summary.dart';
-import 'controller.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
-class SearchPage extends BaseView<SearchController> {
-  SearchPage(controller) : super(controller);
-
+class SearchPage extends SimpleView {
   Widget customText(String text) {
     return Center(
       child: Text(
@@ -29,6 +27,11 @@ class SearchPage extends BaseView<SearchController> {
 
   @override
   Widget build(BuildContext context) {
+    SearchController controller = SearchController(
+      analyticsService: getService<IAnalyticsService>(context),
+      chaptersService: getService<IChaptersService>(context),
+      versesService: getService<IVersesService>(context),
+    );
     Widget searchResultsArea = Column(
       children: <Widget>[
         SearchSummaryWidget(
@@ -44,7 +47,7 @@ class SearchPage extends BaseView<SearchController> {
         Expanded(
           flex: 1,
           child: SearchResultsList(
-            payloadStream: this.controller.payloadStream,
+            payloadStream: controller.payloadStream,
             onItemLongPress: (Verse verse) async =>
                 await controller.copyVerse(verse),
             onItemPress: (Verse verse) async {
@@ -53,7 +56,7 @@ class SearchPage extends BaseView<SearchController> {
               if (chapterId != null) {
                 navigatePush(
                   context: context,
-                  view: PageRouter.instance.mushaf(
+                  view: MushafPage(
                     mushafSettings: MushafSettings.fromSearch(
                       chapterId: chapterId,
                       verseId: verseID,

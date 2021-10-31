@@ -1,14 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/commons/base_view.dart';
 import 'package:yatadabaron/pages/drawer/controller.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/simple/simple_view.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class CustomDrawer extends BaseView<CustomDrawerController> {
-  CustomDrawer(CustomDrawerController controller) : super(controller);
+class CustomDrawer extends SimpleView {
   @override
   Widget build(BuildContext context) {
+    IVersionInfoService versionInfoService =
+        getService<IVersionInfoService>(context);
+
+    CustomDrawerController controller = CustomDrawerController(
+      analyticsService: getService<IAnalyticsService>(context),
+      userDataService: getService<IUserDataService>(context),
+      releaseInfoService: getService<IReleaseInfoService>(context),
+    );
+
     Icon _buildTabIcon(IconData data) {
       return Icon(
         data,
@@ -16,8 +25,9 @@ class CustomDrawer extends BaseView<CustomDrawerController> {
       );
     }
 
+    String currentVersion = versionInfoService.getVersionName();
     String versionLabel =
-        [Localization.RELEASE_NAME, controller.currentVersion].join(" : ");
+        [Localization.RELEASE_NAME, currentVersion].join(" : ");
     return Container(
       padding: EdgeInsets.all(0),
       child: Center(
