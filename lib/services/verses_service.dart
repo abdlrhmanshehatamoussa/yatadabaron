@@ -4,7 +4,7 @@ import 'package:yatadabaron/services/helpers/database_service.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'interfaces/module.dart';
 
-class VersesService extends NamedDatabaseSimpleService<IVersesService>
+class VersesService extends DatabaseSimpleService<IVersesService>
     implements IVersesService {
   VersesService({
     required String databaseFilePath,
