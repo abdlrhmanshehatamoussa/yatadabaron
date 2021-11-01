@@ -3,7 +3,7 @@ import 'package:yatadabaron/commons/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
-import 'package:yatadabaron/pages/search/controller.dart';
+import 'package:yatadabaron/pages/search/backend.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
@@ -14,7 +14,7 @@ import './widgets/search-summary.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
-class SearchPage extends SimpleView<SearchController> {
+class SearchPage extends SimpleView<SearchBackend> {
   Widget customText(String text) {
     return Center(
       child: Text(
@@ -27,13 +27,13 @@ class SearchPage extends SimpleView<SearchController> {
 
   @override
   Widget build(BuildContext context) {
-    SearchController controller = getBackend(context);
+    SearchBackend backend = getBackend(context);
     Widget searchResultsArea = Column(
       children: <Widget>[
         SearchSummaryWidget(
-          payloadStream: controller.payloadStream,
+          payloadStream: backend.payloadStream,
           onPressed: (SearchSessionPayload payload) async {
-            await controller.copyAll(payload);
+            await backend.copyAll(payload);
           },
         ),
         Divider(
@@ -43,9 +43,9 @@ class SearchPage extends SimpleView<SearchController> {
         Expanded(
           flex: 1,
           child: SearchResultsList(
-            payloadStream: controller.payloadStream,
+            payloadStream: backend.payloadStream,
             onItemLongPress: (Verse verse) async =>
-                await controller.copyVerse(verse),
+                await backend.copyVerse(verse),
             onItemPress: (Verse verse) async {
               int? chapterId = verse.chapterId;
               int? verseID = verse.verseID;
@@ -70,9 +70,9 @@ class SearchPage extends SimpleView<SearchController> {
       onPressed: () async {
         await SearchForm.show(
           context: context,
-          chaptersFuture: controller.getMushafChapters(),
+          chaptersFuture: backend.getMushafChapters(),
           onSearch: (SearchSettings settings) async {
-            await controller.changeSettings(settings);
+            await backend.changeSettings(settings);
           },
         );
       },
@@ -85,7 +85,7 @@ class SearchPage extends SimpleView<SearchController> {
         customText(Localization.INVALID_SEARCH_SETTINGS);
 
     return StreamBuilder<SearchState>(
-      stream: controller.stateStream,
+      stream: backend.stateStream,
       builder: (BuildContext context, AsyncSnapshot<SearchState> snapshot) {
         SearchState? state = snapshot.data;
         Widget? body;
@@ -120,8 +120,8 @@ class SearchPage extends SimpleView<SearchController> {
   }
 
   @override
-  SearchController buildBackend(ISimpleServiceProvider serviceProvider) {
-    return SearchController(
+  SearchBackend buildBackend(ISimpleServiceProvider serviceProvider) {
+    return SearchBackend(
       analyticsService: serviceProvider.getService<IAnalyticsService>(),
       chaptersService: serviceProvider.getService<IChaptersService>(),
       versesService: serviceProvider.getService<IVersesService>(),

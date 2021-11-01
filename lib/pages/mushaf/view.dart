@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/pages/mushaf/controller.dart';
+import 'package:yatadabaron/pages/mushaf/backend.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
 import 'package:yatadabaron/pages/tafseer/view.dart';
@@ -12,7 +12,7 @@ import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/list.dart';
 
-class MushafPage extends SimpleView<MushafController> {
+class MushafPage extends SimpleView<MushafBackend> {
   final MushafSettings? mushafSettings;
 
   MushafPage({
@@ -21,11 +21,11 @@ class MushafPage extends SimpleView<MushafController> {
 
   @override
   Widget build(BuildContext context) {
-    MushafController controller = getBackend(context);
+    MushafBackend backend = getBackend(context);
     return CustomPageWrapper(
       pageTitle: Localization.MUSHAF_SHARIF,
       child: StreamBuilder<MushafPageState>(
-        stream: controller.stateStream,
+        stream: backend.stateStream,
         builder: (_, stateSnapshot) {
           if (!stateSnapshot.hasData) {
             return LoadingWidget();
@@ -47,7 +47,7 @@ class MushafPage extends SimpleView<MushafController> {
             children: <Widget>[
               MushafDropDownWrapper(
                 onChapterSelected: (Chapter chapter) async =>
-                    await controller.onChapterSelected(chapter),
+                    await backend.onChapterSelected(chapter),
                 chapters: state.chapters,
                 selectedChapter: state.chapter,
               ),
@@ -85,8 +85,8 @@ class MushafPage extends SimpleView<MushafController> {
   }
 
   @override
-  MushafController buildBackend(ISimpleServiceProvider serviceProvider) {
-    return MushafController(
+  MushafBackend buildBackend(ISimpleServiceProvider serviceProvider) {
+    return MushafBackend(
       mushafSettings: this.mushafSettings,
       analyticsService: serviceProvider.getService<IAnalyticsService>(),
       chaptersService: serviceProvider.getService<IChaptersService>(),

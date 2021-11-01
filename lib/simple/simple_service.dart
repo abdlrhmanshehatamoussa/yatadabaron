@@ -1,4 +1,5 @@
 abstract class ISimpleService {
+  //TODO: Optimize the method of resolving services
   Type get getAs;
 }
 

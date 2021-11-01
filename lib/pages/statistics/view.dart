@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/pages/statistics/controller.dart';
+import 'package:yatadabaron/pages/statistics/backend.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import './widgets/frequency-chart.dart';
@@ -12,16 +12,16 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class StatisticsPage extends SimpleView<StatisticsController> {
+class StatisticsPage extends SimpleView<StatisticsBackend> {
   @override
   Widget build(BuildContext context) {
-    StatisticsController controller = getBackend(context);
+    StatisticsBackend backend = getBackend(context);
     Widget resultsArea = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         StatisticsSummaryWidget(
-          payloadStream: controller.payloadStream,
+          payloadStream: backend.payloadStream,
         ),
         Divider(
           height: 1,
@@ -29,14 +29,14 @@ class StatisticsPage extends SimpleView<StatisticsController> {
         ),
         Expanded(
           child: FrequencyChart(
-            payloadStream: controller.payloadStream,
+            payloadStream: backend.payloadStream,
           ),
           flex: 1,
         ),
         Divider(),
         Expanded(
           child: FrequencyTable(
-            payloadStream: controller.payloadStream,
+            payloadStream: backend.payloadStream,
           ),
           flex: 1,
         ),
@@ -51,7 +51,7 @@ class StatisticsPage extends SimpleView<StatisticsController> {
     return CustomPageWrapper(
       pageTitle: Localization.QURAN_STATISTICS,
       child: StreamBuilder<SearchState>(
-        stream: controller.stateStream,
+        stream: backend.stateStream,
         builder: (_, AsyncSnapshot<SearchState> snapshot) {
           if (snapshot.hasData) {
             switch (snapshot.data) {
@@ -72,17 +72,17 @@ class StatisticsPage extends SimpleView<StatisticsController> {
         child: Icon(Icons.insert_chart),
         mini: true,
         onPressed: () {
-          StatisticsForm.show(context, controller);
+          StatisticsForm.show(context, backend);
         },
       ),
     );
   }
 
   @override
-  StatisticsController buildBackend(
+  StatisticsBackend buildBackend(
     ISimpleServiceProvider serviceProvider,
   ) {
-    return StatisticsController(
+    return StatisticsBackend(
       analyticsService: serviceProvider.getService<IAnalyticsService>(),
       chaptersService: serviceProvider.getService<IChaptersService>(),
       versesService: serviceProvider.getService<IVersesService>(),

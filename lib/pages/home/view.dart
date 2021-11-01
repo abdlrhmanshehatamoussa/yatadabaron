@@ -8,14 +8,12 @@ import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/pages/release_notes/view.dart';
 import 'package:yatadabaron/pages/search/view.dart';
 import 'package:yatadabaron/pages/statistics/view.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'viewmodels/home_grid_item.dart';
 import 'widgets/grid.dart';
 import 'widgets/header.dart';
-import 'controller.dart';
 
-class HomePage extends SimpleView<HomeController> {
+class HomePage extends SimpleView {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
@@ -114,10 +112,7 @@ class HomePage extends SimpleView<HomeController> {
   }
 
   @override
-  HomeController buildBackend(ISimpleServiceProvider serviceProvider) {
-    return HomeController(
-      analyticsService: serviceProvider.getService<IAnalyticsService>(),
-      userDataService: serviceProvider.getService<IUserDataService>(),
-    );
+  ISimpleBackend buildBackend(ISimpleServiceProvider serviceProvider) {
+    throw UnimplementedError();
   }
 }

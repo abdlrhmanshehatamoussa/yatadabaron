@@ -8,8 +8,8 @@ import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/backend.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class TafseerPageController implements ISimpleBackend {
-  TafseerPageController({
+class TafseerPageBackend implements ISimpleBackend {
+  TafseerPageBackend({
     required this.location,
     required this.tafseerService,
     required this.userDataService,

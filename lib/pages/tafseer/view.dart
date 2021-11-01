@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/pages/tafseer/controller.dart';
+import 'package:yatadabaron/pages/tafseer/backend.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
@@ -11,7 +11,7 @@ import 'widgets/selector.dart';
 import 'widgets/tafseer_section.dart';
 import 'widgets/verse_section.dart';
 
-class TafseerPage extends SimpleView<TafseerPageController> {
+class TafseerPage extends SimpleView<TafseerPageBackend> {
   final MushafLocation location;
 
   TafseerPage({
@@ -35,13 +35,13 @@ class TafseerPage extends SimpleView<TafseerPageController> {
 
   @override
   Widget build(BuildContext context) {
-    TafseerPageController controller = getBackend(context);
+    TafseerPageBackend backend = getBackend(context);
     return Scaffold(
       appBar: TafseerAppBar.build(
         context: context,
-        onShare: () async => await controller.shareVerse(),
+        onShare: () async => await backend.shareVerse(),
         onSaveBookmark: () async {
-          bool done = await controller.onSaveBookmarkClicked(context);
+          bool done = await backend.onSaveBookmarkClicked(context);
           await _handleAfterBookmarkSaved(context, done);
         },
       ),
@@ -54,7 +54,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
             flex: 1,
             child: SingleChildScrollView(
               child: FutureBuilder<Verse>(
-                future: controller.loadVerseDTO(),
+                future: backend.loadVerseDTO(),
                 builder: (_, AsyncSnapshot<Verse> snapshot) {
                   if (!snapshot.hasData) {
                     return CircularProgressIndicator();
@@ -76,7 +76,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
           Expanded(
             flex: 2,
             child: FutureBuilder<List<TafseerSource>>(
-              future: controller.getAvailableTafseers(),
+              future: backend.getAvailableTafseers(),
               builder: (_,
                   AsyncSnapshot<List<TafseerSource>> availableTafseerSnapshot) {
                 if (availableTafseerSnapshot.hasData == false) {
@@ -89,7 +89,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
                   );
                 } else {
                   return StreamBuilder<VerseTafseer>(
-                    stream: controller.tafseerStream,
+                    stream: backend.tafseerStream,
                     builder: (_, AsyncSnapshot<VerseTafseer> resultSnapshot) {
                       if (resultSnapshot.hasData) {
                         VerseTafseer result = resultSnapshot.data!;
@@ -99,7 +99,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
                               tafseerId: result.tafseerSourceID,
                               tafseers: availableTafseerSnapshot.data!,
                               onTafseerSourceSelected: (int id) async {
-                                await controller.updateTafseerStream(id);
+                                await backend.updateTafseerStream(id);
                               },
                             ),
                             Expanded(
@@ -108,12 +108,12 @@ class TafseerPage extends SimpleView<TafseerPageController> {
                                   tafseer: result.tafseerText,
                                   tafseerSourceID: result.tafseerSourceID,
                                   onDownloadSource: (int id) async {
-                                    await controller.downloadTafseerSource(
+                                    await backend.downloadTafseerSource(
                                       id,
                                       context,
                                     );
                                   },
-                                  getTafseerSize: controller.getTafseerSizeMB(
+                                  getTafseerSize: backend.getTafseerSizeMB(
                                     result.tafseerSourceID,
                                   ),
                                 ),
@@ -138,10 +138,10 @@ class TafseerPage extends SimpleView<TafseerPageController> {
   }
 
   @override
-  TafseerPageController buildBackend(
+  TafseerPageBackend buildBackend(
     ISimpleServiceProvider serviceProvider,
   ) {
-    return TafseerPageController(
+    return TafseerPageBackend(
       location: this.location,
       analyticsService: serviceProvider.getService<IAnalyticsService>(),
       userDataService: serviceProvider.getService<IUserDataService>(),

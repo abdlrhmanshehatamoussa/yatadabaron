@@ -2,10 +2,10 @@ import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/backend.dart';
 
-class ReleaseNotesController implements ISimpleBackend {
+class ReleaseNotesBackend implements ISimpleBackend {
   final IReleaseInfoService releaseInfoService;
 
-  ReleaseNotesController({
+  ReleaseNotesBackend({
     required this.releaseInfoService,
   });
   Future<List<ReleaseInfo>> getVersions() async {

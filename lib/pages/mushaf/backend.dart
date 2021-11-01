@@ -5,8 +5,8 @@ import 'view_models/mushaf_state.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class MushafController implements ISimpleBackend {
-  MushafController({
+class MushafBackend implements ISimpleBackend {
+  MushafBackend({
     required this.chaptersService,
     required this.versesService,
     required this.userDataService,

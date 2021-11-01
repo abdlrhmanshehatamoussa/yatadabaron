@@ -7,12 +7,12 @@ import 'package:yatadabaron/simple/backend.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
-class SearchController implements ISimpleBackend {
+class SearchBackend implements ISimpleBackend {
   final IChaptersService chaptersService;
   final IVersesService versesService;
   final IAnalyticsService analyticsService;
 
-  SearchController({
+  SearchBackend({
     required this.analyticsService,
     required this.chaptersService,
     required this.versesService,

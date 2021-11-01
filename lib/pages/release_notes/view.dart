@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/pages/release_notes/controller.dart';
+import 'package:yatadabaron/pages/release_notes/backend.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class ReleaseNotesPage extends SimpleView<ReleaseNotesController> {
+class ReleaseNotesPage extends SimpleView<ReleaseNotesBackend> {
   @override
   Widget build(BuildContext context) {
     IVersionInfoService versionInfoService =
         getService<IVersionInfoService>(context);
 
-    ReleaseNotesController controller = getBackend(context);
+    ReleaseNotesBackend backend = getBackend(context);
     String currentVersion = versionInfoService.getVersionName();
     return CustomPageWrapper(
       pageTitle: Localization.RELEASE_NOTES,
@@ -21,7 +21,7 @@ class ReleaseNotesPage extends SimpleView<ReleaseNotesController> {
         padding: EdgeInsets.all(5),
         child: Center(
           child: FutureBuilder<List<ReleaseInfo>>(
-            future: controller.getVersions(),
+            future: backend.getVersions(),
             builder: (_, AsyncSnapshot<List<ReleaseInfo>> snapshot) {
               if (snapshot.hasData) {
                 List<ReleaseInfo> releases = snapshot.data!;
@@ -63,7 +63,7 @@ class ReleaseNotesPage extends SimpleView<ReleaseNotesController> {
       ),
       floatingButton: FloatingActionButton(
         onPressed: () async {
-          await controller.syncReleases();
+          await backend.syncReleases();
           await Utils.showCustomDialog(
             context: context,
             text: "",
@@ -76,8 +76,8 @@ class ReleaseNotesPage extends SimpleView<ReleaseNotesController> {
   }
 
   @override
-  ReleaseNotesController buildBackend(ISimpleServiceProvider serviceProvider) {
-    return ReleaseNotesController(
+  ReleaseNotesBackend buildBackend(ISimpleServiceProvider serviceProvider) {
+    return ReleaseNotesBackend(
       releaseInfoService: serviceProvider.getService<IReleaseInfoService>()
     );
   }
