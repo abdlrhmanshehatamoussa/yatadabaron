@@ -76,7 +76,4 @@ class TafseerService implements ITafseerService, ISimpleService {
       return 0;
     }
   }
-
-  @override
-  Type get getAs => ITafseerService;
 }

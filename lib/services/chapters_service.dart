@@ -14,9 +14,6 @@ class ChaptersService
   });
 
   @override
-  Type get getAs => IChaptersService;
-
-  @override
   Future<List<Chapter>> getAll({required bool includeWholeQuran}) async {
     //Prepare Query
     String query = "select * from chapters";

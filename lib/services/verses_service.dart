@@ -17,9 +17,6 @@ class VersesService
   static const String TABLE_NAME_BASMALA = "verses_with_basmala";
   static const String TABLE_NAME_NO_BASMALA = "verses";
 
-  @override
-  Type get getAs => IVersesService;
-
   //Search
   @override
   Future<List<Verse>> keywordSearch(

@@ -18,9 +18,6 @@ class AnalyticsService implements IAnalyticsService, ISimpleService {
   final SharedPreferences preferences;
 
   @override
-  Type get getAs => IAnalyticsService;
-
-  @override
   Future<void> logAppStarted() async {
     await _logAction(
       appVersion: this.appVersion,

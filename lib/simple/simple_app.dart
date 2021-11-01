@@ -17,8 +17,34 @@ class _Payload {
   });
 }
 
+class _ServiceManager
+    implements ISimpleServiceProvider, ISimpleServiceRegistery {
+  final Map<String, ISimpleService> _map = Map();
+
+  void register<T>({required ISimpleService service}) {
+    String key = T.toString();
+    bool exists = _map.containsKey(key);
+    if (exists) {
+      throw Exception(
+          "Error while registering service for type [$key], type already registered");
+    } else {
+      _map[T.toString()] = service;
+    }
+  }
+
+  @override
+  T getService<T>() {
+    String key = T.toString();
+    bool exists = this._map.containsKey(key);
+    if (exists == false) {
+      throw Exception("No services were registered for the type [$key], please register!");
+    }
+    return this._map[key] as T;
+  }
+}
+
 abstract class SimpleApp extends StatelessWidget {
-  Future<ISimpleServiceProvider> createServiceProvider();
+  Future<void> registerServices(ISimpleServiceRegistery registery);
   Future<void> initialize(ISimpleServiceProvider serviceProvider);
   Widget app();
   Widget splashWidget();
@@ -26,10 +52,11 @@ abstract class SimpleApp extends StatelessWidget {
 
   Future<_Payload> start() async {
     try {
-      ISimpleServiceProvider serviceProvider = await createServiceProvider();
-      await initialize(serviceProvider);
+      _ServiceManager manager = _ServiceManager();
+      await registerServices(manager);
+      await initialize(manager);
       return _Payload(
-        serviceProvider: serviceProvider,
+        serviceProvider: manager,
         status: _Status.DONE,
       );
     } catch (e) {

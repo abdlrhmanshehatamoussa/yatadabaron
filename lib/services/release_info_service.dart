@@ -75,7 +75,4 @@ class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
     local.sort((a, b) => b.uniqueId.compareTo(a.uniqueId));
     return local;
   }
-
-  @override
-  Type get getAs => IReleaseInfoService;
 }

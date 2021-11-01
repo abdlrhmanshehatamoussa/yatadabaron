@@ -61,7 +61,7 @@ class MyApp extends SimpleApp {
   }
 
   @override
-  Future<ISimpleServiceProvider> createServiceProvider() async {
+  Future<void> registerServices(ISimpleServiceRegistery registery) async {
     var _pref = await SharedPreferences.getInstance();
     var _info = await PackageInfo.fromPlatform();
 
@@ -85,28 +85,43 @@ class MyApp extends SimpleApp {
       ),
     );
 
-    List<ISimpleService> services = [
-      UserDataService(preferences: _pref),
-      ChaptersService(databasePath: databaseFilePath),
-      VersesService(databaseFilePath: databaseFilePath),
-      TafseerService(tafseerURL: settings[_TAFSEER_TEXT_URL]!),
-      ReleaseInfoService(preferences: _pref, apiHelper: _cloudHubHelper),
-      AnalyticsService(
+    registery.register<IUserDataService>(
+      service: UserDataService(preferences: _pref),
+    );
+    registery.register<IChaptersService>(
+      service: ChaptersService(databasePath: databaseFilePath),
+    );
+    registery.register<IVersesService>(
+      service: VersesService(databaseFilePath: databaseFilePath),
+    );
+    registery.register<ITafseerService>(
+      service: TafseerService(tafseerURL: settings[_TAFSEER_TEXT_URL]!),
+    );
+    registery.register<IReleaseInfoService>(
+      service: ReleaseInfoService(
+        preferences: _pref,
+        apiHelper: _cloudHubHelper,
+      ),
+    );
+    registery.register<IAnalyticsService>(
+      service: AnalyticsService(
         preferences: _pref,
         appVersion: int.tryParse(_info.buildNumber) ?? 0,
         apiHelper: _cloudHubHelper,
       ),
-      TafseerSourcesService(
+    );
+    registery.register<ITafseerSourcesService>(
+      service: TafseerSourcesService(
         tafseerSourcesFileURL: settings[_TAFSEER_SOURCES_URL]!,
       ),
-      VersionInfoService(
+    );
+    registery.register<IVersionInfoService>(
+      service: VersionInfoService(
         buildNumber: int.tryParse(_info.buildNumber) ?? 0,
         versionName: _info.version,
       ),
-    ];
-    return EagerServiceProvider(services);
+    );
   }
- 
 
   @override
   Future<void> initialize(

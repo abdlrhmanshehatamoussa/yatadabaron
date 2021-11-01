@@ -1,23 +1,9 @@
-abstract class ISimpleService {
-  //TODO: Optimize the method of resolving services
-  Type get getAs;
-}
+abstract class ISimpleService {}
 
 abstract class ISimpleServiceProvider {
   T getService<T>();
 }
 
-class EagerServiceProvider implements ISimpleServiceProvider {
-  final List<ISimpleService> _services;
-  EagerServiceProvider(this._services);
-
-  @override
-  T getService<T>() {
-    int index =
-        this._services.indexWhere((s) => s.getAs.toString() == T.toString());
-    if (index == -1) {
-      throw Exception("Unregistered service: ${T.toString()}");
-    }
-    return this._services[index] as T;
-  }
+abstract class ISimpleServiceRegistery {
+  void register<T>({required ISimpleService service});
 }

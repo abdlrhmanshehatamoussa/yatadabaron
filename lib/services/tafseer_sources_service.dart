@@ -97,7 +97,4 @@ class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
       return [];
     }
   }
-
-  @override
-  Type get getAs => ITafseerSourcesService;
 }

@@ -15,9 +15,6 @@ class UserDataService implements IUserDataService, ISimpleService {
   static const String _MUSHAF_LOCATIONS_KEY = "yatadabaron_mushaf_locations";
 
   @override
-  Type get getAs => IUserDataService;
-
-  @override
   Future<bool?> getNightMode() async {
     return _getBool(_NIGHT_MODE_KEY);
   }

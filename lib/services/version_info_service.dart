@@ -19,7 +19,4 @@ class VersionInfoService implements IVersionInfoService, ISimpleService {
   String getVersionName() {
     return this.versionName;
   }
-
-  @override
-  Type get getAs => IVersionInfoService;
 }
