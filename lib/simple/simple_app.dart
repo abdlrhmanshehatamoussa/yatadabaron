@@ -47,8 +47,8 @@ abstract class SimpleApp extends StatelessWidget {
   Future<void> registerServices(ISimpleServiceRegistery registery);
   Future<void> initialize(ISimpleServiceProvider serviceProvider);
   Widget app();
-  Widget splashWidget();
-  Widget startupErrorWidget(String errorMessage);
+  Widget splashPage();
+  Widget startupErrorPage(String errorMessage);
 
   Future<_Payload> start() async {
     try {
@@ -76,7 +76,7 @@ abstract class SimpleApp extends StatelessWidget {
       ) {
         if (!snapshot.hasData) {
           return MaterialApp(
-            home: splashWidget(),
+            home: splashPage(),
           );
         }
         _Payload payload = snapshot.data!;
@@ -93,7 +93,7 @@ abstract class SimpleApp extends StatelessWidget {
           case _Status.UNKNOWN_ERROR:
           default:
             return MaterialApp(
-              home: startupErrorWidget(
+              home: startupErrorPage(
                   "Error while initializing the application"),
             );
         }

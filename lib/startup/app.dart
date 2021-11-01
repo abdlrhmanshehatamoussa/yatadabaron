@@ -27,7 +27,7 @@ class MyApp extends SimpleApp {
   static const String _TAFSEER_TEXT_URL = "TAFSEER_TEXT_URL";
 
   @override
-  Widget startupErrorWidget(String errorMessage) {
+  Widget startupErrorPage(String errorMessage) {
     return Splash(
       child: Text(errorMessage),
       versionLabel: "",
@@ -41,7 +41,7 @@ class MyApp extends SimpleApp {
       builder: (_, AsyncSnapshot<AppSession> sessionSnapshot) {
         if (!sessionSnapshot.hasData) {
           return CustomMaterialApp(
-            widget: splashWidget(),
+            widget: splashPage(),
           );
         }
         return CustomMaterialApp(
@@ -53,7 +53,7 @@ class MyApp extends SimpleApp {
   }
 
   @override
-  Widget splashWidget() {
+  Widget splashPage() {
     return Splash(
       child: LoadingWidget(),
       versionLabel: "",
