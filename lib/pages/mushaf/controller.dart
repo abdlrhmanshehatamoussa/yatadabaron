@@ -1,11 +1,11 @@
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/simple/controller.dart';
+import 'package:yatadabaron/simple/backend.dart';
 import 'view_models/mushaf_state.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class MushafController implements ISimpleController {
+class MushafController implements ISimpleBackend {
   MushafController({
     required this.chaptersService,
     required this.versesService,

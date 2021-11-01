@@ -1,8 +1,8 @@
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
-import 'package:yatadabaron/simple/controller.dart';
+import 'package:yatadabaron/simple/backend.dart';
 
-class ReleaseNotesController implements ISimpleController {
+class ReleaseNotesController implements ISimpleBackend {
   final IReleaseInfoService releaseInfoService;
 
   ReleaseNotesController({

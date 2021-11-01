@@ -35,7 +35,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
 
   @override
   Widget build(BuildContext context) {
-    TafseerPageController controller = getController(context);
+    TafseerPageController controller = getBackend(context);
     return Scaffold(
       appBar: TafseerAppBar.build(
         context: context,
@@ -138,7 +138,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
   }
 
   @override
-  TafseerPageController provideController(
+  TafseerPageController buildBackend(
     ISimpleServiceProvider serviceProvider,
   ) {
     return TafseerPageController(

@@ -5,10 +5,10 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
-import 'package:yatadabaron/simple/controller.dart';
+import 'package:yatadabaron/simple/backend.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class TafseerPageController implements ISimpleController {
+class TafseerPageController implements ISimpleBackend {
   TafseerPageController({
     required this.location,
     required this.tafseerService,

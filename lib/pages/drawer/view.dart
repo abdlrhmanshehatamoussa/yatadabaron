@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/pages/drawer/controller.dart';
+import 'package:yatadabaron/pages/drawer/backend.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class CustomDrawer extends SimpleView<CustomDrawerController> {
+class CustomDrawer extends SimpleView<DrawerBackend> {
   @override
   Widget build(BuildContext context) {
     IVersionInfoService versionInfoService =
         getService<IVersionInfoService>(context);
 
-    CustomDrawerController controller = getController(context);
+    DrawerBackend backend = getBackend(context);
 
     Icon _buildTabIcon(IconData data) {
       return Icon(
@@ -36,8 +36,8 @@ class CustomDrawer extends SimpleView<CustomDrawerController> {
             ListTile(
               title: Text(Localization.NIGHT_MODE),
               trailing: Switch(
-                onChanged: (bool mode) => controller.toggleNightMode(mode),
-                value: controller.isNightMode(),
+                onChanged: (bool mode) => backend.toggleNightMode(mode),
+                value: backend.isNightMode(),
               ),
             ),
             Divider(
@@ -50,7 +50,7 @@ class CustomDrawer extends SimpleView<CustomDrawerController> {
                     ListTile(
                       title: Text(Localization.RATE),
                       trailing: _buildTabIcon(Icons.star),
-                      onTap: () async => await controller.rate(),
+                      onTap: () async => await backend.rate(),
                     ),
                   ],
                 ),
@@ -64,9 +64,9 @@ class CustomDrawer extends SimpleView<CustomDrawerController> {
   }
 
   @override
-  CustomDrawerController provideController(
+  DrawerBackend buildBackend(
       ISimpleServiceProvider serviceProvider) {
-    return CustomDrawerController(
+    return DrawerBackend(
       analyticsService: serviceProvider.getService<IAnalyticsService>(),
       userDataService: serviceProvider.getService<IUserDataService>(),
       releaseInfoService: serviceProvider.getService<IReleaseInfoService>(),

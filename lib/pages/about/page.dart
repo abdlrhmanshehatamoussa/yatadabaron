@@ -46,7 +46,7 @@ class AboutPage extends SimpleView {
   }
 
   @override
-  ISimpleController provideController(ISimpleServiceProvider serviceProvider) {
+  ISimpleBackend buildBackend(ISimpleServiceProvider serviceProvider) {
     throw UnimplementedError();
   }
 }

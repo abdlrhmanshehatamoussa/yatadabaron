@@ -6,7 +6,7 @@ import 'package:yatadabaron/viewmodels/module.dart';
 import 'view_models/statistics-payload.dart';
 import 'view_models/statistics-settings.dart';
 
-class StatisticsController implements ISimpleController{
+class StatisticsController implements ISimpleBackend{
   final IAnalyticsService analyticsService;
   final IChaptersService chaptersService;
   final IVersesService versesService;

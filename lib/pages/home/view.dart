@@ -114,7 +114,7 @@ class HomePage extends SimpleView<HomeController> {
   }
 
   @override
-  HomeController provideController(ISimpleServiceProvider serviceProvider) {
+  HomeController buildBackend(ISimpleServiceProvider serviceProvider) {
     return HomeController(
       analyticsService: serviceProvider.getService<IAnalyticsService>(),
       userDataService: serviceProvider.getService<IUserDataService>(),

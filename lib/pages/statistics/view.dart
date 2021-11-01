@@ -15,7 +15,7 @@ import 'package:yatadabaron/widgets/module.dart';
 class StatisticsPage extends SimpleView<StatisticsController> {
   @override
   Widget build(BuildContext context) {
-    StatisticsController controller = getController(context);
+    StatisticsController controller = getBackend(context);
     Widget resultsArea = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -79,7 +79,7 @@ class StatisticsPage extends SimpleView<StatisticsController> {
   }
 
   @override
-  StatisticsController provideController(
+  StatisticsController buildBackend(
     ISimpleServiceProvider serviceProvider,
   ) {
     return StatisticsController(

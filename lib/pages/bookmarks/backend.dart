@@ -1,11 +1,11 @@
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
-import 'package:yatadabaron/simple/controller.dart';
+import 'package:yatadabaron/simple/backend.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class BookmarksController implements ISimpleController {
-  BookmarksController({
+class BookmarksBackend implements ISimpleBackend {
+  BookmarksBackend({
     required this.versesService,
     required this.userDataService,
   }) {

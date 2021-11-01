@@ -21,7 +21,7 @@ class MushafPage extends SimpleView<MushafController> {
 
   @override
   Widget build(BuildContext context) {
-    MushafController controller = getController(context);
+    MushafController controller = getBackend(context);
     return CustomPageWrapper(
       pageTitle: Localization.MUSHAF_SHARIF,
       child: StreamBuilder<MushafPageState>(
@@ -85,7 +85,7 @@ class MushafPage extends SimpleView<MushafController> {
   }
 
   @override
-  MushafController provideController(ISimpleServiceProvider serviceProvider) {
+  MushafController buildBackend(ISimpleServiceProvider serviceProvider) {
     return MushafController(
       mushafSettings: this.mushafSettings,
       analyticsService: serviceProvider.getService<IAnalyticsService>(),

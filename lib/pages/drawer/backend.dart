@@ -4,12 +4,12 @@ import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/startup/session_manager.dart';
 
-class CustomDrawerController implements ISimpleController {
+class DrawerBackend implements ISimpleBackend {
   final IAnalyticsService analyticsService;
   final IUserDataService userDataService;
   final IReleaseInfoService releaseInfoService;
 
-  CustomDrawerController({
+  DrawerBackend({
     required this.analyticsService,
     required this.userDataService,
     required this.releaseInfoService,

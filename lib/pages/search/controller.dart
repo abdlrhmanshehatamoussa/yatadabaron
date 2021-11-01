@@ -3,11 +3,11 @@ import 'package:share/share.dart';
 import 'package:yatadabaron/commons/custom-stream-controller.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
-import 'package:yatadabaron/simple/controller.dart';
+import 'package:yatadabaron/simple/backend.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
-class SearchController implements ISimpleController {
+class SearchController implements ISimpleBackend {
   final IChaptersService chaptersService;
   final IVersesService versesService;
   final IAnalyticsService analyticsService;

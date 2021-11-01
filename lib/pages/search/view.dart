@@ -27,7 +27,7 @@ class SearchPage extends SimpleView<SearchController> {
 
   @override
   Widget build(BuildContext context) {
-    SearchController controller = getController(context);
+    SearchController controller = getBackend(context);
     Widget searchResultsArea = Column(
       children: <Widget>[
         SearchSummaryWidget(
@@ -120,7 +120,7 @@ class SearchPage extends SimpleView<SearchController> {
   }
 
   @override
-  SearchController provideController(ISimpleServiceProvider serviceProvider) {
+  SearchController buildBackend(ISimpleServiceProvider serviceProvider) {
     return SearchController(
       analyticsService: serviceProvider.getService<IAnalyticsService>(),
       chaptersService: serviceProvider.getService<IChaptersService>(),

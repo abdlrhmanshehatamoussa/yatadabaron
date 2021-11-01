@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yatadabaron/simple/module.dart';
 
-abstract class SimpleView<CT extends ISimpleController>
+abstract class SimpleView<CT extends ISimpleBackend>
     extends StatelessWidget {
   void _navigate({
     required BuildContext context,
@@ -59,11 +59,11 @@ abstract class SimpleView<CT extends ISimpleController>
     return serviceProvider.getService<T>();
   }
 
-  CT provideController(ISimpleServiceProvider serviceProvider);
+  CT buildBackend(ISimpleServiceProvider serviceProvider);
 
-  CT getController(BuildContext context) {
+  CT getBackend(BuildContext context) {
     ISimpleServiceProvider provider =
         Provider.of<ISimpleServiceProvider>(context);
-    return provideController(provider);
+    return buildBackend(provider);
   }
 }

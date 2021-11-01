@@ -13,7 +13,7 @@ class ReleaseNotesPage extends SimpleView<ReleaseNotesController> {
     IVersionInfoService versionInfoService =
         getService<IVersionInfoService>(context);
 
-    ReleaseNotesController controller = getController(context);
+    ReleaseNotesController controller = getBackend(context);
     String currentVersion = versionInfoService.getVersionName();
     return CustomPageWrapper(
       pageTitle: Localization.RELEASE_NOTES,
@@ -76,7 +76,7 @@ class ReleaseNotesPage extends SimpleView<ReleaseNotesController> {
   }
 
   @override
-  ReleaseNotesController provideController(ISimpleServiceProvider serviceProvider) {
+  ReleaseNotesController buildBackend(ISimpleServiceProvider serviceProvider) {
     return ReleaseNotesController(
       releaseInfoService: serviceProvider.getService<IReleaseInfoService>()
     );
