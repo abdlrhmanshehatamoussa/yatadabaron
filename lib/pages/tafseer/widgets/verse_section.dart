@@ -22,7 +22,7 @@ class VerseSection extends StatelessWidget {
           verseTextTashkeel,
           style: TextStyle(
             fontSize: 25,
-            color: Theme.of(context).colorScheme.secondary,
+            fontFamily: 'Usmani',
           ),
         ),
         subtitle: Text(
