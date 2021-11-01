@@ -73,8 +73,10 @@ class MushafPage extends SimpleView<MushafController> {
                             navigatePush(
                               context: context,
                               view: TafseerPage(
-                                verseId: result.verseID,
-                                chapterId: result.chapterId!,
+                                location: MushafLocation(
+                                  verseId: result.verseID,
+                                  chapterId: result.chapterId!,
+                                ),
                               ),
                             );
                           }

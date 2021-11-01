@@ -17,9 +17,6 @@ class TafseerPageController implements ISimpleController {
     required this.tafseerSourcesService,
   });
 
-  //TODO: Solve this issue
-  final int verseId = 1;
-  final int chapterId = 1;
   final IVersesService versesService;
   final IAnalyticsService analyticsService;
   final ITafseerService tafseerService;
@@ -30,28 +27,29 @@ class TafseerPageController implements ISimpleController {
 
   Stream<VerseTafseer> get tafseerStream => _tafseerResultController.stream;
 
-  Future<Verse> loadVerseDTO() async {
-    return await versesService.getSingleVerse(verseId, chapterId);
+  Future<Verse> loadVerseDTO(MushafLocation loc) async {
+    return await versesService.getSingleVerse(loc.verseId, loc.chapterId);
   }
 
-  Future<void> shareVerse() async {
-    Verse _verse = await loadVerseDTO();
+  Future<void> shareVerse(MushafLocation loc) async {
+    Verse _verse = await loadVerseDTO(loc);
     String toCopy =
         "${_verse.chapterName}\n${_verse.verseTextTashkel} {${_verse.verseID}}";
     await Share.share(toCopy);
   }
 
-  Future<List<TafseerSource>> getAvailableTafseers() async {
+  Future<List<TafseerSource>> getAvailableTafseers(
+      MushafLocation location) async {
     var tafseers = await tafseerSourcesService.getTafseerSources();
     if (tafseers.isNotEmpty) {
-      await updateTafseerStream(tafseers.first.tafseerId);
+      await updateTafseerStream(location, tafseers.first.tafseerId);
     }
     return tafseers;
   }
 
-  Future<void> updateTafseerStream(int tafseerId) async {
+  Future<void> updateTafseerStream(MushafLocation loc, int tafseerId) async {
     VerseTafseer result =
-        await tafseerService.getTafseer(tafseerId, verseId, chapterId);
+        await tafseerService.getTafseer(tafseerId, loc.verseId, loc.chapterId);
     _tafseerResultController.add(result);
     await analyticsService.logOnTap(
       "TAFSEER PAGE",
@@ -59,28 +57,19 @@ class TafseerPageController implements ISimpleController {
     );
   }
 
-  Future<void> onSaveBookmarkClicked(BuildContext context) async {
-    bool done = await userDataService.addMushafLocation(
-      MushafLocation(
-        chapterId: chapterId,
-        verseId: verseId,
-      ),
-    );
-    if (done) {
-      await Utils.showCustomDialog(
-        context: context,
-        title: Localization.BOOKMARK_SAVED,
-      );
-    } else {
-      await Utils.showCustomDialog(
-        context: context,
-        title: Localization.BOOKMARK_ALREADY_EXISTS,
-      );
-    }
+  Future<bool> onSaveBookmarkClicked(
+    BuildContext context,
+    MushafLocation loc,
+  ) async {
+    bool done = await userDataService.addMushafLocation(loc);
+    return done;
   }
 
   Future<void> downloadTafseerSource(
-      int tafseerSourceID, BuildContext context) async {
+    int tafseerSourceID,
+    MushafLocation location,
+    BuildContext context,
+  ) async {
     bool done = false;
     Utils.showPleaseWaitDialog(
         context: context,
@@ -92,7 +81,7 @@ class TafseerPageController implements ISimpleController {
       done = false;
     }
     if (done) {
-      await updateTafseerStream(tafseerSourceID);
+      await updateTafseerStream(location, tafseerSourceID);
       Navigator.of(context).pop();
     } else {
       Navigator.of(context).pop();

@@ -1,30 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
+import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/tafseer/controller.dart';
 import 'package:yatadabaron/simple/module.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/selector.dart';
 import 'widgets/tafseer_section.dart';
 import 'widgets/verse_section.dart';
 
 class TafseerPage extends SimpleView<TafseerPageController> {
-  final int verseId;
-  final int chapterId;
+  final MushafLocation location;
 
   TafseerPage({
-    required this.verseId,
-    required this.chapterId,
+    required this.location,
   });
+
+  Future<void> _handleAfterBookmarkSaved(
+      BuildContext context, bool done) async {
+    if (done) {
+      await Utils.showCustomDialog(
+        context: context,
+        title: Localization.BOOKMARK_SAVED,
+      );
+    } else {
+      await Utils.showCustomDialog(
+        context: context,
+        title: Localization.BOOKMARK_ALREADY_EXISTS,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     TafseerPageController controller = getController(context);
     return Scaffold(
       appBar: TafseerAppBar.build(
         context: context,
-        onShare: () async => await controller.shareVerse(),
-        onSaveBookmark: () async =>
-            await controller.onSaveBookmarkClicked(context),
+        onShare: () async => await controller.shareVerse(this.location),
+        onSaveBookmark: () async {
+          bool done =
+              await controller.onSaveBookmarkClicked(context, this.location);
+          await _handleAfterBookmarkSaved(context, done);
+        },
       ),
       body: Column(
         children: [
@@ -35,7 +54,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
             flex: 1,
             child: SingleChildScrollView(
               child: FutureBuilder<Verse>(
-                future: controller.loadVerseDTO(),
+                future: controller.loadVerseDTO(this.location),
                 builder: (_, AsyncSnapshot<Verse> snapshot) {
                   if (!snapshot.hasData) {
                     return CircularProgressIndicator();
@@ -57,7 +76,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
           Expanded(
             flex: 2,
             child: FutureBuilder<List<TafseerSource>>(
-              future: controller.getAvailableTafseers(),
+              future: controller.getAvailableTafseers(this.location),
               builder: (_,
                   AsyncSnapshot<List<TafseerSource>> availableTafseerSnapshot) {
                 if (availableTafseerSnapshot.hasData == false) {
@@ -80,7 +99,10 @@ class TafseerPage extends SimpleView<TafseerPageController> {
                               tafseerId: result.tafseerSourceID,
                               tafseers: availableTafseerSnapshot.data!,
                               onTafseerSourceSelected: (int id) async {
-                                await controller.updateTafseerStream(id);
+                                await controller.updateTafseerStream(
+                                  this.location,
+                                  id,
+                                );
                               },
                             ),
                             Expanded(
@@ -90,7 +112,10 @@ class TafseerPage extends SimpleView<TafseerPageController> {
                                   tafseerSourceID: result.tafseerSourceID,
                                   onDownloadSource: (int id) async {
                                     controller.downloadTafseerSource(
-                                        id, context);
+                                      id,
+                                      location,
+                                      context,
+                                    );
                                   },
                                   getTafseerSize: controller
                                       .getTafseerSizeMB(result.tafseerSourceID),
