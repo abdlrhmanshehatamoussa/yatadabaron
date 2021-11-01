@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yatadabaron/simple/module.dart';
+import 'service.dart';
 
 abstract class SimpleApp extends StatelessWidget {
   Future<void> registerServices(ISimpleServiceRegistery registery);
