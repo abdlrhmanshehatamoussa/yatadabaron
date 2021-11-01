@@ -1,4 +1,4 @@
-export 'simple_app.dart';
-export 'simple_view.dart';
+export 'app.dart';
+export 'view.dart';
 export 'backend.dart';
-export 'simple_service.dart';
+export 'service.dart';
