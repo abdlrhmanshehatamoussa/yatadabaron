@@ -6,11 +6,13 @@ class MushafPageState {
   final Chapter chapter;
   final int startFromVerse;
   final MushafMode mode;
+  final List<Chapter> chapters;
 
   MushafPageState({
     required this.startFromVerse,
     required this.mode,
     required this.chapter,
     required this.verses,
+    required this.chapters,
   });
 }

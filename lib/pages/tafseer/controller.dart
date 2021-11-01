@@ -10,14 +10,15 @@ import 'package:yatadabaron/viewmodels/module.dart';
 
 class TafseerPageController implements ISimpleController {
   TafseerPageController({
+    required this.location,
     required this.tafseerService,
     required this.userDataService,
     required this.versesService,
     required this.analyticsService,
     required this.tafseerSourcesService,
   });
-  
-  //TODO: Optimize controller parameters
+
+  final MushafLocation location;
   final IVersesService versesService;
   final IAnalyticsService analyticsService;
   final ITafseerService tafseerService;
@@ -28,29 +29,29 @@ class TafseerPageController implements ISimpleController {
 
   Stream<VerseTafseer> get tafseerStream => _tafseerResultController.stream;
 
-  Future<Verse> loadVerseDTO(MushafLocation loc) async {
-    return await versesService.getSingleVerse(loc.verseId, loc.chapterId);
+  Future<Verse> loadVerseDTO() async {
+    return await versesService.getSingleVerse(
+        this.location.verseId, this.location.chapterId);
   }
 
-  Future<void> shareVerse(MushafLocation loc) async {
-    Verse _verse = await loadVerseDTO(loc);
+  Future<void> shareVerse() async {
+    Verse _verse = await loadVerseDTO();
     String toCopy =
         "${_verse.chapterName}\n${_verse.verseTextTashkel} {${_verse.verseID}}";
     await Share.share(toCopy);
   }
 
-  Future<List<TafseerSource>> getAvailableTafseers(
-      MushafLocation location) async {
+  Future<List<TafseerSource>> getAvailableTafseers() async {
     var tafseers = await tafseerSourcesService.getTafseerSources();
     if (tafseers.isNotEmpty) {
-      await updateTafseerStream(location, tafseers.first.tafseerId);
+      await updateTafseerStream(tafseers.first.tafseerId);
     }
     return tafseers;
   }
 
-  Future<void> updateTafseerStream(MushafLocation loc, int tafseerId) async {
-    VerseTafseer result =
-        await tafseerService.getTafseer(tafseerId, loc.verseId, loc.chapterId);
+  Future<void> updateTafseerStream(int tafseerId) async {
+    VerseTafseer result = await tafseerService.getTafseer(
+        tafseerId, this.location.verseId, this.location.chapterId);
     _tafseerResultController.add(result);
     await analyticsService.logOnTap(
       "TAFSEER PAGE",
@@ -58,17 +59,13 @@ class TafseerPageController implements ISimpleController {
     );
   }
 
-  Future<bool> onSaveBookmarkClicked(
-    BuildContext context,
-    MushafLocation loc,
-  ) async {
-    bool done = await userDataService.addMushafLocation(loc);
+  Future<bool> onSaveBookmarkClicked(BuildContext context) async {
+    bool done = await userDataService.addMushafLocation(this.location);
     return done;
   }
 
   Future<void> downloadTafseerSource(
     int tafseerSourceID,
-    MushafLocation location,
     BuildContext context,
   ) async {
     bool done = false;
@@ -82,7 +79,7 @@ class TafseerPageController implements ISimpleController {
       done = false;
     }
     if (done) {
-      await updateTafseerStream(location, tafseerSourceID);
+      await updateTafseerStream(tafseerSourceID);
       Navigator.of(context).pop();
     } else {
       Navigator.of(context).pop();

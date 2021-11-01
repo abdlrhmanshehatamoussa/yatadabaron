@@ -39,10 +39,9 @@ class TafseerPage extends SimpleView<TafseerPageController> {
     return Scaffold(
       appBar: TafseerAppBar.build(
         context: context,
-        onShare: () async => await controller.shareVerse(this.location),
+        onShare: () async => await controller.shareVerse(),
         onSaveBookmark: () async {
-          bool done =
-              await controller.onSaveBookmarkClicked(context, this.location);
+          bool done = await controller.onSaveBookmarkClicked(context);
           await _handleAfterBookmarkSaved(context, done);
         },
       ),
@@ -55,7 +54,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
             flex: 1,
             child: SingleChildScrollView(
               child: FutureBuilder<Verse>(
-                future: controller.loadVerseDTO(this.location),
+                future: controller.loadVerseDTO(),
                 builder: (_, AsyncSnapshot<Verse> snapshot) {
                   if (!snapshot.hasData) {
                     return CircularProgressIndicator();
@@ -77,7 +76,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
           Expanded(
             flex: 2,
             child: FutureBuilder<List<TafseerSource>>(
-              future: controller.getAvailableTafseers(this.location),
+              future: controller.getAvailableTafseers(),
               builder: (_,
                   AsyncSnapshot<List<TafseerSource>> availableTafseerSnapshot) {
                 if (availableTafseerSnapshot.hasData == false) {
@@ -100,10 +99,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
                               tafseerId: result.tafseerSourceID,
                               tafseers: availableTafseerSnapshot.data!,
                               onTafseerSourceSelected: (int id) async {
-                                await controller.updateTafseerStream(
-                                  this.location,
-                                  id,
-                                );
+                                await controller.updateTafseerStream(id);
                               },
                             ),
                             Expanded(
@@ -112,14 +108,14 @@ class TafseerPage extends SimpleView<TafseerPageController> {
                                   tafseer: result.tafseerText,
                                   tafseerSourceID: result.tafseerSourceID,
                                   onDownloadSource: (int id) async {
-                                    controller.downloadTafseerSource(
+                                    await controller.downloadTafseerSource(
                                       id,
-                                      location,
                                       context,
                                     );
                                   },
-                                  getTafseerSize: controller
-                                      .getTafseerSizeMB(result.tafseerSourceID),
+                                  getTafseerSize: controller.getTafseerSizeMB(
+                                    result.tafseerSourceID,
+                                  ),
                                 ),
                               ),
                             ),
@@ -146,6 +142,7 @@ class TafseerPage extends SimpleView<TafseerPageController> {
     ISimpleServiceProvider serviceProvider,
   ) {
     return TafseerPageController(
+      location: this.location,
       analyticsService: serviceProvider.getService<IAnalyticsService>(),
       userDataService: serviceProvider.getService<IUserDataService>(),
       versesService: serviceProvider.getService<IVersesService>(),

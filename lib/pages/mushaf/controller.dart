@@ -5,14 +5,18 @@ import 'view_models/mushaf_state.dart';
 import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class MushafController implements ISimpleController{
+class MushafController implements ISimpleController {
   MushafController({
     required this.chaptersService,
     required this.versesService,
     required this.userDataService,
     required this.analyticsService,
-  });
+    required this.mushafSettings,
+  }) {
+    reloadVerses(mushafSettings);
+  }
 
+  final MushafSettings? mushafSettings;
   final IChaptersService chaptersService;
   final IVersesService versesService;
   final IUserDataService userDataService;
@@ -44,20 +48,16 @@ class MushafController implements ISimpleController{
     Chapter chapter = await chaptersService.getChapter(chapterId);
     List<Verse> verses =
         await versesService.getVersesByChapterId(chapterId, false);
-
+    List<Chapter> chapters =
+        await chaptersService.getAll(includeWholeQuran: false);
     MushafPageState state = MushafPageState(
       chapter: chapter,
       verses: verses,
       startFromVerse: verseId,
       mode: mushafSettings.mode,
+      chapters: chapters,
     );
     _stateStreamObj.add(state);
-  }
-
-  Future<List<Chapter>> get getChaptersSimple async {
-    List<Chapter> chapters =
-        await chaptersService.getAll(includeWholeQuran: false);
-    return chapters;
   }
 
   Future<void> logChapterSelected(String chatperNameAR, int chapterID) async {
