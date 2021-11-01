@@ -1,4 +1,4 @@
-import 'package:yatadabaron/commons/custom-stream-controller.dart';
+import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/simple/backend.dart';
 import 'view_models/mushaf_state.dart';
