@@ -16,7 +16,8 @@ class TafseerPageController implements ISimpleController {
     required this.analyticsService,
     required this.tafseerSourcesService,
   });
-
+  
+  //TODO: Optimize controller parameters
   final IVersesService versesService;
   final IAnalyticsService analyticsService;
   final ITafseerService tafseerService;
