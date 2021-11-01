@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
+import 'package:yatadabaron/commons/utils.dart';
 
 class MushafVerseListItem extends StatelessWidget {
   final String text;
@@ -18,7 +18,7 @@ class MushafVerseListItem extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    String verseIdStr = ArabicNumbersService.instance.convert(this.verseID);
+    String verseIdStr = Utils.convertToArabiNumber(this.verseID);
     return Text.rich(
       TextSpan(
         children: [

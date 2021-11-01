@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
+import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
@@ -19,7 +19,7 @@ class BookmarkListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     String title = "${verse.chapterName}";
     String subtitle = "${verse.verseTextTashkel}";
-    String verseIdArabic = ArabicNumbersService.instance.convert(verse.verseID);
+    String verseIdArabic = Utils.convertToArabiNumber(verse.verseID);
     TextStyle usmaniStyle = TextStyle(
       fontWeight: FontWeight.normal,
       fontFamily: "Usmani",

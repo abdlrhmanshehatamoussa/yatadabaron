@@ -1,4 +1,4 @@
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
+
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
@@ -19,7 +19,7 @@ class StatisticsPayload {
       totalCount += lf.frequency;
     });
     String totalCountAr =
-        ArabicNumbersService.instance.convert(totalCount, reverse: false);
+        Utils.convertToArabiNumber(totalCount, reverse: false);
     result = Utils.replaceMultiple(
         result, "#", [this.chapterName, basmalaState, totalCountAr]);
     return result;

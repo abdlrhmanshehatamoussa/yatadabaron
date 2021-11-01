@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
+import 'package:yatadabaron/commons/utils.dart';
 
 class VerseSection extends StatelessWidget {
   final String verseTextTashkeel;
@@ -14,7 +14,7 @@ class VerseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String verseIdArabic = ArabicNumbersService.instance.convert(verseId,reverse: false);
+    String verseIdArabic = Utils.convertToArabiNumber(verseId,reverse: false);
     return Container(
       padding: EdgeInsets.all(5),
       child: ListTile(

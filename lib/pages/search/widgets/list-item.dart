@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
+import 'package:yatadabaron/commons/utils.dart';
+
 
 class WordInfo {
   late String word;
@@ -60,7 +61,7 @@ class SearchResultsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String verseIdStr = ArabicNumbersService.instance.convert(this.verseID);
+    String verseIdStr = Utils.convertToArabiNumber(this.verseID);
     List<WordInfo> infos = findKeyword(
       this.keyword,
       this.verseText!,

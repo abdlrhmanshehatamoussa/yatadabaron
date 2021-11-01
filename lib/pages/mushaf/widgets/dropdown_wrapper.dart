@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
+import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown.dart';
 
@@ -18,7 +18,7 @@ class MushafDropDownWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? chName = selectedChapter.chapterNameAR;
-    String chId = ArabicNumbersService.instance.convert(
+    String chId = Utils.convertToArabiNumber(
       selectedChapter.chapterID,
       reverse: false,
     );

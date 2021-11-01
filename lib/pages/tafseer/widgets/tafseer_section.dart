@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
+import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/commons/localization.dart';
 
 class TafseerSection extends StatelessWidget {
@@ -36,8 +36,8 @@ class TafseerSection extends StatelessWidget {
             if (snapshot.hasData) {
               String message = Localization.CLICK_TO_DOWNLOAD_TAFSEER;
               if (snapshot.data! > 0) {
-                String size = ArabicNumbersService.instance
-                    .convert(snapshot.data, reverse: false);
+                String size =
+                    Utils.convertToArabiNumber(snapshot.data, reverse: false);
                 message +=
                     " " + Localization.MEGA_BYTES.replaceFirst("%", size);
               }

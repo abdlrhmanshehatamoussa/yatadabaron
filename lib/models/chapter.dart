@@ -1,6 +1,6 @@
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
-import 'package:yatadabaron/commons/localization.dart';
 
+import 'package:yatadabaron/commons/localization.dart';
+import 'package:yatadabaron/commons/utils.dart';
 import 'enums.dart';
 
 class Chapter {
@@ -25,7 +25,7 @@ class Chapter {
         ? Localization.MECCA_LOCATION
         : Localization.MADINA_LOCATION;
     String versesCountInArabic =
-        ArabicNumbersService.instance.convert(verseCount, reverse: false);
+        Utils.convertToArabiNumber(verseCount, reverse: false);
     String prefix = Localization.VERSE;
     if (verseCount <= 10) {
       prefix = Localization.VERSES;

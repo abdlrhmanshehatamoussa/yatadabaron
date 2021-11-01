@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
+import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
@@ -39,7 +39,7 @@ class FrequencyTable extends StatelessWidget {
                   ),
                 ],
                 rows: snapshot.data!.results.map((LetterFrequency lf) {
-                  String freq = ArabicNumbersService.instance.convert(
+                  String freq = Utils.convertToArabiNumber(
                     lf.frequency,
                     reverse: false,
                   );

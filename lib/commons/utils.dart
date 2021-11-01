@@ -1,9 +1,19 @@
+import 'package:arabic_numbers/arabic_numbers.dart';
+
 import './localization.dart';
 import 'package:flutter/material.dart';
 
-import 'arabic-numbers-service.dart';
-
 class Utils {
+  static String convertToArabiNumber(dynamic x, {bool reverse = true}) {
+    String converted = ArabicNumbers().convert(x);
+    if (reverse == true) {
+      String reversed = converted.split('').reversed.join();
+      return reversed;
+    } else {
+      return converted;
+    }
+  }
+
   static List<String> arabicLetters() {
     return [
       "ء",
@@ -102,8 +112,7 @@ class Utils {
     int? count,
     bool? isMasculine,
   }) {
-    String countAr =
-        ArabicNumbersService.instance.convert(count, reverse: false);
+    String countAr = Utils.convertToArabiNumber(count, reverse: false);
     if (count == 1) {
       if (isMasculine!) {
         return "$single ${Localization.ONE_MASC}";

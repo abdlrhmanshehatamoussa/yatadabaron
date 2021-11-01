@@ -1,4 +1,4 @@
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
+
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
@@ -40,9 +40,9 @@ class SearchSessionPayload {
         original,
         "#",
         [
-          ArabicNumbersService.instance.convert(count, reverse: false),
+          Utils.convertToArabiNumber(count, reverse: false),
           settings.keyword,
-          ArabicNumbersService.instance.convert(chaptersCount, reverse: false),
+          Utils.convertToArabiNumber(chaptersCount, reverse: false),
         ],
       );
       return original;
@@ -52,7 +52,7 @@ class SearchSessionPayload {
         original,
         "#",
         [
-          ArabicNumbersService.instance.convert(count, reverse: false),
+          Utils.convertToArabiNumber(count, reverse: false),
           settings.keyword,
           chapterName,
         ],

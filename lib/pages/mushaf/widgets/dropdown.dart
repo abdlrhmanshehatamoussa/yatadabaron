@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/arabic-numbers-service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/commons/utils.dart';
 
 class ChaptersDropDown extends StatelessWidget {
   final List<Chapter> chapters;
@@ -23,8 +23,7 @@ class ChaptersDropDown extends StatelessWidget {
         itemCount: chapters.length,
         itemBuilder: (_, int i) {
           Chapter chapter = chapters[i];
-          String idStr = ArabicNumbersService.instance
-              .convert(chapter.chapterID, reverse: false);
+          String idStr = Utils.convertToArabiNumber(chapter.chapterID, reverse: false);
           return ListTile(
             title: Text(
               chapter.chapterNameAR,
