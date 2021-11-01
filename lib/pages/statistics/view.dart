@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/pages/statistics/controller.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';
@@ -74,6 +75,17 @@ class StatisticsPage extends SimpleView<StatisticsController> {
           StatisticsForm.show(context, controller);
         },
       ),
+    );
+  }
+
+  @override
+  StatisticsController provideController(
+    ISimpleServiceProvider serviceProvider,
+  ) {
+    return StatisticsController(
+      analyticsService: serviceProvider.getService<IAnalyticsService>(),
+      chaptersService: serviceProvider.getService<IChaptersService>(),
+      versesService: serviceProvider.getService<IVersesService>(),
     );
   }
 }

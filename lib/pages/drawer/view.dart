@@ -62,4 +62,14 @@ class CustomDrawer extends SimpleView<CustomDrawerController> {
       ),
     );
   }
+
+  @override
+  CustomDrawerController provideController(
+      ISimpleServiceProvider serviceProvider) {
+    return CustomDrawerController(
+      analyticsService: serviceProvider.getService<IAnalyticsService>(),
+      userDataService: serviceProvider.getService<IUserDataService>(),
+      releaseInfoService: serviceProvider.getService<IReleaseInfoService>(),
+    );
+  }
 }

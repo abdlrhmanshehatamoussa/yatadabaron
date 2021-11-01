@@ -44,4 +44,9 @@ class AboutPage extends SimpleView {
       floatingButton: null,
     );
   }
+
+  @override
+  ISimpleController provideController(ISimpleServiceProvider serviceProvider) {
+    throw UnimplementedError();
+  }
 }

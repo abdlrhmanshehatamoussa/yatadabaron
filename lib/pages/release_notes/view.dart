@@ -74,4 +74,11 @@ class ReleaseNotesPage extends SimpleView<ReleaseNotesController> {
       ),
     );
   }
+
+  @override
+  ReleaseNotesController provideController(ISimpleServiceProvider serviceProvider) {
+    return ReleaseNotesController(
+      releaseInfoService: serviceProvider.getService<IReleaseInfoService>()
+    );
+  }
 }

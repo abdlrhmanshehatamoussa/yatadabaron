@@ -9,21 +9,16 @@ enum _Status {
 
 class _Payload {
   final ISimpleServiceProvider? serviceProvider;
-  final ISimpleControllerProvider? controllerProvider;
   final _Status status;
 
   _Payload({
     this.serviceProvider,
-    this.controllerProvider,
     required this.status,
   });
 }
 
 abstract class SimpleApp extends StatelessWidget {
-  Future<ISimpleServiceProvider> providerServices();
-  Future<ISimpleControllerProvider> provideControllers(
-    ISimpleServiceProvider serviceProvider,
-  );
+  Future<ISimpleServiceProvider> createServiceProvider();
   Future<void> initialize(ISimpleServiceProvider serviceProvider);
   Widget app();
   Widget splashWidget();
@@ -31,14 +26,10 @@ abstract class SimpleApp extends StatelessWidget {
 
   Future<_Payload> start() async {
     try {
-      ISimpleServiceProvider serviceProvider = await providerServices();
-      ISimpleControllerProvider controllerProvider = await provideControllers(
-        serviceProvider,
-      );
+      ISimpleServiceProvider serviceProvider = await createServiceProvider();
       await initialize(serviceProvider);
       return _Payload(
         serviceProvider: serviceProvider,
-        controllerProvider: controllerProvider,
         status: _Status.DONE,
       );
     } catch (e) {
@@ -69,9 +60,6 @@ abstract class SimpleApp extends StatelessWidget {
               providers: [
                 Provider<ISimpleServiceProvider>(
                   create: (_) => payload.serviceProvider!,
-                ),
-                Provider<ISimpleControllerProvider>(
-                  create: (_) => payload.controllerProvider!,
                 ),
               ],
             );

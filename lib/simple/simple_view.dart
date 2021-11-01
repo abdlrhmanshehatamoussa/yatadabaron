@@ -14,11 +14,6 @@ abstract class SimpleView<CT extends ISimpleController>
       context,
       listen: false,
     );
-    ISimpleControllerProvider controllerProvider =
-        Provider.of<ISimpleControllerProvider>(
-      context,
-      listen: false,
-    );
     MaterialPageRoute route = MaterialPageRoute(
       builder: (_) => MultiProvider(
         child: view,
@@ -26,9 +21,6 @@ abstract class SimpleView<CT extends ISimpleController>
           Provider<ISimpleServiceProvider>(
             create: (_) => serviceProvider,
           ),
-          Provider<ISimpleControllerProvider>(
-            create: (_) => controllerProvider,
-          )
         ],
       ),
     );
@@ -67,9 +59,11 @@ abstract class SimpleView<CT extends ISimpleController>
     return serviceProvider.getService<T>();
   }
 
+  CT provideController(ISimpleServiceProvider serviceProvider);
+
   CT getController(BuildContext context) {
-    ISimpleControllerProvider provider =
-        Provider.of<ISimpleControllerProvider>(context);
-    return provider.getController<CT>();
+    ISimpleServiceProvider provider =
+        Provider.of<ISimpleServiceProvider>(context);
+    return provideController(provider);
   }
 }

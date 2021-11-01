@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/pages/search/controller.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
@@ -115,6 +116,15 @@ class SearchPage extends SimpleView<SearchController> {
           floatingButton: btn,
         );
       },
+    );
+  }
+
+  @override
+  SearchController provideController(ISimpleServiceProvider serviceProvider) {
+    return SearchController(
+      analyticsService: serviceProvider.getService<IAnalyticsService>(),
+      chaptersService: serviceProvider.getService<IChaptersService>(),
+      versesService: serviceProvider.getService<IVersesService>(),
     );
   }
 }

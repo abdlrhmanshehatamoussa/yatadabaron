@@ -6,6 +6,7 @@ import 'package:yatadabaron/pages/mushaf/controller.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
 import 'package:yatadabaron/pages/tafseer/view.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
@@ -91,6 +92,16 @@ class MushafPage extends SimpleView<MushafController> {
           );
         }
       },
+    );
+  }
+
+  @override
+  MushafController provideController(ISimpleServiceProvider serviceProvider) {
+    return MushafController(
+      analyticsService: serviceProvider.getService<IAnalyticsService>(),
+      chaptersService: serviceProvider.getService<IChaptersService>(),
+      userDataService: serviceProvider.getService<IUserDataService>(),
+      versesService: serviceProvider.getService<IVersesService>(),
     );
   }
 }

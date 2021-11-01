@@ -3,6 +3,7 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/tafseer/controller.dart';
+import 'package:yatadabaron/services/interfaces/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'widgets/app_bar.dart';
@@ -137,6 +138,20 @@ class TafseerPage extends SimpleView<TafseerPageController> {
           ),
         ],
       ),
+    );
+  }
+
+  @override
+  TafseerPageController provideController(
+    ISimpleServiceProvider serviceProvider,
+  ) {
+    return TafseerPageController(
+      analyticsService: serviceProvider.getService<IAnalyticsService>(),
+      userDataService: serviceProvider.getService<IUserDataService>(),
+      versesService: serviceProvider.getService<IVersesService>(),
+      tafseerService: serviceProvider.getService<ITafseerService>(),
+      tafseerSourcesService:
+          serviceProvider.getService<ITafseerSourcesService>(),
     );
   }
 }
