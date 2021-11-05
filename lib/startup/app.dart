@@ -127,16 +127,15 @@ class MyApp extends SimpleApp {
   Future<void> initialize(
     ISimpleServiceProvider serviceProvider,
   ) async {
-    //Load releases
-    IReleaseInfoService releaseInfoService =
-        serviceProvider.getService<IReleaseInfoService>();
-
     //Log events
     IAnalyticsService analyticsService =
         serviceProvider.getService<IAnalyticsService>();
-
     await analyticsService.logAppStarted();
     await analyticsService.syncAllLogs();
+ 
+    //Load releases
+    IReleaseInfoService releaseInfoService =
+        serviceProvider.getService<IReleaseInfoService>();
     await releaseInfoService.syncReleases();
 
     //Initialize the session
