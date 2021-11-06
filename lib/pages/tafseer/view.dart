@@ -3,7 +3,7 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/tafseer/backend.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'widgets/app_bar.dart';
@@ -144,7 +144,7 @@ class TafseerPage extends SimpleView<TafseerPageBackend> {
     return TafseerPageBackend(
       location: this.location,
       analyticsService: serviceProvider.getService<IAnalyticsService>(),
-      userDataService: serviceProvider.getService<IUserDataService>(),
+      bookmarksService: serviceProvider.getService<IBookmarksService>(),
       versesService: serviceProvider.getService<IVersesService>(),
       tafseerService: serviceProvider.getService<ITafseerService>(),
       tafseerSourcesService:

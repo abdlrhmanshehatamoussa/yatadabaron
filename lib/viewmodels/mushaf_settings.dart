@@ -1,5 +1,3 @@
-import 'package:yatadabaron/viewmodels/module.dart';
-
 enum MushafMode {
   BOOKMARK,
   SEARCH,
@@ -7,24 +5,24 @@ enum MushafMode {
 }
 
 class MushafSettings {
-  final MushafLocation location;
+  final int chapterId;
+  final int verseId;
   final MushafMode mode;
 
-  MushafSettings({
+  MushafSettings._({
     required this.mode,
-    required this.location,
+    required this.chapterId,
+    required this.verseId,
   });
 
   static MushafSettings fromBookmark({
     required int chapterId,
     required int verseId,
   }) {
-    return MushafSettings(
+    return MushafSettings._(
       mode: MushafMode.BOOKMARK,
-      location: MushafLocation(
-        chapterId: chapterId,
-        verseId: verseId,
-      ),
+      chapterId: chapterId,
+      verseId: verseId,
     );
   }
 
@@ -32,12 +30,10 @@ class MushafSettings {
     required int chapterId,
     required int verseId,
   }) {
-    return MushafSettings(
+    return MushafSettings._(
       mode: MushafMode.SEARCH,
-      location: MushafLocation(
-        chapterId: chapterId,
-        verseId: verseId,
-      ),
+      chapterId: chapterId,
+      verseId: verseId,
     );
   }
 
@@ -45,12 +41,10 @@ class MushafSettings {
     required int chapterId,
     required int verseId,
   }) {
-    return MushafSettings(
+    return MushafSettings._(
       mode: MushafMode.SELECTION,
-      location: MushafLocation(
-        chapterId: chapterId,
-        verseId: verseId,
-      ),
+      chapterId: chapterId,
+      verseId: verseId,
     );
   }
 }

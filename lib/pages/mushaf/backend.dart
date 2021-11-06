@@ -1,15 +1,15 @@
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/simple/backend.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'view_models/mushaf_state.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
 class MushafBackend implements ISimpleBackend {
   MushafBackend({
     required this.chaptersService,
     required this.versesService,
-    required this.userDataService,
+    required this.bookmarksService,
     required this.analyticsService,
     required this.mushafSettings,
   }) {
@@ -19,7 +19,7 @@ class MushafBackend implements ISimpleBackend {
   final MushafSettings? mushafSettings;
   final IChaptersService chaptersService;
   final IVersesService versesService;
-  final IUserDataService userDataService;
+  final IBookmarksService bookmarksService;
   final IAnalyticsService analyticsService;
 
   StreamObject<MushafPageState> _stateStreamObj = StreamObject();
@@ -27,12 +27,11 @@ class MushafBackend implements ISimpleBackend {
 
   Future reloadVerses(MushafSettings? mushafSettings) async {
     if (mushafSettings == null) {
-      MushafLocation? lastLocation =
-          await userDataService.getLastMushafLocation();
-      if (lastLocation != null) {
+      Bookmark? lastBookmark = await bookmarksService.getLastBookmark();
+      if (lastBookmark != null) {
         mushafSettings = MushafSettings.fromBookmark(
-          chapterId: lastLocation.chapterId,
-          verseId: lastLocation.verseId,
+          chapterId: lastBookmark.chapterId,
+          verseId: lastBookmark.verseId,
         );
       }
 
@@ -43,8 +42,8 @@ class MushafBackend implements ISimpleBackend {
         );
       }
     }
-    int chapterId = mushafSettings.location.chapterId;
-    int verseId = mushafSettings.location.verseId;
+    int chapterId = mushafSettings.chapterId;
+    int verseId = mushafSettings.verseId;
     Chapter chapter = await chaptersService.getChapter(chapterId);
     List<Verse> verses =
         await versesService.getVersesByChapterId(chapterId, false);

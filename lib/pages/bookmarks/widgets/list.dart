@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
 import 'list_item.dart';
 
 class BookmarksList extends StatelessWidget {
   final List<Verse> verses;
-  final Function(MushafLocation location) onBookmarkClick;
-  final Function(MushafLocation location) onBookmarkRemove;
+  final Function(Bookmark bookmark) onBookmarkClick;
+  final Function(Bookmark bookmark) onBookmarkRemove;
 
   const BookmarksList({
     Key? key,
@@ -33,9 +32,9 @@ class BookmarksList extends StatelessWidget {
         Verse verse = verses[index];
         return BookmarkListItem(
           verse: verse,
-          onBookmarkRemove: (MushafLocation loc) async =>
+          onBookmarkRemove: (Bookmark loc) async =>
               await onBookmarkRemove(loc),
-          onBookmarkClick: (MushafLocation loc) async =>
+          onBookmarkClick: (Bookmark loc) async =>
               await onBookmarkClick(loc),
         );
       },

@@ -3,7 +3,7 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/bookmarks/backend.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
@@ -25,7 +25,7 @@ class BookmarksView extends SimpleView<BookmarksBackend> {
             List<Verse> verses = snapshot.data ?? [];
             return BookmarksList(
               verses: verses,
-              onBookmarkClick: (MushafLocation loc) {
+              onBookmarkClick: (Bookmark loc) {
                 navigateReplace(
                   context: context,
                   view: MushafPage(
@@ -36,7 +36,7 @@ class BookmarksView extends SimpleView<BookmarksBackend> {
                   ),
                 );
               },
-              onBookmarkRemove: (MushafLocation loc) async =>
+              onBookmarkRemove: (Bookmark loc) async =>
                   await backend.removeBookmark(loc),
             );
           },
@@ -50,7 +50,7 @@ class BookmarksView extends SimpleView<BookmarksBackend> {
       ISimpleServiceProvider serviceProvider) {
     return BookmarksBackend(
       versesService: serviceProvider.getService<IVersesService>(),
-      userDataService: serviceProvider.getService<IUserDataService>(),
+      bookmarksService: serviceProvider.getService<IBookmarksService>(),
     );
   }
 }

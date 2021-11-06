@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/pages/drawer/backend.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
@@ -36,7 +36,10 @@ class CustomDrawer extends SimpleView<DrawerBackend> {
             ListTile(
               title: Text(Localization.NIGHT_MODE),
               trailing: Switch(
-                onChanged: (bool mode) => backend.toggleNightMode(mode),
+                onChanged: (bool mode) async {
+                  await backend.toggleNightMode(mode);
+                  reloadApp(context);
+                },
                 value: backend.isNightMode(),
               ),
             ),
@@ -65,11 +68,11 @@ class CustomDrawer extends SimpleView<DrawerBackend> {
 
   @override
   DrawerBackend buildBackend(
-      ISimpleServiceProvider serviceProvider) {
+    ISimpleServiceProvider serviceProvider,
+  ) {
     return DrawerBackend(
       analyticsService: serviceProvider.getService<IAnalyticsService>(),
-      userDataService: serviceProvider.getService<IUserDataService>(),
-      releaseInfoService: serviceProvider.getService<IReleaseInfoService>(),
+      appSettingsService: serviceProvider.getService<IAppSettingsService>(),
     );
   }
 }

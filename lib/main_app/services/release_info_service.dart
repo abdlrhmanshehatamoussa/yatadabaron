@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/helpers/api_helper.dart';
+import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
-import 'interfaces/module.dart';
+import '../../commons/api_helper.dart';
+
 
 class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
   ReleaseInfoService({

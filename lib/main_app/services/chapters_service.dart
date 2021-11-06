@@ -1,11 +1,11 @@
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/helpers/database_service.dart';
+import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
-import 'interfaces/module.dart';
+import 'package:yatadabaron/commons/database_mixin.dart';
 
 class ChaptersService
-    with DatabaseService
+    with DatabaseMixin
     implements IChaptersService, ISimpleService {
   final String databasePath;
 

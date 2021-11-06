@@ -1,4 +1,4 @@
-import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 
 class VersionInfoService implements IVersionInfoService, ISimpleService {

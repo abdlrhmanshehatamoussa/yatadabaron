@@ -1,18 +1,14 @@
 import 'package:launch_review/launch_review.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
-import 'package:yatadabaron/startup/session_manager.dart';
 
 class DrawerBackend implements ISimpleBackend {
   final IAnalyticsService analyticsService;
-  final IUserDataService userDataService;
-  final IReleaseInfoService releaseInfoService;
+  final IAppSettingsService appSettingsService;
 
   DrawerBackend({
     required this.analyticsService,
-    required this.userDataService,
-    required this.releaseInfoService,
+    required this.appSettingsService,
   });
 
   Future rate() async {
@@ -21,20 +17,10 @@ class DrawerBackend implements ISimpleBackend {
   }
 
   Future<void> toggleNightMode(bool mode) async {
-    ThemeDataWrapper wrapper = ThemeDataWrapper.light();
-    if (mode == true) {
-      wrapper = ThemeDataWrapper.dark();
-    }
-    AppSessionManager.instance.updateTheme(wrapper);
-    await userDataService.setNightMode(mode);
+    await appSettingsService.updateNightMode(mode);
   }
 
   bool isNightMode() {
-    AppSession? session = AppSessionManager.instance.currentSession;
-    if (session != null) {
-      return session.themeDataWrapper.appTheme == AppTheme.DARK;
-    } else {
-      return false;
-    }
+    return appSettingsService.currentValue.nightMode;
   }
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
 
 class BookmarkListItem extends StatelessWidget {
   final Verse verse;
-  final Function(MushafLocation location) onBookmarkClick;
-  final Function(MushafLocation location) onBookmarkRemove;
+  final Function(Bookmark location) onBookmarkClick;
+  final Function(Bookmark location) onBookmarkRemove;
 
   const BookmarkListItem({
     Key? key,
@@ -45,7 +44,7 @@ class BookmarkListItem extends StatelessWidget {
           size: 30,
         ),
         onPressed: () async => await onBookmarkRemove(
-          MushafLocation(
+          Bookmark(
             chapterId: verse.chapterId!,
             verseId: verse.verseID,
           ),
@@ -56,7 +55,7 @@ class BookmarkListItem extends StatelessWidget {
         style: usmaniStyle.copyWith(fontSize: 32),
       ),
       onTap: () async => await onBookmarkClick(
-        MushafLocation(
+        Bookmark(
           chapterId: verse.chapterId!,
           verseId: verse.verseID,
         ),

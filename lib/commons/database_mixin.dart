@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-mixin DatabaseService {
+mixin DatabaseMixin {
   Database? _database;
 
   Future<Database> database(String databaseFilePath) async {

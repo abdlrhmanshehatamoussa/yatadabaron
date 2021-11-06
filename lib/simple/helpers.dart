@@ -1,8 +1,7 @@
-import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
-class StreamObject<T> {
-  StreamObject({T? initialValue}) {
+class SimpleStreamObject<T> {
+  SimpleStreamObject({T? initialValue}) {
     if (initialValue != null) {
       add(initialValue);
     }

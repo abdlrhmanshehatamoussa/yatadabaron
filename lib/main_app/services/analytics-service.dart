@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
-import 'helpers/api_helper.dart';
-import 'interfaces/module.dart';
+import 'package:yatadabaron/commons/api_helper.dart';
 
 class AnalyticsService implements IAnalyticsService, ISimpleService {
   AnalyticsService({

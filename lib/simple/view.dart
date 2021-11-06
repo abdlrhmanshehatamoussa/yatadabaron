@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'backend.dart';
-import 'service.dart';
+import 'interfaces.dart';
 
-abstract class SimpleView<B extends ISimpleBackend>
-    extends StatelessWidget {
+abstract class SimpleView<B extends ISimpleBackend> extends StatelessWidget {
   void _navigate({
     required BuildContext context,
     required Widget view,
@@ -66,5 +64,13 @@ abstract class SimpleView<B extends ISimpleBackend>
     ISimpleServiceProvider provider =
         Provider.of<ISimpleServiceProvider>(context);
     return buildBackend(provider);
+  }
+
+  void reloadApp(BuildContext context, {String? reloadMessage}) {
+    ISimpleAppReloader appReloader = Provider.of<ISimpleAppReloader>(
+      context,
+      listen: false,
+    );
+    appReloader.reload(reloadMessage ?? "");
   }
 }

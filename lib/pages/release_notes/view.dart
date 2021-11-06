@@ -3,18 +3,15 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/release_notes/backend.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
+import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
 class ReleaseNotesPage extends SimpleView<ReleaseNotesBackend> {
   @override
   Widget build(BuildContext context) {
-    IVersionInfoService versionInfoService =
-        getService<IVersionInfoService>(context);
-
     ReleaseNotesBackend backend = getBackend(context);
-    String currentVersion = versionInfoService.getVersionName();
+    String currentVersion = backend.getVersionName();
     return CustomPageWrapper(
       pageTitle: Localization.RELEASE_NOTES,
       child: Container(
@@ -78,7 +75,8 @@ class ReleaseNotesPage extends SimpleView<ReleaseNotesBackend> {
   @override
   ReleaseNotesBackend buildBackend(ISimpleServiceProvider serviceProvider) {
     return ReleaseNotesBackend(
-      releaseInfoService: serviceProvider.getService<IReleaseInfoService>()
+      releaseInfoService: serviceProvider.getService<IReleaseInfoService>(),
+      versionInfoService: serviceProvider.getService<IVersionInfoService>(),
     );
   }
 }

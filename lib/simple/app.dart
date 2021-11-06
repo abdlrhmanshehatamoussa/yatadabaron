@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'helpers.dart';
+import 'interfaces.dart';
+import 'reloader.dart';
 import 'service.dart';
 
 abstract class SimpleApp extends StatelessWidget {
+  final SimpleStreamObject<String> _streamObject = SimpleStreamObject<String>(
+    initialValue: "",
+  );
   Future<void> registerServices(ISimpleServiceRegistery registery);
-  Future<void> initialize(ISimpleServiceProvider serviceProvider);
-  Widget app();
+  Future<void> onAppStart(ISimpleServiceProvider serviceProvider);
+  Widget buildApp(ISimpleServiceProvider provider, String payload);
   Widget splashPage();
   Widget startupErrorPage(String errorMessage);
 
   Future<ISimpleServiceProvider> start() async {
-    _ServiceManager manager = _ServiceManager();
+    SimpleServiceManager manager = SimpleServiceManager();
     try {
       await registerServices(manager);
     } catch (e) {
       throw Exception("Error while registering services: $e");
     }
     try {
-      await initialize(manager);
+      await onAppStart(manager);
     } catch (e) {
       throw Exception("Error while initializing application: $e");
     }
@@ -26,54 +32,71 @@ abstract class SimpleApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<ISimpleServiceProvider>(
+    return _customFutureBuilder<ISimpleServiceProvider>(
       future: start(),
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<ISimpleServiceProvider> snapshot,
-      ) {
-        if (snapshot.hasData) {
-          return Provider<ISimpleServiceProvider>(
-            child: app(),
-            create: (_) => snapshot.data!,
-          );
-        } else if (snapshot.hasError) {
-          return MaterialApp(
-            home: startupErrorPage(snapshot.error.toString()),
-          );
-        } else {
-          return MaterialApp(
-            home: splashPage(),
-          );
-        }
+      build: (ISimpleServiceProvider provider) {
+        ISimpleAppReloader appReloader = SimpleAppReloader(
+          onReload: (String reloadMessage) => _streamObject.add(reloadMessage),
+        );
+
+        return MultiProvider(
+          providers: [
+            Provider<ISimpleServiceProvider>(
+              create: (_) => provider,
+            ),
+            Provider<ISimpleAppReloader>(
+              create: (_) => appReloader,
+            ),
+          ],
+          child: _customStreamBuilder<String>(
+            stream: _streamObject.stream,
+            build: (String message) {
+              return buildApp(provider, message);
+            },
+          ),
+        );
       },
     );
   }
-}
 
-class _ServiceManager
-    implements ISimpleServiceProvider, ISimpleServiceRegistery {
-  final Map<String, ISimpleService> _map = Map();
-
-  void register<T>({required ISimpleService service}) {
-    String key = T.toString();
-    bool exists = _map.containsKey(key);
-    if (exists) {
-      throw Exception(
-          "Error while registering service for type [$key], type already registered");
-    } else {
-      _map[T.toString()] = service;
-    }
+  Widget _customFutureBuilder<T>({
+    required Future<T> future,
+    required Widget Function(T) build,
+  }) {
+    return FutureBuilder<T>(
+      future: future,
+      builder: (_, AsyncSnapshot<T> snapshot) =>
+          _customAsyncBuilder(snapshot, build),
+    );
   }
 
-  @override
-  T getService<T>() {
-    String key = T.toString();
-    bool exists = this._map.containsKey(key);
-    if (exists == false) {
-      throw Exception(
-          "No services were registered for the type [$key], please register!");
+  Widget _customStreamBuilder<T>({
+    required Stream<T> stream,
+    required Widget Function(T) build,
+  }) {
+    return StreamBuilder<T>(
+      stream: stream,
+      builder: (_, AsyncSnapshot<T> snapshot) =>
+          _customAsyncBuilder(snapshot, build),
+    );
+  }
+
+  Widget _customAsyncBuilder<T>(
+    AsyncSnapshot<T> snapshot,
+    Widget Function(T) build,
+  ) {
+    if (snapshot.hasData) {
+      return build(snapshot.data!);
+    } else if (snapshot.hasError) {
+      return MaterialApp(
+        home: startupErrorPage(
+          snapshot.error.toString(),
+        ),
+      );
+    } else {
+      return MaterialApp(
+        home: splashPage(),
+      );
     }
-    return this._map[key] as T;
   }
 }

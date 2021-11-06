@@ -5,3 +5,4 @@ export 'tafseer_source.dart';
 export 'chapter.dart';
 export 'release_info.dart';
 export 'enums.dart';
+export 'bookmark.dart';

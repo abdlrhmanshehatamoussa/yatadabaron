@@ -4,15 +4,15 @@ import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/interfaces/module.dart';
-import 'package:yatadabaron/simple/backend.dart';
+import 'package:yatadabaron/services/module.dart';
+import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
 class TafseerPageBackend implements ISimpleBackend {
   TafseerPageBackend({
     required this.location,
     required this.tafseerService,
-    required this.userDataService,
+    required this.bookmarksService,
     required this.versesService,
     required this.analyticsService,
     required this.tafseerSourcesService,
@@ -23,7 +23,7 @@ class TafseerPageBackend implements ISimpleBackend {
   final IAnalyticsService analyticsService;
   final ITafseerService tafseerService;
   final ITafseerSourcesService tafseerSourcesService;
-  final IUserDataService userDataService;
+  final IBookmarksService bookmarksService;
   final StreamObject<VerseTafseer> _tafseerResultController =
       StreamObject<VerseTafseer>();
 
@@ -60,7 +60,10 @@ class TafseerPageBackend implements ISimpleBackend {
   }
 
   Future<bool> onSaveBookmarkClicked(BuildContext context) async {
-    bool done = await userDataService.addMushafLocation(this.location);
+    bool done = await bookmarksService.addBookmark(
+      this.location.chapterId,
+      this.location.verseId,
+    );
     return done;
   }
 
