@@ -46,6 +46,11 @@ class AccountBackend extends SimpleBackend {
     }
   }
 
+
+  Future<void> signInGoogleEmail() async {
+    //TODO: Localize
+    await _show("عذراً, سيتم توفير هذه الخاصية قريباً");
+  }
   Future<void> _show(String message) async {
     await Utils.showCustomDialog(
       context: myContext,

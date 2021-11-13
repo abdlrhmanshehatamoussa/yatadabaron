@@ -28,6 +28,7 @@ class UserAvatar extends StatelessWidget {
         child: Text(user.email),
         scrollDirection: Axis.horizontal,
       ),
+      contentPadding: EdgeInsets.all(5),
       leading: CachedNetworkImage(
         imageUrl: user.imageURL,
         height: 50,

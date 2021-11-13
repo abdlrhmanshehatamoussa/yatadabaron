@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:yatadabaron/commons/localization.dart';
+import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/account/backend.dart';
 import 'package:yatadabaron/widgets/user_avatar.dart';
@@ -27,15 +28,24 @@ class AccountView extends StatelessWidget {
 
     Widget _loggedOut() {
       return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         //TODO: Localize
         children: [
-          Center(
-            child: SignInButton(
-              Buttons.Google,
-              text: "تسجيل من خلال جوجل",
-              onPressed: backend.signInGoogle,
-            ),
-          )
+          SignInButton(
+            Buttons.Google,
+            padding: EdgeInsets.all(5),
+            text: "تسجيل الدخول عبر Google",
+            onPressed: backend.signInGoogle,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          SignInButton(
+            Buttons.Email,
+            padding: EdgeInsets.all(5),
+            text: "تسجيل الدخول عبر البريد",
+            onPressed: backend.signInGoogleEmail,
+          ),
         ],
       );
     }
