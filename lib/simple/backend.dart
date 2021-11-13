@@ -3,13 +3,13 @@ import 'package:provider/provider.dart';
 import 'interfaces.dart';
 
 abstract class SimpleBackend {
-  SimpleBackend(this.context);
+  SimpleBackend(this.myContext);
 
-  final BuildContext context;
+  final BuildContext myContext;
 
   void reloadApp({String? reloadMessage}) {
     ISimpleAppReloader appReloader = Provider.of<ISimpleAppReloader>(
-      context,
+      myContext,
       listen: false,
     );
     appReloader.reload(reloadMessage ?? "");
@@ -17,10 +17,7 @@ abstract class SimpleBackend {
 
   T getService<T>() {
     ISimpleServiceProvider serviceProvider =
-        Provider.of<ISimpleServiceProvider>(
-      context,
-      listen: false
-    );
+        Provider.of<ISimpleServiceProvider>(myContext, listen: false);
     return serviceProvider.getService<T>();
   }
 
@@ -29,7 +26,7 @@ abstract class SimpleBackend {
     bool replace = true,
   }) {
     ISimpleServiceProvider serviceProvider =
-        Provider.of<ISimpleServiceProvider>(context, listen: false);
+        Provider.of<ISimpleServiceProvider>(myContext, listen: false);
     MaterialPageRoute route = MaterialPageRoute(
       builder: (_) => MultiProvider(
         child: view,
@@ -41,9 +38,9 @@ abstract class SimpleBackend {
       ),
     );
     if (replace) {
-      Navigator.of(context).pushReplacement(route);
+      Navigator.of(myContext).pushReplacement(route);
     } else {
-      Navigator.of(context).push(route);
+      Navigator.of(myContext).push(route);
     }
   }
 

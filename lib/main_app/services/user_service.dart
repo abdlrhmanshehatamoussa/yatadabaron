@@ -32,30 +32,28 @@ class UserService extends IUserService implements ISimpleService {
 
   @override
   Future<LoginResult> signInGoogle() async {
-    if (currentUser == null) {
-      try {
-        await _google.signOut();
-        GoogleSignInAccount? googleUser = await _google.signIn();
-        if (googleUser != null) {
-          //TODO: Implement
-          User user = User(
-            globalId: "1231",
-            displayName: "Abdelrahman Shehata",
-            imageURL: googleUser.photoUrl ?? "",
-            email: "abdlrhmanshehata@gmail.com",
-            token: "21asd557asd7565a4sd",
-          );
-          String userStr = jsonEncode(user.toJson());
-          await sharedPreferences.setString(Constants.PREF_USER, userStr);
-          return LoginResult.DONE;
-        } else {
-          return LoginResult.ERROR;
-        }
-      } catch (e) {
+    if (currentUser != null) {
+      return LoginResult.ALREADY_LOGGED_IN;
+    }
+    try {
+      await _google.signOut();
+      GoogleSignInAccount? googleUser = await _google.signIn();
+      if (googleUser == null) {
         return LoginResult.ERROR;
       }
-    } else {
-      return LoginResult.ALREADY_LOGGED_IN;
+      //TODO: Implement
+      User user = User(
+        globalId: "1231",
+        displayName: "Abdelrahman Shehata",
+        imageURL: googleUser.photoUrl ?? "",
+        email: "abdlrhmanshehata@gmail.com",
+        token: "21asd557asd7565a4sd",
+      );
+      String userStr = jsonEncode(user.toJson());
+      await sharedPreferences.setString(Constants.PREF_USER, userStr);
+      return LoginResult.DONE;
+    } catch (e) {
+      return LoginResult.ERROR;
     }
   }
 

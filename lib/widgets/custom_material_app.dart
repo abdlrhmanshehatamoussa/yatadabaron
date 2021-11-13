@@ -13,6 +13,7 @@ class CustomMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      key: UniqueKey(),
       theme: theme,
       builder: (BuildContext context, child) {
         return Directionality(

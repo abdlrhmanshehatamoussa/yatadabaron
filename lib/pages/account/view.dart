@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/account/backend.dart';
@@ -28,11 +29,13 @@ class AccountView extends StatelessWidget {
       return Column(
         //TODO: Localize
         children: [
-          ListTile(
-            onTap: backend.signInGoogle,
-            title: Text("تسجيل من خلال جوجل"),
-            trailing: Icon(Icons.login),
-          ),
+          Center(
+            child: SignInButton(
+              Buttons.Google,
+              text: "تسجيل من خلال جوجل",
+              onPressed: backend.signInGoogle,
+            ),
+          )
         ],
       );
     }
@@ -49,6 +52,7 @@ class AccountView extends StatelessWidget {
             UserAvatar(
               user: user,
             ),
+            Divider(),
             Expanded(
               child: loggedIn ? _loggedIn(user: user) : _loggedOut(),
             )

@@ -8,6 +8,7 @@ import 'widgets/grid.dart';
 import 'widgets/header.dart';
 
 class HomePage extends StatelessWidget {
+  HomePage() : super(key: UniqueKey());
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override

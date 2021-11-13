@@ -6,8 +6,8 @@ import 'reloader.dart';
 import 'service.dart';
 
 abstract class SimpleApp extends StatelessWidget {
-  SimpleApp({Key? key}) : super(key: key);
-  
+  SimpleApp() : super(key: UniqueKey());
+
   final SimpleStreamObject<String> _streamObject = SimpleStreamObject<String>(
     initialValue: "",
   );
@@ -42,21 +42,21 @@ abstract class SimpleApp extends StatelessWidget {
           onReload: (String reloadMessage) => _streamObject.add(reloadMessage),
         );
 
-        return MultiProvider(
-          providers: [
-            Provider<ISimpleServiceProvider>(
-              create: (_) => provider,
-            ),
-            Provider<ISimpleAppReloader>(
-              create: (_) => appReloader,
-            ),
-          ],
-          child: _customStreamBuilder<String>(
-            stream: _streamObject.stream,
-            build: (String message) {
-              return buildApp(provider, message);
-            },
-          ),
+        return _customStreamBuilder<String>(
+          stream: _streamObject.stream,
+          build: (String message) {
+            return MultiProvider(
+              providers: [
+                Provider<ISimpleServiceProvider>(
+                  create: (_) => provider,
+                ),
+                Provider<ISimpleAppReloader>(
+                  create: (_) => appReloader,
+                ),
+              ],
+              child: buildApp(provider, message),
+            );
+          },
         );
       },
     );

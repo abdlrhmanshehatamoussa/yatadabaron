@@ -30,6 +30,7 @@ dependencies:
   share: ^2.0.4
   launch_review: ^3.0.1
   cached_network_image: ^3.1.0+1
+  flutter_signin_button: ^2.0.0
   package_info: ^2.0.2
   flutter_dotenv: ^5.0.0
   scrollable_positioned_list: ^0.2.0-nullsafety.0
