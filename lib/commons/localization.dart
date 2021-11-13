@@ -71,4 +71,8 @@ class Localization {
   static const String EMPTY_BOOKMARKS = "لا يوجد أي مرجعيات مسجلة!";
   static const String EMPTY_LIST = "لا يوجد أي بيانات حالية !";
   static const String UPDATE_DONE = "تم التحديث بنجاح";
+  static const String CLICK_TO_SIGN_IN = "حسابك غير مسجل";
+  static const String WELCOME = "مرحباً";
+  static const String ACCOUNT_MANAGEMENT = "إدارة الحساب";
+  static const String GUEST = "زائر";
 }

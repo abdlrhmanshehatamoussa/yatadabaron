@@ -7,3 +7,4 @@ export 'bookmarks_service.dart';
 export 'verses_service.dart';
 export 'version_info_service.dart';
 export 'app_settings_service.dart';
+export 'user_service.dart';

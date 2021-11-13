@@ -3,7 +3,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/commons/api_helper.dart';
-
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
 import 'package:yatadabaron/commons/themes.dart';
@@ -99,6 +98,10 @@ class MainApp extends SimpleApp {
       service: AppSettingsService(
         sharedPreferences: _pref,
       ),
+    );
+
+    registery.register<IUserService>(
+      service: UserService(sharedPreferences: _pref),
     );
   }
 

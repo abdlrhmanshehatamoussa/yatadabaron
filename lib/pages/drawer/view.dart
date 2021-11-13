@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
+import 'package:yatadabaron/pages/account/view.dart';
 import 'package:yatadabaron/pages/drawer/backend.dart';
+import 'package:yatadabaron/widgets/user_avatar.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
@@ -9,21 +11,8 @@ import 'package:yatadabaron/widgets/module.dart';
 class CustomDrawer extends SimpleView<DrawerBackend> {
   @override
   Widget build(BuildContext context) {
-    IVersionInfoService versionInfoService =
-        getService<IVersionInfoService>(context);
-
     DrawerBackend backend = getBackend(context);
 
-    Icon _buildTabIcon(IconData data) {
-      return Icon(
-        data,
-        color: Theme.of(context).colorScheme.secondary,
-      );
-    }
-
-    String currentVersion = versionInfoService.getVersionName();
-    String versionLabel =
-        [Localization.RELEASE_NAME, currentVersion].join(" : ");
     return Container(
       padding: EdgeInsets.all(0),
       child: Center(
@@ -32,6 +21,18 @@ class CustomDrawer extends SimpleView<DrawerBackend> {
             TransparentTopBar(),
             FullLogo(
               padding: 20,
+            ),
+            GestureDetector(
+              child: UserAvatar(user: backend.currentUser),
+              onTap: () {
+                navigatePush(
+                  context: context,
+                  view: AccountView(),
+                );
+              },
+            ),
+            Divider(
+              height: 5,
             ),
             ListTile(
               title: Text(Localization.NIGHT_MODE),
@@ -52,14 +53,17 @@ class CustomDrawer extends SimpleView<DrawerBackend> {
                   children: [
                     ListTile(
                       title: Text(Localization.RATE),
-                      trailing: _buildTabIcon(Icons.star),
+                      trailing: Icon(
+                        Icons.star,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
                       onTap: () async => await backend.rate(),
                     ),
                   ],
                 ),
               ),
             ),
-            Text(versionLabel)
+            Text(backend.versionLabel)
           ],
         ),
       ),
@@ -73,6 +77,8 @@ class CustomDrawer extends SimpleView<DrawerBackend> {
     return DrawerBackend(
       analyticsService: serviceProvider.getService<IAnalyticsService>(),
       appSettingsService: serviceProvider.getService<IAppSettingsService>(),
+      versionInfoService: serviceProvider.getService<IVersionInfoService>(),
+      userService: serviceProvider.getService<IUserService>(),
     );
   }
 }

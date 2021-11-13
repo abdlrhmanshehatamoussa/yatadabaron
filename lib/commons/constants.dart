@@ -9,4 +9,5 @@ class Constants {
   static const String ENV_TAFSEER_SOURCES_URL = "TAFSEER_SOURCES_URL";
   static const String ENV_TAFSEER_TEXT_URL = "TAFSEER_TEXT_URL";
   static const String PREF_NIGHT_MODE_KEY = "yatadabaron_night_mode";
+  static const String PREF_USER = "yatadabaron_user";
 }
