@@ -6,7 +6,7 @@ class SimpleStreamObject<T> {
       add(initialValue);
     }
   }
-  BehaviorSubject<T> _controller = BehaviorSubject<T>();
+  final BehaviorSubject<T> _controller = BehaviorSubject<T>();
   Stream<T> get stream => _controller.stream;
   T get value => _controller.value;
   Function(T) get add => _controller.sink.add;

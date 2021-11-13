@@ -6,9 +6,12 @@ import 'reloader.dart';
 import 'service.dart';
 
 abstract class SimpleApp extends StatelessWidget {
+  SimpleApp({Key? key}) : super(key: key);
+  
   final SimpleStreamObject<String> _streamObject = SimpleStreamObject<String>(
     initialValue: "",
   );
+
   Future<void> registerServices(ISimpleServiceRegistery registery);
   Future<void> onAppStart(ISimpleServiceProvider serviceProvider);
   Widget buildApp(ISimpleServiceProvider provider, String payload);

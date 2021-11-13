@@ -2,8 +2,9 @@ import 'interfaces.dart';
 
 class SimpleServiceManager
     implements ISimpleServiceProvider, ISimpleServiceRegistery {
-  final Map<String, ISimpleService> _map = Map();
+  final Map<String, ISimpleService> _map = <String, ISimpleService>{};
 
+  @override
   void register<T>({required ISimpleService service}) {
     String key = T.toString();
     bool exists = _map.containsKey(key);
@@ -18,11 +19,11 @@ class SimpleServiceManager
   @override
   T getService<T>() {
     String key = T.toString();
-    bool exists = this._map.containsKey(key);
+    bool exists = _map.containsKey(key);
     if (exists == false) {
       throw Exception(
           "No services were registered for the type [$key], please register!");
     }
-    return this._map[key] as T;
+    return _map[key] as T;
   }
 }

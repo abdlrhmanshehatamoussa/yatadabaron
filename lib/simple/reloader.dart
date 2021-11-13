@@ -9,6 +9,6 @@ class SimpleAppReloader implements ISimpleAppReloader {
 
   @override
   void reload(String reloadMessage) {
-    this.onReload(reloadMessage);
+    onReload(reloadMessage);
   }
 }

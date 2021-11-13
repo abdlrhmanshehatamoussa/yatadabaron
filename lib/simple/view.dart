@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'interfaces.dart';
 
 abstract class SimpleView<B extends ISimpleBackend> extends StatelessWidget {
+  const SimpleView({Key? key}) : super(key: key);
+
   void _navigate({
     required BuildContext context,
     required Widget view,
