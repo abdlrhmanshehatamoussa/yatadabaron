@@ -1,10 +1,9 @@
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AboutPage extends SimpleView {
+class AboutPage extends StatelessWidget {
   Widget customText(String text) {
     return Text(
       text,
@@ -43,10 +42,5 @@ class AboutPage extends SimpleView {
       ),
       floatingButton: null,
     );
-  }
-
-  @override
-  ISimpleBackend buildBackend(ISimpleServiceProvider serviceProvider) {
-    throw UnimplementedError();
-  }
+  } 
 }

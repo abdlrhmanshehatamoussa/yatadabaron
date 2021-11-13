@@ -1,15 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 
-class ReleaseNotesBackend implements ISimpleBackend {
-  final IReleaseInfoService releaseInfoService;
-  final IVersionInfoService versionInfoService;
+class ReleaseNotesBackend extends SimpleBackend {
+  ReleaseNotesBackend(BuildContext context) : super(context);
 
-  ReleaseNotesBackend({
-    required this.releaseInfoService,
-    required this.versionInfoService,
-  });
+  late IReleaseInfoService releaseInfoService =
+      getService<IReleaseInfoService>();
+  late IVersionInfoService versionInfoService =
+      getService<IVersionInfoService>();
+
   Future<List<ReleaseInfo>> getVersions() async {
     try {
       return await releaseInfoService.getReleases();

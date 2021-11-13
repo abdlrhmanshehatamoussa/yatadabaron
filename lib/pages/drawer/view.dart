@@ -4,14 +4,13 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/pages/account/view.dart';
 import 'package:yatadabaron/pages/drawer/backend.dart';
 import 'package:yatadabaron/widgets/user_avatar.dart';
-import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class CustomDrawer extends SimpleView<DrawerBackend> {
+class CustomDrawer extends SimpleView {
   @override
   Widget build(BuildContext context) {
-    DrawerBackend backend = getBackend(context);
+    DrawerBackend backend = DrawerBackend(context);
 
     return Container(
       padding: EdgeInsets.all(0),
@@ -67,18 +66,6 @@ class CustomDrawer extends SimpleView<DrawerBackend> {
           ],
         ),
       ),
-    );
-  }
-
-  @override
-  DrawerBackend buildBackend(
-    ISimpleServiceProvider serviceProvider,
-  ) {
-    return DrawerBackend(
-      analyticsService: serviceProvider.getService<IAnalyticsService>(),
-      appSettingsService: serviceProvider.getService<IAppSettingsService>(),
-      versionInfoService: serviceProvider.getService<IVersionInfoService>(),
-      userService: serviceProvider.getService<IUserService>(),
     );
   }
 }

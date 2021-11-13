@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/pages/search/backend.dart';
-import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
@@ -14,7 +13,7 @@ import './widgets/search-summary.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
-class SearchPage extends SimpleView<SearchBackend> {
+class SearchPage extends SimpleView {
   Widget customText(String text) {
     return Center(
       child: Text(
@@ -27,7 +26,7 @@ class SearchPage extends SimpleView<SearchBackend> {
 
   @override
   Widget build(BuildContext context) {
-    SearchBackend backend = getBackend(context);
+    SearchBackend backend = SearchBackend(context);
     Widget searchResultsArea = Column(
       children: <Widget>[
         SearchSummaryWidget(
@@ -116,15 +115,6 @@ class SearchPage extends SimpleView<SearchBackend> {
           floatingButton: btn,
         );
       },
-    );
-  }
-
-  @override
-  SearchBackend buildBackend(ISimpleServiceProvider serviceProvider) {
-    return SearchBackend(
-      analyticsService: serviceProvider.getService<IAnalyticsService>(),
-      chaptersService: serviceProvider.getService<IChaptersService>(),
-      versesService: serviceProvider.getService<IVersesService>(),
     );
   }
 }

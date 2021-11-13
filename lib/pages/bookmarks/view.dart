@@ -3,16 +3,15 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/bookmarks/backend.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
-import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'widgets/list.dart';
 
-class BookmarksView extends SimpleView<BookmarksBackend> {
+class BookmarksView extends SimpleView {
   @override
   Widget build(BuildContext context) {
-    BookmarksBackend backend = getBackend(context);
+    BookmarksBackend backend = BookmarksBackend(context);
     return CustomPageWrapper(
       pageTitle: Localization.BOOKMARKS,
       child: Center(
@@ -42,15 +41,6 @@ class BookmarksView extends SimpleView<BookmarksBackend> {
           },
         ),
       ),
-    );
-  }
-
-  @override
-  BookmarksBackend buildBackend(
-      ISimpleServiceProvider serviceProvider) {
-    return BookmarksBackend(
-      versesService: serviceProvider.getService<IVersesService>(),
-      bookmarksService: serviceProvider.getService<IBookmarksService>(),
     );
   }
 }

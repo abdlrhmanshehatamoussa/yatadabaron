@@ -1,20 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 
-class DrawerBackend implements ISimpleBackend {
-  final IAnalyticsService analyticsService;
-  final IAppSettingsService appSettingsService;
-  final IVersionInfoService versionInfoService;
-  final IUserService userService;
-  DrawerBackend({
-    required this.analyticsService,
-    required this.appSettingsService,
-    required this.versionInfoService,
-    required this.userService,
-  });
+class DrawerBackend extends SimpleBackend {
+  DrawerBackend(BuildContext context) : super(context);
+
+  late IAnalyticsService analyticsService = getService<IAnalyticsService>();
+  late IAppSettingsService appSettingsService =
+      getService<IAppSettingsService>();
+  late IVersionInfoService versionInfoService =
+      getService<IVersionInfoService>();
+  late IUserService userService = getService<IUserService>();
 
   User? get currentUser => userService.currentUser;
 

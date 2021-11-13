@@ -8,24 +8,21 @@ import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class TafseerPageBackend implements ISimpleBackend {
+class TafseerPageBackend extends SimpleBackend {
   TafseerPageBackend({
     required this.location,
-    required this.tafseerService,
-    required this.bookmarksService,
-    required this.versesService,
-    required this.analyticsService,
-    required this.tafseerSourcesService,
-  });
+    required BuildContext context,
+  }) : super(context);
 
   final MushafLocation location;
-  final IVersesService versesService;
-  final IAnalyticsService analyticsService;
-  final ITafseerService tafseerService;
-  final ITafseerSourcesService tafseerSourcesService;
-  final IBookmarksService bookmarksService;
   final StreamObject<VerseTafseer> _tafseerResultController =
       StreamObject<VerseTafseer>();
+  late IVersesService versesService = getService<IVersesService>();
+  late IAnalyticsService analyticsService = getService<IAnalyticsService>();
+  late ITafseerService tafseerService = getService<ITafseerService>();
+  late ITafseerSourcesService tafseerSourcesService =
+      getService<ITafseerSourcesService>();
+  late IBookmarksService bookmarksService = getService<IBookmarksService>();
 
   Stream<VerseTafseer> get tafseerStream => _tafseerResultController.stream;
 

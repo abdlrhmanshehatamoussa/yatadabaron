@@ -1,13 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 
-class AccountBackend implements ISimpleBackend {
-  AccountBackend({
-    required this.userService,
-  });
+class AccountBackend extends SimpleBackend {
+  AccountBackend(BuildContext context) : super(context);
 
-  final IUserService userService;
+  late IUserService userService = getService<IUserService>();
 
   User? get currentUser => userService.currentUser;
 
@@ -17,6 +16,6 @@ class AccountBackend implements ISimpleBackend {
   }
 
   Future<void> signInGoogle() async {
-    await userService.signInGoogle();
+    LoginResult result = await userService.signInGoogle();
   }
 }

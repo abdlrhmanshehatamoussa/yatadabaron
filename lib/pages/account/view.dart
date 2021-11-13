@@ -2,22 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/account/backend.dart';
-import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/user_avatar.dart';
 
-class AccountView extends SimpleView<AccountBackend> {
+class AccountView extends SimpleView {
   @override
   Widget build(BuildContext context) {
-    AccountBackend backend = getBackend(context);
-
-    Future<void> _handleSignOut() async {
-      await backend.signOut();
-    }
-
-    Future<void> _handleSignInGoogle() async {
-      await backend.signInGoogle();
-    }
+    AccountBackend backend = AccountBackend(context);
 
     Widget _loggedIn({
       required User user,
@@ -26,7 +17,7 @@ class AccountView extends SimpleView<AccountBackend> {
         children: [
           //TODO: Localize
           ListTile(
-            onTap: _handleSignOut,
+            onTap: backend.signOut,
             title: Text("تسجيل الخروج"),
             trailing: Icon(Icons.logout),
           )
@@ -39,7 +30,7 @@ class AccountView extends SimpleView<AccountBackend> {
         //TODO: Localize
         children: [
           ListTile(
-            onTap: _handleSignInGoogle,
+            onTap: backend.signInGoogle,
             title: Text("تسجيل من خلال جوجل"),
             trailing: Icon(Icons.login),
           ),
@@ -65,13 +56,6 @@ class AccountView extends SimpleView<AccountBackend> {
           ],
         ),
       ),
-    );
-  }
-
-  @override
-  AccountBackend buildBackend(ISimpleServiceProvider serviceProvider) {
-    return AccountBackend(
-      userService: serviceProvider.getService<IUserService>(),
     );
   }
 }

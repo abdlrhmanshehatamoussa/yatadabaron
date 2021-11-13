@@ -1,20 +1,17 @@
+import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 
-class BookmarksBackend implements ISimpleBackend {
-  BookmarksBackend({
-    required this.versesService,
-    required this.bookmarksService,
-  }) {
+class BookmarksBackend extends SimpleBackend {
+  BookmarksBackend(BuildContext context) : super(context) {
     reloadBookmarks();
   }
 
-  final IVersesService versesService;
-  final IBookmarksService bookmarksService;
-
-  StreamObject<List<Verse>> _versesStreamObj = StreamObject();
+  late IVersesService versesService = getService<IVersesService>();
+  late IBookmarksService bookmarksService = getService<IBookmarksService>();
+  final StreamObject<List<Verse>> _versesStreamObj = StreamObject();
   Stream<List<Verse>> get bookmarkedVersesStream => _versesStreamObj.stream;
 
   Future<void> reloadBookmarks() async {

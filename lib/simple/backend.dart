@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'interfaces.dart';
 
-abstract class SimpleView extends StatelessWidget {
-  const SimpleView({Key? key}) : super(key: key);
+abstract class SimpleBackend {
+  SimpleBackend(this.context);
+
+  final BuildContext context;
+
+  void reloadApp({String? reloadMessage}) {
+    ISimpleAppReloader appReloader = Provider.of<ISimpleAppReloader>(
+      context,
+      listen: false,
+    );
+    appReloader.reload(reloadMessage ?? "");
+  }
+
+  T getService<T>() {
+    ISimpleServiceProvider serviceProvider =
+        Provider.of<ISimpleServiceProvider>(
+      context,
+      listen: false
+    );
+    return serviceProvider.getService<T>();
+  }
 
   void _navigate({
-    required BuildContext context,
     required Widget view,
     bool replace = true,
   }) {
     ISimpleServiceProvider serviceProvider =
-        Provider.of<ISimpleServiceProvider>(
-      context,
-      listen: false,
-    );
+        Provider.of<ISimpleServiceProvider>(context, listen: false);
     MaterialPageRoute route = MaterialPageRoute(
       builder: (_) => MultiProvider(
         child: view,
@@ -33,38 +49,20 @@ abstract class SimpleView extends StatelessWidget {
   }
 
   void navigatePush({
-    required BuildContext context,
     required Widget view,
   }) {
     _navigate(
-      context: context,
       view: view,
       replace: false,
     );
   }
 
   void navigateReplace({
-    required BuildContext context,
     required Widget view,
   }) {
     _navigate(
-      context: context,
       view: view,
       replace: true,
     );
-  }
-
-  T getService<T>(BuildContext context) {
-    ISimpleServiceProvider serviceProvider =
-        Provider.of<ISimpleServiceProvider>(context);
-    return serviceProvider.getService<T>();
-  }
-
-  void reloadApp(BuildContext context, {String? reloadMessage}) {
-    ISimpleAppReloader appReloader = Provider.of<ISimpleAppReloader>(
-      context,
-      listen: false,
-    );
-    appReloader.reload(reloadMessage ?? "");
   }
 }

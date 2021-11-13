@@ -11,7 +11,7 @@ import 'widgets/selector.dart';
 import 'widgets/tafseer_section.dart';
 import 'widgets/verse_section.dart';
 
-class TafseerPage extends SimpleView<TafseerPageBackend> {
+class TafseerPage extends SimpleView {
   final MushafLocation location;
 
   TafseerPage({
@@ -35,7 +35,10 @@ class TafseerPage extends SimpleView<TafseerPageBackend> {
 
   @override
   Widget build(BuildContext context) {
-    TafseerPageBackend backend = getBackend(context);
+    TafseerPageBackend backend = TafseerPageBackend(
+      location: location,
+      context: context,
+    );
     return Scaffold(
       appBar: TafseerAppBar.build(
         context: context,
@@ -134,21 +137,6 @@ class TafseerPage extends SimpleView<TafseerPageBackend> {
           ),
         ],
       ),
-    );
-  }
-
-  @override
-  TafseerPageBackend buildBackend(
-    ISimpleServiceProvider serviceProvider,
-  ) {
-    return TafseerPageBackend(
-      location: this.location,
-      analyticsService: serviceProvider.getService<IAnalyticsService>(),
-      bookmarksService: serviceProvider.getService<IBookmarksService>(),
-      versesService: serviceProvider.getService<IVersesService>(),
-      tafseerService: serviceProvider.getService<ITafseerService>(),
-      tafseerSourcesService:
-          serviceProvider.getService<ITafseerSourcesService>(),
     );
   }
 }

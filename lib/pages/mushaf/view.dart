@@ -6,13 +6,12 @@ import 'package:yatadabaron/pages/mushaf/backend.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
 import 'package:yatadabaron/pages/tafseer/view.dart';
-import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/list.dart';
 
-class MushafPage extends SimpleView<MushafBackend> {
+class MushafPage extends SimpleView {
   final MushafSettings? mushafSettings;
 
   MushafPage({
@@ -21,7 +20,10 @@ class MushafPage extends SimpleView<MushafBackend> {
 
   @override
   Widget build(BuildContext context) {
-    MushafBackend backend = getBackend(context);
+    MushafBackend backend = MushafBackend(
+      mushafSettings: this.mushafSettings,
+      context: context,
+    );
     return CustomPageWrapper(
       pageTitle: Localization.MUSHAF_SHARIF,
       child: StreamBuilder<MushafPageState>(
@@ -81,17 +83,6 @@ class MushafPage extends SimpleView<MushafBackend> {
           );
         },
       ),
-    );
-  }
-
-  @override
-  MushafBackend buildBackend(ISimpleServiceProvider serviceProvider) {
-    return MushafBackend(
-      mushafSettings: this.mushafSettings,
-      analyticsService: serviceProvider.getService<IAnalyticsService>(),
-      chaptersService: serviceProvider.getService<IChaptersService>(),
-      bookmarksService: serviceProvider.getService<IBookmarksService>(),
-      versesService: serviceProvider.getService<IVersesService>(),
     );
   }
 }

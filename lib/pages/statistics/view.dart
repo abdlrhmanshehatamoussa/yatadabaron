@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/pages/statistics/backend.dart';
-import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';
@@ -12,10 +11,10 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class StatisticsPage extends SimpleView<StatisticsBackend> {
+class StatisticsPage extends SimpleView {
   @override
   Widget build(BuildContext context) {
-    StatisticsBackend backend = getBackend(context);
+    StatisticsBackend backend = StatisticsBackend(context);
     Widget resultsArea = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -75,17 +74,6 @@ class StatisticsPage extends SimpleView<StatisticsBackend> {
           StatisticsForm.show(context, backend);
         },
       ),
-    );
-  }
-
-  @override
-  StatisticsBackend buildBackend(
-    ISimpleServiceProvider serviceProvider,
-  ) {
-    return StatisticsBackend(
-      analyticsService: serviceProvider.getService<IAnalyticsService>(),
-      chaptersService: serviceProvider.getService<IChaptersService>(),
-      versesService: serviceProvider.getService<IVersesService>(),
     );
   }
 }

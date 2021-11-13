@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/simple/module.dart';
@@ -5,22 +6,19 @@ import 'view_models/mushaf_state.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 
-class MushafBackend implements ISimpleBackend {
+class MushafBackend extends SimpleBackend {
   MushafBackend({
-    required this.chaptersService,
-    required this.versesService,
-    required this.bookmarksService,
-    required this.analyticsService,
     required this.mushafSettings,
-  }) {
+    required BuildContext context,
+  }) : super(context) {
     reloadVerses(mushafSettings);
   }
 
   final MushafSettings? mushafSettings;
-  final IChaptersService chaptersService;
-  final IVersesService versesService;
-  final IBookmarksService bookmarksService;
-  final IAnalyticsService analyticsService;
+  late IChaptersService chaptersService = getService<IChaptersService>();
+  late IVersesService versesService = getService<IVersesService>();
+  late IBookmarksService bookmarksService = getService<IBookmarksService>();
+  late IAnalyticsService analyticsService = getService<IAnalyticsService>();
 
   StreamObject<MushafPageState> _stateStreamObj = StreamObject();
   Stream<MushafPageState> get stateStream => _stateStreamObj.stream;

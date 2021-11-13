@@ -112,7 +112,7 @@ class HomePage extends SimpleView {
   }
 
   @override
-  ISimpleBackend buildBackend(ISimpleServiceProvider serviceProvider) {
+  SimpleBackend buildBackend(ISimpleServiceProvider serviceProvider) {
     throw UnimplementedError();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/models/module.dart';
@@ -7,18 +8,14 @@ import 'package:yatadabaron/simple/module.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
-class SearchBackend implements ISimpleBackend {
-  final IChaptersService chaptersService;
-  final IVersesService versesService;
-  final IAnalyticsService analyticsService;
-
-  SearchBackend({
-    required this.analyticsService,
-    required this.chaptersService,
-    required this.versesService,
-  }) {
+class SearchBackend extends SimpleBackend {
+  SearchBackend(BuildContext context) : super(context) {
     _stateBloc.add(SearchState.INITIAL);
   }
+
+  late IChaptersService chaptersService = getService<IChaptersService>();
+  late IVersesService versesService = getService<IVersesService>();
+  late IAnalyticsService analyticsService = getService<IAnalyticsService>();
 
   StreamObject<SearchSettings> _settingsBloc = StreamObject();
   StreamObject<SearchSessionPayload> _payloadBloc = StreamObject();

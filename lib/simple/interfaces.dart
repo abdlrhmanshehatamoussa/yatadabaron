@@ -1,5 +1,3 @@
-abstract class ISimpleBackend {}
-
 abstract class ISimpleService {}
 
 abstract class ISimpleServiceProvider {
