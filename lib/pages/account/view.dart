@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/account/backend.dart';
-import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/user_avatar.dart';
 
-class AccountView extends SimpleView {
+class AccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AccountBackend backend = AccountBackend(context);

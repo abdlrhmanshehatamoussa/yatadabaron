@@ -5,12 +5,11 @@ import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/mushaf/backend.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
-import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/list.dart';
 
-class MushafPage extends SimpleView {
+class MushafPage extends StatelessWidget {
   final MushafSettings? mushafSettings;
 
   MushafPage({

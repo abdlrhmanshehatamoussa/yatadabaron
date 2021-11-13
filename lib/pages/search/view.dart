@@ -3,7 +3,6 @@ import 'package:yatadabaron/commons/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/search/backend.dart';
-import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
@@ -11,7 +10,7 @@ import './widgets/search-summary.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
-class SearchPage extends SimpleView {
+class SearchPage extends StatelessWidget {
   Widget customText(String text) {
     return Center(
       child: Text(

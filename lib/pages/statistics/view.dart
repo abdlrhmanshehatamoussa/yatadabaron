@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/pages/statistics/backend.dart';
-import 'package:yatadabaron/simple/module.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';
 import './widgets/statistics-form.dart';
@@ -11,7 +10,7 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class StatisticsPage extends SimpleView {
+class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     StatisticsBackend backend = StatisticsBackend(context);

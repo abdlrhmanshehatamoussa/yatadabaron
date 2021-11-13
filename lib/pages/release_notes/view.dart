@@ -3,10 +3,9 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/release_notes/backend.dart';
-import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
-class ReleaseNotesPage extends SimpleView {
+class ReleaseNotesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ReleaseNotesBackend backend = ReleaseNotesBackend(context);

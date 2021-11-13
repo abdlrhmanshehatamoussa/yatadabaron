@@ -3,14 +3,13 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/tafseer/backend.dart';
-import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/selector.dart';
 import 'widgets/tafseer_section.dart';
 import 'widgets/verse_section.dart';
 
-class TafseerPage extends SimpleView {
+class TafseerPage extends StatelessWidget {
   final MushafLocation location;
 
   TafseerPage({
