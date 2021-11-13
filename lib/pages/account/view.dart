@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/account/backend.dart';
 import 'package:yatadabaron/widgets/user_avatar.dart';
