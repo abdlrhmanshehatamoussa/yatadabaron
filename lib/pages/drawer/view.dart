@@ -36,10 +36,7 @@ class CustomDrawer extends SimpleView {
             ListTile(
               title: Text(Localization.NIGHT_MODE),
               trailing: Switch(
-                onChanged: (bool mode) async {
-                  await backend.toggleNightMode(mode);
-                  reloadApp(context);
-                },
+                onChanged: backend.toggleNightMode,
                 value: backend.isNightMode(),
               ),
             ),

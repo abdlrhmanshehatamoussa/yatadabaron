@@ -53,18 +53,4 @@ abstract class SimpleView extends StatelessWidget {
       replace: true,
     );
   }
-
-  T getService<T>(BuildContext context) {
-    ISimpleServiceProvider serviceProvider =
-        Provider.of<ISimpleServiceProvider>(context);
-    return serviceProvider.getService<T>();
-  }
-
-  void reloadApp(BuildContext context, {String? reloadMessage}) {
-    ISimpleAppReloader appReloader = Provider.of<ISimpleAppReloader>(
-      context,
-      listen: false,
-    );
-    appReloader.reload(reloadMessage ?? "");
-  }
 }

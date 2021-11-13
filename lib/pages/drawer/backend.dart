@@ -24,6 +24,7 @@ class DrawerBackend extends SimpleBackend {
 
   Future<void> toggleNightMode(bool mode) async {
     await appSettingsService.updateNightMode(mode);
+    reloadApp();
   }
 
   bool isNightMode() {
