@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/pages/account/view.dart';
 import 'package:yatadabaron/pages/drawer/backend.dart';
 import 'package:yatadabaron/widgets/user_avatar.dart';
 import 'package:yatadabaron/simple/module.dart';
@@ -23,12 +22,7 @@ class CustomDrawer extends SimpleView {
             ),
             GestureDetector(
               child: UserAvatar(user: backend.currentUser),
-              onTap: () {
-                navigatePush(
-                  context: context,
-                  view: AccountView(),
-                );
-              },
+              onTap: backend.goAccountPage,
             ),
             Divider(
               height: 5,

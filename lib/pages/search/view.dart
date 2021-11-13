@@ -2,10 +2,8 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/pages/search/backend.dart';
 import 'package:yatadabaron/simple/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
@@ -45,21 +43,7 @@ class SearchPage extends SimpleView {
             payloadStream: backend.payloadStream,
             onItemLongPress: (Verse verse) async =>
                 await backend.copyVerse(verse),
-            onItemPress: (Verse verse) async {
-              int? chapterId = verse.chapterId;
-              int? verseID = verse.verseID;
-              if (chapterId != null) {
-                navigatePush(
-                  context: context,
-                  view: MushafPage(
-                    mushafSettings: MushafSettings.fromSearch(
-                      chapterId: chapterId,
-                      verseId: verseID,
-                    ),
-                  ),
-                );
-              }
-            },
+            onItemPress: backend.goMushafPage,
           ),
         )
       ],

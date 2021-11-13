@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/pages/account/view.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 
@@ -34,5 +35,11 @@ class DrawerBackend extends SimpleBackend {
   String get versionLabel {
     String currentVersion = versionInfoService.getVersionName();
     return [Localization.RELEASE_NAME, currentVersion].join(" : ");
+  }
+
+  void goAccountPage() {
+    navigatePush(
+      view: AccountView(),
+    );
   }
 }

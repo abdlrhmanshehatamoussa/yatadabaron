@@ -5,7 +5,6 @@ import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/mushaf/backend.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
-import 'package:yatadabaron/pages/tafseer/view.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
@@ -63,19 +62,7 @@ class MushafPage extends SimpleView {
                   highlightedVerse: highlightedVerseId,
                   startFromVerse: state.startFromVerse,
                   icon: icon,
-                  onItemTap: (Verse result) {
-                    if (result.chapterId != null) {
-                      navigatePush(
-                        context: context,
-                        view: TafseerPage(
-                          location: MushafLocation(
-                            verseId: result.verseID,
-                            chapterId: result.chapterId!,
-                          ),
-                        ),
-                      );
-                    }
-                  },
+                  onItemTap: backend.goTafseerPage,
                 ),
                 flex: 1,
               )

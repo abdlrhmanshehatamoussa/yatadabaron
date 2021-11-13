@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
+import 'package:yatadabaron/viewmodels/module.dart';
 import 'view_models/search-session-payload.dart';
 import 'view_models/search-settings.dart';
 
@@ -74,5 +76,18 @@ class SearchBackend extends SimpleBackend {
         "${verse.chapterName}\n${verse.verseTextTashkel} {${verse.verseID}}";
     analyticsService.logOnTap("SHARE VERSE");
     Share.share(toCopy);
+  }
+
+  Future<void> goMushafPage(Verse verse) async {
+    int chapterId = verse.chapterId;
+    int verseID = verse.verseID;
+    navigatePush(
+      view: MushafPage(
+        mushafSettings: MushafSettings.fromSearch(
+          chapterId: chapterId,
+          verseId: verseID,
+        ),
+      ),
+    );
   }
 }

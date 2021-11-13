@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/pages/tafseer/view.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'view_models/mushaf_state.dart';
 import 'package:yatadabaron/services/module.dart';
@@ -74,6 +75,17 @@ class MushafBackend extends SimpleBackend {
       MushafSettings.fromSelection(
         chapterId: chapter.chapterID,
         verseId: 1,
+      ),
+    );
+  }
+
+  void goTafseerPage(Verse verse) {
+    navigatePush(
+      view: TafseerPage(
+        location: MushafLocation(
+          verseId: verse.verseID,
+          chapterId: verse.chapterId,
+        ),
       ),
     );
   }

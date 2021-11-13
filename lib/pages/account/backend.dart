@@ -7,7 +7,6 @@ class AccountBackend extends SimpleBackend {
   AccountBackend(BuildContext context) : super(context);
 
   late IUserService userService = getService<IUserService>();
-
   User? get currentUser => userService.currentUser;
 
   Future<bool> signOut() async {
@@ -17,5 +16,9 @@ class AccountBackend extends SimpleBackend {
 
   Future<void> signInGoogle() async {
     LoginResult result = await userService.signInGoogle();
+    if (result == LoginResult.DONE) {
+      //TODO: 
+      print("Done");
+    }
   }
 }

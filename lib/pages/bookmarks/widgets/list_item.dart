@@ -45,7 +45,7 @@ class BookmarkListItem extends StatelessWidget {
         ),
         onPressed: () async => await onBookmarkRemove(
           Bookmark(
-            chapterId: verse.chapterId!,
+            chapterId: verse.chapterId,
             verseId: verse.verseID,
           ),
         ),
@@ -56,7 +56,7 @@ class BookmarkListItem extends StatelessWidget {
       ),
       onTap: () async => await onBookmarkClick(
         Bookmark(
-          chapterId: verse.chapterId!,
+          chapterId: verse.chapterId,
           verseId: verse.verseID,
         ),
       ),
