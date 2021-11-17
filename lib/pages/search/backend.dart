@@ -87,10 +87,10 @@ class SearchBackend extends SimpleBackend {
           searchResult.settings.keyword,
           Utils.numberTamyeez(
             count: chaptersCount,
+            single: Localization.SURA_SINGLE,
+            plural: Localization.SURA_PLURAL,
+            mothana: Localization.SURA_MOTHANA,
             isMasculine: false,
-            mothana: "سورتان",
-            plural: "سور",
-            single: "سورة",
           ),
         ],
       );
@@ -99,10 +99,7 @@ class SearchBackend extends SimpleBackend {
         Localization.SEARCH_SUMMARY,
         "#",
         [
-          Utils.convertToArabiNumber(
-            searchResult.totalCount,
-            reverse: false,
-          ),
+          result,
           searchResult.settings.keyword,
           searchResult.collections.first.verses.first.chapterName!,
         ],
