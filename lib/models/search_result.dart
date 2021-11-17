@@ -2,19 +2,33 @@ import 'package:yatadabaron/models/module.dart';
 import 'search_settings.dart';
 
 class SearchResult {
-  final List<VerseCollection> collections;
+  final List<VerseSearchResult> results;
   final SearchSettings settings;
-  SearchResult(this.settings, this.collections);
+  SearchResult({
+    required this.settings,
+    required this.results,
+  });
 
-  List<Verse> get verses {
-    return collections.map((c) => c.verses).expand((v) => v).toList();
+  List<VerseCollection> get collections {
+    List<VerseCollection> cols = [];
+    results.forEach((VerseSearchResult result) {
+      String chapterName = result.verse.chapterName!;
+      List<VerseSearchResult> filteredResults =
+          results.where((v) => v.verse.chapterName == chapterName).toList();
+      cols.add(
+        VerseCollection(
+          results: filteredResults,
+          collectionName: chapterName,
+        ),
+      );
+    });
+    cols.sort((a, b) => a.results.length.compareTo(b.results.length));
+    return cols.reversed.toList();
   }
 
   int get totalCount {
-    int count = 0;
-    collections.forEach((VerseCollection collection) {
-      count += collection.countKeyword(settings.keyword, settings.mode);
-    });
-    return count;
+    return collections
+        .map((VerseCollection collection) => collection.resultsCount)
+        .reduce((a, b) => a + b);
   }
 }

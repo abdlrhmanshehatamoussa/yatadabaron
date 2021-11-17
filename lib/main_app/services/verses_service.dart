@@ -19,12 +19,11 @@ class VersesService
 
   //Search
   @override
-  Future<List<Verse>> keywordSearch(
-    bool basmala,
-    String keyword,
-    SearchMode searchMode,
-    int chapterId,
-  ) async {
+  Future<SearchResult> keywordSearch(SearchSettings searchSettings) async {
+    bool basmala = searchSettings.basmala;
+    String keyword = searchSettings.keyword;
+    SearchMode searchMode = searchSettings.mode;
+    int chapterId = searchSettings.chapterID;
     String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;
     String chapterCondition = (chapterId > 0) ? " = $chapterId " : " > 0 ";
     String textCondition = "";
@@ -57,25 +56,40 @@ class VersesService
     var db = await database(this.databaseFilePath);
 
     //Execute
-    List<Map<String, dynamic>> verses = await db.rawQuery(query);
+    List<Map<String, dynamic>> versesDB = await db.rawQuery(query);
 
     //Map
-    List<Verse> results = verses.map((Map<String, dynamic> verse) {
-      String chapterName = verse["chapter_name"];
-      String verseText = verse["verse_text"];
-      String verseTextTashkel = verse["verse_text_tashkel"];
-      int verseID = verse["verse_id"];
-      int chId = verse["chapter_id"];
-      Verse result = Verse(
+    List<VerseSearchResult> results =
+        versesDB.map((Map<String, dynamic> verseDB) {
+      String chapterName = verseDB["chapter_name"];
+      String verseText = verseDB["verse_text"];
+      String verseTextTashkel = verseDB["verse_text_tashkel"];
+      int verseID = verseDB["verse_id"];
+      int chId = verseDB["chapter_id"];
+      Verse verse = Verse(
         chapterId: chId,
         chapterName: chapterName,
         verseText: verseText,
         verseTextTashkel: verseTextTashkel,
         verseID: verseID,
       );
+      VerseSearchResult result = VerseSearchResult(
+        verse: verse,
+        count: 0,
+        slices: [
+          VerseSlice(
+            text: verseTextTashkel,
+            matched: true,
+          )
+        ],
+      );
       return result;
     }).toList();
-    return results;
+
+    return SearchResult(
+      results: results,
+      settings: searchSettings,
+    );
   }
 
   //Get letters frequency

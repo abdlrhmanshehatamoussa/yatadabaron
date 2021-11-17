@@ -20,7 +20,7 @@ class SearchBackend extends SimpleBackend {
   late IAnalyticsService analyticsService = getService<IAnalyticsService>();
 
   StreamObject<SearchSettings> _settingsBloc = StreamObject();
-  StreamObject<SearchResult> _payloadBloc = StreamObject();
+  StreamObject<SearchResult> _searchResultBloc = StreamObject();
   StreamObject<SearchState> _stateBloc = StreamObject();
   StreamObject<Exception> _errorStream = StreamObject();
 
@@ -34,30 +34,24 @@ class SearchBackend extends SimpleBackend {
     }
 
     _stateBloc.add(SearchState.IN_PROGRESS);
-    List<Verse> results;
-    SearchResult payload;
 
     try {
-      results = await versesService.keywordSearch(settings.basmala,
-          settings.keyword, settings.mode, settings.chapterID);
-      List<VerseCollection> collections = VerseCollection.group(results);
-      payload = SearchResult(settings, collections);
+      SearchResult result = await versesService.keywordSearch(settings);
+      _searchResultBloc.add(result);
+      _stateBloc.add(SearchState.DONE);
     } catch (e) {
       _stateBloc.add(SearchState.INITIAL);
       _errorStream
           .add(Exception("Error occurred while connecting to database"));
       return;
     }
-
-    _payloadBloc.add(payload);
-    _stateBloc.add(SearchState.DONE);
   }
 
   Future<List<Chapter>> getMushafChapters() async {
     return await chaptersService.getAll(includeWholeQuran: true);
   }
 
-  Stream<SearchResult> get payloadStream => _payloadBloc.stream;
+  Stream<SearchResult> get payloadStream => _searchResultBloc.stream;
 
   Stream<SearchSettings> get settingsStream => _settingsBloc.stream;
 
@@ -101,7 +95,7 @@ class SearchBackend extends SimpleBackend {
         [
           result,
           searchResult.settings.keyword,
-          searchResult.collections.first.verses.first.chapterName!,
+          searchResult.results.first.verse.chapterName!,
         ],
       );
     }
@@ -110,9 +104,9 @@ class SearchBackend extends SimpleBackend {
   Future<void> copyAll(SearchResult searchResult) async {
     String summ = summary(searchResult);
     String toCopy = "$summ\n\n";
-    searchResult.verses.forEach((Verse verseDTO) {
+    searchResult.results.forEach((VerseSearchResult verseSearchResult) {
       toCopy +=
-          "${verseDTO.chapterName}\n${verseDTO.verseTextTashkel} {${verseDTO.verseID}}\n\n";
+          "${verseSearchResult.verse.chapterName}\n${verseSearchResult.verse.verseTextTashkel} {${verseSearchResult.verse.verseID}}\n\n";
     });
     Share.share(toCopy);
   }

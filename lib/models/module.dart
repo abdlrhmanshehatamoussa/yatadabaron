@@ -10,3 +10,4 @@ export 'user.dart';
 export 'bookmark.dart';
 export 'search_result.dart';
 export 'search_settings.dart';
+export 'verse_search_result.dart';

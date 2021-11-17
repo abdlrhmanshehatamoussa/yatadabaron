@@ -26,25 +26,22 @@ class SearchResultsList extends StatelessWidget {
         ),
       );
     }
-    SearchSettings settings = searchResult.settings;
     List<VerseCollection> collections = searchResult.collections;
     return ListView.builder(
       itemCount: collections.length,
       itemBuilder: (BuildContext context, int i) {
         VerseCollection collection = collections[i];
         String? collectionName = collection.collectionName;
-        List<Verse> verses = collection.verses;
-        int resultsCount =
-            collection.countKeyword(settings.keyword, settings.mode);
+
         String? resultsCountArabic = Utils.numberTamyeez(
-          count: resultsCount,
+          count: collection.resultsCount,
           single: Localization.RESULT,
           plural: Localization.RESULT_PLURAL,
           mothana: Localization.RESULT_MOTHANA,
           isMasculine: false,
         );
         String? versesCountArabic = Utils.numberTamyeez(
-          count: verses.length,
+          count: collection.results.length,
           single: Localization.VERSE,
           plural: Localization.VERSE_PLURAL,
           mothana: Localization.VERSE_MOTHANA,
@@ -60,24 +57,22 @@ class SearchResultsList extends StatelessWidget {
               fontSize: 13,
             ),
           ),
-          children: verses.map((Verse verse) {
+          children: collection.results.map((VerseSearchResult verseSR) {
             Widget? trailing;
             if (collections.length > 1) {
-              trailing = Text(verse.chapterName!);
+              trailing = Text(verseSR.verse.chapterName!);
             }
-            List<VerseSlice> slices =
-                verse.slice(settings.keyword, settings.mode);
             return Column(
               children: <Widget>[
                 ListTile(
                   title: SearchResultsListItem(
-                    slices: slices,
-                    verseId: verse.verseID,
+                    slices: verseSR.slices,
+                    verseId: verseSR.verse.verseID,
                     matchColor: Theme.of(context).colorScheme.secondary,
                   ),
                   trailing: trailing,
-                  onTap: () => this.onItemPress(verse),
-                  onLongPress: () => this.onItemLongPress(verse),
+                  onTap: () => this.onItemPress(verseSR.verse),
+                  onLongPress: () => this.onItemLongPress(verseSR.verse),
                 ),
                 Divider(
                   thickness: 1,
