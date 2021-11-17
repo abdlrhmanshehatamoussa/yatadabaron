@@ -15,9 +15,9 @@ class Localization {
   static const String CHAPTER = 'السورة';
   static const String EMPTY_SEARCH_RESULTS = 'لم يتم العثور علي نتائج.';
   static const String TAP_SEARCH_BUTTON = 'اضغط علامة البحث للبدء';
-  static const String SEARCH_SUMMARY = 'تم العثور علي (#) نتيجة لكلمة (#) في #';
+  static const String SEARCH_SUMMARY = 'تم العثور علي (#) لكلمة (#) في #';
   static const String SEARCH_SUMMARY_WHOLE_QURAN =
-      'تم العثور علي (#) نتيجة لكلمة (#) في (#) سورة';
+      'تم العثور علي (#) لكلمة (#) في (#) سورة';
   static const String CLOSE = 'الخروج';
   static const String SEARCH_ERROR =
       'حدث خطأ ما أثناء البحث, برجاء المحاولة مرة آخري أو التواصل مع ادارة التطبيق';
@@ -38,7 +38,7 @@ class Localization {
   static const String INCLUDING = 'اعتبار';
   static const String IGNORING = 'تجاهل';
   static const String VERSE = 'آية';
-  static const String VERSES = 'آيات';
+  static const String VERSE_PLURAL = 'آيات';
   static const String MADINA_LOCATION = 'مدنية';
   static const String MECCA_LOCATION = 'مكية';
   static const String SELECT_CHAPTER = 'اختر السورة';
@@ -75,4 +75,7 @@ class Localization {
   static const String WELCOME = "مرحباً";
   static const String ACCOUNT_MANAGEMENT = "إدارة الحساب";
   static const String GUEST = "زائر";
+  static const String RESULT = "نتيجة";
+  static const String RESULT_PLURAL = "نتائج";
+  static const String RESULT_MOTHANA = "نتيجتان";
 }

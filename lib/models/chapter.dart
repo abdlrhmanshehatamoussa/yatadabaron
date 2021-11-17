@@ -28,7 +28,7 @@ class Chapter {
         Utils.convertToArabiNumber(verseCount, reverse: false);
     String prefix = Localization.VERSE;
     if (verseCount <= 10) {
-      prefix = Localization.VERSES;
+      prefix = Localization.VERSE_PLURAL;
     }
     return "$locationStr | $versesCountInArabic $prefix";
   }
