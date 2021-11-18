@@ -1,5 +1,6 @@
 import 'package:yatadabaron/main_app/services/verses_service.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/pages/search/view_models/colorized_span.dart';
 
 void main() async {
   Verse v = Verse(
@@ -17,5 +18,6 @@ void main() async {
     mode: SearchMode.WITHIN,
   );
   VerseSearchResult result = VersesService.buildResultResult(v, settings);
-  print(result);
+  var splited = ColorizedSpan.splitVerse(result: result);
+  print(splited);
 }

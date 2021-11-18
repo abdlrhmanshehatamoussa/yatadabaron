@@ -1,6 +1,4 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
-import 'package:archive/archive.dart';
-
 import './localization.dart';
 import 'package:flutter/material.dart';
 

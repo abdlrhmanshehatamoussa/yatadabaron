@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/models/verse_match.dart';
+import 'package:yatadabaron/models/module.dart';
 
 class ColorizedSpan {
   final String text;
@@ -11,11 +11,11 @@ class ColorizedSpan {
   });
 
   static List<ColorizedSpan> splitVerse({
-    required String verseText,
-    required List<VerseMatch> matches,
+    required VerseSearchResult result,
     Color? normalColor,
     Color? matchColor,
   }) {
+    //TODO:
     return [];
   }
 }

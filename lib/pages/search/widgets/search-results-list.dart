@@ -69,8 +69,7 @@ class SearchResultsList extends StatelessWidget {
                 ListTile(
                   title: SearchResultsListItem(
                     spans: ColorizedSpan.splitVerse(
-                      verseText: verseSearchResult.verse.verseText,
-                      matches: verseSearchResult.matches,
+                      result: verseSearchResult,
                       matchColor: Theme.of(context).colorScheme.secondary,
                     ),
                     verseId: verseSearchResult.verse.verseID,
