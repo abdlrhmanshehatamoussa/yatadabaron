@@ -4,10 +4,29 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
+class SearchFormBackend {
+  SearchSettings settings = SearchSettings.empty();
+  void updateKeyword(String newKeyword) {
+    settings = settings.copyWithKeyword(newKeyword);
+  }
+
+  void updateBasmala(bool newBasmala) {
+    settings = settings.copyWithBasmala(newBasmala);
+  }
+
+  void updateChapterId(int newChapterId) {
+    settings = settings.copyWithChapterId(newChapterId);
+  }
+
+  void updateMode(SearchMode newMode) {
+    settings = settings.copyWithMode(newMode);
+  }
+}
+
 class SearchForm extends StatelessWidget {
   final Future<List<Chapter>> chaptersFuture;
   final Function(SearchSettings settings) onSearch;
-  final SearchSettings settings = SearchSettings.empty();
+  final SearchFormBackend backend = SearchFormBackend();
   final TextEditingController keywordController = TextEditingController();
 
   SearchForm({
@@ -20,9 +39,10 @@ class SearchForm extends StatelessWidget {
       controller: keywordController,
       autofocus: false,
       decoration: InputDecoration(
-          suffix: Icon(Icons.search),
-          hintText: Localization.ENTER_SEARCH_KEYWORD,
-          labelText: Localization.ENTER_SEARCH_KEYWORD),
+        suffix: Icon(Icons.search),
+        hintText: Localization.ENTER_SEARCH_KEYWORD,
+        labelText: Localization.ENTER_SEARCH_KEYWORD,
+      ),
     );
   }
 
@@ -49,11 +69,11 @@ class SearchForm extends StatelessWidget {
                 builder: (_, setState) {
                   return DropdownButton<SearchMode>(
                     items: menuItems,
-                    value: settings.mode,
+                    value: backend.settings.mode,
                     onChanged: (SearchMode? s) {
                       setState(() {
                         if (s != null) {
-                          settings.mode = s;
+                          backend.updateMode(s);
                         }
                       });
                     },
@@ -94,11 +114,11 @@ class SearchForm extends StatelessWidget {
                       builder: (context, setState) {
                         return DropdownButton<int>(
                           items: menuItems,
-                          value: settings.chapterID,
+                          value: backend.settings.chapterID,
                           onChanged: (int? s) {
                             setState(() {
                               if (s != null) {
-                                settings.chapterID = s;
+                                backend.updateChapterId(s);
                               }
                             });
                           },
@@ -130,10 +150,10 @@ class SearchForm extends StatelessWidget {
             child: StatefulBuilder(
               builder: (context, setState) {
                 return Switch(
-                  value: settings.basmala,
+                  value: backend.settings.basmala,
                   onChanged: (bool val) async {
                     setState(() {
-                      settings.basmala = val;
+                      backend.updateBasmala(val);
                     });
                   },
                 );
@@ -166,7 +186,7 @@ class SearchForm extends StatelessWidget {
         context: context,
         onTap: () async {
           try {
-            this.onSearch(settings);
+            this.onSearch(backend.settings);
           } catch (e) {}
           Navigator.of(context).pop();
         },
@@ -190,7 +210,7 @@ class SearchForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     keywordController.addListener(() {
-      settings.keyword = keywordController.text;
+      backend.updateKeyword(keywordController.text);
     });
     return SingleChildScrollView(
       child: Column(
