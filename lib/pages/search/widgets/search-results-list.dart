@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/pages/search/view_models/colorized_span.dart';
 import 'list-item.dart';
 
 class SearchResultsList extends StatelessWidget {
@@ -57,7 +58,8 @@ class SearchResultsList extends StatelessWidget {
               fontSize: 13,
             ),
           ),
-          children: collection.results.map((VerseSearchResult verseSearchResult) {
+          children:
+              collection.results.map((VerseSearchResult verseSearchResult) {
             Widget? trailing;
             if (collections.length > 1) {
               trailing = Text(verseSearchResult.verse.chapterName!);
@@ -66,13 +68,17 @@ class SearchResultsList extends StatelessWidget {
               children: <Widget>[
                 ListTile(
                   title: SearchResultsListItem(
-                    slices: verseSearchResult.textTashkeelMatches,
+                    spans: ColorizedSpan.splitVerse(
+                      verseText: verseSearchResult.verse.verseText,
+                      matches: verseSearchResult.matches,
+                      matchColor: Theme.of(context).colorScheme.secondary,
+                    ),
                     verseId: verseSearchResult.verse.verseID,
-                    matchColor: Theme.of(context).colorScheme.secondary,
                   ),
                   trailing: trailing,
                   onTap: () => this.onItemPress(verseSearchResult.verse),
-                  onLongPress: () => this.onItemLongPress(verseSearchResult.verse),
+                  onLongPress: () =>
+                      this.onItemLongPress(verseSearchResult.verse),
                 ),
                 Divider(
                   thickness: 1,

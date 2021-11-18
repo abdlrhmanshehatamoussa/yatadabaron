@@ -11,8 +11,9 @@ class SearchResult {
 
   List<VerseCollection> get collections {
     List<VerseCollection> cols = [];
-    results.forEach((VerseSearchResult result) {
-      String chapterName = result.verse.chapterName!;
+    List<String> chapterNames =
+        results.map((r) => r.verse.chapterName!).toSet().toList();
+    chapterNames.forEach((String chapterName) {
       List<VerseSearchResult> filteredResults =
           results.where((v) => v.verse.chapterName == chapterName).toList();
       cols.add(

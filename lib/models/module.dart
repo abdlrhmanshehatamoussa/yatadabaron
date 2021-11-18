@@ -1,6 +1,6 @@
 export 'verse-collection.dart';
 export 'verse.dart';
-export 'verse_slice.dart';
+export 'verse_match.dart';
 export 'verse_tafseer.dart';
 export 'tafseer_source.dart';
 export 'chapter.dart';

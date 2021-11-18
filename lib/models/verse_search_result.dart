@@ -3,14 +3,12 @@ import 'verse.dart';
 
 class VerseSearchResult {
   final Verse verse;
-  final List<VerseSlice> textTashkeelMatches;
-  final List<VerseSlice> textMatches;
+  final List<VerseMatch> matches;
 
-  int get count => textTashkeelMatches.where((s) => s.matched).length;
+  int get count => matches.length;
 
   VerseSearchResult({
     required this.verse,
-    required this.textTashkeelMatches,
-    required this.textMatches,
+    required this.matches,
   });
 }

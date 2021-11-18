@@ -1,4 +1,5 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
+import 'package:archive/archive.dart';
 
 import './localization.dart';
 import 'package:flutter/material.dart';
@@ -229,5 +230,15 @@ class Utils {
       }
     }
     return reduced;
+  }
+
+  static List<int> findIndices(String needle, String stack) {
+    List<int> results = [];
+    int index = stack.indexOf(needle);
+    while (index >= 0) {
+      results.add(index);
+      index = stack.indexOf(needle, index + needle.length);
+    }
+    return results;
   }
 }
