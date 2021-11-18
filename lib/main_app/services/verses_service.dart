@@ -43,7 +43,8 @@ class VersesService
     SearchMode searchMode = searchSettings.mode;
     int chapterId = searchSettings.chapterID;
     String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;
-    String chapterCondition = (chapterId > 0) ? " = $chapterId " : " > 0 ";
+    bool wholeQuran = searchSettings.searchInWholeQuran;
+    String chapterCondition = wholeQuran ? " > 0 " : " = $chapterId ";
     String textCondition = "";
     switch (searchMode) {
       case SearchMode.START:

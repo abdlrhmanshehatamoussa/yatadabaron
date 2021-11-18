@@ -1,6 +1,6 @@
 import 'package:yatadabaron/models/module.dart';
 
-class SearchSettings{
+class SearchSettings {
   String keyword;
   bool basmala;
   SearchMode mode;
@@ -8,8 +8,9 @@ class SearchSettings{
 
   SearchSettings(this.keyword, this.basmala, this.mode, this.chapterID);
 
+  bool get searchInWholeQuran => chapterID == 0;
 
-  static SearchSettings empty(){
+  static SearchSettings empty() {
     return new SearchSettings("", false, SearchMode.WITHIN, 0);
-  } 
+  }
 }

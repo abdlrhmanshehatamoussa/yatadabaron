@@ -64,7 +64,7 @@ class SearchBackend extends SimpleBackend {
       return Localization.EMPTY_SEARCH_RESULTS;
     }
     int chaptersCount = searchResult.collections.length;
-    bool searchInWholeQuran = searchResult.settings.chapterID == 0;
+    bool wholeQuran = searchResult.settings.searchInWholeQuran;
     String result = Utils.numberTamyeez(
       count: searchResult.totalCount,
       isMasculine: false,
@@ -72,7 +72,7 @@ class SearchBackend extends SimpleBackend {
       plural: Localization.RESULT_PLURAL,
       single: Localization.RESULT,
     );
-    if (searchInWholeQuran) {
+    if (wholeQuran) {
       return Utils.replaceMultiple(
         Localization.SEARCH_SUMMARY_WHOLE_QURAN,
         "#",
