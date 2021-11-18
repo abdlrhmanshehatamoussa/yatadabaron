@@ -17,6 +17,24 @@ class VersesService
   static const String TABLE_NAME_BASMALA = "verses_with_basmala";
   static const String TABLE_NAME_NO_BASMALA = "verses";
 
+  VerseSearchResult _buildResultResult(Verse verse, SearchSettings settings) {
+    return VerseSearchResult(
+      verse: verse,
+      textTashkeelMatches: [
+        VerseSlice(
+          text: verse.verseTextTashkel,
+          matched: true,
+        )
+      ],
+      textMatches: [
+        VerseSlice(
+          text: verse.verseText,
+          matched: true,
+        )
+      ],
+    );
+  }
+
   //Search
   @override
   Future<SearchResult> keywordSearch(SearchSettings searchSettings) async {
@@ -73,16 +91,7 @@ class VersesService
         verseTextTashkel: verseTextTashkel,
         verseID: verseID,
       );
-      VerseSearchResult result = VerseSearchResult(
-        verse: verse,
-        count: 0,
-        slices: [
-          VerseSlice(
-            text: verseTextTashkel,
-            matched: true,
-          )
-        ],
-      );
+      VerseSearchResult result = _buildResultResult(verse, searchSettings);
       return result;
     }).toList();
 

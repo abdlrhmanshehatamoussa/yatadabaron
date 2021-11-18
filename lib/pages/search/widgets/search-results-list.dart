@@ -57,22 +57,22 @@ class SearchResultsList extends StatelessWidget {
               fontSize: 13,
             ),
           ),
-          children: collection.results.map((VerseSearchResult verseSR) {
+          children: collection.results.map((VerseSearchResult verseSearchResult) {
             Widget? trailing;
             if (collections.length > 1) {
-              trailing = Text(verseSR.verse.chapterName!);
+              trailing = Text(verseSearchResult.verse.chapterName!);
             }
             return Column(
               children: <Widget>[
                 ListTile(
                   title: SearchResultsListItem(
-                    slices: verseSR.slices,
-                    verseId: verseSR.verse.verseID,
+                    slices: verseSearchResult.textTashkeelMatches,
+                    verseId: verseSearchResult.verse.verseID,
                     matchColor: Theme.of(context).colorScheme.secondary,
                   ),
                   trailing: trailing,
-                  onTap: () => this.onItemPress(verseSR.verse),
-                  onLongPress: () => this.onItemLongPress(verseSR.verse),
+                  onTap: () => this.onItemPress(verseSearchResult.verse),
+                  onLongPress: () => this.onItemLongPress(verseSearchResult.verse),
                 ),
                 Divider(
                   thickness: 1,
