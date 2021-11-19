@@ -1,5 +1,6 @@
 export 'verse-collection.dart';
 export 'verse.dart';
+export 'verse_match.dart';
 export 'verse_tafseer.dart';
 export 'tafseer_source.dart';
 export 'chapter.dart';
@@ -7,3 +8,7 @@ export 'release_info.dart';
 export 'enums.dart';
 export 'user.dart';
 export 'bookmark.dart';
+export 'search_result.dart';
+export 'keyword_search_settings.dart';
+export 'basic_search_settings.dart';
+export 'verse_search_result.dart';

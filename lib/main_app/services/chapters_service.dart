@@ -1,4 +1,3 @@
-import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
@@ -14,7 +13,7 @@ class ChaptersService
   });
 
   @override
-  Future<List<Chapter>> getAll({required bool includeWholeQuran}) async {
+  Future<List<Chapter>> getAll() async {
     //Prepare Query
     String query = "select * from chapters";
 
@@ -24,18 +23,11 @@ class ChaptersService
     List<Chapter> results = chapters.map((Map<String, dynamic> chapterMap) {
       return Chapter.fromMap(chapterMap);
     }).toList();
-    if (includeWholeQuran) {
-      results.insert(0, Chapter.holyQuran());
-    }
     return results;
   }
 
   @override
-  Future<String?> getChapterName(int chapterID) async {
-    if (chapterID == 0) {
-      return Localization.WHOLE_QURAN;
-    }
-
+  Future<String> getChapterName(int chapterID) async {
     //Prepare Query
     String query =
         "select arabic as name from chapters where c0sura = $chapterID limit 1";

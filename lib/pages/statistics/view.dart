@@ -69,8 +69,14 @@ class StatisticsPage extends StatelessWidget {
       floatingButton: FloatingActionButton(
         child: Icon(Icons.insert_chart),
         mini: true,
-        onPressed: () {
-          StatisticsForm.show(context, backend);
+        onPressed: () async {
+          await StatisticsForm.show(
+            context: context,
+            chaptersFuture: backend.getMushafChapters(),
+            onFormSubmit: (BasicSearchSettings searchSettings) async {
+              await backend.changeSettings(searchSettings);
+            },
+          );
         },
       ),
     );

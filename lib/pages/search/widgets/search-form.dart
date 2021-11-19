@@ -1,29 +1,102 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/models/module.dart';
-import '../view_models/search-settings.dart';
 import 'package:yatadabaron/widgets/module.dart';
+import 'package:yatadabaron/models/module.dart';
 
-class SearchForm extends StatelessWidget {
-  final Future<List<Chapter>> chaptersFuture;
-  final Function(SearchSettings settings) onSearch;
-  final SearchSettings settings = SearchSettings.empty();
-  final TextEditingController keywordController = TextEditingController();
-
+class SearchForm extends StatefulWidget {
   SearchForm({
     required this.chaptersFuture,
     required this.onSearch,
   });
+
+  final Future<List<Chapter>> chaptersFuture;
+  final Function(KeywordSearchSettings settings) onSearch;
+
+  @override
+  State<StatefulWidget> createState() => _State();
+
+  static Future show({
+    required BuildContext context,
+    required Future<List<Chapter>> chaptersFuture,
+    required Function(KeywordSearchSettings settings) onSearch,
+  }) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(10),
+              child: SearchForm(
+                onSearch: onSearch,
+                chaptersFuture: chaptersFuture,
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _State extends State<SearchForm> {
+  final TextEditingController keywordController = TextEditingController();
+  KeywordSearchSettings settings = KeywordSearchSettings();
+
+  @override
+  Widget build(BuildContext context) {
+    keywordController.addListener(() {
+      setState(() {
+        settings = settings.updateKeyword(keywordController.text);
+      });
+    });
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          searchKeywordWidget(),
+          Divider(),
+          searchModeWidget(),
+          Divider(),
+          searchInQuranWidget(
+            value: settings.searchInWholeQuran,
+            onChanged: (bool v) {
+              setState(() {
+                if (v) {
+                  settings = settings.updateChapterId(null);
+                } else {
+                  settings = settings.updateChapterId(1);
+                }
+              });
+            },
+          ),
+          settings.searchInWholeQuran ? Container() : chapterWidget(),
+          Divider(),
+          basmalaWidget(),
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              searchButton(context),
+              closeButton(context),
+            ],
+          )
+        ],
+      ),
+      scrollDirection: Axis.vertical,
+    );
+  }
 
   Widget searchKeywordWidget() {
     return TextField(
       controller: keywordController,
       autofocus: false,
       decoration: InputDecoration(
-          suffix: Icon(Icons.search),
-          hintText: Localization.ENTER_SEARCH_KEYWORD,
-          labelText: Localization.ENTER_SEARCH_KEYWORD),
+        suffix: Icon(Icons.search),
+        hintText: Localization.ENTER_SEARCH_KEYWORD,
+        labelText: Localization.ENTER_SEARCH_KEYWORD,
+      ),
     );
   }
 
@@ -35,114 +108,81 @@ class SearchForm extends StatelessWidget {
         value: m,
       );
     }).toList();
-
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(Localization.SEARCH_MODE),
-            flex: 1,
-          ),
-          Expanded(
-            flex: 1,
-            child: DropdownButtonHideUnderline(
-              child: StatefulBuilder(
-                builder: (_, setState) {
-                  return DropdownButton<SearchMode>(
-                    items: menuItems,
-                    value: settings.mode,
-                    onChanged: (SearchMode? s) {
-                      setState(() {
-                        if (s != null) {
-                          settings.mode = s;
-                        }
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
-          )
-        ],
+    return ListTile(
+      title: Text(Localization.SEARCH_MODE),
+      trailing: DropdownButtonHideUnderline(
+        child: DropdownButton<SearchMode>(
+          items: menuItems,
+          value: settings.mode,
+          onChanged: (SearchMode? s) {
+            setState(() {
+              if (s != null) {
+                settings = settings.updateMode(s);
+              }
+            });
+          },
+        ),
       ),
     );
   }
 
   Widget chapterWidget() {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(Localization.CHAPTER),
-            flex: 1,
-          ),
-          Expanded(
-            flex: 1,
-            child: FutureBuilder<List<Chapter>>(
-              future: this.chaptersFuture,
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<Chapter>> snapshot) {
-                if (snapshot.hasData) {
-                  List<DropdownMenuItem<int>> menuItems =
-                      snapshot.data!.map((Chapter dto) {
-                    return DropdownMenuItem<int>(
-                      child: Text(dto.chapterNameAR),
-                      value: dto.chapterID,
-                    );
-                  }).toList();
-                  return DropdownButtonHideUnderline(
-                    child: StatefulBuilder(
-                      builder: (context, setState) {
-                        return DropdownButton<int>(
-                          items: menuItems,
-                          value: settings.chapterID,
-                          onChanged: (int? s) {
-                            setState(() {
-                              if (s != null) {
-                                settings.chapterID = s;
-                              }
-                            });
-                          },
-                        );
-                      },
-                    ),
-                  );
-                }
-                return Center(
-                  child: LoadingWidget(),
-                );
+    return CustomFutureBuilder(
+      future: widget.chaptersFuture,
+      loading: LoadingWidget(),
+      done: (List<Chapter> chapters) {
+        List<DropdownMenuItem<int>> menuItems = chapters.map((Chapter chapter) {
+          return DropdownMenuItem<int>(
+            child: Text(chapter.chapterNameAR),
+            value: chapter.chapterID,
+          );
+        }).toList();
+        return ListTile(
+          title: DropdownButtonHideUnderline(
+            child: DropdownButton<int>(
+              items: menuItems,
+              value: settings.chapterID,
+              onChanged: (int? s) {
+                setState(() {
+                  if (s != null) {
+                    settings = settings.updateChapterId(s);
+                  }
+                });
               },
             ),
-          )
-        ],
-      ),
+          ),
+        );
+      },
     );
   }
 
   Widget basmalaWidget() {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(Localization.BASMALA_MODE),
-            flex: 3,
-          ),
-          Expanded(
-            child: StatefulBuilder(
-              builder: (context, setState) {
-                return Switch(
-                  value: settings.basmala,
-                  onChanged: (bool val) async {
-                    setState(() {
-                      settings.basmala = val;
-                    });
-                  },
-                );
-              },
-            ),
-            flex: 1,
-          ),
-        ],
+    return ListTile(
+      title: Text(Localization.BASMALA_MODE),
+      trailing: StatefulBuilder(
+        builder: (context, setState) {
+          return Switch(
+            value: settings.basmala,
+            onChanged: (bool val) async {
+              setState(() {
+                settings.updateBasmala(val);
+              });
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Widget searchInQuranWidget({
+    required bool value,
+    required Function(bool v) onChanged,
+  }) {
+    return ListTile(
+      title: Text(Localization.SEARCH_IN_WHOLE_QURAN),
+      trailing: Switch(
+        value: value,
+        onChanged: onChanged,
       ),
     );
   }
@@ -167,7 +207,7 @@ class SearchForm extends StatelessWidget {
         context: context,
         onTap: () async {
           try {
-            this.onSearch(settings);
+            widget.onSearch(settings);
           } catch (e) {}
           Navigator.of(context).pop();
         },
@@ -185,55 +225,6 @@ class SearchForm extends StatelessWidget {
             Navigator.of(context).pop();
           },
           text: Localization.CLOSE),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    keywordController.addListener(() {
-      settings.keyword = keywordController.text;
-    });
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          searchKeywordWidget(),
-          Divider(),
-          chapterWidget(),
-          Divider(),
-          searchModeWidget(),
-          Divider(),
-          basmalaWidget(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[searchButton(context), closeButton(context)],
-          )
-        ],
-      ),
-      scrollDirection: Axis.vertical,
-    );
-  }
-
-  static Future show({
-    required BuildContext context,
-    required Future<List<Chapter>> chaptersFuture,
-    required Function(SearchSettings settings) onSearch,
-  }) async {
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(10),
-              child: SearchForm(
-                onSearch: onSearch,
-                chaptersFuture: chaptersFuture,
-              ),
-            )
-          ],
-        );
-      },
     );
   }
 }

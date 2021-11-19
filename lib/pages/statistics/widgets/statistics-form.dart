@@ -3,90 +3,92 @@ import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../backend.dart';
-import '../view_models/statistics-settings.dart';
 
-class StatisticsForm extends StatelessWidget {
-  final StatisticsBackend bloc;
-  final StatisticsSettings settings = StatisticsSettings.empty();
+class StatisticsForm extends StatefulWidget {
+  final void Function(BasicSearchSettings) onFormSubmit;
+  final Future<List<Chapter>> chaptersFuture;
 
-  StatisticsForm(this.bloc);
+  const StatisticsForm({
+    Key? key,
+    required this.onFormSubmit,
+    required this.chaptersFuture,
+  }) : super(key: key);
 
-  Widget chapterWidget() {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(Localization.CHAPTER),
-            flex: 1,
-          ),
-          Expanded(
-            flex: 1,
-            child: FutureBuilder<List<Chapter>>(
-              future: bloc.getMushafChapters(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<Chapter>> snapshot) {
-                if (snapshot.hasData) {
-                  List<DropdownMenuItem<int>> menuItems =
-                      snapshot.data!.map((Chapter dto) {
-                    return DropdownMenuItem<int>(
-                      child: Text(dto.chapterNameAR),
-                      value: dto.chapterID,
-                    );
-                  }).toList();
-                  return DropdownButtonHideUnderline(
-                    child: StatefulBuilder(
-                      builder: (context, setState) {
-                        return DropdownButton<int>(
-                          items: menuItems,
-                          value: settings.chapterId,
-                          onChanged: (int? s) {
-                            setState(() {
-                              if (s != null) {
-                                settings.chapterId = s;
-                              }
-                            });
-                          },
-                        );
-                      },
-                    ),
-                  );
-                }
-                return Center(
-                  child: LoadingWidget(),
-                );
-              },
+  @override
+  State<StatefulWidget> createState() => _State();
+
+  static Future<void> show({
+    required BuildContext context,
+    required void Function(BasicSearchSettings) onFormSubmit,
+    required Future<List<Chapter>> chaptersFuture,
+  }) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(10),
+              child: StatisticsForm(
+                chaptersFuture: chaptersFuture,
+                onFormSubmit: onFormSubmit,
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _State extends State<StatisticsForm> {
+  BasicSearchSettings settings = BasicSearchSettings();
+
+  Widget chapterWidget({
+    required Future<List<Chapter>> chaptersFuture,
+    required void Function(int?) onChanged,
+    required int? value,
+  }) {
+    return FutureBuilder<List<Chapter>>(
+      future: chaptersFuture,
+      builder: (BuildContext context, AsyncSnapshot<List<Chapter>> snapshot) {
+        if (snapshot.hasData) {
+          List<DropdownMenuItem<int>> menuItems =
+              snapshot.data!.map((Chapter dto) {
+            return DropdownMenuItem<int>(
+              child: Text(dto.chapterNameAR),
+              value: dto.chapterID,
+            );
+          }).toList();
+          return ListTile(
+            title: Text(Localization.CHAPTER),
+            trailing: DropdownButtonHideUnderline(
+              child: DropdownButton<int>(
+                items: menuItems,
+                value: value,
+                onChanged: onChanged,
+              ),
             ),
-          )
-        ],
-      ),
+          );
+        }
+        return Center(
+          child: LoadingWidget(),
+        );
+      },
     );
   }
 
-  Widget basmalaWidget() {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(Localization.BASMALA_MODE),
-            flex: 3,
-          ),
-          Expanded(
-            child: StatefulBuilder(
-              builder: (context, setState) {
-                return Switch(
-                  value: settings.basmala,
-                  onChanged: (bool val) async {
-                    setState(() {
-                      settings.basmala = val;
-                    });
-                  },
-                );
-              },
-            ),
-            flex: 1,
-          ),
-        ],
+  Widget _switch({
+    required bool value,
+    required String title,
+    required void Function(bool v) onChanged,
+  }) {
+    return ListTile(
+      title: Text(title),
+      trailing: Switch(
+        value: value,
+        onChanged: onChanged,
       ),
     );
   }
@@ -97,23 +99,6 @@ class StatisticsForm extends StatelessWidget {
       required String text}) {
     return ElevatedButton(
         onPressed: onPressed as void Function()?, child: Text(text));
-  }
-
-  Widget searchButton(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(5),
-      child: _customButton(
-          context: context,
-          onPressed: () {
-            try {
-              this.bloc.changeSettings(settings);
-            } catch (e) {
-              print("Error: ${e.toString()}");
-            }
-            Navigator.of(context).pop();
-          },
-          text: Localization.SEARCH),
-    );
   }
 
   Widget closeButton(BuildContext context) {
@@ -130,36 +115,66 @@ class StatisticsForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget _chaptersWidget = Container();
+    if (settings.wholeQuran == false) {
+      _chaptersWidget = chapterWidget(
+        chaptersFuture: widget.chaptersFuture,
+        value: settings.chapterId,
+        onChanged: (int? id) {
+          setState(() {
+            if (id != null) {
+              settings = settings.updateChapterId(id);
+            }
+          });
+        },
+      );
+    }
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          chapterWidget(),
-          Divider(),
-          basmalaWidget(),
+          _switch(
+            title: Localization.SEARCH_IN_WHOLE_QURAN,
+            value: settings.wholeQuran,
+            onChanged: (bool whole) {
+              setState(() {
+                if (whole) {
+                  settings = settings.updateChapterId(null);
+                } else {
+                  settings = settings.updateChapterId(1);
+                }
+              });
+            },
+          ),
+          _chaptersWidget,
+          settings.wholeQuran ? Container() : Divider(),
+          _switch(
+            title: Localization.BASMALA_MODE,
+            value: settings.basmala,
+            onChanged: (bool basmala) {
+              setState(() {
+                settings = settings.updateBasmala(basmala);
+              });
+            },
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[searchButton(context), closeButton(context)],
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(5),
+                child: _customButton(
+                    context: context,
+                    onPressed: () {
+                      widget.onFormSubmit(settings);
+                      Navigator.of(context).pop();
+                    },
+                    text: Localization.SEARCH),
+              ),
+              closeButton(context),
+            ],
           )
         ],
       ),
       scrollDirection: Axis.vertical,
-    );
-  }
-
-  static void show(BuildContext context, StatisticsBackend bloc) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(10),
-              child: StatisticsForm(bloc),
-            )
-          ],
-        );
-      },
     );
   }
 }

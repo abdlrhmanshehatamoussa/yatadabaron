@@ -1,5 +1,4 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
-
 import './localization.dart';
 import 'package:flutter/material.dart';
 
@@ -105,16 +104,16 @@ class Utils {
     ];
   }
 
-  static String? numberTamyeez({
-    String? single,
-    String? plural,
-    String? mothana,
-    int? count,
-    bool? isMasculine,
+  static String numberTamyeez({
+    required String single,
+    required String plural,
+    required String mothana,
+    required int count,
+    required bool isMasculine,
   }) {
     String countAr = Utils.convertToArabiNumber(count, reverse: false);
     if (count == 1) {
-      if (isMasculine!) {
+      if (isMasculine) {
         return "$single ${Localization.ONE_MASC}";
       } else {
         return "$single ${Localization.ONE_FEM}";
@@ -123,7 +122,7 @@ class Utils {
     if (count == 2) {
       return mothana;
     }
-    if (count! <= 10) {
+    if (count <= 10) {
       return "$countAr $plural";
     } else {
       return "$countAr $single";
@@ -229,5 +228,15 @@ class Utils {
       }
     }
     return reduced;
+  }
+
+  static List<List<int>> findIndices(String needle, String haystack) {
+    List<List<int>> results = [];
+    int index = haystack.indexOf(needle);
+    while (index >= 0) {
+      results.add([index, index + needle.length - 1]);
+      index = haystack.indexOf(needle, index + needle.length);
+    }
+    return results;
   }
 }

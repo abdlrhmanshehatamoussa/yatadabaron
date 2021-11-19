@@ -7,8 +7,6 @@ import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/viewmodels/module.dart';
-import 'view_models/search-session-payload.dart';
-import 'view_models/search-settings.dart';
 
 class SearchBackend extends SimpleBackend {
   SearchBackend(BuildContext context) : super(context) {
@@ -19,12 +17,12 @@ class SearchBackend extends SimpleBackend {
   late IVersesService versesService = getService<IVersesService>();
   late IAnalyticsService analyticsService = getService<IAnalyticsService>();
 
-  StreamObject<SearchSettings> _settingsBloc = StreamObject();
-  StreamObject<SearchSessionPayload> _payloadBloc = StreamObject();
+  StreamObject<KeywordSearchSettings> _settingsBloc = StreamObject();
+  StreamObject<SearchResult> _searchResultBloc = StreamObject();
   StreamObject<SearchState> _stateBloc = StreamObject();
   StreamObject<Exception> _errorStream = StreamObject();
 
-  Future changeSettings(SearchSettings settings) async {
+  Future changeSettings(KeywordSearchSettings settings) async {
     String log =
         "KEYWORD=${settings.keyword}|MODE=${describeEnum(settings.mode)}|LOCATION=${settings.chapterID}|BASMALA=${settings.basmala}";
     analyticsService.logFormFilled("SEARCH FORM", payload: log);
@@ -34,40 +32,32 @@ class SearchBackend extends SimpleBackend {
     }
 
     _stateBloc.add(SearchState.IN_PROGRESS);
-    List<Verse> results;
-    SearchSessionPayload payload;
 
     try {
-      results = await versesService.keywordSearch(settings.basmala,
-          settings.keyword, settings.mode, settings.chapterID);
-      String? chapterName =
-          await chaptersService.getChapterName(settings.chapterID);
-      payload = SearchSessionPayload(settings, chapterName, results);
+      SearchResult result = await versesService.keywordSearch(settings);
+      _searchResultBloc.add(result);
+      _stateBloc.add(SearchState.DONE);
     } catch (e) {
       _stateBloc.add(SearchState.INITIAL);
       _errorStream
           .add(Exception("Error occurred while connecting to database"));
       return;
     }
-
-    _payloadBloc.add(payload);
-    _stateBloc.add(SearchState.DONE);
   }
 
   Future<List<Chapter>> getMushafChapters() async {
-    return await chaptersService.getAll(includeWholeQuran: true);
+    return await chaptersService.getAll();
   }
 
-  Stream<SearchSessionPayload> get payloadStream => _payloadBloc.stream;
+  Stream<SearchResult> get payloadStream => _searchResultBloc.stream;
 
-  Stream<SearchSettings> get settingsStream => _settingsBloc.stream;
+  Stream<KeywordSearchSettings> get settingsStream => _settingsBloc.stream;
 
   Stream<SearchState> get stateStream => _stateBloc.stream;
 
   Stream<Exception> get errorStream => _errorStream.stream;
 
-  Future<void> copyAll(SearchSessionPayload payload) async {
-    String toCopy = payload.copyAllString();
+  Future<void> share(String toCopy) async {
     Share.share(toCopy);
   }
 

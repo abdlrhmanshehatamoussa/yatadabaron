@@ -7,8 +7,6 @@ import 'package:yatadabaron/widgets/module.dart';
 import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
 import './widgets/search-summary.dart';
-import 'view_models/search-session-payload.dart';
-import 'view_models/search-settings.dart';
 
 class SearchPage extends StatelessWidget {
   Widget customText(String text) {
@@ -24,28 +22,34 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SearchBackend backend = SearchBackend(context);
-    Widget searchResultsArea = Column(
-      children: <Widget>[
-        SearchSummaryWidget(
-          payloadStream: backend.payloadStream,
-          onPressed: (SearchSessionPayload payload) async {
-            await backend.copyAll(payload);
-          },
-        ),
-        Divider(
-          height: 5,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        Expanded(
-          flex: 1,
-          child: SearchResultsList(
-            payloadStream: backend.payloadStream,
-            onItemLongPress: (Verse verse) async =>
-                await backend.copyVerse(verse),
-            onItemPress: backend.goMushafPage,
-          ),
-        )
-      ],
+    Widget searchResultsArea = CustomStreamBuilder<SearchResult>(
+      stream: backend.payloadStream,
+      loading: LoadingWidget(),
+      done: (SearchResult searchResult) {
+        return Column(
+          children: <Widget>[
+            SearchSummaryWidget(
+              searchResult: searchResult,
+              onShare: (String summary) async {
+                await backend.share(summary);
+              },
+            ),
+            Divider(
+              height: 5,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            Expanded(
+              flex: 1,
+              child: SearchResultsList(
+                searchResult: searchResult,
+                onItemLongPress: (Verse verse) async =>
+                    await backend.copyVerse(verse),
+                onItemPress: backend.goMushafPage,
+              ),
+            )
+          ],
+        );
+      },
     );
 
     Widget floatingButton = FloatingActionButton(
@@ -53,7 +57,7 @@ class SearchPage extends StatelessWidget {
         await SearchForm.show(
           context: context,
           chaptersFuture: backend.getMushafChapters(),
-          onSearch: (SearchSettings settings) async {
+          onSearch: (KeywordSearchSettings settings) async {
             await backend.changeSettings(settings);
           },
         );
