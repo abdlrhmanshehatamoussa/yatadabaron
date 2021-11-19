@@ -22,9 +22,8 @@ class MushafPage extends StatelessWidget {
       mushafSettings: this.mushafSettings,
       context: context,
     );
-    return CustomPageWrapper(
-      pageTitle: Localization.MUSHAF_SHARIF,
-      child: StreamBuilder<MushafPageState>(
+    return Scaffold(
+      body: StreamBuilder<MushafPageState>(
         stream: backend.stateStream,
         builder: (_, stateSnapshot) {
           if (!stateSnapshot.hasData) {
@@ -45,11 +44,15 @@ class MushafPage extends StatelessWidget {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).padding.top + 5,
+              ),
               MushafDropDownWrapper(
                 onChapterSelected: (Chapter chapter) async =>
                     await backend.onChapterSelected(chapter),
                 chapters: state.chapters,
                 selectedChapter: state.chapter,
+                onBack: () => Navigator.of(context).pop(),
               ),
               Divider(
                 height: 5,

@@ -5,6 +5,7 @@ import 'package:yatadabaron/pages/mushaf/widgets/dropdown.dart';
 
 class MushafDropDownWrapper extends StatelessWidget {
   final Function(Chapter chapter) onChapterSelected;
+  final void Function() onBack;
   final List<Chapter> chapters;
   final Chapter selectedChapter;
 
@@ -13,6 +14,7 @@ class MushafDropDownWrapper extends StatelessWidget {
     required this.onChapterSelected,
     required this.chapters,
     required this.selectedChapter,
+    required this.onBack,
   }) : super(key: key);
 
   @override
@@ -25,46 +27,59 @@ class MushafDropDownWrapper extends StatelessWidget {
     String title = "$chId - $chName";
     return Container(
       padding: EdgeInsets.all(5),
-      child: GestureDetector(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: ListTile(
-                title: Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Arial",
-                    fontSize: 20,
-                  ),
-                ),
-                subtitle: Text(
-                  selectedChapter.summary,
-                  style: TextStyle(
-                    fontFamily: "Arial",
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-              flex: 5,
+      child: Row(
+        children: [
+          GestureDetector(
+            child: Container(
+              padding: EdgeInsets.all(25),
+              child: Icon(Icons.arrow_back,size: 28,),
             ),
-            Expanded(
-              child: Icon(Icons.keyboard_arrow_down),
-              flex: 1,
-            )
-          ],
-        ),
-        onTap: () async {
-          await ChaptersDropDown.show(
-            context: context,
-            chapters: chapters,
-            onChapterSelected: (Chapter chapter) async {
-              await onChapterSelected(chapter);
-              Navigator.of(context).pop();
-            },
-          );
-        },
+            onTap: onBack,
+          ), 
+          Expanded(
+            child: GestureDetector(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: ListTile(
+                      title: Text(
+                        title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Arial",
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Text(
+                        selectedChapter.summary,
+                        style: TextStyle(
+                          fontFamily: "Arial",
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                    flex: 5,
+                  ),
+                  Expanded(
+                    child: Icon(Icons.keyboard_arrow_down),
+                    flex: 1,
+                  )
+                ],
+              ),
+              onTap: () async {
+                await ChaptersDropDown.show(
+                  context: context,
+                  chapters: chapters,
+                  onChapterSelected: (Chapter chapter) async {
+                    await onChapterSelected(chapter);
+                    Navigator.of(context).pop();
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
