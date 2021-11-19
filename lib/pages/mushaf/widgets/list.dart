@@ -11,12 +11,14 @@ class VerseList extends StatelessWidget {
   final int startFromVerse;
   final int? highlightedVerse;
   final IconData? icon;
+  final bool showEmla2y;
   final Function(Verse verse) onItemTap;
 
   const VerseList({
     required this.verses,
     required this.onItemTap,
     required this.icon,
+    required this.showEmla2y,
     required this.startFromVerse,
     required this.highlightedVerse,
   });
@@ -50,9 +52,11 @@ class VerseList extends StatelessWidget {
         if (isHighlighted) {
           color = Theme.of(context).colorScheme.secondary;
         }
+        String verseBody =
+            showEmla2y ? result.verseText : result.verseTextTashkel;
         return ListTile(
           title: MushafVerseListItem(
-            text: result.verseTextTashkel,
+            text: verseBody,
             verseID: result.verseID,
             color: color,
           ),

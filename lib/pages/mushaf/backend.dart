@@ -23,6 +23,8 @@ class MushafBackend extends SimpleBackend {
 
   StreamObject<MushafPageState> _stateStreamObj = StreamObject();
   Stream<MushafPageState> get stateStream => _stateStreamObj.stream;
+  StreamObject<bool> _showEmla2yStreamObj = StreamObject(initialValue: false);
+  Stream<bool> get showEmla2yStream => _showEmla2yStreamObj.stream;
 
   Future reloadVerses(MushafSettings? mushafSettings) async {
     if (mushafSettings == null) {
@@ -88,5 +90,9 @@ class MushafBackend extends SimpleBackend {
         ),
       ),
     );
+  }
+
+  void updateShowEmla2y(bool v) {
+    _showEmla2yStreamObj.add(v);
   }
 }

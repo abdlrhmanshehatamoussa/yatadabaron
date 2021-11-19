@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/mushaf/backend.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
@@ -54,20 +53,40 @@ class MushafPage extends StatelessWidget {
                 selectedChapter: state.chapter,
                 onBack: () => Navigator.of(context).pop(),
               ),
+              ListTile(
+                title: Text("الرسم الإملائي"),
+                trailing: CustomStreamBuilder<bool>(
+                  stream: backend.showEmla2yStream,
+                  loading: LoadingWidget(),
+                  done: (bool show) {
+                    return Switch(
+                      value: show,
+                      onChanged: (bool v) => backend.updateShowEmla2y(v),
+                    );
+                  },
+                ),
+              ),
               Divider(
                 height: 5,
                 color: Theme.of(context).colorScheme.secondary,
               ),
-              Expanded(
-                child: VerseList(
-                  verses: state.verses,
-                  highlightedVerse: highlightedVerseId,
-                  startFromVerse: state.startFromVerse,
-                  icon: icon,
-                  onItemTap: backend.goTafseerPage,
-                ),
-                flex: 1,
-              )
+              CustomStreamBuilder<bool>(
+                stream: backend.showEmla2yStream,
+                loading: LoadingWidget(),
+                done: (bool showEmla2y) {
+                  return Expanded(
+                    child: VerseList(
+                      verses: state.verses,
+                      highlightedVerse: highlightedVerseId,
+                      startFromVerse: state.startFromVerse,
+                      showEmla2y: showEmla2y,
+                      icon: icon,
+                      onItemTap: backend.goTafseerPage,
+                    ),
+                    flex: 1,
+                  );
+                },
+              ),
             ],
           );
         },
