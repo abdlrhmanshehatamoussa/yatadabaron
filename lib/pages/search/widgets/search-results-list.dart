@@ -71,6 +71,13 @@ class SearchResultsList extends StatelessWidget {
                     matchColor: Theme.of(context).colorScheme.secondary,
                     verseId: verseSearchResult.verse.verseID,
                   ),
+                  subtitle: SingleChildScrollView(
+                    child: Text(
+                      verseSearchResult.verse.verseTextTashkel,
+                      style: TextStyle(fontSize: 16,fontFamily: "Usmani"),
+                    ),
+                    scrollDirection: Axis.horizontal,
+                  ),
                   trailing: trailing,
                   onTap: () => this.onItemPress(verseSearchResult.verse),
                   onLongPress: () =>
