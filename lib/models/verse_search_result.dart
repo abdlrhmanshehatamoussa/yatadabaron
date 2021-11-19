@@ -1,14 +1,14 @@
 import 'package:yatadabaron/models/module.dart';
 import 'verse.dart';
-
+ 
 class VerseSearchResult {
   final Verse verse;
-  final List<VerseMatch> matches;
+  final List<SearchSlice> slices;
 
-  int get count => matches.length;
+  int get count => slices.length;
 
   VerseSearchResult({
     required this.verse,
-    required this.matches,
+    required this.slices,
   });
 }

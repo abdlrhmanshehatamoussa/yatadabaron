@@ -66,7 +66,7 @@ class SearchBackend extends SimpleBackend {
     int chaptersCount = searchResult.collections.length;
     bool wholeQuran = searchResult.settings.searchInWholeQuran;
     String result = Utils.numberTamyeez(
-      count: searchResult.totalCount,
+      count: searchResult.totalMatchCount,
       isMasculine: false,
       mothana: Localization.RESULT_MOTHANA,
       plural: Localization.RESULT_PLURAL,

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/pages/search/view_models/colorized_span.dart';
 import 'list-item.dart';
 
 class SearchResultsList extends StatelessWidget {
@@ -68,10 +67,8 @@ class SearchResultsList extends StatelessWidget {
               children: <Widget>[
                 ListTile(
                   title: SearchResultsListItem(
-                    spans: ColorizedSpan.splitVerse(
-                      result: verseSearchResult,
-                      matchColor: Theme.of(context).colorScheme.secondary,
-                    ),
+                    slices: verseSearchResult.slices,
+                    matchColor: Theme.of(context).colorScheme.secondary,
                     verseId: verseSearchResult.verse.verseID,
                   ),
                   trailing: trailing,

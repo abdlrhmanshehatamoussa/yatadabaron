@@ -17,28 +17,53 @@ class VersesService
   static const String TABLE_NAME_BASMALA = "verses_with_basmala";
   static const String TABLE_NAME_NO_BASMALA = "verses";
 
-  static VerseSearchResult buildResultResult(
-    Verse verse,
-    SearchSettings settings,
-  ) {
-    List<int> startIndices =
-        Utils.findIndices(settings.keyword, verse.verseText);
-
-    List<VerseMatch> matches = startIndices.map((i) {
-      return VerseMatch(
-        start: i,
-        end: i + settings.keyword.length - 1,
-      );
-    }).toList();
-    return VerseSearchResult(
-      verse: verse,
-      matches: matches,
-    );
+  List<SearchSlice> search(String haystack, String needle) {
+    List<List<int>> indices = Utils.findIndices(needle, haystack);
+    List<SearchSlice> results = [];
+    List<int> leading = indices.first;
+    if (leading[0] > 0) {
+      //The last 1 is added for substring
+      int end = (leading[0] - 1);
+      String toAdd = haystack.substring(0, end + 1);
+      results.add(SearchSlice(text: toAdd, match: false, start: 0, end: end));
+    }
+    for (var i = 0; i < indices.length; i++) {
+      List<int> crnt = indices[i];
+      int s = crnt[0];
+      int e = crnt[1];
+      String toAdd = haystack.substring(s, e + 1);
+      results.add(SearchSlice(text: toAdd, match: true, start: s, end: e));
+      if (i + 1 < indices.length) {
+        List<int> nxt = indices[i + 1];
+        if (nxt[0] - crnt[1] > 1) {
+          int ss = crnt[1] + 1;
+          int ee = nxt[0] - 1;
+          //The last 1 is added for substring
+          String toAdd = haystack.substring(ss, ee + 1);
+          results.add(
+            SearchSlice(
+              text: toAdd,
+              match: false,
+              start: ss,
+              end: ee,
+            ),
+          );
+        }
+      }
+    }
+    List<int> trailing = indices.last;
+    int lastIndex = haystack.length - 1;
+    if (trailing[1] < lastIndex) {
+      //The last 1 is added for substring
+      int s = trailing[1] + 1;
+      int e = lastIndex;
+      String toAdd = haystack.substring(s, e + 1);
+      results.add(SearchSlice(text: toAdd, match: true, start: s, end: e));
+    }
+    return results;
   }
 
-  //Search
-  @override
-  Future<SearchResult> keywordSearch(SearchSettings searchSettings) async {
+  Future<List<Verse>> _searchInDB(SearchSettings searchSettings) async {
     bool basmala = searchSettings.basmala;
     String keyword = searchSettings.keyword;
     SearchMode searchMode = searchSettings.mode;
@@ -79,8 +104,7 @@ class VersesService
     List<Map<String, dynamic>> versesDB = await db.rawQuery(query);
 
     //Map
-    List<VerseSearchResult> results =
-        versesDB.map((Map<String, dynamic> verseDB) {
+    List<Verse> results = versesDB.map((Map<String, dynamic> verseDB) {
       String chapterName = verseDB["chapter_name"];
       String verseText = verseDB["verse_text"];
       String verseTextTashkel = verseDB["verse_text_tashkel"];
@@ -93,13 +117,22 @@ class VersesService
         verseTextTashkel: verseTextTashkel,
         verseID: verseID,
       );
-      VerseSearchResult result = buildResultResult(verse, searchSettings);
-      return result;
+      return verse;
     }).toList();
+    return results;
+  }
 
+  //Search
+  @override
+  Future<SearchResult> keywordSearch(SearchSettings searchSettings) async {
+    List<Verse> versesDB = await _searchInDB(searchSettings);
+    List<VerseSearchResult> results = versesDB.map((Verse v) {
+      List<SearchSlice> slices = search(v.verseText, searchSettings.keyword);
+      return VerseSearchResult(verse: v, slices: slices);
+    }).toList();
     return SearchResult(
-      results: results,
       settings: searchSettings,
+      results: results,
     );
   }
 
@@ -201,7 +234,7 @@ class VersesService
     //   if (keyword?.isNotEmpty ?? false) {
     //     if (i < textEmla2yWords.length) {
     //       String emla2yWord = textEmla2yWords[i];
-    //       info.start = emla2yWord.indexOf(keyword!);
+    //       info[0] = emla2yWord.indexOf(keyword!);
     //       info.exact = (emla2yWord == keyword);
     //     }
     //   }

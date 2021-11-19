@@ -1,16 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/pages/search/view_models/colorized_span.dart';
+import 'package:yatadabaron/models/module.dart';
 
 class SearchResultsListItem extends StatelessWidget {
   final int verseId;
-  final List<ColorizedSpan> spans;
+  final List<SearchSlice> slices;
   final Color? idColor;
+  final Color? matchColor;
 
   SearchResultsListItem({
     required this.verseId,
-    required this.spans,
+    required this.slices,
+    required this.matchColor,
     this.idColor,
   });
 
@@ -19,13 +21,13 @@ class SearchResultsListItem extends StatelessWidget {
     double textSize = 20;
     double idSize = 28;
     String verseIdStr = Utils.convertToArabiNumber(this.verseId);
-    List<InlineSpan> verseSpans = spans.map((span) {
+    List<InlineSpan> verseSpans = slices.map((slice) {
       return TextSpan(
-        text: span.text,
+        text: slice.text,
         style: TextStyle(
           fontWeight: FontWeight.normal,
           fontSize: textSize,
-          color: span.color,
+          color: slice.match ? matchColor : null,
         ),
       );
     }).toList();

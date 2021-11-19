@@ -27,9 +27,9 @@ class SearchResult {
     return cols.reversed.toList();
   }
 
-  int get totalCount {
-    return collections
-        .map((VerseCollection collection) => collection.resultsCount)
+  int get totalMatchCount {
+    return results
+        .map((VerseSearchResult result) => result.count)
         .reduce((a, b) => a + b);
   }
 }

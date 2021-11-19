@@ -230,12 +230,12 @@ class Utils {
     return reduced;
   }
 
-  static List<int> findIndices(String needle, String stack) {
-    List<int> results = [];
-    int index = stack.indexOf(needle);
+  static List<List<int>> findIndices(String needle, String haystack) {
+    List<List<int>> results = [];
+    int index = haystack.indexOf(needle);
     while (index >= 0) {
-      results.add(index);
-      index = stack.indexOf(needle, index + needle.length);
+      results.add([index, index + needle.length - 1]);
+      index = haystack.indexOf(needle, index + needle.length);
     }
     return results;
   }
