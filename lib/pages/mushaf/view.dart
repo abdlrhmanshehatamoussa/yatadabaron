@@ -45,48 +45,50 @@ class MushafPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                height: MediaQuery.of(context).padding.top + 5,
+                height: MediaQuery.of(context).padding.top,
               ),
-              MushafDropDownWrapper(
-                onChapterSelected: (Chapter chapter) async =>
-                    await backend.onChapterSelected(chapter),
-                chapters: state.chapters,
-                selectedChapter: state.chapter,
-                onBack: () => Navigator.of(context).pop(),
-              ),
-              ListTile(
-                title: Text(Localization.RASM_EMLA2y),
-                trailing: CustomStreamBuilder<bool>(
-                  stream: backend.showEmla2yStream,
-                  loading: LoadingWidget(),
-                  done: (bool show) {
-                    return Switch(
-                      value: show,
-                      onChanged: (bool v) => backend.updateShowEmla2y(v),
-                    );
-                  },
+              Container(
+                color: Theme.of(context).primaryColor,
+                child: MushafDropDownWrapper(
+                  onChapterSelected: (Chapter chapter) async =>
+                      await backend.onChapterSelected(chapter),
+                  chapters: state.chapters,
+                  selectedChapter: state.chapter,
+                  onBack: () => Navigator.of(context).pop(),
                 ),
               ),
-              Divider(
-                height: 5,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              CustomStreamBuilder<bool>(
-                stream: backend.showEmla2yStream,
-                loading: LoadingWidget(),
-                done: (bool showEmla2y) {
-                  return Expanded(
-                    child: VerseList(
+              Expanded(
+                flex: 1,
+                child: CustomStreamBuilder<bool>(
+                  stream: backend.showEmla2yStream,
+                  loading: LoadingWidget(),
+                  done: (bool showEmla2y) {
+                    return VerseList(
                       verses: state.verses,
                       highlightedVerse: highlightedVerseId,
                       startFromVerse: state.startFromVerse,
                       showEmla2y: showEmla2y,
                       iconData: icon,
                       onItemTap: backend.goTafseerPage,
-                    ),
-                    flex: 1,
-                  );
-                },
+                    );
+                  },
+                ),
+              ),
+              Container(
+                color: Theme.of(context).primaryColor,
+                child: CustomStreamBuilder<bool>(
+                  stream: backend.showEmla2yStream,
+                  loading: LoadingWidget(),
+                  done: (bool show) {
+                    return ListTile(
+                      title: Text(Localization.RASM_EMLA2y),
+                      trailing: Switch(
+                        value: show,
+                        onChanged: (bool v) => backend.updateShowEmla2y(v),
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           );

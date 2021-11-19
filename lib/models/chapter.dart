@@ -1,6 +1,5 @@
-
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/commons/utils.dart';
+
 import 'enums.dart';
 
 class Chapter {
@@ -19,19 +18,6 @@ class Chapter {
     required this.sajdaLocation,
     required this.verseCount,
   });
-
-  String get summary {
-    String locationStr = location == ChapterLocation.MAKKI
-        ? Localization.MECCA_LOCATION
-        : Localization.MADINA_LOCATION;
-    String versesCountInArabic =
-        Utils.convertToArabiNumber(verseCount, reverse: false);
-    String prefix = Localization.VERSE;
-    if (verseCount <= 10) {
-      prefix = Localization.VERSE_PLURAL;
-    }
-    return "$locationStr | $versesCountInArabic $prefix";
-  }
 
   static Chapter fromMap(Map<String, dynamic> map) {
     String locationInt = map["localtion"];
