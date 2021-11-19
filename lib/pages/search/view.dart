@@ -29,9 +29,9 @@ class SearchPage extends StatelessWidget {
         return Column(
           children: <Widget>[
             SearchSummaryWidget(
-              summary: backend.summary(searchResult),
-              onPressed: () async {
-                await backend.copyAll(searchResult);
+              searchResult: searchResult,
+              onShare: (String summary) async {
+                await backend.share(summary);
               },
             ),
             Divider(

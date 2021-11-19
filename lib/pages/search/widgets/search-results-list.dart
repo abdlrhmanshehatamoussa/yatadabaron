@@ -59,26 +59,20 @@ class SearchResultsList extends StatelessWidget {
           ),
           children:
               collection.results.map((VerseSearchResult verseSearchResult) {
-            Widget? trailing;
-            if (collections.length > 1) {
-              trailing = Text(verseSearchResult.verse.chapterName!);
-            }
+            String verseIdStr =
+                Utils.convertToArabiNumber(verseSearchResult.verse.verseID);
             return Column(
               children: <Widget>[
                 ListTile(
                   title: SearchResultsListItem(
                     slices: verseSearchResult.slices,
                     matchColor: Theme.of(context).colorScheme.secondary,
-                    verseId: verseSearchResult.verse.verseID,
+                    verseId: verseIdStr,
                   ),
-                  subtitle: SingleChildScrollView(
-                    child: Text(
-                      verseSearchResult.verse.verseTextTashkel,
-                      style: TextStyle(fontSize: 16,fontFamily: "Usmani"),
-                    ),
-                    scrollDirection: Axis.horizontal,
+                  subtitle: Text(
+                    verseSearchResult.verse.chapterName!,
+                    style: TextStyle(fontSize: 16, fontFamily: "Usmani"),
                   ),
-                  trailing: trailing,
                   onTap: () => this.onItemPress(verseSearchResult.verse),
                   onLongPress: () =>
                       this.onItemLongPress(verseSearchResult.verse),

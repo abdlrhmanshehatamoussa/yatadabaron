@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
-import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
-import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/services/module.dart';
@@ -59,55 +57,7 @@ class SearchBackend extends SimpleBackend {
 
   Stream<Exception> get errorStream => _errorStream.stream;
 
-  String summary(SearchResult searchResult) {
-    if (searchResult.collections.isEmpty) {
-      return Localization.EMPTY_SEARCH_RESULTS;
-    }
-    int chaptersCount = searchResult.collections.length;
-    bool wholeQuran = searchResult.settings.searchInWholeQuran;
-    String result = Utils.numberTamyeez(
-      count: searchResult.totalMatchCount,
-      isMasculine: false,
-      mothana: Localization.RESULT_MOTHANA,
-      plural: Localization.RESULT_PLURAL,
-      single: Localization.RESULT,
-    );
-    if (wholeQuran) {
-      return Utils.replaceMultiple(
-        Localization.SEARCH_SUMMARY_WHOLE_QURAN,
-        "#",
-        [
-          result,
-          searchResult.settings.keyword,
-          Utils.numberTamyeez(
-            count: chaptersCount,
-            single: Localization.SURA_SINGLE,
-            plural: Localization.SURA_PLURAL,
-            mothana: Localization.SURA_MOTHANA,
-            isMasculine: false,
-          ),
-        ],
-      );
-    } else {
-      return Utils.replaceMultiple(
-        Localization.SEARCH_SUMMARY,
-        "#",
-        [
-          result,
-          searchResult.settings.keyword,
-          searchResult.results.first.verse.chapterName!,
-        ],
-      );
-    }
-  }
-
-  Future<void> copyAll(SearchResult searchResult) async {
-    String summ = summary(searchResult);
-    String toCopy = "$summ\n\n";
-    searchResult.results.forEach((VerseSearchResult verseSearchResult) {
-      toCopy +=
-          "${verseSearchResult.verse.chapterName}\n${verseSearchResult.verse.verseTextTashkel} {${verseSearchResult.verse.verseID}}\n\n";
-    });
+  Future<void> share(String toCopy) async {
     Share.share(toCopy);
   }
 
