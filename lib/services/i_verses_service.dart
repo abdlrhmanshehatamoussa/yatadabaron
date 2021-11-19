@@ -6,8 +6,7 @@ abstract class IVersesService {
   Future<SearchResult> keywordSearch(KeywordSearchSettings settings);
 
   //Get Verses By Chapter ID
-  Future<List<Verse>> getVersesByChapterId(
-      int chapterId, bool basmala, bool wholeQuran);
+  Future<List<Verse>> getVersesByChapterId(int? chapterId, bool basmala);
 
   //Get Single Verse
   Future<Verse> getSingleVerse(int verseId, int chapterId);

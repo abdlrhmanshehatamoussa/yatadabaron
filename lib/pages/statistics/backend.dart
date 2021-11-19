@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/module.dart';
@@ -36,8 +37,13 @@ class StatisticsBackend extends SimpleBackend {
     _stateBloc.add(SearchState.IN_PROGRESS);
 
     try {
-      String? chapterName =
-          await chaptersService.getChapterName(settings.chapterId);
+      String chapterName;
+      int? chId = settings.chapterId;
+      if (chId != null) {
+        chapterName = await chaptersService.getChapterName(chId);
+      } else {
+        chapterName = Localization.WHOLE_QURAN;
+      }
       List<LetterFrequency> letterFreqs =
           await versesService.getLetterFrequency(settings);
       _payloadBloc.add(StatisticsPayload(

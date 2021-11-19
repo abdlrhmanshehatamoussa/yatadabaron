@@ -27,7 +27,8 @@ class Localization {
   static const String LOADING_ERROR =
       'حدث خطأ ما أثناء اعداد التطبيق, برجاء التواصل مع ادارة التطبيق!';
   static const String DARK_MODE = 'الوضع الليلي';
-  static const String WHOLE_QURAN = 'بحث في كل القرآن';
+  static const String SEARCH_IN_WHOLE_QURAN = 'بحث في كل القرآن';
+  static const String WHOLE_QURAN = 'القرآن الكريم كاملاً';
   static const String QURAN_STATISTICS = 'احصائيات القرآن';
   static const String TAP_STAT_BUTTON =
       'اضغط علي علامة الرسم البياني لاظهار الاحصائيات';

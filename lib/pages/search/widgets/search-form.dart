@@ -203,7 +203,7 @@ class SearchForm extends StatelessWidget {
     required Function(bool v) onChanged,
   }) {
     return ListTile(
-      title: Text(Localization.WHOLE_QURAN),
+      title: Text(Localization.SEARCH_IN_WHOLE_QURAN),
       trailing: Switch(
         value: value,
         onChanged: onChanged,

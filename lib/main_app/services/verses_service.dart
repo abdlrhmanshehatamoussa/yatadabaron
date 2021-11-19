@@ -144,7 +144,6 @@ class VersesService
   ) async {
     List<Verse> verses = await getVersesByChapterId(
       settings.chapterId,
-      settings.searchWholeQuran,
       settings.basmala,
     );
     String chapterText = verses.map((Verse verse) => verse.verseText).join();
@@ -196,15 +195,15 @@ class VersesService
   //Get Verses By Chapter ID
   @override
   Future<List<Verse>> getVersesByChapterId(
-    int chapterId,
+    int? chapterId,
     bool basmala,
-    bool wholeQuran,
   ) async {
     //Prepare Query
     String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;
-    String chapterCondition = wholeQuran ? "" : "WHERE sura = $chapterId";
+    String chapterCondition =
+        (chapterId == null) ? "" : "WHERE sura = $chapterId";
     String query =
-        "SELECT ayah as verse_id,text_tashkel as verse_text_tashkel,text as verse_text "
+        "SELECT ayah as verse_id,text_tashkel as verse_text_tashkel,text as verse_text,sura as chapter_id "
         "FROM $table "
         "$chapterCondition";
 
@@ -219,8 +218,9 @@ class VersesService
       String verseText = verse["verse_text"];
       String verseTextTashkel = verse["verse_text_tashkel"];
       int verseID = verse["verse_id"];
+      int chapterIdDB = verse["chapter_id"];
       Verse result = Verse(
-        chapterId: chapterId,
+        chapterId: chapterIdDB,
         verseText: verseText,
         verseTextTashkel: verseTextTashkel,
         verseID: verseID,

@@ -43,11 +43,12 @@ class StatisticsForm extends StatefulWidget {
 }
 
 class _State extends State<StatisticsForm> {
-  BasicSearchSettings settings = BasicSearchSettings.empty();
+  BasicSearchSettings settings = BasicSearchSettings();
 
   Widget chapterWidget({
     required Future<List<Chapter>> chaptersFuture,
     required void Function(int?) onChanged,
+    required int? value,
   }) {
     return FutureBuilder<List<Chapter>>(
       future: chaptersFuture,
@@ -65,7 +66,7 @@ class _State extends State<StatisticsForm> {
             trailing: DropdownButtonHideUnderline(
               child: DropdownButton<int>(
                 items: menuItems,
-                value: settings.chapterId,
+                value: value,
                 onChanged: onChanged,
               ),
             ),
@@ -114,33 +115,44 @@ class _State extends State<StatisticsForm> {
 
   @override
   Widget build(BuildContext context) {
+    Widget _chaptersWidget = Container();
+    if (settings.wholeQuran == false) {
+      _chaptersWidget = chapterWidget(
+        chaptersFuture: widget.chaptersFuture,
+        value: settings.chapterId,
+        onChanged: (int? id) {
+          setState(() {
+            if (id != null) {
+              settings = settings.updateChapterId(id);
+            }
+          });
+        },
+      );
+    }
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           _switch(
-            title: Localization.WHOLE_QURAN,
-            value: settings.searchWholeQuran,
+            title: Localization.SEARCH_IN_WHOLE_QURAN,
+            value: settings.wholeQuran,
             onChanged: (bool whole) {
               setState(() {
-                settings = settings.copyWithWholeQuran(whole);
+                if (whole) {
+                  settings = settings.updateChapterId(null);
+                } else {
+                  settings = settings.updateChapterId(1);
+                }
               });
             },
           ),
-          chapterWidget(
-            chaptersFuture: widget.chaptersFuture,
-            onChanged: (int? id) {
-              if (id != null) {
-                settings = settings.copyWithChapterId(id);
-              }
-            },
-          ),
-          Divider(),
+          _chaptersWidget,
+          settings.wholeQuran ? Container() : Divider(),
           _switch(
             title: Localization.BASMALA_MODE,
             value: settings.basmala,
             onChanged: (bool basmala) {
               setState(() {
-                settings = settings.copyWithBasmala(basmala);
+                settings = settings.updateBasmala(basmala);
               });
             },
           ),
