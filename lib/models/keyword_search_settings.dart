@@ -1,13 +1,13 @@
 import 'package:yatadabaron/models/module.dart';
 
-class SearchSettings {
+class KeywordSearchSettings {
   final String keyword;
   final bool basmala;
   final SearchMode mode;
   final int chapterID;
   final bool searchInWholeQuran;
 
-  SearchSettings({
+  KeywordSearchSettings({
     required this.keyword,
     required this.basmala,
     required this.searchInWholeQuran,
@@ -15,8 +15,8 @@ class SearchSettings {
     required this.chapterID,
   });
 
-  SearchSettings copyWithKeyword(String newKeyword) {
-    return SearchSettings(
+  KeywordSearchSettings copyWithKeyword(String newKeyword) {
+    return KeywordSearchSettings(
       keyword: newKeyword,
       basmala: basmala,
       searchInWholeQuran: searchInWholeQuran,
@@ -25,8 +25,8 @@ class SearchSettings {
     );
   }
 
-  SearchSettings copyWithMode(SearchMode newMode) {
-    return SearchSettings(
+  KeywordSearchSettings copyWithMode(SearchMode newMode) {
+    return KeywordSearchSettings(
       keyword: keyword,
       searchInWholeQuran: searchInWholeQuran,
       basmala: basmala,
@@ -35,8 +35,8 @@ class SearchSettings {
     );
   }
 
-  SearchSettings copyWithBasmala(bool newBasmala) {
-    return SearchSettings(
+  KeywordSearchSettings copyWithBasmala(bool newBasmala) {
+    return KeywordSearchSettings(
       keyword: keyword,
       searchInWholeQuran: searchInWholeQuran,
       basmala: newBasmala,
@@ -45,8 +45,8 @@ class SearchSettings {
     );
   }
 
-  SearchSettings copyWithChapterId(int newChapterId) {
-    return SearchSettings(
+  KeywordSearchSettings copyWithChapterId(int newChapterId) {
+    return KeywordSearchSettings(
       keyword: keyword,
       searchInWholeQuran: searchInWholeQuran,
       basmala: basmala,
@@ -55,8 +55,8 @@ class SearchSettings {
     );
   }
 
-  static SearchSettings empty() {
-    return new SearchSettings(
+  static KeywordSearchSettings empty() {
+    return new KeywordSearchSettings(
       keyword: "",
       basmala: false,
       searchInWholeQuran: true,
@@ -65,8 +65,8 @@ class SearchSettings {
     );
   }
 
-  SearchSettings copyWithWholeQuran(bool wholeQuran) {
-    return SearchSettings(
+  KeywordSearchSettings copyWithWholeQuran(bool wholeQuran) {
+    return KeywordSearchSettings(
       keyword: keyword,
       searchInWholeQuran: wholeQuran,
       basmala: basmala,

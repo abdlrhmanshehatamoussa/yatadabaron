@@ -57,7 +57,7 @@ class SearchPage extends StatelessWidget {
         await SearchForm.show(
           context: context,
           chaptersFuture: backend.getMushafChapters(),
-          onSearch: (SearchSettings settings) async {
+          onSearch: (KeywordSearchSettings settings) async {
             await backend.changeSettings(settings);
           },
         );

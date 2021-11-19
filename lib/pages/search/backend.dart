@@ -17,12 +17,12 @@ class SearchBackend extends SimpleBackend {
   late IVersesService versesService = getService<IVersesService>();
   late IAnalyticsService analyticsService = getService<IAnalyticsService>();
 
-  StreamObject<SearchSettings> _settingsBloc = StreamObject();
+  StreamObject<KeywordSearchSettings> _settingsBloc = StreamObject();
   StreamObject<SearchResult> _searchResultBloc = StreamObject();
   StreamObject<SearchState> _stateBloc = StreamObject();
   StreamObject<Exception> _errorStream = StreamObject();
 
-  Future changeSettings(SearchSettings settings) async {
+  Future changeSettings(KeywordSearchSettings settings) async {
     String log =
         "KEYWORD=${settings.keyword}|MODE=${describeEnum(settings.mode)}|LOCATION=${settings.chapterID}|BASMALA=${settings.basmala}";
     analyticsService.logFormFilled("SEARCH FORM", payload: log);
@@ -51,7 +51,7 @@ class SearchBackend extends SimpleBackend {
 
   Stream<SearchResult> get payloadStream => _searchResultBloc.stream;
 
-  Stream<SearchSettings> get settingsStream => _settingsBloc.stream;
+  Stream<KeywordSearchSettings> get settingsStream => _settingsBloc.stream;
 
   Stream<SearchState> get stateStream => _stateBloc.stream;
 

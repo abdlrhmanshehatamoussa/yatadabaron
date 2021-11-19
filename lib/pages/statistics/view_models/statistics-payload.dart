@@ -1,4 +1,3 @@
-
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/viewmodels/module.dart';

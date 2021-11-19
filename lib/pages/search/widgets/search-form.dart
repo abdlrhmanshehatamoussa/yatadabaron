@@ -5,7 +5,7 @@ import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
 class SearchFormBackend {
-  SearchSettings settings = SearchSettings.empty();
+  KeywordSearchSettings settings = KeywordSearchSettings.empty();
   void updateKeyword(String newKeyword) {
     settings = settings.copyWithKeyword(newKeyword);
   }
@@ -34,7 +34,7 @@ class SearchForm extends StatelessWidget {
   });
 
   final Future<List<Chapter>> chaptersFuture;
-  final Function(SearchSettings settings) onSearch;
+  final Function(KeywordSearchSettings settings) onSearch;
   final SearchFormBackend backend = SearchFormBackend();
   final TextEditingController keywordController = TextEditingController();
 
@@ -83,7 +83,7 @@ class SearchForm extends StatelessWidget {
   static Future show({
     required BuildContext context,
     required Future<List<Chapter>> chaptersFuture,
-    required Function(SearchSettings settings) onSearch,
+    required Function(KeywordSearchSettings settings) onSearch,
   }) async {
     await showDialog(
       context: context,

@@ -63,7 +63,7 @@ class VersesService
     return results;
   }
 
-  Future<List<Verse>> _searchInDB(SearchSettings searchSettings) async {
+  Future<List<Verse>> _searchInDB(KeywordSearchSettings searchSettings) async {
     bool basmala = searchSettings.basmala;
     String keyword = searchSettings.keyword;
     SearchMode searchMode = searchSettings.mode;
@@ -124,7 +124,8 @@ class VersesService
 
   //Search
   @override
-  Future<SearchResult> keywordSearch(SearchSettings searchSettings) async {
+  Future<SearchResult> keywordSearch(
+      KeywordSearchSettings searchSettings) async {
     List<Verse> versesDB = await _searchInDB(searchSettings);
     List<VerseSearchResult> results = versesDB.map((Verse v) {
       List<SearchSlice> slices = _search(v.verseText, searchSettings.keyword);
@@ -138,9 +139,14 @@ class VersesService
 
   //Get letters frequency
   @override
-  Future<List<LetterFrequency>> getLettersByChapterId(
-      int chapterId, bool basmala) async {
-    List<Verse> verses = await getVersesByChapterId(chapterId, basmala);
+  Future<List<LetterFrequency>> getLetterFrequency(
+    BasicSearchSettings settings,
+  ) async {
+    List<Verse> verses = await getVersesByChapterId(
+      settings.chapterId,
+      settings.searchWholeQuran,
+      settings.basmala,
+    );
     String chapterText = verses.map((Verse verse) => verse.verseText).join();
 
     List<LetterFrequency> frequencies = [];
@@ -189,10 +195,14 @@ class VersesService
 
   //Get Verses By Chapter ID
   @override
-  Future<List<Verse>> getVersesByChapterId(int chapterId, bool basmala) async {
+  Future<List<Verse>> getVersesByChapterId(
+    int chapterId,
+    bool basmala,
+    bool wholeQuran,
+  ) async {
     //Prepare Query
     String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;
-    String chapterCondition = (chapterId == 0) ? "" : "WHERE sura = $chapterId";
+    String chapterCondition = wholeQuran ? "" : "WHERE sura = $chapterId";
     String query =
         "SELECT ayah as verse_id,text_tashkel as verse_text_tashkel,text as verse_text "
         "FROM $table "
