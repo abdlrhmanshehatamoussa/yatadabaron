@@ -58,7 +58,7 @@ class VersesService
       int s = trailing[1] + 1;
       int e = lastIndex;
       String toAdd = haystack.substring(s, e + 1);
-      results.add(SearchSlice(text: toAdd, match: true, start: s, end: e));
+      results.add(SearchSlice(text: toAdd, match: false, start: s, end: e));
     }
     return results;
   }

@@ -10,6 +10,10 @@ class VerseCollection {
   });
 
   int get resultsCount {
-    return results.map((r) => r.count).reduce((a, b) => a + b);
+    int count = 0;
+    for (var result in results) {
+      count += result.slices.where((s) => s.match).length;
+    }
+    return count;
   }
 }

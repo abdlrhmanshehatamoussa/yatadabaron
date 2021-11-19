@@ -28,8 +28,10 @@ class SearchResult {
   }
 
   int get totalMatchCount {
-    return results
-        .map((VerseSearchResult result) => result.count)
-        .reduce((a, b) => a + b);
+    int count = 0;
+    for (var result in results) {
+      count += result.slices.where((s) => s.match).length;
+    }
+    return count;
   }
 }
