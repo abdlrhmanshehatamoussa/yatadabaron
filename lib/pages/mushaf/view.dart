@@ -46,6 +46,9 @@ class MushafPage extends StatelessWidget {
             children: <Widget>[
               SizedBox(
                 height: MediaQuery.of(context).padding.top,
+                child: Container(
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
               Container(
                 color: Theme.of(context).primaryColor,
@@ -81,7 +84,12 @@ class MushafPage extends StatelessWidget {
                   loading: LoadingWidget(),
                   done: (bool show) {
                     return ListTile(
-                      title: Text(Localization.RASM_EMLA2y),
+                      title: Text(
+                        Localization.RASM_EMLA2y,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                      ),
                       trailing: Switch(
                         value: show,
                         onChanged: (bool v) => backend.updateShowEmla2y(v),

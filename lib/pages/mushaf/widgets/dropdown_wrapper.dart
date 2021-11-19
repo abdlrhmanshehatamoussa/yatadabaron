@@ -47,6 +47,7 @@ class MushafDropDownWrapper extends StatelessWidget {
             padding: EdgeInsets.all(25),
             child: Icon(
               Icons.arrow_back,
+              color: Theme.of(context).colorScheme.onBackground,
               size: 28,
             ),
           ),
@@ -64,6 +65,7 @@ class MushafDropDownWrapper extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontFamily: "Arial",
+                        color: Theme.of(context).colorScheme.onBackground,
                         fontSize: 22,
                       ),
                     ),
@@ -71,13 +73,17 @@ class MushafDropDownWrapper extends StatelessWidget {
                       chapterSummary(selectedChapter),
                       style: TextStyle(
                         fontFamily: "Arial",
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   ),
                   flex: 5,
                 ),
                 Expanded(
-                  child: Icon(Icons.keyboard_arrow_down),
+                  child: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
                   flex: 1,
                 )
               ],
