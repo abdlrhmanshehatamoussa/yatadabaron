@@ -81,4 +81,5 @@ class Localization {
   static const String SURA_SINGLE = "سورة";
   static const String SURA_PLURAL = "سور";
   static const String SURA_MOTHANA = "سورتان";
+  static const String RASM_EMLA2y = "الرسم الإملائي";
 }

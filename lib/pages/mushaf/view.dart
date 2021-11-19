@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/mushaf/backend.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
@@ -54,7 +55,7 @@ class MushafPage extends StatelessWidget {
                 onBack: () => Navigator.of(context).pop(),
               ),
               ListTile(
-                title: Text("الرسم الإملائي"),
+                title: Text(Localization.RASM_EMLA2y),
                 trailing: CustomStreamBuilder<bool>(
                   stream: backend.showEmla2yStream,
                   loading: LoadingWidget(),
@@ -80,7 +81,7 @@ class MushafPage extends StatelessWidget {
                       highlightedVerse: highlightedVerseId,
                       startFromVerse: state.startFromVerse,
                       showEmla2y: showEmla2y,
-                      icon: icon,
+                      iconData: icon,
                       onItemTap: backend.goTafseerPage,
                     ),
                     flex: 1,
