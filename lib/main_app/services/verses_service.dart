@@ -67,10 +67,13 @@ class VersesService
     bool basmala = searchSettings.basmala;
     String keyword = searchSettings.keyword;
     SearchMode searchMode = searchSettings.mode;
-    int chapterId = searchSettings.chapterID;
     String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;
-    bool wholeQuran = searchSettings.searchInWholeQuran;
-    String chapterCondition = wholeQuran ? " > 0 " : " = $chapterId ";
+    String chapterCondition;
+    if (searchSettings.searchInWholeQuran) {
+      chapterCondition = " > 0 ";
+    } else {
+      chapterCondition = " = ${searchSettings.chapterID!} ";
+    }
     String textCondition = "";
     switch (searchMode) {
       case SearchMode.START:

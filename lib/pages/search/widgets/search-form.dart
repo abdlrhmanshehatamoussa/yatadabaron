@@ -1,33 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/widgets/module.dart';
+import 'package:yatadabaron/models/module.dart';
 
-class SearchFormBackend {
-  KeywordSearchSettings settings = KeywordSearchSettings.empty();
-  void updateKeyword(String newKeyword) {
-    settings = settings.copyWithKeyword(newKeyword);
-  }
-
-  void updateBasmala(bool newBasmala) {
-    settings = settings.copyWithBasmala(newBasmala);
-  }
-
-  void updateChapterId(int newChapterId) {
-    settings = settings.copyWithChapterId(newChapterId);
-  }
-
-  void updateMode(SearchMode newMode) {
-    settings = settings.copyWithMode(newMode);
-  }
-
-  void updateWholeQuran(bool wholeQuran) {
-    settings = settings.copyWithWholeQuran(wholeQuran);
-  }
-}
-
-class SearchForm extends StatelessWidget {
+class SearchForm extends StatefulWidget {
   SearchForm({
     required this.chaptersFuture,
     required this.onSearch,
@@ -35,50 +12,9 @@ class SearchForm extends StatelessWidget {
 
   final Future<List<Chapter>> chaptersFuture;
   final Function(KeywordSearchSettings settings) onSearch;
-  final SearchFormBackend backend = SearchFormBackend();
-  final TextEditingController keywordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    keywordController.addListener(() {
-      backend.updateKeyword(keywordController.text);
-    });
-    return SingleChildScrollView(
-      child: StatefulBuilder(
-        builder: (_, setState) {
-          bool wholeQuran = backend.settings.searchInWholeQuran;
-          return Column(
-            children: <Widget>[
-              searchKeywordWidget(),
-              Divider(),
-              searchModeWidget(),
-              Divider(),
-              searchInQuranWidget(
-                value: wholeQuran,
-                onChanged: (bool v) {
-                  setState(() {
-                    backend.updateWholeQuran(v);
-                  });
-                },
-              ),
-              wholeQuran ? Container() : chapterWidget(),
-              Divider(),
-              basmalaWidget(),
-              Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  searchButton(context),
-                  closeButton(context),
-                ],
-              )
-            ],
-          );
-        },
-      ),
-      scrollDirection: Axis.vertical,
-    );
-  }
+  State<StatefulWidget> createState() => _State();
 
   static Future show({
     required BuildContext context,
@@ -101,6 +37,54 @@ class SearchForm extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _State extends State<SearchForm> {
+  final TextEditingController keywordController = TextEditingController();
+  KeywordSearchSettings settings = KeywordSearchSettings();
+
+  @override
+  Widget build(BuildContext context) {
+    keywordController.addListener(() {
+      setState(() {
+        settings = settings.updateKeyword(keywordController.text);
+      });
+    });
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          searchKeywordWidget(),
+          Divider(),
+          searchModeWidget(),
+          Divider(),
+          searchInQuranWidget(
+            value: settings.searchInWholeQuran,
+            onChanged: (bool v) {
+              setState(() {
+                if (v) {
+                  settings = settings.updateChapterId(null);
+                } else {
+                  settings = settings.updateChapterId(1);
+                }
+              });
+            },
+          ),
+          settings.searchInWholeQuran ? Container() : chapterWidget(),
+          Divider(),
+          basmalaWidget(),
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              searchButton(context),
+              closeButton(context),
+            ],
+          )
+        ],
+      ),
+      scrollDirection: Axis.vertical,
     );
   }
 
@@ -127,19 +111,15 @@ class SearchForm extends StatelessWidget {
     return ListTile(
       title: Text(Localization.SEARCH_MODE),
       trailing: DropdownButtonHideUnderline(
-        child: StatefulBuilder(
-          builder: (_, setState) {
-            return DropdownButton<SearchMode>(
-              items: menuItems,
-              value: backend.settings.mode,
-              onChanged: (SearchMode? s) {
-                setState(() {
-                  if (s != null) {
-                    backend.updateMode(s);
-                  }
-                });
-              },
-            );
+        child: DropdownButton<SearchMode>(
+          items: menuItems,
+          value: settings.mode,
+          onChanged: (SearchMode? s) {
+            setState(() {
+              if (s != null) {
+                settings = settings.updateMode(s);
+              }
+            });
           },
         ),
       ),
@@ -148,7 +128,7 @@ class SearchForm extends StatelessWidget {
 
   Widget chapterWidget() {
     return CustomFutureBuilder(
-      future: chaptersFuture,
+      future: widget.chaptersFuture,
       loading: LoadingWidget(),
       done: (List<Chapter> chapters) {
         List<DropdownMenuItem<int>> menuItems = chapters.map((Chapter chapter) {
@@ -159,19 +139,15 @@ class SearchForm extends StatelessWidget {
         }).toList();
         return ListTile(
           title: DropdownButtonHideUnderline(
-            child: StatefulBuilder(
-              builder: (context, setState) {
-                return DropdownButton<int>(
-                  items: menuItems,
-                  value: backend.settings.chapterID,
-                  onChanged: (int? s) {
-                    setState(() {
-                      if (s != null) {
-                        backend.updateChapterId(s);
-                      }
-                    });
-                  },
-                );
+            child: DropdownButton<int>(
+              items: menuItems,
+              value: settings.chapterID,
+              onChanged: (int? s) {
+                setState(() {
+                  if (s != null) {
+                    settings = settings.updateChapterId(s);
+                  }
+                });
               },
             ),
           ),
@@ -186,10 +162,10 @@ class SearchForm extends StatelessWidget {
       trailing: StatefulBuilder(
         builder: (context, setState) {
           return Switch(
-            value: backend.settings.basmala,
+            value: settings.basmala,
             onChanged: (bool val) async {
               setState(() {
-                backend.updateBasmala(val);
+                settings.updateBasmala(val);
               });
             },
           );
@@ -231,7 +207,7 @@ class SearchForm extends StatelessWidget {
         context: context,
         onTap: () async {
           try {
-            this.onSearch(backend.settings);
+            widget.onSearch(settings);
           } catch (e) {}
           Navigator.of(context).pop();
         },
