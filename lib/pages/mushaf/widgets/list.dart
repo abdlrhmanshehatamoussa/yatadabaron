@@ -66,12 +66,12 @@ class VerseList extends StatelessWidget {
           subtitle = Text(verse.verseText,style: TextStyle(fontSize: 15),);
         }
         return Stack(
-          alignment: Alignment.bottomLeft,
+          alignment: Alignment.topRight,
           clipBehavior: Clip.antiAlias,
           children: [
             ListTile(
               contentPadding: EdgeInsets.only(
-                bottom: isHighlighted ? 15 : 5,
+                top: isHighlighted ? 20 : 5,
                 left: 5,
                 right: 5,
               ),
