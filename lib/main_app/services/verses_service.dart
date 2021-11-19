@@ -17,7 +17,7 @@ class VersesService
   static const String TABLE_NAME_BASMALA = "verses_with_basmala";
   static const String TABLE_NAME_NO_BASMALA = "verses";
 
-  List<SearchSlice> search(String haystack, String needle) {
+  List<SearchSlice> _search(String haystack, String needle) {
     List<List<int>> indices = Utils.findIndices(needle, haystack);
     List<SearchSlice> results = [];
     List<int> leading = indices.first;
@@ -127,7 +127,7 @@ class VersesService
   Future<SearchResult> keywordSearch(SearchSettings searchSettings) async {
     List<Verse> versesDB = await _searchInDB(searchSettings);
     List<VerseSearchResult> results = versesDB.map((Verse v) {
-      List<SearchSlice> slices = search(v.verseText, searchSettings.keyword);
+      List<SearchSlice> slices = _search(v.verseText, searchSettings.keyword);
       return VerseSearchResult(verse: v, slices: slices);
     }).toList();
     return SearchResult(
