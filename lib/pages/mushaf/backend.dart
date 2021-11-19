@@ -48,8 +48,7 @@ class MushafBackend extends SimpleBackend {
     Chapter chapter = await chaptersService.getChapter(chapterId);
     List<Verse> verses =
         await versesService.getVersesByChapterId(chapterId, false);
-    List<Chapter> chapters =
-        await chaptersService.getAll(includeWholeQuran: false);
+    List<Chapter> chapters = await chaptersService.getAll();
     MushafPageState state = MushafPageState(
       chapter: chapter,
       verses: verses,

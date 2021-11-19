@@ -1,5 +1,3 @@
-import 'package:yatadabaron/commons/localization.dart';
-
 import 'enums.dart';
 
 class Chapter {
@@ -32,16 +30,5 @@ class Chapter {
       verseCount: map["ayah"],
     );
     return result;
-  }
-
-  static Chapter holyQuran() {
-    return Chapter(
-      chapterID: 0,
-      chapterNameAR: Localization.WHOLE_QURAN,
-      chapterNameEN: "Holy Quran",
-      location: ChapterLocation.MAKKI,
-      verseCount: 6236,
-      sajdaLocation: 0,
-    );
   }
 }

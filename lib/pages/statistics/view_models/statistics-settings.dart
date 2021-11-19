@@ -5,6 +5,6 @@ class StatisticsSettings{
   StatisticsSettings(this.chapterId, this.basmala);
 
   static StatisticsSettings empty(){
-    return StatisticsSettings(0, false);
+    return StatisticsSettings(1, false);
   }
 }

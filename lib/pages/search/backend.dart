@@ -46,7 +46,7 @@ class SearchBackend extends SimpleBackend {
   }
 
   Future<List<Chapter>> getMushafChapters() async {
-    return await chaptersService.getAll(includeWholeQuran: true);
+    return await chaptersService.getAll();
   }
 
   Stream<SearchResult> get payloadStream => _searchResultBloc.stream;

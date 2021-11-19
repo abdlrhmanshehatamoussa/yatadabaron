@@ -52,6 +52,6 @@ class StatisticsBackend extends SimpleBackend {
   }
 
   Future<List<Chapter>> getMushafChapters() async {
-    return await chaptersService.getAll(includeWholeQuran: true);
+    return await chaptersService.getAll();
   }
 }
