@@ -50,7 +50,7 @@ class SearchResultsList extends StatelessWidget {
         return ExpansionTile(
           initiallyExpanded: false,
           title: Text(
-            "$collectionName [$versesCountArabic, $resultsCountArabic]",
+            "$collectionName  [$resultsCountArabic ${Localization.IN} $versesCountArabic]",
             style: TextStyle(
               fontWeight: FontWeight.w500,
               fontFamily: "Arial",
