@@ -22,6 +22,11 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SearchBackend backend = SearchBackend(context);
+    backend.errorStream.listen((Exception error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(error.toString()),
+      ));
+    });
     Widget searchResultsArea = CustomStreamBuilder<SearchResult>(
       stream: backend.payloadStream,
       loading: LoadingWidget(),
@@ -57,9 +62,8 @@ class SearchPage extends StatelessWidget {
         await SearchForm.show(
           context: context,
           chaptersFuture: backend.getMushafChapters(),
-          onSearch: (KeywordSearchSettings settings) async {
-            await backend.changeSettings(settings);
-          },
+          onSearch: (KeywordSearchSettings settings) async =>
+              await backend.changeSettings(settings),
         );
       },
       child: Icon(Icons.search),

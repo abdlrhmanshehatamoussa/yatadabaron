@@ -207,8 +207,10 @@ class _State extends State<SearchForm> {
         context: context,
         onTap: () async {
           try {
-            widget.onSearch(settings);
-          } catch (e) {}
+            await widget.onSearch(settings);
+          } catch (e) {
+            print(e);
+          }
           Navigator.of(context).pop();
         },
         text: Localization.SEARCH,

@@ -14,27 +14,61 @@ class VersesService
     required this.databaseFilePath,
   });
 
-  static const String TABLE_NAME_BASMALA = "verses_with_basmala";
-  static const String TABLE_NAME_NO_BASMALA = "verses";
+  static const String _TABLE_NAME_BASMALA = "verses_with_basmala";
+  static const String _TABLE_NAME_NO_BASMALA = "verses";
 
-  List<SearchSlice> _search(String haystack, String needle) {
-    List<List<int>> indices = Utils.findIndices(needle, haystack);
+  List<SearchSlice> _generateSlices(
+    String haystack,
+    String needle,
+    SearchMode mode,
+  ) {
+    List<List<int>> spans;
+    switch (mode) {
+      case SearchMode.START:
+        int firstIndex = haystack.indexOf(needle);
+        spans = [
+          [firstIndex, firstIndex + needle.length - 1],
+        ];
+        break;
+      case SearchMode.END:
+        int lastIndex = haystack.lastIndexOf(needle);
+        spans = [
+          [lastIndex, lastIndex + needle.length - 1],
+        ];
+        break;
+      case SearchMode.WORD:
+        spans = Utils.findAllSpans(needle, haystack);
+        spans = spans.where((List<int> span) {
+          int prevIndex = span[0] - 1;
+          int nextIndex = span[1] + 1;
+          bool validPrev = (prevIndex < 0) || haystack[prevIndex] == " ";
+          bool validNext =
+              (nextIndex >= haystack.length) || haystack[nextIndex] == " ";
+          return validPrev && validNext;
+        }).toList();
+        break;
+      case SearchMode.WITHIN:
+        spans = Utils.findAllSpans(needle, haystack);
+        break;
+      default:
+        throw Exception("Invalid search mode");
+    }
     List<SearchSlice> results = [];
-    List<int> leading = indices.first;
+    List<int> leading = spans.first;
     if (leading[0] > 0) {
       //The last 1 is added for substring
       int end = (leading[0] - 1);
       String toAdd = haystack.substring(0, end + 1);
       results.add(SearchSlice(text: toAdd, match: false, start: 0, end: end));
     }
-    for (var i = 0; i < indices.length; i++) {
-      List<int> crnt = indices[i];
+    for (var i = 0; i < spans.length; i++) {
+      List<int> crnt = spans[i];
       int s = crnt[0];
       int e = crnt[1];
       String toAdd = haystack.substring(s, e + 1);
       results.add(SearchSlice(text: toAdd, match: true, start: s, end: e));
-      if (i + 1 < indices.length) {
-        List<int> nxt = indices[i + 1];
+      if (i + 1 < spans.length) {
+        List<int> nxt = spans[i + 1];
         if (nxt[0] - crnt[1] > 1) {
           int ss = crnt[1] + 1;
           int ee = nxt[0] - 1;
@@ -51,7 +85,7 @@ class VersesService
         }
       }
     }
-    List<int> trailing = indices.last;
+    List<int> trailing = spans.last;
     int lastIndex = haystack.length - 1;
     if (trailing[1] < lastIndex) {
       //The last 1 is added for substring
@@ -67,7 +101,7 @@ class VersesService
     bool basmala = searchSettings.basmala;
     String keyword = searchSettings.keyword;
     SearchMode searchMode = searchSettings.mode;
-    String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;
+    String table = basmala ? _TABLE_NAME_BASMALA : _TABLE_NAME_NO_BASMALA;
     String chapterCondition;
     if (searchSettings.searchInWholeQuran) {
       chapterCondition = " > 0 ";
@@ -128,10 +162,15 @@ class VersesService
   //Search
   @override
   Future<SearchResult> keywordSearch(
-      KeywordSearchSettings searchSettings) async {
+    KeywordSearchSettings searchSettings,
+  ) async {
     List<Verse> versesDB = await _searchInDB(searchSettings);
     List<VerseSearchResult> results = versesDB.map((Verse v) {
-      List<SearchSlice> slices = _search(v.verseText, searchSettings.keyword);
+      List<SearchSlice> slices = _generateSlices(
+        v.verseText,
+        searchSettings.keyword,
+        searchSettings.mode,
+      );
       return VerseSearchResult(verse: v, slices: slices);
     }).toList();
     return SearchResult(
@@ -169,7 +208,7 @@ class VersesService
     //Prepare Query
     String query =
         "SELECT v.ayah as verse_id,text_tashkel as verse_text_tashkel,text as verse_text,c.arabic as chapter_name "
-        "FROM $TABLE_NAME_NO_BASMALA as v "
+        "FROM $_TABLE_NAME_NO_BASMALA as v "
         "INNER JOIN CHAPTERS as c on c.c0sura = v.sura "
         "where v.ayah = $verseId and v.sura = $chapterId";
 
@@ -202,7 +241,7 @@ class VersesService
     bool basmala,
   ) async {
     //Prepare Query
-    String table = basmala ? TABLE_NAME_BASMALA : TABLE_NAME_NO_BASMALA;
+    String table = basmala ? _TABLE_NAME_BASMALA : _TABLE_NAME_NO_BASMALA;
     String chapterCondition =
         (chapterId == null) ? "" : "WHERE sura = $chapterId";
     String query =

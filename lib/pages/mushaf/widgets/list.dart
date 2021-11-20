@@ -73,7 +73,7 @@ class VerseList extends StatelessWidget {
               contentPadding: EdgeInsets.only(
                 top: isHighlighted ? 20 : 5,
                 left: 5,
-                right: 5,
+                right: 10,
               ),
               title: Text.rich(
                 TextSpan(

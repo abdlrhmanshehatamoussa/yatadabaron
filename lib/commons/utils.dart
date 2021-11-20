@@ -230,7 +230,7 @@ class Utils {
     return reduced;
   }
 
-  static List<List<int>> findIndices(String needle, String haystack) {
+  static List<List<int>> findAllSpans(String needle, String haystack) {
     List<List<int>> results = [];
     int index = haystack.indexOf(needle);
     while (index >= 0) {
