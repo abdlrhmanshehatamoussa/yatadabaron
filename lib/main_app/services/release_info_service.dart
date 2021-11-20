@@ -6,7 +6,6 @@ import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import '../../commons/api_helper.dart';
 
-
 class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
   ReleaseInfoService({
     required this.preferences,
@@ -55,19 +54,9 @@ class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
   @override
   Future<int> syncReleases() async {
     List<ReleaseInfo> remotes = await _getRemote();
-    List<ReleaseInfo> locals = await _getLocal();
-    List<ReleaseInfo> toAdd = [];
-    for (var remote in remotes) {
-      bool exists =
-          locals.any((ReleaseInfo local) => local.uniqueId == remote.uniqueId);
-      if (exists == false) {
-        toAdd.add(remote);
-      }
-    }
-    if (toAdd.length > 0) {
-      _addLocal(toAdd);
-    }
-    return toAdd.length;
+    await this.preferences.remove(_RELEASES_KEY);
+    await _addLocal(remotes);
+    return remotes.length;
   }
 
   @override
