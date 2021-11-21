@@ -13,46 +13,49 @@ class SearchSummaryWidget extends StatelessWidget {
     required this.onShare,
   });
 
+  String _natigaTamyeez(int count) {
+    return Utils.numberTamyeez(
+      count: count,
+      isMasculine: false,
+      mothana: Localization.RESULT_MOTHANA,
+      plural: Localization.RESULT_PLURAL,
+      single: Localization.RESULT,
+    );
+  }
+
+  String _suraTamyeez(int count) {
+    return Utils.numberTamyeez(
+      count: count,
+      single: Localization.SURA_SINGLE,
+      plural: Localization.SURA_PLURAL,
+      mothana: Localization.SURA_MOTHANA,
+      isMasculine: false,
+    );
+  }
+
   String get summary {
     if (searchResult.collections.isEmpty) {
       return Localization.EMPTY_SEARCH_RESULTS;
     }
     int chaptersCount = searchResult.collections.length;
     bool wholeQuran = searchResult.settings.searchInWholeQuran;
-    String result = Utils.numberTamyeez(
-      count: searchResult.totalMatchCount,
-      isMasculine: false,
-      mothana: Localization.RESULT_MOTHANA,
-      plural: Localization.RESULT_PLURAL,
-      single: Localization.RESULT,
-    );
+    String result = _natigaTamyeez(searchResult.totalMatchCount);
+    String foundIn;
     if (wholeQuran) {
-      return Utils.replaceMultiple(
-        Localization.SEARCH_SUMMARY_WHOLE_QURAN,
-        "#",
-        [
-          result,
-          searchResult.settings.keyword,
-          Utils.numberTamyeez(
-            count: chaptersCount,
-            single: Localization.SURA_SINGLE,
-            plural: Localization.SURA_PLURAL,
-            mothana: Localization.SURA_MOTHANA,
-            isMasculine: false,
-          ),
-        ],
-      );
+      foundIn = _suraTamyeez(chaptersCount);
     } else {
-      return Utils.replaceMultiple(
-        Localization.SEARCH_SUMMARY,
-        "#",
-        [
-          result,
-          searchResult.settings.keyword,
-          searchResult.results.first.verse.chapterName!,
-        ],
-      );
+      foundIn = searchResult.results.first.verse.chapterName!;
     }
+    return Utils.replaceMultiple(
+      Localization.SEARCH_SUMMARY,
+      "#",
+      [
+        result,
+        searchResult.settings.keyword,
+        foundIn,
+        searchResult.settings.mode.name,
+      ],
+    );
   }
 
   String get toShare {
@@ -75,7 +78,6 @@ class SearchSummaryWidget extends StatelessWidget {
             flex: 3,
             child: Text(
               summary,
-              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 13,
                 color: Theme.of(context).colorScheme.secondary,

@@ -15,9 +15,7 @@ class Localization {
   static const String CHAPTER = 'السورة';
   static const String EMPTY_SEARCH_RESULTS = 'لم يتم العثور علي نتائج.';
   static const String TAP_SEARCH_BUTTON = 'اضغط علامة البحث للبدء';
-  static const String SEARCH_SUMMARY = 'تم العثور علي (#) لكلمة (#) في #';
-  static const String SEARCH_SUMMARY_WHOLE_QURAN =
-      'تم العثور علي (#) لكلمة (#) في (#)';
+  static const String SEARCH_SUMMARY = 'تم العثور علي (#) لكلمة (#) في (#), نوع البحث (#), فيما يلي النتائج بالرسم الإملائي';
   static const String CLOSE = 'الخروج';
   static const String SEARCH_ERROR =
       'حدث خطأ ما أثناء البحث, برجاء المحاولة مرة آخري أو التواصل مع ادارة التطبيق';
