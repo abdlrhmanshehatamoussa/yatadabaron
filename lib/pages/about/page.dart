@@ -2,12 +2,12 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/widgets/module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'backend.dart';
 
 class AboutPage extends StatelessWidget {
   Widget customText(String text) {
     return Text(
       text,
-      textAlign: TextAlign.center,
       style: TextStyle(fontSize: 18),
     );
   }
@@ -18,10 +18,12 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AboutPageBackend backend = AboutPageBackend(context);
     List<String> statements = [
       Localization.APP_DESCRIPTION,
       Localization.MUSHAF_DESCRIPTION,
-      Localization.TAFSEER_ABOUT
+      Localization.TAFSEER_ABOUT,
+      (Localization.VERSION_BUILD_ID).replaceFirst("#", backend.buildId),
     ];
     return CustomPageWrapper(
       pageTitle: Localization.ABOUT,
@@ -42,5 +44,5 @@ class AboutPage extends StatelessWidget {
       ),
       floatingButton: null,
     );
-  } 
+  }
 }

@@ -89,7 +89,7 @@ class MainApp extends SimpleApp {
     );
     registery.register<IVersionInfoService>(
       service: VersionInfoService(
-        buildNumber: int.tryParse(_info.buildNumber) ?? 0,
+        buildId: _info.buildNumber,
         versionName: _info.version,
       ),
     );

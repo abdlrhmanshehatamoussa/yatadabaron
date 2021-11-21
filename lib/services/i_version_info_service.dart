@@ -1,4 +1,4 @@
 abstract class IVersionInfoService {
   String getVersionName();
-  int? getBuildNumber();
+  String getBuildId();
 }

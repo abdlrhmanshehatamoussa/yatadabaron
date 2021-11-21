@@ -82,4 +82,5 @@ class Localization {
   static const String SURA_MOTHANA = "سورتان";
   static const String RASM_EMLA2y = "الرسم الإملائي";
   static const String IN = "في";
+  static const String VERSION_BUILD_ID = "رقم النسخة: #";
 }

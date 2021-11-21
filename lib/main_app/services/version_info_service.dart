@@ -2,17 +2,17 @@ import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 
 class VersionInfoService implements IVersionInfoService, ISimpleService {
-  final int? buildNumber;
+  final String buildId;
   final String versionName;
 
   VersionInfoService({
-    required this.buildNumber,
+    required this.buildId,
     required this.versionName,
   });
 
   @override
-  int? getBuildNumber() {
-    return this.buildNumber;
+  String getBuildId() {
+    return this.buildId;
   }
 
   @override

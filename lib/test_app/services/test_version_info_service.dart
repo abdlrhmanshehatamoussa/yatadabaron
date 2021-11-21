@@ -3,8 +3,8 @@ import 'package:yatadabaron/simple/module.dart';
 
 class TestVersionInfoService implements IVersionInfoService, ISimpleService {
   @override
-  int? getBuildNumber() {
-    return 43;
+  String getBuildId() {
+    return "43";
   }
 
   @override
