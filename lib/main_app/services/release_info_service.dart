@@ -62,7 +62,7 @@ class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
   @override
   Future<List<ReleaseInfo>> getReleases() async {
     List<ReleaseInfo> local = await _getLocal();
-    local.sort((a, b) => b.uniqueId.compareTo(a.uniqueId));
+    local.sort((a, b) => b.releaseName.compareTo(a.releaseName));
     return local;
   }
 }

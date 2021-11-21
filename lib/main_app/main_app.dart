@@ -107,14 +107,19 @@ class MainApp extends SimpleApp {
 
   @override
   Future<void> onAppStart(ISimpleServiceProvider serviceProvider) async {
-    //Log events
-    var analyticsService = serviceProvider.getService<IAnalyticsService>();
-    await analyticsService.logAppStarted();
-    await analyticsService.syncAllLogs();
+    try {
+      //Log events
+      var analyticsService = serviceProvider.getService<IAnalyticsService>();
+      await analyticsService.logAppStarted();
+      await analyticsService.syncAllLogs();
 
-    //Load releases
-    var releaseInfoService = serviceProvider.getService<IReleaseInfoService>();
-    await releaseInfoService.syncReleases();
+      //Load releases
+      var releaseInfoService =
+          serviceProvider.getService<IReleaseInfoService>();
+      await releaseInfoService.syncReleases();
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override

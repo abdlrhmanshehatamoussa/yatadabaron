@@ -28,10 +28,10 @@ class ReleaseNotesPage extends StatelessWidget {
                     ReleaseInfo release = releases[i];
                     List<String> parts = [
                       Localization.RELEASE_NAME,
-                      release.uniqueId,
+                      release.releaseName,
                     ];
                     String fullName = parts.join(" : ");
-                    bool isCurrent = release.uniqueId == currentVersion;
+                    bool isCurrent = release.releaseName == currentVersion;
                     return ListTile(
                       title: Text(
                         fullName,

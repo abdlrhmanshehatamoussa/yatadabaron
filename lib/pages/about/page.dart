@@ -28,11 +28,11 @@ class AboutPage extends StatelessWidget {
     return CustomPageWrapper(
       pageTitle: Localization.ABOUT,
       child: Container(
-        padding: EdgeInsets.all(5),
+        padding: EdgeInsets.all(10),
         child: Center(
           child: ListView.separated(
             itemBuilder: (_, int i) {
-              String text = statements[i];
+              String text = "- ${statements[i]}";
               return customText(text);
             },
             separatorBuilder: (_, __) {
