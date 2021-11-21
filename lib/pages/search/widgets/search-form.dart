@@ -165,7 +165,7 @@ class _State extends State<SearchForm> {
             value: settings.basmala,
             onChanged: (bool val) async {
               setState(() {
-                settings.updateBasmala(val);
+                settings=settings.updateBasmala(val);
               });
             },
           );
