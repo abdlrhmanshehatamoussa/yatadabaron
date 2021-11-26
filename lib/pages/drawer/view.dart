@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/pages/drawer/backend.dart';
-// import 'package:yatadabaron/widgets/user_avatar.dart';
+import 'package:yatadabaron/widgets/user_avatar.dart';
 import 'package:yatadabaron/widgets/module.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -21,10 +21,10 @@ class CustomDrawer extends StatelessWidget {
             FullLogo(
               padding: 20,
             ),
-            // GestureDetector(
-            //   child: UserAvatar(user: backend.currentUser),
-            //   onTap: backend.goAccountPage,
-            // ),
+            GestureDetector(
+              child: UserAvatar(user: backend.currentUser),
+              onTap: backend.goAccountPage,
+            ),
             Divider(
               height: 5,
             ),

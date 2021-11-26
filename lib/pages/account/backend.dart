@@ -37,7 +37,10 @@ class AccountBackend extends SimpleBackend {
           break;
         case LoginResult.ERROR:
           // TODO: Localize
-          await _show("Error happened while logging in");
+          await _show("Unknown error happened while logging in");
+          break;
+        case LoginResult.NOT_REGISTERED:
+          await _show("هذا الحساب غير مسجل, برجاء تسجيل الدخول أولاً");
           break;
       }
     } catch (e) {
@@ -46,11 +49,29 @@ class AccountBackend extends SimpleBackend {
     }
   }
 
-
-  Future<void> signInGoogleEmail() async {
-    //TODO: Localize
-    await _show("عذراً, سيتم توفير هذه الخاصية قريباً");
+  Future<void> registerGoogle() async {
+    try {
+      RegisterResult result = await userService.registerGoogle();
+      switch (result) {
+        case RegisterResult.DONE:
+        //TODO: Localize
+          await _show("Registered successfully, now you can login");
+          break;
+        case RegisterResult.ALREADY_REGISTERED:
+          //TODO: Localize
+          await _show("Already Registered");
+          break;
+        case RegisterResult.ERROR:
+          // TODO: Localize
+          await _show("Unknown error happened while logging in");
+          break;
+      }
+    } catch (e) {
+      // TODO: Localize
+      await _show("Error occurred while registering: $e");
+    }
   }
+
   Future<void> _show(String message) async {
     await Utils.showCustomDialog(
       context: myContext,

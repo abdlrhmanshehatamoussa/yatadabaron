@@ -14,7 +14,22 @@ class CloudHubAPIClientInfo {
   });
 }
 
+enum CloudHubLoginStatus { SUCCESS, ERROR, NOT_REGISTERED }
+enum CloudHubRegisterStatus { SUCCESS, ERROR, ALREADY_REGISTERED }
 
+class CloudHubLoginResult {
+  final CloudHubLoginStatus status;
+  final Map<String, dynamic>? result;
+
+  CloudHubLoginResult(this.status, this.result);
+}
+
+class CloudHubRegisterResult {
+  final CloudHubRegisterStatus status;
+  final Map<String, dynamic>? result;
+
+  CloudHubRegisterResult(this.status, this.result);
+}
 
 class CloudHubAPIHelper {
   //Fields
@@ -22,6 +37,9 @@ class CloudHubAPIHelper {
   static const String ENDPOINT_NONCE = "nonce";
   static const String ENDPOINT_ACTIONS = "actions";
   static const String ENDPOINT_RELEASES = "releases";
+  static const String _ENDPOINT_USER = "users";
+  static const String _ENDPOINT_USER_LOGIN = "users/login";
+  static const int _LOGINTYPE_GOOGLE = 1932278;
 
   //Private Constructor
   CloudHubAPIHelper(this._clientInfo);
@@ -44,7 +62,7 @@ class CloudHubAPIHelper {
     }
     headers['Content-Type'] = 'application/json; charset=UTF-8';
     if (generateNonce) {
-      String nonce = await this.generateNonce();
+      String nonce = await this._generateNonce();
       headers['nonce'] = nonce;
     }
     Response result = await post(
@@ -64,7 +82,7 @@ class CloudHubAPIHelper {
       headers = this._basicHeaders;
     }
     if (generateNonce) {
-      String nonce = await this.generateNonce();
+      String nonce = await this._generateNonce();
       headers['nonce'] = nonce;
     }
     Response result = await get(
@@ -74,7 +92,7 @@ class CloudHubAPIHelper {
     return result;
   }
 
-  Future<String> generateNonce() async {
+  Future<String> _generateNonce() async {
     Response result = await post(
       Uri.parse('${this._clientInfo.apiUrl}/$ENDPOINT_NONCE'),
       headers: this._basicHeaders,
@@ -85,5 +103,77 @@ class CloudHubAPIHelper {
       return nonce;
     }
     throw new Exception("Failed to generate nonce");
+  }
+
+  Future<CloudHubLoginResult> loginGoogle({
+    required String email,
+    required String token,
+  }) async {
+    //TODO: Validate input parameters
+    dynamic payload = {
+      "email": email,
+      "password": token,
+      "login_type": CloudHubAPIHelper._LOGINTYPE_GOOGLE,
+    };
+    String payloadStr = jsonEncode(payload);
+    Response response = await httpPOST(
+      endpoint: CloudHubAPIHelper._ENDPOINT_USER_LOGIN,
+      payload: payloadStr,
+    );
+    switch (response.statusCode) {
+      case 200:
+        return CloudHubLoginResult(
+          CloudHubLoginStatus.SUCCESS,
+          jsonDecode(response.body),
+        );
+      case 495:
+        return CloudHubLoginResult(
+          CloudHubLoginStatus.NOT_REGISTERED,
+          null,
+        );
+      default:
+        return CloudHubLoginResult(
+          CloudHubLoginStatus.ERROR,
+          null,
+        );
+    }
+  }
+
+  Future<CloudHubRegisterResult> registerGoogle({
+    required String email,
+    required String token,
+    required String name,
+    required String? imageUrl,
+  }) async {
+    //TODO: Validate input parameters
+    dynamic payload = {
+      "email": email,
+      "password": token,
+      "login_type": CloudHubAPIHelper._LOGINTYPE_GOOGLE,
+      "image_url": imageUrl,
+      "name": name,
+    };
+    String payloadStr = jsonEncode(payload);
+    Response response = await httpPOST(
+      endpoint: CloudHubAPIHelper._ENDPOINT_USER,
+      payload: payloadStr,
+    );
+    switch (response.statusCode) {
+      case 200:
+        return CloudHubRegisterResult(
+          CloudHubRegisterStatus.SUCCESS,
+          jsonDecode(response.body),
+        );
+      case 494:
+        return CloudHubRegisterResult(
+          CloudHubRegisterStatus.ALREADY_REGISTERED,
+          null,
+        );
+      default:
+        return CloudHubRegisterResult(
+          CloudHubRegisterStatus.ERROR,
+          null,
+        );
+    }
   }
 }

@@ -101,7 +101,10 @@ class MainApp extends SimpleApp {
     );
 
     registery.register<IUserService>(
-      service: UserService(sharedPreferences: _pref),
+      service: UserService(
+        sharedPreferences: _pref,
+        cloudHubAPIHelper: _cloudHubHelper
+      ),
     );
   }
 

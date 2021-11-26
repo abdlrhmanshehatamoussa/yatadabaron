@@ -15,9 +15,9 @@ class AccountView extends StatelessWidget {
     }) {
       return Column(
         children: [
-          //TODO: Localize
           ListTile(
             onTap: backend.signOut,
+            //TODO: Localize
             title: Text("تسجيل الخروج"),
             trailing: Icon(Icons.logout),
           )
@@ -33,17 +33,17 @@ class AccountView extends StatelessWidget {
           SignInButton(
             Buttons.Google,
             padding: EdgeInsets.all(5),
-            text: "تسجيل الدخول عبر Google",
+            text: "لدي حساب بالفعل",
             onPressed: backend.signInGoogle,
           ),
           SizedBox(
             height: 10,
           ),
           SignInButton(
-            Buttons.Email,
+            Buttons.Google,
             padding: EdgeInsets.all(5),
-            text: "تسجيل الدخول عبر البريد",
-            onPressed: backend.signInGoogleEmail,
+            text: "تسجيل الدخول لأول مرة",
+            onPressed: backend.registerGoogle,
           ),
         ],
       );
