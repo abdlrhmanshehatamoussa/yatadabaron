@@ -78,10 +78,8 @@ jobs:
           pwd
           cd android
           secretJsonFile=secret.json
-          secretJsonFileAsc=secret.json.asc
           touch $secretJsonFile
-          echo "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE_ENC }}" >> $secretJsonFileAsc
-          gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE_PASSPHRASE }}" --batch $secretJsonFileAsc > $secretJsonFile
+          echo "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE }}" >> $secretJsonFile
 
       - name: Creating .env file
         run: |
@@ -127,6 +125,7 @@ jobs:
         run: |
           pwd
           cd android
+          flutter clean
           flutter build apk --release
 
       - name: Deploy
