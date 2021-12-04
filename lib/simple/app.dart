@@ -6,7 +6,7 @@ import 'reloader.dart';
 import 'service.dart';
 
 abstract class SimpleApp extends StatelessWidget {
-  SimpleApp() : super(key: UniqueKey());
+  SimpleApp({Key? key}) : super(key: key ?? UniqueKey());
 
   final SimpleStreamObject<String> _streamObject = SimpleStreamObject<String>(
     initialValue: "",
