@@ -42,12 +42,9 @@ jobs:
       - name: Creating Keystore file
         run: |
           cd android  
-
           cd app
-          keyFileAsc=key.asc
           keyFile=key.jks
-          echo "${{ secrets.GOOGLE_PLAY_KEYSTORE_FILE_ENC }}">$keyFileAsc
-          gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_KEYSTORE_FILE_PASSPHRASE }}" --batch $keyFileAsc > $keyFile
+          gpg -d --passphrase "${{ secrets.GPG_PASS }}" --batch $keyFile.asc > $keyFile
 
           cd ../
           keyPropFile=key.properties
@@ -72,18 +69,14 @@ jobs:
           cd android
           cd app
           file=google-services.json
-          ascfile=$file.asc
-          echo "${{ secrets.GOOGLE_SERVICES_FILE }}">$ascfile
-          gpg -d --passphrase "${{ secrets.GOOGLE_SERVICES_FILE_PASS }}" --batch $ascfile > $file
+          gpg -d --passphrase "${{ secrets.GPG_PASS }}" --batch $file.asc > $file
 
       - name: Creating Fastlane Secret file
         run: |
           pwd
           cd android
           file=fastlane-secret.json
-          ascfile=$file.asc
-          echo "${{ secrets.FASTLANE_SECRET }}">$ascfile
-          gpg -d --passphrase "${{ secrets.FASTLANE_SECRET_PASS }}" --batch $ascfile > $file
+          gpg -d --passphrase "${{ secrets.GPG_PASS }}" --batch $file.asc > $file
 
       - name: Creating .env file
         run: |
