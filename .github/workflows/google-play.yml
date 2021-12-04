@@ -2,9 +2,9 @@ name: deploy-flutter-googleplay-fastlane
 
 on:
   push:
-    tags: 
-      - 'test@*@*'
-      - 'production@*@*'
+    tags:
+      - "test@*@*"
+      - "production@*@*"
   workflow_dispatch:
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
       - name: Creating Keystore file
         run: |
           cd android  
-        
+
           cd app
           keyFileAsc=key.asc
           keyFile=key.jks
@@ -56,6 +56,13 @@ jobs:
           echo keyPassword=${{ secrets.GOOGLE_PLAY_KEYSTORE_KEY_PASSWORD }}>>$keyPropFile
           echo storePassword=${{ secrets.GOOGLE_PLAY_KEYSTORE_STORE_PASSWORD }}>>$keyPropFile
           echo storeFile=$keyFile>>$keyPropFile
+
+      - name: Creating Google Services Credentials file
+        run: |
+          cd android
+          cd app
+          googleServiceFile=google-services.json
+          echo "${{ secrets.GOOGLE_SERVICES_FILE }}">$googleServiceFile
 
       - name: Creating Version file
         run: |
@@ -75,7 +82,7 @@ jobs:
           touch $secretJsonFile
           echo "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE_ENC }}" >> $secretJsonFileAsc
           gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE_PASSPHRASE }}" --batch $secretJsonFileAsc > $secretJsonFile
-      
+
       - name: Creating .env file
         run: |
           pwd
@@ -105,16 +112,16 @@ jobs:
           cd android
           cat secret.json
           bundle exec fastlane run validate_play_store_json_key
-      
+
       - name: "Setup Java"
         uses: actions/setup-java@v1
         with:
-          java-version: '12.x'
+          java-version: "12.x"
 
       - name: "Setup Flutter"
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.2.3'
+          flutter-version: "2.2.3"
 
       - name: Build
         run: |
