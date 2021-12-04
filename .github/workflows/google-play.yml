@@ -68,19 +68,22 @@ jobs:
 
       - name: Creating Google Services file
         run: |
-          pwd  
+          pwd
           cd android
           cd app
-          googleServiceFile=google-services.json
-          echo "${{ secrets.GOOGLE_SERVICES_FILE }}">$googleServiceFile
+          file=google-services.json
+          ascfile=$file.asc
+          echo "${{ secrets.GOOGLE_SERVICES_FILE }}">$ascfile
+          gpg -d --passphrase "${{ secrets.GOOGLE_SERVICES_FILE_PASS }}" --batch $ascfile > $file
 
-      - name: Creating GooglePlay Secrets file
+      - name: Creating Fastlane Secret file
         run: |
           pwd
           cd android
-          secretJsonFile=secret.json
-          echo "${{ secrets.GOOGLE_PLAY_CREDENTIALS_FILE }}">$secretJsonFile
-          ls -a
+          file=fastlane-secret.json
+          ascfile=$file.asc
+          echo "${{ secrets.FASTLANE_SECRET }}">$ascfile
+          gpg -d --passphrase "${{ secrets.FASTLANE_SECRET_PASS }}" --batch $ascfile > $file
 
       - name: Creating .env file
         run: |
