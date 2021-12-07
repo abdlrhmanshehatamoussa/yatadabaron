@@ -17,7 +17,6 @@ class AccountView extends StatelessWidget {
         children: [
           ListTile(
             onTap: backend.signOut,
-            //TODO: Localize
             title: Text("تسجيل الخروج"),
             trailing: Icon(Icons.logout),
           )
@@ -28,7 +27,6 @@ class AccountView extends StatelessWidget {
     Widget _loggedOut() {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        //TODO: Localize
         children: [
           SignInButton(
             Buttons.Google,

@@ -14,10 +14,9 @@ class AccountBackend extends SimpleBackend {
   Future<void> signOut() async {
     bool done = await userService.signOut();
     if (done == false) {
-      //TODO: Localize
       Utils.showCustomDialog(
         context: myContext,
-        text: "Error while logging out",
+        text: "خطأ أثناء تسجيل الخروج !",
       );
     } else {
       reloadApp();
@@ -32,20 +31,17 @@ class AccountBackend extends SimpleBackend {
           reloadApp();
           break;
         case LoginResult.ALREADY_LOGGED_IN:
-          //TODO: Localize
-          await _show("Already Logged In");
+          await _show("تم تسجيل الدخول بالفعل");
           break;
         case LoginResult.ERROR:
-          // TODO: Localize
-          await _show("Unknown error happened while logging in");
+          await _show("خطأ أثناء تسجيل الدخول");
           break;
         case LoginResult.NOT_REGISTERED:
           await _show("هذا الحساب غير مسجل, برجاء تسجيل الدخول أولاً");
           break;
       }
     } catch (e) {
-      // TODO: Localize
-      await _show("Error occurred while logging in: $e");
+      await _show("خطأ أثناء تسجيل الدخول $e");
     }
   }
 
@@ -54,21 +50,17 @@ class AccountBackend extends SimpleBackend {
       RegisterResult result = await userService.registerGoogle();
       switch (result) {
         case RegisterResult.DONE:
-        //TODO: Localize
-          await _show("Registered successfully, now you can login");
+          await _show("تم إنشاء الحساب بنجاح, الآن يمكنك تسجيل الدخول");
           break;
         case RegisterResult.ALREADY_REGISTERED:
-          //TODO: Localize
-          await _show("Already Registered");
+          await _show("هذا الحساب موجود بالفعل");
           break;
         case RegisterResult.ERROR:
-          // TODO: Localize
-          await _show("Unknown error happened while logging in");
+          await _show("خطأ أثناء تسجيل حساب جديد");
           break;
       }
     } catch (e) {
-      // TODO: Localize
-      await _show("Error occurred while registering: $e");
+      await _show("خطأ أثناء تسجيل حساب جديد: $e");
     }
   }
 
