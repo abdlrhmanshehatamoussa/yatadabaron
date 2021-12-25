@@ -19,7 +19,6 @@ class MushafBackend extends SimpleBackend {
   late IChaptersService chaptersService = getService<IChaptersService>();
   late IVersesService versesService = getService<IVersesService>();
   late IBookmarksService bookmarksService = getService<IBookmarksService>();
-  late IAnalyticsService analyticsService = getService<IAnalyticsService>();
 
   StreamObject<MushafPageState> _stateStreamObj = StreamObject();
   Stream<MushafPageState> get stateStream => _stateStreamObj.stream;
@@ -59,19 +58,7 @@ class MushafBackend extends SimpleBackend {
     _stateStreamObj.add(state);
   }
 
-  Future<void> logChapterSelected(String chatperNameAR, int chapterID) async {
-    analyticsService.logOnTap(
-      "CHAPTER SELECTED",
-      payload: "NAME=$chatperNameAR|ID=$chapterID",
-    );
-  }
-
   Future<void> onChapterSelected(Chapter chapter) async {
-    await logChapterSelected(
-      chapter.chapterNameAR,
-      chapter.chapterID,
-    );
-
     await reloadVerses(
       MushafSettings.fromSelection(
         chapterId: chapter.chapterID,

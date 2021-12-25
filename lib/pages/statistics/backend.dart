@@ -12,7 +12,6 @@ class StatisticsBackend extends SimpleBackend {
     _stateBloc.add(SearchState.INITIAL);
   }
 
-  late IAnalyticsService analyticsService = getService<IAnalyticsService>();
   late IChaptersService chaptersService = getService<IChaptersService>();
   late IVersesService versesService = getService<IVersesService>();
 
@@ -27,12 +26,6 @@ class StatisticsBackend extends SimpleBackend {
   Stream<StatisticsPayload> get payloadStream => _payloadBloc.stream;
 
   Future changeSettings(BasicSearchSettings settings) async {
-    String payload =
-        "LOCATION=${settings.chapterId}|BASMALA=${settings.basmala}";
-    analyticsService.logFormFilled(
-      "STATISTICS FORM",
-      payload: payload,
-    );
     this._settingsBloc.add(settings);
     _stateBloc.add(SearchState.IN_PROGRESS);
 

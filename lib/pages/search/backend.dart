@@ -24,9 +24,6 @@ class SearchBackend extends SimpleBackend {
   StreamObject<Exception> _errorStream = StreamObject();
 
   Future changeSettings(KeywordSearchSettings settings) async {
-    String log =
-        "KEYWORD=${settings.keyword}|MODE=${describeEnum(settings.mode)}|LOCATION=${settings.chapterID}|BASMALA=${settings.basmala}";
-    analyticsService.logFormFilled("SEARCH FORM", payload: log);
     if (settings.keyword.isEmpty) {
       _stateBloc.add(SearchState.INVALID_SETTINGS);
       return;

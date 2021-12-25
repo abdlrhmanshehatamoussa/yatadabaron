@@ -19,7 +19,7 @@ class DrawerBackend extends SimpleBackend {
   User? get currentUser => userService.currentUser;
 
   Future rate() async {
-    analyticsService.logOnTap("DRAWER", payload: "TAB=RATE");
+    await analyticsService.logOnTap("DRAWER", payload: "TAB=RATE");
     await LaunchReview.launch();
   }
 
