@@ -8,9 +8,11 @@ class SearchForm extends StatefulWidget {
   SearchForm({
     required this.chaptersFuture,
     required this.onSearch,
+    required this.settings,
   });
 
   final Future<List<Chapter>> chaptersFuture;
+  final KeywordSearchSettings settings;
   final Function(KeywordSearchSettings settings) onSearch;
 
   @override
@@ -19,6 +21,7 @@ class SearchForm extends StatefulWidget {
   static Future show({
     required BuildContext context,
     required Future<List<Chapter>> chaptersFuture,
+    required KeywordSearchSettings settings,
     required Function(KeywordSearchSettings settings) onSearch,
   }) async {
     await showDialog(
@@ -31,6 +34,7 @@ class SearchForm extends StatefulWidget {
               padding: EdgeInsets.all(10),
               child: SearchForm(
                 onSearch: onSearch,
+                settings: settings,
                 chaptersFuture: chaptersFuture,
               ),
             )
@@ -42,9 +46,10 @@ class SearchForm extends StatefulWidget {
 }
 
 class _State extends State<SearchForm> {
-  final TextEditingController keywordController = TextEditingController();
-  KeywordSearchSettings settings = KeywordSearchSettings();
-
+  late KeywordSearchSettings settings = widget.settings;
+  late TextEditingController keywordController = TextEditingController(
+    text: settings.keyword,
+  );
   @override
   Widget build(BuildContext context) {
     keywordController.addListener(() {
@@ -68,6 +73,7 @@ class _State extends State<SearchForm> {
                 } else {
                   settings = settings.updateChapterId(1);
                 }
+                FocusScope.of(context).unfocus();
               });
             },
           ),
@@ -119,6 +125,7 @@ class _State extends State<SearchForm> {
               if (s != null) {
                 settings = settings.updateMode(s);
               }
+              FocusScope.of(context).unfocus();
             });
           },
         ),
@@ -147,6 +154,7 @@ class _State extends State<SearchForm> {
                   if (s != null) {
                     settings = settings.updateChapterId(s);
                   }
+                  FocusScope.of(context).unfocus();
                 });
               },
             ),
@@ -165,7 +173,8 @@ class _State extends State<SearchForm> {
             value: settings.basmala,
             onChanged: (bool val) async {
               setState(() {
-                settings=settings.updateBasmala(val);
+                settings = settings.updateBasmala(val);
+                FocusScope.of(context).unfocus();
               });
             },
           );

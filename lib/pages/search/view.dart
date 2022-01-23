@@ -61,6 +61,7 @@ class SearchPage extends StatelessWidget {
       onPressed: () async {
         await SearchForm.show(
           context: context,
+          settings: backend.settings,
           chaptersFuture: backend.getMushafChapters(),
           onSearch: (KeywordSearchSettings settings) async =>
               await backend.changeSettings(settings),

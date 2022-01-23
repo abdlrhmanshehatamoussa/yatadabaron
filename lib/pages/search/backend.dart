@@ -17,12 +17,13 @@ class SearchBackend extends SimpleBackend {
   late IVersesService versesService = getService<IVersesService>();
   late IAnalyticsService analyticsService = getService<IAnalyticsService>();
 
-  StreamObject<KeywordSearchSettings> _settingsBloc = StreamObject();
+  KeywordSearchSettings settings = KeywordSearchSettings();
   StreamObject<SearchResult> _searchResultBloc = StreamObject();
   StreamObject<SearchState> _stateBloc = StreamObject();
   StreamObject<Exception> _errorStream = StreamObject();
 
   Future changeSettings(KeywordSearchSettings settings) async {
+    this.settings = settings;
     if (settings.keyword.isEmpty) {
       _stateBloc.add(SearchState.INVALID_SETTINGS);
       return;
@@ -36,8 +37,7 @@ class SearchBackend extends SimpleBackend {
       _stateBloc.add(SearchState.DONE);
     } catch (e) {
       _stateBloc.add(SearchState.INITIAL);
-      _errorStream
-          .add(Exception(Localization.SEARCH_ERROR));
+      _errorStream.add(Exception(Localization.SEARCH_ERROR));
       return;
     }
   }
@@ -47,8 +47,6 @@ class SearchBackend extends SimpleBackend {
   }
 
   Stream<SearchResult> get payloadStream => _searchResultBloc.stream;
-
-  Stream<KeywordSearchSettings> get settingsStream => _settingsBloc.stream;
 
   Stream<SearchState> get stateStream => _stateBloc.stream;
 
