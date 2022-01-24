@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:yatadabaron/commons/security_helper.dart';
 
 class CloudHubAPIClientInfo {
   final String clientKey;
@@ -46,7 +45,7 @@ class CloudHubAPIHelper {
   Map<String, String> get _basicHeaders {
     return <String, String>{
       'client-key': this._clientInfo.clientKey,
-      'client-claim': SecurityHelper.encryptAES(
+      'client-claim': _encryptAES(
           this._clientInfo.clientKey, this._clientInfo.clientSecret)
     };
   }
@@ -122,7 +121,7 @@ class CloudHubAPIHelper {
     if (result.statusCode == 200) {
       dynamic nonceResponseObj = jsonDecode(result.body);
       String nonce = nonceResponseObj["token"];
-      return SecurityHelper.encryptAES(nonce, this._clientInfo.clientSecret);
+      return _encryptAES(nonce, this._clientInfo.clientSecret);
     }
     throw new Exception("Failed to generate nonce");
   }
@@ -197,5 +196,9 @@ class CloudHubAPIHelper {
           null,
         );
     }
+  }
+
+  String _encryptAES(String text, String encryptionKey) {
+    return text;
   }
 }
