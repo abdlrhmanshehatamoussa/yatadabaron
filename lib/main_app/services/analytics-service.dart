@@ -57,8 +57,8 @@ class AnalyticsService implements IAnalyticsService, ISimpleService {
     if (actions.length > 0) {
       try {
         String payload = actions.join(",");
-        payload = "{\"actions\":[$payload]}";
-        await this.apiHelper.httpPOST(
+        payload = "[$payload]";
+        await this.apiHelper.httpPATCH(
               endpoint: CloudHubAPIHelper.ENDPOINT_ACTIONS,
               payload: payload,
             );

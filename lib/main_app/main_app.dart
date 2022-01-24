@@ -50,7 +50,6 @@ class MainApp extends SimpleApp {
     CloudHubAPIHelper _cloudHubHelper = CloudHubAPIHelper(
       CloudHubAPIClientInfo(
         apiUrl: settings[Constants.ENV_CLOUDHUB_API_URL]!,
-        applicationGUID: settings[Constants.ENV_CLOUDHUB_APP_GUID]!,
         clientKey: settings[Constants.ENV_CLOUDHUB_CLIENT_KEY]!,
         clientSecret: settings[Constants.ENV_CLOUDHUB_CLIENT_SECRET]!,
       ),

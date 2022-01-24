@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:yatadabaron/commons/security_helper.dart';
 
 class CloudHubAPIClientInfo {
   final String clientKey;
   final String clientSecret;
-  final String applicationGUID;
   final String apiUrl;
   CloudHubAPIClientInfo({
     required this.clientKey,
     required this.clientSecret,
-    required this.applicationGUID,
     required this.apiUrl,
   });
 }
@@ -35,8 +34,8 @@ class CloudHubAPIHelper {
   //Fields
   final CloudHubAPIClientInfo _clientInfo;
   static const String ENDPOINT_NONCE = "nonce";
-  static const String ENDPOINT_ACTIONS = "actions";
-  static const String ENDPOINT_RELEASES = "releases";
+  static const String ENDPOINT_ACTIONS = "data/public/actions";
+  static const String ENDPOINT_RELEASES = "data/public/releases";
   static const String _ENDPOINT_USER = "users";
   static const String _ENDPOINT_USER_LOGIN = "users/login";
   static const int _LOGINTYPE_GOOGLE = 1932278;
@@ -47,7 +46,8 @@ class CloudHubAPIHelper {
   Map<String, String> get _basicHeaders {
     return <String, String>{
       'client-key': this._clientInfo.clientKey,
-      'application-guid': this._clientInfo.applicationGUID
+      'client-claim': SecurityHelper.encryptAES(
+          this._clientInfo.clientKey, this._clientInfo.clientSecret)
     };
   }
 
@@ -66,6 +66,28 @@ class CloudHubAPIHelper {
       headers['nonce'] = nonce;
     }
     Response result = await post(
+      Uri.parse('${this._clientInfo.apiUrl}/$endpoint'),
+      headers: headers,
+      body: payload,
+    );
+    return result;
+  }
+
+  Future<Response> httpPATCH({
+    required String endpoint,
+    required String payload,
+    bool generateNonce = true,
+    Map<String, String>? headers,
+  }) async {
+    if (headers == null) {
+      headers = this._basicHeaders;
+    }
+    headers['Content-Type'] = 'application/json; charset=UTF-8';
+    if (generateNonce) {
+      String nonce = await this._generateNonce();
+      headers['nonce'] = nonce;
+    }
+    Response result = await patch(
       Uri.parse('${this._clientInfo.apiUrl}/$endpoint'),
       headers: headers,
       body: payload,
@@ -100,7 +122,7 @@ class CloudHubAPIHelper {
     if (result.statusCode == 200) {
       dynamic nonceResponseObj = jsonDecode(result.body);
       String nonce = nonceResponseObj["token"];
-      return nonce;
+      return SecurityHelper.encryptAES(nonce, this._clientInfo.clientSecret);
     }
     throw new Exception("Failed to generate nonce");
   }
