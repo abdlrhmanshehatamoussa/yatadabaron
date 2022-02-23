@@ -199,6 +199,6 @@ class CloudHubAPIHelper {
   }
 
   String _encryptAES(String text, String encryptionKey) {
-    return text;
+    return text + "|" + encryptionKey;
   }
 }
