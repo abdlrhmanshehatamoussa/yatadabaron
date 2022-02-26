@@ -1,6 +1,6 @@
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/models/_module.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
 
 class StatisticsPayload {
   final String? chapterName;

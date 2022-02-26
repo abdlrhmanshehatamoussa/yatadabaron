@@ -1,4 +1,4 @@
-import 'package:yatadabaron/models/_module.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
 
 class KeywordSearchSettings {
   final String keyword;

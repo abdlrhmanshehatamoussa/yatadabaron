@@ -1,4 +1,4 @@
-import 'package:yatadabaron/models/_module.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
 
 abstract class ITafseerSourcesService {
   Future<List<TafseerSource>> getTafseerSources();

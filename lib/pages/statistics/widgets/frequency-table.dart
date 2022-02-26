@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/models/_module.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 import '../view_models/statistics-payload.dart';
 

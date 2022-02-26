@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:yatadabaron/models/_module.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
 import 'i_mapper.dart';
 
 class TafseerSourceMapper implements IMapper<TafseerSource> {

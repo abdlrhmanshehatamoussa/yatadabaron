@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
-import 'package:yatadabaron/models/_module.dart';
-import 'package:yatadabaron/services/_module.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/_modules/services.module.dart';
 import 'package:yatadabaron/simple/_module.dart';
 import 'view_models/statistics-payload.dart';
 

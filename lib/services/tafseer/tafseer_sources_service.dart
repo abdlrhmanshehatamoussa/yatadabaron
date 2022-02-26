@@ -1,9 +1,9 @@
-import 'package:yatadabaron/models/_module.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:yatadabaron/commons/api_helper.dart';
 import 'package:yatadabaron/simple/_module.dart';
-import 'package:yatadabaron/services/_module.dart';
+import 'package:yatadabaron/_modules/services.module.dart';
 
 import 'i_tafseer_sources_service.dart';
  

@@ -1,9 +1,9 @@
-import 'package:yatadabaron/models/_module.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/simple/_module.dart';
-import '../../commons/api_helper.dart';
+import '../commons/api_helper.dart';
 
 abstract class IReleaseInfoService {
   Future<List<ReleaseInfo>> getReleases();

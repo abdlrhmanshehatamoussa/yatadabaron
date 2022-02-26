@@ -1,0 +1,13 @@
+export '../services/release_info_service.dart';
+export '../services/version_info_service.dart';
+export '../services/tafseer/tafseer_service.dart';
+export '../services/tafseer/i_tafseer_service.dart';
+export '../services/tafseer/tafseer_sources_service.dart';
+export '../services/tafseer/i_tafseer_sources_service.dart';
+export '../services/mushaf/chapters_service.dart';
+export '../services/bookmarks_service.dart';
+export '../services/mushaf/verses_service.dart';
+export '../services/analytics_service.dart';
+export '../services/app_settings_service.dart';
+export '../services/user_service.dart';
+export '../services/i_local_repository.dart';

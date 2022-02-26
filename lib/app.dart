@@ -6,10 +6,10 @@ import 'package:yatadabaron/commons/api_helper.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
 import 'package:yatadabaron/commons/themes.dart';
-import 'package:yatadabaron/models/_module.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/home/view.dart';
-import 'package:yatadabaron/service_providers/_module.dart';
-import 'package:yatadabaron/services/_module.dart';
+import 'package:yatadabaron/_modules/service_providers.module.dart';
+import 'package:yatadabaron/_modules/services.module.dart';
 import 'package:yatadabaron/simple/_module.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 

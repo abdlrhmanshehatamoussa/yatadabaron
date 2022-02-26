@@ -1,7 +1,7 @@
 import 'package:yatadabaron/models/bookmark.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yatadabaron/models/_module.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/simple/_module.dart';
 
 abstract class IBookmarksService {

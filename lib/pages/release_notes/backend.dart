@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:yatadabaron/models/_module.dart';
-import 'package:yatadabaron/services/_module.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/_modules/services.module.dart';
 import 'package:yatadabaron/simple/_module.dart';
 
 class ReleaseNotesBackend extends SimpleBackend {
