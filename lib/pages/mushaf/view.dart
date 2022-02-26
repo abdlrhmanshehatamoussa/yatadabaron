@@ -6,7 +6,7 @@ import 'package:yatadabaron/pages/mushaf/backend.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
 import '../_viewmodels/module.dart';
-import 'package:yatadabaron/widgets/module.dart';
+import 'package:yatadabaron/pages/_widgets/module.dart';
 import './widgets/list.dart';
 
 class MushafPage extends StatelessWidget {

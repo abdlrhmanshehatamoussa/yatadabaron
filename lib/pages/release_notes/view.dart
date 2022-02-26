@@ -3,7 +3,7 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/release_notes/backend.dart';
-import 'package:yatadabaron/widgets/module.dart';
+import 'package:yatadabaron/pages/_widgets/module.dart';
 
 class ReleaseNotesPage extends StatelessWidget {
   @override

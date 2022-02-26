@@ -8,7 +8,7 @@ import './widgets/statistics-form.dart';
 import './widgets/statistics-summary.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/widgets/module.dart';
+import 'package:yatadabaron/pages/_widgets/module.dart';
 
 class StatisticsPage extends StatelessWidget {
   @override

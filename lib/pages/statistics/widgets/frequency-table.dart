@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/widgets/module.dart';
+import 'package:yatadabaron/pages/_widgets/module.dart';
 import '../view_models/statistics-payload.dart';
 
 class FrequencyTable extends StatelessWidget {

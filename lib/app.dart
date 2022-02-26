@@ -11,7 +11,7 @@ import 'package:yatadabaron/pages/home/view.dart';
 import 'package:yatadabaron/service_providers/module.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
-import 'package:yatadabaron/widgets/module.dart';
+import 'package:yatadabaron/pages/_widgets/module.dart';
 
 class MainApp extends SimpleApp {
   @override
