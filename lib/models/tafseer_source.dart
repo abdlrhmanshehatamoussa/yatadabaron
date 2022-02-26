@@ -9,7 +9,7 @@ class TafseerSource {
     required this.tafseerNameEnglish,
   });
 
-  static TafseerSource fromJson(json) {
+  static TafseerSource fromJsonRemote(json) {
     return new TafseerSource(
       tafseerId: json["tafseer_id"],
       tafseerName: json["tafseer_name"],

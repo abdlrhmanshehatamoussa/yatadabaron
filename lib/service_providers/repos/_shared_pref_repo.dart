@@ -1,7 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/main_app/services/module.dart';
-
-import 'i_mapper.dart';
+import '../_mappers/i_mapper.dart';
 
 class SharedPrefRepository<T> implements ILocalRepository<T> {
   SharedPrefRepository({
@@ -28,14 +27,26 @@ class SharedPrefRepository<T> implements ILocalRepository<T> {
   }
 
   @override
-  Future<void> merge(List<T> newItems, String identifier) {
-    // TODO: implement merge
-    throw UnimplementedError();
+  Future<void> merge(List<T> newItems) async {
+    List<T> diff = [];
+    List<T> local = await getAll();
+    for (var newItem in newItems) {
+      bool exists = local.any((T l) => mapper.isIdentical(newItem, l));
+      if (!exists) diff.add(newItem);
+    }
+    await addBulk(diff);
   }
 
   @override
   Future<void> replace(List<T> newItems) async {
     List<String> toAdd = newItems.map((e) => mapper.toJsonStr(e)).toList();
     await preferences.setStringList(myKey, toAdd);
+  }
+
+  @override
+  Future<void> addBulk(List<T> newItems) async {
+    List<T> all = await getAll();
+    all.addAll(newItems);
+    await replace(all);
   }
 }
