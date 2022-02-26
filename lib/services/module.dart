@@ -8,3 +8,4 @@ export 'i_verses_service.dart';
 export 'i_version_info_service.dart';
 export 'i_app_settings_service.dart';
 export 'i_user_service.dart';
+export 'dependencies/i_local_repository.dart';

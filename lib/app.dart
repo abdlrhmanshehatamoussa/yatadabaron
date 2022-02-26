@@ -9,7 +9,6 @@ import 'package:yatadabaron/commons/themes.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/home/view.dart';
 import 'package:yatadabaron/service_providers/module.dart';
-import 'services/module.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'package:yatadabaron/widgets/module.dart';

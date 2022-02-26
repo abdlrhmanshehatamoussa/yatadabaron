@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yatadabaron/main_app/services/module.dart';
+import 'package:yatadabaron/services/module.dart';
 import 'i_mapper.dart';
 
 class SharedPrefRepository<T> implements ILocalRepository<T> {
