@@ -6,6 +6,7 @@ import 'package:yatadabaron/commons/api_helper.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
 import 'package:yatadabaron/commons/themes.dart';
+import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/home/view.dart';
 import 'package:yatadabaron/service_providers/module.dart';
 import 'services/module.dart';
@@ -85,7 +86,10 @@ class MainApp extends SimpleApp {
     registery.register<ITafseerSourcesService>(
       service: TafseerSourcesService(
         apiHelper: _cloudHubHelper,
-        localRepo: TafseerSourcesRepository(pref: _pref),
+        localRepo: new SharedPrefRepository<TafseerSource>(
+          preferences: _pref,
+          mapper: new TafseerSourceMapper()
+        ),
       ),
     );
     registery.register<IVersionInfoService>(
