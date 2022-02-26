@@ -1,4 +1,4 @@
-import 'verse.dart';
+import '../verse.dart';
 
 class VerseTafseer {
   final int tafseerSourceID;

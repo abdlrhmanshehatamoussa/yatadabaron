@@ -1,4 +1,4 @@
-import 'package:yatadabaron/models/verse_search_result.dart';
+import './verse_search_result.dart';
 
 class VerseCollection {
   final List<VerseSearchResult> results;

@@ -1,6 +1,7 @@
-import 'package:yatadabaron/models/module.dart';
-import 'verse.dart';
  
+import '../verse.dart';
+import 'search_slice.dart';
+
 class VerseSearchResult {
   final Verse verse;
   final List<SearchSlice> slices;

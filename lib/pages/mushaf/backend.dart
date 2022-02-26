@@ -5,7 +5,7 @@ import 'package:yatadabaron/pages/tafseer/view.dart';
 import 'package:yatadabaron/simple/module.dart';
 import 'view_models/mushaf_state.dart';
 import 'package:yatadabaron/services/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
+import '../_viewmodels/module.dart';
 
 class MushafBackend extends SimpleBackend {
   MushafBackend({

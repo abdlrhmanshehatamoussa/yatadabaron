@@ -6,7 +6,7 @@ import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
+import '../_viewmodels/module.dart';
 
 class TafseerPageBackend extends SimpleBackend {
   TafseerPageBackend({

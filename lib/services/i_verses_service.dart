@@ -1,5 +1,4 @@
 import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/simple/module.dart';
 import '../../commons/database_mixin.dart';

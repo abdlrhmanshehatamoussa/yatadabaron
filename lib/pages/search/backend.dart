@@ -6,7 +6,7 @@ import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
+import '../_viewmodels/module.dart';
 
 class SearchBackend extends SimpleBackend {
   SearchBackend(BuildContext context) : super(context) {

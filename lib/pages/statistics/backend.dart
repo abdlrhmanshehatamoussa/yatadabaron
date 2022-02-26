@@ -4,7 +4,6 @@ import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/services/module.dart';
 import 'package:yatadabaron/simple/module.dart';
-import 'package:yatadabaron/viewmodels/module.dart';
 import 'view_models/statistics-payload.dart';
 
 class StatisticsBackend extends SimpleBackend {
