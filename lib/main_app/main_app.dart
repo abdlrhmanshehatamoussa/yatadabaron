@@ -83,7 +83,7 @@ class MainApp extends SimpleApp {
     );
     registery.register<ITafseerSourcesService>(
       service: TafseerSourcesService(
-        tafseerSourcesFileURL: settings[Constants.ENV_TAFSEER_SOURCES_URL]!,
+        apiHelper: _cloudHubHelper
       ),
     );
     registery.register<IVersionInfoService>(

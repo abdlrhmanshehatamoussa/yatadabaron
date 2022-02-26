@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yatadabaron/commons/api_helper.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
 import 'package:yatadabaron/models/module.dart';
 import 'package:yatadabaron/simple/module.dart';
@@ -7,10 +10,9 @@ import 'package:yatadabaron/services/module.dart';
 
 class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
   TafseerSourcesService({
-    required this.tafseerSourcesFileURL,
+    required this.apiHelper,
   });
-
-  final String tafseerSourcesFileURL;
+  final CloudHubAPIHelper apiHelper;
   final String _tafseerSourcesFileName = "tafseer_sources.csv";
 
   Future<List<TafseerSource>> _fetch() async {
@@ -20,48 +22,6 @@ class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
     if (tafseerSourcesFile != null) {
       List<String> lines = await tafseerSourcesFile.readAsLines();
       results = _parseString(lines);
-    }
-    return results;
-  }
-
-  Future<void> _sync() async {
-    List<TafseerSource> remote = await _getRemote();
-    List<TafseerSource> local = await _fetch();
-    List<TafseerSource> diff = [];
-    for (var source in remote) {
-      bool exists =
-          local.any((TafseerSource s) => s.tafseerId == source.tafseerId);
-      if (!exists) {
-        diff.add(source);
-      }
-    }
-    await _addLocal(diff);
-  }
-
-  Future<List<TafseerSource>> _getRemote() async {
-    Uri uri = Uri.parse(this.tafseerSourcesFileURL);
-    final Response response = await get(uri);
-    if ((response.contentLength ?? 0) > 0 && response.body.isNotEmpty) {
-      String remoteContext = response.body;
-      List<String> lines = remoteContext.split("\n");
-      return _parseString(lines);
-    }
-    return [];
-  }
-
-  List<TafseerSource> _parseString(List<String> lines) {
-    List<TafseerSource> results = [];
-    for (String line in lines) {
-      List<String> parts = line.split(",");
-      int? tafseerId = int.tryParse(parts[0]);
-      if (tafseerId != null) {
-        TafseerSource dto = TafseerSource(
-          tafseerId: tafseerId,
-          tafseerName: parts[1],
-          tafseerNameEnglish: parts[2],
-        );
-        results.add(dto);
-      }
     }
     return results;
   }
@@ -81,6 +41,52 @@ class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
       File file = await FileHelper.create(_tafseerSourcesFileName);
       await file.writeAsString(content, mode: FileMode.append);
     }
+  }
+
+  Future<void> _sync() async {
+    List<TafseerSource> remote = await _getRemote();
+    List<TafseerSource> local = await _fetch();
+    List<TafseerSource> diff = [];
+    for (var source in remote) {
+      bool exists =
+          local.any((TafseerSource s) => s.tafseerId == source.tafseerId);
+      if (!exists) {
+        diff.add(source);
+      }
+    }
+    await _addLocal(diff);
+  }
+
+  Future<List<TafseerSource>> _getRemote() async {
+    try {
+      final Response response = await this
+          .apiHelper
+          .httpGET(endpoint: CloudHubAPIHelper.ENDPOINT_TAFSEER_SOURCES);
+      List<dynamic> tafseerSourcesJson = jsonDecode(response.body);
+      List<TafseerSource> results = tafseerSourcesJson
+          .map((dynamic json) => TafseerSource.fromJson(json))
+          .toList();
+      return results;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  List<TafseerSource> _parseString(List<String> lines) {
+    List<TafseerSource> results = [];
+    for (String line in lines) {
+      List<String> parts = line.split(",");
+      int? tafseerId = int.tryParse(parts[0]);
+      if (tafseerId != null) {
+        TafseerSource dto = TafseerSource(
+          tafseerId: tafseerId,
+          tafseerName: parts[1],
+          tafseerNameEnglish: parts[2],
+        );
+        results.add(dto);
+      }
+    }
+    return results;
   }
 
   @override

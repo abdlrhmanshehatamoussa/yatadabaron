@@ -37,6 +37,7 @@ class CloudHubAPIHelper {
   static const String ENDPOINT_RELEASES = "data/public/releases";
   static const String _ENDPOINT_USER = "users";
   static const String _ENDPOINT_USER_LOGIN = "users/login";
+  static const String ENDPOINT_TAFSEER_SOURCES = "data/public/tafseer_sources";
   static const int _LOGINTYPE_GOOGLE = 1932278;
 
   //Private Constructor
@@ -45,8 +46,8 @@ class CloudHubAPIHelper {
   Map<String, String> get _basicHeaders {
     return <String, String>{
       'client-key': this._clientInfo.clientKey,
-      'client-claim': _encryptAES(
-          this._clientInfo.clientKey, this._clientInfo.clientSecret)
+      'client-claim':
+          _encryptAES(this._clientInfo.clientKey, this._clientInfo.clientSecret)
     };
   }
 
