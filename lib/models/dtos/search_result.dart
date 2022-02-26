@@ -1,4 +1,4 @@
-import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/models/_module.dart';
 import 'keyword_search_settings.dart';
 
 class SearchResult {

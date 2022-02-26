@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/services/module.dart';
-import 'package:yatadabaron/simple/module.dart';
+import 'package:yatadabaron/models/_module.dart';
+import 'package:yatadabaron/services/_module.dart';
+import 'package:yatadabaron/simple/_module.dart';
 
 class ReleaseNotesBackend extends SimpleBackend {
   ReleaseNotesBackend(BuildContext context) : super(context);

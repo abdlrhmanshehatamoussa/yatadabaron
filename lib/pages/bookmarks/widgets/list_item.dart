@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/models/_module.dart';
 
 class BookmarkListItem extends StatelessWidget {
   final Verse verse;

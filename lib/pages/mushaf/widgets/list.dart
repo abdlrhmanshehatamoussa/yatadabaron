@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/models/_module.dart';
 
 class VerseList extends StatelessWidget {
   final List<Verse> verses;

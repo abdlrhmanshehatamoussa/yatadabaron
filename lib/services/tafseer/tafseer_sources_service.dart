@@ -1,25 +1,16 @@
-import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/models/_module.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:yatadabaron/commons/api_helper.dart';
-import 'package:yatadabaron/simple/module.dart';
-import 'package:yatadabaron/services/module.dart';
+import 'package:yatadabaron/simple/_module.dart';
+import 'package:yatadabaron/services/_module.dart';
 
-abstract class ITafseerSourcesService {
-  Future<List<TafseerSource>> getTafseerSources();
-}
-
+import 'i_tafseer_sources_service.dart';
+ 
 class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
   TafseerSourcesService({required this.apiHelper, required this.localRepo});
   final CloudHubAPIHelper apiHelper;
   final ILocalRepository<TafseerSource> localRepo;
-
-  Future<List<TafseerSource>> _sync() async {
-    List<TafseerSource> remote = await _getRemote();
-    await localRepo.merge(remote);
-    List<TafseerSource> local = await localRepo.getAll();
-    return local;
-  }
 
   Future<List<TafseerSource>> _getRemote() async {
     try {
@@ -41,7 +32,9 @@ class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
     try {
       List<TafseerSource> local = await localRepo.getAll();
       if (local.isEmpty) {
-        local = await _sync();
+        List<TafseerSource> remote = await _getRemote();
+        await localRepo.merge(remote);
+        local = await localRepo.getAll();
       }
       return local;
     } catch (e) {

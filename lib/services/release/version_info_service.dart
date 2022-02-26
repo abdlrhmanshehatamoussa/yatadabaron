@@ -1,4 +1,4 @@
-import 'package:yatadabaron/simple/module.dart';
+import 'package:yatadabaron/simple/_module.dart';
 
 abstract class IVersionInfoService {
   String getVersionName();

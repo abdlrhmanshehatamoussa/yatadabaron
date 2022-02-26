@@ -1,5 +1,5 @@
-import 'package:yatadabaron/models/module.dart';
-import 'package:yatadabaron/simple/module.dart';
+import 'package:yatadabaron/models/_module.dart';
+import 'package:yatadabaron/simple/_module.dart';
 import 'package:yatadabaron/commons/database_mixin.dart';
 
 abstract class IChaptersService {

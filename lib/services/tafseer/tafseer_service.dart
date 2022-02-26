@@ -1,15 +1,10 @@
-import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/models/_module.dart';
 import 'dart:io';
 import 'package:archive/archive.dart';
 import 'package:http/http.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
-import 'package:yatadabaron/simple/module.dart';
-
-abstract class ITafseerService {
-  Future<VerseTafseer> getTafseer(int tafseerId, int verseId, int chapterId);
-  Future<bool> syncTafseer(int tafseerId);
-  Future<int> getTafseerSizeMB(int tafseerSourceID);
-}
+import 'package:yatadabaron/simple/_module.dart';
+import 'i_tafseer_service.dart';
 
 class TafseerService implements ITafseerService, ISimpleService {
   TafseerService({

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/models/_module.dart';
 import 'package:yatadabaron/pages/account/view.dart';
-import 'package:yatadabaron/services/module.dart';
-import 'package:yatadabaron/simple/module.dart';
+import 'package:yatadabaron/services/_module.dart';
+import 'package:yatadabaron/simple/_module.dart';
 
 class DrawerBackend extends SimpleBackend {
   DrawerBackend(BuildContext context) : super(context);

@@ -1,11 +1,11 @@
-import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/models/_module.dart';
 import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/commons/api_helper.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/models/user.dart';
-import 'package:yatadabaron/simple/module.dart';
+import 'package:yatadabaron/simple/_module.dart';
 
 abstract class IUserService {
   Future<RegisterResult> registerGoogle();

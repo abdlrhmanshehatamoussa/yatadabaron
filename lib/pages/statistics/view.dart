@@ -7,7 +7,7 @@ import './widgets/frequency-table.dart';
 import './widgets/statistics-form.dart';
 import './widgets/statistics-summary.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/models/_module.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 
 class StatisticsPage extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:yatadabaron/models/module.dart';
+import 'package:yatadabaron/models/_module.dart';
 import '../../_viewmodels/module.dart';
 
 class MushafPageState {
