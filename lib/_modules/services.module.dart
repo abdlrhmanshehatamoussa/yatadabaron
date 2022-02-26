@@ -8,4 +8,4 @@ export '../services/verses_service.dart';
 export '../services/analytics_service.dart';
 export '../services/app_settings_service.dart';
 export '../services/user_service.dart';
-export '../services/i_local_repository.dart';
+export '../services/_i_local_repository.dart';

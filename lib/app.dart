@@ -72,7 +72,10 @@ class MainApp extends SimpleApp {
     );
     registery.register<IReleaseInfoService>(
       service: ReleaseInfoService(
-        preferences: _pref,
+        localRepository: new SharedPrefRepository(
+          preferences: _pref,
+          mapper: new ReleaseInfoMapper(),
+        ),
         apiHelper: _cloudHubHelper,
       ),
     );
@@ -87,9 +90,7 @@ class MainApp extends SimpleApp {
       service: TafseerSourcesService(
         apiHelper: _cloudHubHelper,
         localRepo: new SharedPrefRepository<TafseerSource>(
-          preferences: _pref,
-          mapper: new TafseerSourceMapper()
-        ),
+            preferences: _pref, mapper: new TafseerSourceMapper()),
       ),
     );
     registery.register<IVersionInfoService>(
