@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/_modules/services.module.dart';
+import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/simple/backend.dart';
 
 class AboutPageBackend extends SimpleBackend {

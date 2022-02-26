@@ -1,9 +1,5 @@
+import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/simple/_module.dart';
-
-abstract class IVersionInfoService {
-  String getVersionName();
-  String getBuildId();
-}
 
 class VersionInfoService implements IVersionInfoService, ISimpleService {
   final String buildId;

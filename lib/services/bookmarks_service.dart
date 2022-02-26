@@ -1,18 +1,10 @@
+import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/models/bookmark.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/simple/_module.dart';
-
-abstract class IBookmarksService {
-  Future<void> removeBookmark(String id);
-
-  Future<bool> addBookmark(int chapterId, int verseId);
-
-  Future<List<Bookmark>> getBookmarks();
-
-  Future<Bookmark?> getLastBookmark();
-}
+ 
 
 class BookmarksService implements IBookmarksService, ISimpleService {
   BookmarksService({

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
-import 'package:yatadabaron/_modules/services.module.dart';
 import 'package:yatadabaron/simple/_module.dart';
 import '../_viewmodels/module.dart';
 
