@@ -58,7 +58,12 @@ class MainApp extends SimpleApp {
     );
 
     registery.register<IBookmarksService>(
-      service: BookmarksService(preferences: _pref),
+      service: BookmarksService(
+        repository: new SharedPrefRepository<Bookmark>(
+          preferences: _pref,
+          mapper: BookmarksMapper(),
+        ),
+      ),
     );
     registery.register<IChaptersService>(
       service: ChaptersService(databasePath: databaseFilePath),

@@ -3,27 +3,26 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'i_mapper.dart';
 
 class TafseerSourceMapper implements IMapper<TafseerSource> {
+  static const String _TAFSEER_ID = "tafseer_id";
+  static const String _TAFSEER_NAME = "tafseer_name";
+  static const String _TAFSEER_NAME_EN = "tafseer_name_en";
+
   @override
   TafseerSource fromJsonStr(String jsonStr) {
     Map<String, dynamic> json = jsonDecode(jsonStr);
     return new TafseerSource(
-      tafseerId: json["tafseer_id"],
-      tafseerName: json["tafseer_name"],
-      tafseerNameEnglish: json["tafseer_name_en"],
+      tafseerId: json[_TAFSEER_ID],
+      tafseerName: json[_TAFSEER_NAME],
+      tafseerNameEnglish: json[_TAFSEER_NAME_EN],
     );
   }
 
   @override
   String toJsonStr(TafseerSource obj) {
     Map<String, dynamic> json = new Map();
-    json["tafseer_id"] = obj.tafseerId;
-    json["tafseer_name"] = obj.tafseerName;
-    json["tafseer_name_en"] = obj.tafseerNameEnglish;
+    json[_TAFSEER_ID] = obj.tafseerId;
+    json[_TAFSEER_NAME] = obj.tafseerName;
+    json[_TAFSEER_NAME_EN] = obj.tafseerNameEnglish;
     return jsonEncode(json);
-  }
-
-  @override
-  bool isIdentical(TafseerSource obj, TafseerSource obj2) {
-    return obj.tafseerId == obj2.tafseerId;
   }
 }

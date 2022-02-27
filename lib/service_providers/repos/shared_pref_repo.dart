@@ -27,11 +27,14 @@ class SharedPrefRepository<T> implements ILocalRepository<T> {
   }
 
   @override
-  Future<void> merge(List<T> newItems) async {
+  Future<void> merge(
+    List<T> newItems,
+    bool Function(T, T) compareFunction,
+  ) async {
     List<T> diff = [];
     List<T> local = await getAll();
     for (var newItem in newItems) {
-      bool exists = local.any((T l) => mapper.isIdentical(newItem, l));
+      bool exists = local.any((T l) => compareFunction(newItem, l));
       if (!exists) diff.add(newItem);
     }
     await addBulk(diff);
@@ -48,5 +51,28 @@ class SharedPrefRepository<T> implements ILocalRepository<T> {
     List<T> all = await getAll();
     all.addAll(newItems);
     await replace(all);
+  }
+
+  @override
+  Future<bool> any(bool Function(T p1) predicate) async {
+    List<T> all = await getAll();
+    return all.any(predicate);
+  }
+
+  @override
+  Future<void> remove(bool Function(T p1) predicate) async {
+    List<T> all = await getAll();
+    int index = all.indexWhere(predicate);
+    if (index > 0) {
+      all.removeAt(index);
+      await replace(all);
+    }
+  }
+
+  @override
+  Future<T?> last() async {
+    List<T> all = await getAll();
+    if (all.isNotEmpty) return all.last;
+    return null;
   }
 }

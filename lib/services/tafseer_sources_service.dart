@@ -5,7 +5,7 @@ import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/api_helper.dart';
 import 'package:yatadabaron/simple/_module.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
- 
+
 class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
   TafseerSourcesService({required this.apiHelper, required this.localRepo});
   final CloudHubAPIHelper apiHelper;
@@ -32,7 +32,7 @@ class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
       List<TafseerSource> local = await localRepo.getAll();
       if (local.isEmpty) {
         List<TafseerSource> remote = await _getRemote();
-        await localRepo.merge(remote);
+        await localRepo.merge(remote, (a, b) => a.tafseerId == a.tafseerId);
         local = await localRepo.getAll();
       }
       return local;

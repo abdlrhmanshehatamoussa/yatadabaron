@@ -1,100 +1,37 @@
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/models/bookmark.dart';
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/services/_i_local_repository.dart';
 import 'package:yatadabaron/simple/_module.dart';
- 
 
 class BookmarksService implements IBookmarksService, ISimpleService {
   BookmarksService({
-    required this.preferences,
+    required this.repository,
   });
 
-  final SharedPreferences preferences;
-  static const String _MUSHAF_LOCATIONS_KEY = "yatadabaron_mushaf_locations";
+  final ILocalRepository<Bookmark> repository;
 
   @override
   Future<bool> addBookmark(int chapterId, int verseId) async {
-    //Create
-    Bookmark toAdd = Bookmark(
-      chapterId: chapterId,
-      verseId: verseId,
-    );
+    //Prepare
+    Bookmark toAdd = Bookmark(chapterId: chapterId, verseId: verseId);
 
     //Check
-    List<Bookmark> locations = await getBookmarks();
-    bool exists =
-        locations.any((Bookmark loc) => loc.uniqueId == toAdd.uniqueId);
-    if (exists) {
-      return false;
-    }
+    bool exists = await repository.any((loc) => loc.uniqueId == toAdd.uniqueId);
+    if (exists) return false;
 
     //Add
-    locations.add(toAdd);
-
-    //Update
-    _replaceBookmarksList(locations);
+    await repository.add(toAdd);
     return true;
   }
 
   @override
-  Future<Bookmark?> getLastBookmark() async {
-    List<Bookmark> locations = await getBookmarks();
-    if (locations.length > 0) {
-      return locations.last;
-    }
-  }
+  Future<Bookmark?> getLastBookmark() async => await repository.last();
 
   @override
-  Future<List<Bookmark>> getBookmarks() async {
-    //Fetch
-    List<String> mushafLocationsStr = _getList(_MUSHAF_LOCATIONS_KEY) ?? [];
-    List<Bookmark> results = [];
-    //Decode
-    for (var mushafLocationStr in mushafLocationsStr) {
-      Map<String, dynamic> jsonObj = jsonDecode(mushafLocationStr);
-      Bookmark? loc = Bookmark.fromJson(jsonObj);
-      if (loc != null) {
-        results.add(loc);
-      }
-    }
-    return results;
-  }
+  Future<List<Bookmark>> getBookmarks() async => await repository.getAll();
 
   @override
-  Future<void> removeBookmark(String uniqueId) async {
-    //Fetch
-    List<Bookmark> locations = await getBookmarks();
-
-    int index = locations.indexWhere((Bookmark l) => l.uniqueId == uniqueId);
-    if (index >= 0) {
-      //Remove
-      locations.removeAt(index);
-
-      //Update
-      await _replaceBookmarksList(locations);
-    }
-  }
-
-  List<String>? _getList(String k) {
-    try {
-      return this.preferences.getStringList(k);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  Future _replaceBookmarksList(List<Bookmark> locations) async {
-    //Encode
-    List<String> encoded = [];
-    for (var location in locations) {
-      String json = jsonEncode(location.toJson());
-      encoded.add(json);
-    }
-
-    //Save
-    await this.preferences.setStringList(_MUSHAF_LOCATIONS_KEY, []);
-    await this.preferences.setStringList(_MUSHAF_LOCATIONS_KEY, encoded);
-  }
+  Future<void> removeBookmark(String uniqueId) async =>
+      await repository.remove((b) => b.uniqueId == uniqueId);
 }

@@ -25,9 +25,4 @@ class ReleaseInfoMapper implements IMapper<ReleaseInfo> {
     json[_RELEASE_DATE] = obj.releaseDate.toString().split('T')[0];
     return jsonEncode(json);
   }
-
-  @override
-  bool isIdentical(ReleaseInfo obj, ReleaseInfo obj2) {
-    return obj.releaseName == obj2.releaseName;
-  }
 }
