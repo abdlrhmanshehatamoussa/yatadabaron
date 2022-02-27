@@ -63,7 +63,7 @@ class SharedPrefRepository<T> implements ILocalRepository<T> {
   Future<void> remove(bool Function(T p1) predicate) async {
     List<T> all = await getAll();
     int index = all.indexWhere(predicate);
-    if (index > 0) {
+    if (index >= 0) {
       all.removeAt(index);
       await replace(all);
     }
