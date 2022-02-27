@@ -10,7 +10,7 @@ class SharedPrefRepository<T> implements ILocalRepository<T> {
 
   final SharedPreferences preferences;
   final IMapper<T> mapper;
-  final String myKey = T.toString();
+  final String myKey = "yatadabaron_${T.toString()}";
 
   @override
   Future<void> add(T newItem) async {
