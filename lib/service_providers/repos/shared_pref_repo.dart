@@ -21,7 +21,7 @@ class SharedPrefRepository<T> implements ILocalRepository<T> {
 
   @override
   Future<List<T>> getAll() async {
-    List<String>? jsonList = preferences.getStringList(T.toString());
+    List<String>? jsonList = preferences.getStringList(myKey);
     if (jsonList == null) return [];
     return jsonList.map((e) => mapper.fromJsonStr(e)).toList();
   }
