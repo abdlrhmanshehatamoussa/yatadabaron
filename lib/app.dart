@@ -49,7 +49,7 @@ class MainApp extends SimpleApp {
     );
 
     //CloudHub SDK
-    await CloudHubSDK.initialize(
+    await CloudHub.initialize(
       apiUrl: settings[Constants.ENV_CLOUDHUB_API_URL]!,
       clientKey: settings[Constants.ENV_CLOUDHUB_CLIENT_KEY]!,
       clientSecret: settings[Constants.ENV_CLOUDHUB_CLIENT_SECRET]!,

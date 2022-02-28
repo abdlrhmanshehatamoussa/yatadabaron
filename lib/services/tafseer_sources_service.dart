@@ -5,7 +5,6 @@ import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/cloudhub/cloudhub.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
-import 'package:yatadabaron/cloudhub/src/sdk.dart';
 
 class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
   TafseerSourcesService({required this.localRepo});
@@ -13,8 +12,8 @@ class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
 
   Future<List<TafseerSource>> _getRemote() async {
     try {
-      final Response response = await CloudHubSDK.instance
-          .getPublicData("tafseer_sources");
+      final Response response =
+          await CloudHubPublicData.instance.getPublicData("tafseer_sources");
       List<dynamic> tafseerSourcesJson = jsonDecode(response.body);
       List<TafseerSource> results = tafseerSourcesJson
           .map((dynamic json) => TafseerSource.fromJsonRemote(json))

@@ -4,16 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'client.dart';
 import 'constans.dart';
 
-class CloudHubSDK {
-  static CloudHubSDK? _instance;
-  static CloudHubSDK get instance {
-    if (_instance == null) {
-      throw new Exception(
-          "CloudHub SDK was called without being initialized !");
-    }
-    return _instance!;
-  }
-
+class CloudHub {
   static Future<void> initialize({
     required String clientKey,
     required String clientSecret,
@@ -27,7 +18,20 @@ class CloudHubSDK {
       apiUrl: apiUrl,
       appVersion: appVersion,
     );
-    _instance = new CloudHubSDK._(clientInfo: client, preferences: pref);
+    CloudHubSDK._instance =
+        new CloudHubSDK._(clientInfo: client, preferences: pref);
+  }
+}
+
+class CloudHubSDK {
+  static CloudHubSDK? _instance;
+  static set instance(v) => _instance = v;
+  static CloudHubSDK get instance {
+    if (_instance == null) {
+      throw new Exception(
+          "CloudHub SDK was called without being initialized !");
+    }
+    return _instance!;
   }
 
   //Class begins here
@@ -85,10 +89,6 @@ class CloudHubSDK {
       body: payload,
     );
     return result;
-  }
-
-  Future<Response> getPublicData(String collectionName) async {
-    return await httpGET(endpoint: "data/public/$collectionName");
   }
 
   Future<Response> httpGET({

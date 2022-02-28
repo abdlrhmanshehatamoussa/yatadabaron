@@ -2,7 +2,7 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/cloudhub/src/sdk.dart';
+import 'package:yatadabaron/cloudhub/cloudhub.dart';
 import 'package:yatadabaron/services/_i_local_repository.dart';
 import 'package:simply/simply.dart';
 
@@ -14,7 +14,7 @@ class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
   Future<List<ReleaseInfo>> _getRemote() async {
     try {
       Response response =
-          await CloudHubSDK.instance.getPublicData("releases");
+          await CloudHubPublicData.instance.getPublicData("releases");
       String body = response.body;
       List<dynamic> releasesJson = jsonDecode(body);
       List<ReleaseInfo> results = releasesJson
