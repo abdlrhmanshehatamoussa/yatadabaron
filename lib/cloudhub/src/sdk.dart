@@ -1,37 +1,31 @@
 import 'dart:convert';
 import 'package:http/http.dart';
+import './users/module.dart';
 
-class CloudHubAPIClientInfo {
+class CloudHubClient {
   final String clientKey;
   final String clientSecret;
   final String apiUrl;
-  CloudHubAPIClientInfo({
+  CloudHubClient({
     required this.clientKey,
     required this.clientSecret,
     required this.apiUrl,
   });
 }
 
-enum CloudHubLoginStatus { SUCCESS, ERROR, NOT_REGISTERED }
-enum CloudHubRegisterStatus { SUCCESS, ERROR, ALREADY_REGISTERED }
+class CloudHubSDK {
+  //Private Constructor
+  CloudHubSDK(this._clientInfo);
 
-class CloudHubLoginResult {
-  final CloudHubLoginStatus status;
-  final Map<String, dynamic>? result;
+  //Singleton
+  static void Initialize({
+    required String clientKey,
+    required String clientSecret,
+  }) {}
 
-  CloudHubLoginResult(this.status, this.result);
-}
-
-class CloudHubRegisterResult {
-  final CloudHubRegisterStatus status;
-  final Map<String, dynamic>? result;
-
-  CloudHubRegisterResult(this.status, this.result);
-}
-
-class CloudHubAPIHelper {
   //Fields
-  final CloudHubAPIClientInfo _clientInfo;
+  final CloudHubClient _clientInfo;
+
   static const String ENDPOINT_NONCE = "nonce";
   static const String ENDPOINT_ACTIONS = "data/public/actions";
   static const String ENDPOINT_RELEASES = "data/public/releases";
@@ -39,9 +33,6 @@ class CloudHubAPIHelper {
   static const String _ENDPOINT_USER_LOGIN = "users/login";
   static const String ENDPOINT_TAFSEER_SOURCES = "data/public/tafseer_sources";
   static const int _LOGINTYPE_GOOGLE = 1932278;
-
-  //Private Constructor
-  CloudHubAPIHelper(this._clientInfo);
 
   Map<String, String> get _basicHeaders {
     return <String, String>{
@@ -135,11 +126,11 @@ class CloudHubAPIHelper {
     dynamic payload = {
       "email": email,
       "password": token,
-      "login_type": CloudHubAPIHelper._LOGINTYPE_GOOGLE,
+      "login_type": CloudHubSDK._LOGINTYPE_GOOGLE,
     };
     String payloadStr = jsonEncode(payload);
     Response response = await httpPOST(
-      endpoint: CloudHubAPIHelper._ENDPOINT_USER_LOGIN,
+      endpoint: CloudHubSDK._ENDPOINT_USER_LOGIN,
       payload: payloadStr,
     );
     switch (response.statusCode) {
@@ -171,13 +162,13 @@ class CloudHubAPIHelper {
     dynamic payload = {
       "email": email,
       "password": token,
-      "login_type": CloudHubAPIHelper._LOGINTYPE_GOOGLE,
+      "login_type": CloudHubSDK._LOGINTYPE_GOOGLE,
       "image_url": imageUrl,
       "name": name,
     };
     String payloadStr = jsonEncode(payload);
     Response response = await httpPOST(
-      endpoint: CloudHubAPIHelper._ENDPOINT_USER,
+      endpoint: CloudHubSDK._ENDPOINT_USER,
       payload: payloadStr,
     );
     switch (response.statusCode) {

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:simply/simply.dart';
-import 'package:yatadabaron/commons/api_helper.dart';
+import 'package:yatadabaron/cloudhub/cloudhub.dart';
 
 class AnalyticsService implements IAnalyticsService, ISimpleService {
   AnalyticsService({
@@ -14,7 +14,7 @@ class AnalyticsService implements IAnalyticsService, ISimpleService {
   static const String ACTIONS_SHARED_PREF_KEY = "ytdb_actions_json";
 
   final int appVersion;
-  final CloudHubAPIHelper apiHelper;
+  final CloudHubSDK apiHelper;
   final SharedPreferences preferences;
 
   @override
@@ -59,7 +59,7 @@ class AnalyticsService implements IAnalyticsService, ISimpleService {
         String payload = actions.join(",");
         payload = "[$payload]";
         await this.apiHelper.httpPATCH(
-              endpoint: CloudHubAPIHelper.ENDPOINT_ACTIONS,
+              endpoint: CloudHubSDK.ENDPOINT_ACTIONS,
               payload: payload,
             );
         await preferences.setStringList(ACTIONS_SHARED_PREF_KEY, []);

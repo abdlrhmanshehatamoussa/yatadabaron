@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/services/_i_local_repository.dart';
 import 'package:simply/simply.dart';
-import '../commons/api_helper.dart';
+import '../cloudhub/cloudhub.dart';
 
 class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
   ReleaseInfoService({
@@ -13,13 +13,13 @@ class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
   });
 
   final ILocalRepository<ReleaseInfo> localRepository;
-  final CloudHubAPIHelper apiHelper;
+  final CloudHubSDK apiHelper;
 
   Future<List<ReleaseInfo>> _getRemote() async {
     try {
       Response response = await this
           .apiHelper
-          .httpGET(endpoint: CloudHubAPIHelper.ENDPOINT_RELEASES);
+          .httpGET(endpoint: CloudHubSDK.ENDPOINT_RELEASES);
       String body = response.body;
       List<dynamic> releasesJson = jsonDecode(body);
       List<ReleaseInfo> results = releasesJson

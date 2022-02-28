@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/commons/api_helper.dart';
+import 'package:yatadabaron/cloudhub/cloudhub.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
 import 'package:yatadabaron/commons/themes.dart';
@@ -49,8 +49,8 @@ class MainApp extends SimpleApp {
     );
 
     //Cloud Hub Helper
-    CloudHubAPIHelper _cloudHubHelper = CloudHubAPIHelper(
-      CloudHubAPIClientInfo(
+    CloudHubSDK _cloudHubSdk = CloudHubSDK(
+      CloudHubClient(
         apiUrl: settings[Constants.ENV_CLOUDHUB_API_URL]!,
         clientKey: settings[Constants.ENV_CLOUDHUB_CLIENT_KEY]!,
         clientSecret: settings[Constants.ENV_CLOUDHUB_CLIENT_SECRET]!,
@@ -81,19 +81,19 @@ class MainApp extends SimpleApp {
           preferences: _pref,
           mapper: new ReleaseInfoMapper(),
         ),
-        apiHelper: _cloudHubHelper,
+        apiHelper: _cloudHubSdk,
       ),
     );
     registery.register<IAnalyticsService>(
       service: AnalyticsService(
         preferences: _pref,
         appVersion: int.tryParse(_info.buildNumber) ?? 0,
-        apiHelper: _cloudHubHelper,
+        apiHelper: _cloudHubSdk,
       ),
     );
     registery.register<ITafseerSourcesService>(
       service: TafseerSourcesService(
-        apiHelper: _cloudHubHelper,
+        apiHelper: _cloudHubSdk,
         localRepo: new SharedPrefRepository<TafseerSource>(
             preferences: _pref, mapper: new TafseerSourceMapper()),
       ),
@@ -113,7 +113,7 @@ class MainApp extends SimpleApp {
 
     registery.register<IUserService>(
       service: UserService(
-          sharedPreferences: _pref, cloudHubAPIHelper: _cloudHubHelper),
+          sharedPreferences: _pref, cloudHubAPIHelper: _cloudHubSdk),
     );
   }
 
