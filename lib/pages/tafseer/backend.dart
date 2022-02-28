@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
+import 'package:yatadabaron/cloudhub/cloudhub.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
@@ -18,7 +19,6 @@ class TafseerPageBackend extends SimpleBackend {
   final StreamObject<VerseTafseer> _tafseerResultController =
       StreamObject<VerseTafseer>();
   late IVersesService versesService = getService<IVersesService>();
-  late IAnalyticsService analyticsService = getService<IAnalyticsService>();
   late ITafseerService tafseerService = getService<ITafseerService>();
   late ITafseerSourcesService tafseerSourcesService =
       getService<ITafseerSourcesService>();
@@ -50,7 +50,7 @@ class TafseerPageBackend extends SimpleBackend {
     VerseTafseer result = await tafseerService.getTafseer(
         tafseerId, this.location.verseId, this.location.chapterId);
     _tafseerResultController.add(result);
-    await analyticsService.logOnTap(
+    await CloudHubAnalytics.instance.logOnTap(
       "TAFSEER PAGE",
       payload: "SELECTED TAFSEER=$tafseerId",
     );
@@ -89,7 +89,7 @@ class TafseerPageBackend extends SimpleBackend {
         title: Localization.ERROR,
       );
     }
-    await analyticsService.logOnTap(
+    await CloudHubAnalytics.instance.logOnTap(
       "TAFSEER PAGE",
       payload:
           "TAFSEER SOURCE ID=$tafseerSourceID|TAFSEER DOWNLOAD STATUS=$done",

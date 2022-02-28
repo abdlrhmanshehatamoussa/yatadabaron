@@ -1,4 +1,3 @@
-export '../service_contracts/i_analytics_service.dart';
 export '../service_contracts/i_app_settings_service.dart';
 export '../service_contracts/i_bookmarks_service.dart';
 export '../service_contracts/i_chapters_service.dart';

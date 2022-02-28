@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
+import 'package:yatadabaron/cloudhub/src/analytics/service.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
@@ -15,7 +16,6 @@ class SearchBackend extends SimpleBackend {
 
   late IChaptersService chaptersService = getService<IChaptersService>();
   late IVersesService versesService = getService<IVersesService>();
-  late IAnalyticsService analyticsService = getService<IAnalyticsService>();
 
   KeywordSearchSettings settings = KeywordSearchSettings();
   StreamObject<SearchResult> _searchResultBloc = StreamObject();
@@ -59,7 +59,7 @@ class SearchBackend extends SimpleBackend {
   Future<void> copyVerse(Verse verse) async {
     String toCopy =
         "${verse.chapterName}\n${verse.verseTextTashkel} {${verse.verseID}}";
-    analyticsService.logOnTap("SHARE VERSE");
+    CloudHubAnalytics.instance.logOnTap("SHARE VERSE");
     Share.share(toCopy);
   }
 

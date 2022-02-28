@@ -49,13 +49,13 @@ class MainApp extends SimpleApp {
     );
 
     //CloudHub SDK
-    CloudHubSDK _cloudHubSdk = CloudHubSDK(
-      CloudHubClient(
-        apiUrl: settings[Constants.ENV_CLOUDHUB_API_URL]!,
-        clientKey: settings[Constants.ENV_CLOUDHUB_CLIENT_KEY]!,
-        clientSecret: settings[Constants.ENV_CLOUDHUB_CLIENT_SECRET]!,
-      ),
+    await CloudHubSDK.initialize(
+      apiUrl: settings[Constants.ENV_CLOUDHUB_API_URL]!,
+      clientKey: settings[Constants.ENV_CLOUDHUB_CLIENT_KEY]!,
+      clientSecret: settings[Constants.ENV_CLOUDHUB_CLIENT_SECRET]!,
+      appVersion: _info.buildNumber,
     );
+    CloudHubSDK _cloudHubSdk = CloudHubSDK.instance;
 
     registery.register<IBookmarksService>(
       service: BookmarksService(
@@ -82,13 +82,6 @@ class MainApp extends SimpleApp {
           mapper: new ReleaseInfoMapper(),
         ),
         cloudHubSdk: _cloudHubSdk,
-      ),
-    );
-    registery.register<IAnalyticsService>(
-      service: AnalyticsService(
-        preferences: _pref,
-        appVersion: int.tryParse(_info.buildNumber) ?? 0,
-        cloudHubSDK: _cloudHubSdk,
       ),
     );
     registery.register<ITafseerSourcesService>(
@@ -123,9 +116,8 @@ class MainApp extends SimpleApp {
   Future<void> onAppStart(ISimpleServiceProvider serviceProvider) async {
     try {
       //Log events
-      var analyticsService = serviceProvider.getService<IAnalyticsService>();
-      await analyticsService.logAppStarted();
-      await analyticsService.syncAllLogs();
+      await CloudHubAnalytics.instance.logAppStarted();
+      await CloudHubAnalytics.instance.pushEvents();
 
       //Load releases
       var releaseInfoService =

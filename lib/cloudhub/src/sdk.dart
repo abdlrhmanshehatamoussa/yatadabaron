@@ -1,34 +1,46 @@
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './users/module.dart';
-
-class CloudHubClient {
-  final String clientKey;
-  final String clientSecret;
-  final String apiUrl;
-  CloudHubClient({
-    required this.clientKey,
-    required this.clientSecret,
-    required this.apiUrl,
-  });
-}
+import 'client.dart';
+import 'constans.dart';
 
 class CloudHubSDK {
-  CloudHubSDK(this._clientInfo);
+  static CloudHubSDK? _instance;
+  static CloudHubSDK get instance {
+    if (_instance == null) {
+      throw new Exception(
+          "CloudHub SDK was called without being initialized !");
+    }
+    return _instance!;
+  }
 
-  //Fields
-  final CloudHubClient _clientInfo;
+  static Future<void> initialize({
+    required String clientKey,
+    required String clientSecret,
+    required String apiUrl,
+    required String appVersion,
+  }) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    CloudHubClient client = new CloudHubClient(
+      clientKey: clientKey,
+      clientSecret: clientSecret,
+      apiUrl: apiUrl,
+      appVersion: appVersion,
+    );
+    _instance = new CloudHubSDK._(clientInfo: client, preferences: pref);
+  }
 
-  static const String _ENDPOINT_NONCE = "nonce";
-  static const String _ENDPOINT_USER = "users";
-  static const String _ENDPOINT_USER_LOGIN = "users/login";
-  static const int _LOGINTYPE_GOOGLE = 1932278;
+  //Class begins here
+  CloudHubSDK._({required this.clientInfo, required this.preferences});
+  final CloudHubClient clientInfo;
+  final SharedPreferences preferences;
 
   Map<String, String> get _basicHeaders {
     return <String, String>{
-      'client-key': this._clientInfo.clientKey,
+      'client-key': this.clientInfo.clientKey,
       'client-claim':
-          _encryptAES(this._clientInfo.clientKey, this._clientInfo.clientSecret)
+          _encryptAES(this.clientInfo.clientKey, this.clientInfo.clientSecret)
     };
   }
 
@@ -47,7 +59,7 @@ class CloudHubSDK {
       headers['nonce'] = nonce;
     }
     Response result = await post(
-      Uri.parse('${this._clientInfo.apiUrl}/$endpoint'),
+      Uri.parse('${this.clientInfo.apiUrl}/$endpoint'),
       headers: headers,
       body: payload,
     );
@@ -69,7 +81,7 @@ class CloudHubSDK {
       headers['nonce'] = nonce;
     }
     Response result = await patch(
-      Uri.parse('${this._clientInfo.apiUrl}/$endpoint'),
+      Uri.parse('${this.clientInfo.apiUrl}/$endpoint'),
       headers: headers,
       body: payload,
     );
@@ -89,7 +101,7 @@ class CloudHubSDK {
       headers['nonce'] = nonce;
     }
     Response result = await get(
-      Uri.parse('${this._clientInfo.apiUrl}/$endpoint'),
+      Uri.parse('${this.clientInfo.apiUrl}/$endpoint'),
       headers: headers,
     );
     return result;
@@ -97,13 +109,14 @@ class CloudHubSDK {
 
   Future<String> _generateNonce() async {
     Response result = await post(
-      Uri.parse('${this._clientInfo.apiUrl}/$_ENDPOINT_NONCE'),
+      Uri.parse(
+          '${this.clientInfo.apiUrl}/${CloudHubConstants.ENDPOINT_NONCE}'),
       headers: this._basicHeaders,
     );
     if (result.statusCode == 200) {
       dynamic nonceResponseObj = jsonDecode(result.body);
       String nonce = nonceResponseObj["token"];
-      return _encryptAES(nonce, this._clientInfo.clientSecret);
+      return _encryptAES(nonce, this.clientInfo.clientSecret);
     }
     throw new Exception("Failed to generate nonce");
   }
@@ -116,11 +129,11 @@ class CloudHubSDK {
     dynamic payload = {
       "email": email,
       "password": token,
-      "login_type": CloudHubSDK._LOGINTYPE_GOOGLE,
+      "login_type": CloudHubConstants.LOGINTYPE_GOOGLE,
     };
     String payloadStr = jsonEncode(payload);
     Response response = await httpPOST(
-      endpoint: CloudHubSDK._ENDPOINT_USER_LOGIN,
+      endpoint: CloudHubConstants.ENDPOINT_USER_LOGIN,
       payload: payloadStr,
     );
     switch (response.statusCode) {
@@ -152,13 +165,13 @@ class CloudHubSDK {
     dynamic payload = {
       "email": email,
       "password": token,
-      "login_type": CloudHubSDK._LOGINTYPE_GOOGLE,
+      "login_type": CloudHubConstants.LOGINTYPE_GOOGLE,
       "image_url": imageUrl,
       "name": name,
     };
     String payloadStr = jsonEncode(payload);
     Response response = await httpPOST(
-      endpoint: CloudHubSDK._ENDPOINT_USER,
+      endpoint: CloudHubConstants.ENDPOINT_USER,
       payload: payloadStr,
     );
     switch (response.statusCode) {
