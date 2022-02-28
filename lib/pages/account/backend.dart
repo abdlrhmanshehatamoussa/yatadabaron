@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:yatadabaron/cloudhub/cloudhub.dart';
+import 'package:yatadabaron/cloudhub/src/users/module.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/_modules/models.module.dart';
-import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:simply/simply.dart';
 
 class AccountBackend extends SimpleBackend {
   AccountBackend(BuildContext context) : super(context);
 
-  late IUserService userService = getService<IUserService>();
-  User? get currentUser => userService.currentUser;
+  CloudHubUser? get currentUser => CloudHubUsers.instance.currentUser;
 
   Future<void> signOut() async {
-    bool done = await userService.signOut();
+    bool done = await CloudHubUsers.instance.signOut();
     if (done == false) {
       Utils.showCustomDialog(
         context: myContext,
@@ -25,18 +24,18 @@ class AccountBackend extends SimpleBackend {
 
   Future<void> signInGoogle() async {
     try {
-      LoginResult result = await userService.signInGoogle();
+      CloudHubLoginStatus result = await CloudHubUsers.instance.signInGoogle();
       switch (result) {
-        case LoginResult.DONE:
+        case CloudHubLoginStatus.SUCCESS:
           reloadApp();
           break;
-        case LoginResult.ALREADY_LOGGED_IN:
+        case CloudHubLoginStatus.ALREADY_LOGGED_IN:
           await _show("تم تسجيل الدخول بالفعل");
           break;
-        case LoginResult.ERROR:
+        case CloudHubLoginStatus.ERROR:
           await _show("خطأ أثناء تسجيل الدخول");
           break;
-        case LoginResult.NOT_REGISTERED:
+        case CloudHubLoginStatus.NOT_REGISTERED:
           await _show("هذا الحساب غير مسجل, برجاء تسجيل الدخول أولاً");
           break;
       }
@@ -47,15 +46,16 @@ class AccountBackend extends SimpleBackend {
 
   Future<void> registerGoogle() async {
     try {
-      RegisterResult result = await userService.registerGoogle();
+      CloudHubRegisterStatus result =
+          await CloudHubUsers.instance.registerGoogle();
       switch (result) {
-        case RegisterResult.DONE:
+        case CloudHubRegisterStatus.SUCCESS:
           await _show("تم إنشاء الحساب بنجاح, الآن يمكنك تسجيل الدخول");
           break;
-        case RegisterResult.ALREADY_REGISTERED:
+        case CloudHubRegisterStatus.ALREADY_REGISTERED:
           await _show("هذا الحساب موجود بالفعل");
           break;
-        case RegisterResult.ERROR:
+        case CloudHubRegisterStatus.ERROR:
           await _show("خطأ أثناء تسجيل حساب جديد");
           break;
       }

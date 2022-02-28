@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import './users/module.dart';
 import 'client.dart';
 import 'constans.dart';
 
@@ -88,6 +87,10 @@ class CloudHubSDK {
     return result;
   }
 
+  Future<Response> getPublicData(String collectionName) async {
+    return await httpGET(endpoint: "data/public/$collectionName");
+  }
+
   Future<Response> httpGET({
     required String endpoint,
     Map<String, String>? headers,
@@ -119,78 +122,6 @@ class CloudHubSDK {
       return _encryptAES(nonce, this.clientInfo.clientSecret);
     }
     throw new Exception("Failed to generate nonce");
-  }
-
-  Future<CloudHubLoginResult> loginGoogle({
-    required String email,
-    required String token,
-  }) async {
-    //TODO: Validate input parameters
-    dynamic payload = {
-      "email": email,
-      "password": token,
-      "login_type": CloudHubConstants.LOGINTYPE_GOOGLE,
-    };
-    String payloadStr = jsonEncode(payload);
-    Response response = await httpPOST(
-      endpoint: CloudHubConstants.ENDPOINT_USER_LOGIN,
-      payload: payloadStr,
-    );
-    switch (response.statusCode) {
-      case 200:
-        return CloudHubLoginResult(
-          CloudHubLoginStatus.SUCCESS,
-          jsonDecode(response.body),
-        );
-      case 495:
-        return CloudHubLoginResult(
-          CloudHubLoginStatus.NOT_REGISTERED,
-          null,
-        );
-      default:
-        return CloudHubLoginResult(
-          CloudHubLoginStatus.ERROR,
-          null,
-        );
-    }
-  }
-
-  Future<CloudHubRegisterResult> registerGoogle({
-    required String email,
-    required String token,
-    required String name,
-    required String? imageUrl,
-  }) async {
-    //TODO: Validate input parameters
-    dynamic payload = {
-      "email": email,
-      "password": token,
-      "login_type": CloudHubConstants.LOGINTYPE_GOOGLE,
-      "image_url": imageUrl,
-      "name": name,
-    };
-    String payloadStr = jsonEncode(payload);
-    Response response = await httpPOST(
-      endpoint: CloudHubConstants.ENDPOINT_USER,
-      payload: payloadStr,
-    );
-    switch (response.statusCode) {
-      case 200:
-        return CloudHubRegisterResult(
-          CloudHubRegisterStatus.SUCCESS,
-          jsonDecode(response.body),
-        );
-      case 494:
-        return CloudHubRegisterResult(
-          CloudHubRegisterStatus.ALREADY_REGISTERED,
-          null,
-        );
-      default:
-        return CloudHubRegisterResult(
-          CloudHubRegisterStatus.ERROR,
-          null,
-        );
-    }
   }
 
   String _encryptAES(String text, String encryptionKey) {

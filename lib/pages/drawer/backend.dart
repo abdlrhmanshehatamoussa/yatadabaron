@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:yatadabaron/cloudhub/cloudhub.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/account/view.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:simply/simply.dart';
@@ -14,9 +13,8 @@ class DrawerBackend extends SimpleBackend {
       getService<IAppSettingsService>();
   late IVersionInfoService versionInfoService =
       getService<IVersionInfoService>();
-  late IUserService userService = getService<IUserService>();
 
-  User? get currentUser => userService.currentUser;
+  CloudHubUser? get currentUser => CloudHubUsers.instance.currentUser;
 
   Future rate() async {
     await CloudHubAnalytics.instance.logOnTap("DRAWER", payload: "TAB=RATE");

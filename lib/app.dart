@@ -55,7 +55,6 @@ class MainApp extends SimpleApp {
       clientSecret: settings[Constants.ENV_CLOUDHUB_CLIENT_SECRET]!,
       appVersion: _info.buildNumber,
     );
-    CloudHubSDK _cloudHubSdk = CloudHubSDK.instance;
 
     registery.register<IBookmarksService>(
       service: BookmarksService(
@@ -81,14 +80,14 @@ class MainApp extends SimpleApp {
           preferences: _pref,
           mapper: new ReleaseInfoMapper(),
         ),
-        cloudHubSdk: _cloudHubSdk,
       ),
     );
     registery.register<ITafseerSourcesService>(
       service: TafseerSourcesService(
-        cloudHubSDK: _cloudHubSdk,
         localRepo: new SharedPrefRepository<TafseerSource>(
-            preferences: _pref, mapper: new TafseerSourceMapper()),
+          preferences: _pref,
+          mapper: new TafseerSourceMapper(),
+        ),
       ),
     );
     registery.register<IVersionInfoService>(
@@ -101,13 +100,6 @@ class MainApp extends SimpleApp {
     registery.register<IAppSettingsService>(
       service: AppSettingsService(
         sharedPreferences: _pref,
-      ),
-    );
-
-    registery.register<IUserService>(
-      service: UserService(
-        sharedPreferences: _pref,
-        cloudHubAPIHelper: _cloudHubSdk,
       ),
     );
   }

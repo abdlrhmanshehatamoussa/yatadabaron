@@ -2,6 +2,7 @@ enum CloudHubLoginStatus {
   SUCCESS,
   ERROR,
   NOT_REGISTERED,
+  ALREADY_LOGGED_IN
 }
 
 enum CloudHubRegisterStatus {

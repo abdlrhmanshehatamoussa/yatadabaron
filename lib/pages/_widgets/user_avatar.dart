@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:yatadabaron/cloudhub/cloudhub.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/_modules/models.module.dart';
 
 class UserAvatar extends StatelessWidget {
-  final User? user;
+  final CloudHubUser? user;
   const UserAvatar({
     Key? key,
     required this.user,
@@ -18,7 +18,7 @@ class UserAvatar extends StatelessWidget {
     );
   }
 
-  Widget _online(User user) {
+  Widget _online(CloudHubUser user) {
     return ListTile(
       title: SingleChildScrollView(
         child: Text(user.displayName),

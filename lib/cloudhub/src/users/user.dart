@@ -1,4 +1,4 @@
-class User {
+class CloudHubUser {
   final String globalId;
   final String displayName;
   final String email;
@@ -7,7 +7,7 @@ class User {
   final String loginType;
   final int tokenExpiresIn;
 
-  User({
+  CloudHubUser({
     required this.globalId,
     required this.displayName,
     required this.imageURL,
@@ -29,8 +29,8 @@ class User {
     return map;
   }
 
-  static User? fromJson(Map<String, dynamic> userJson) {
-    return User(
+  static CloudHubUser? fromJson(Map<String, dynamic> userJson) {
+    return CloudHubUser(
       displayName: userJson["displayName"],
       email: userJson["email"],
       globalId: userJson["globalId"],
@@ -41,8 +41,8 @@ class User {
     );
   }
 
-  static User? fromCloudHubResponse(Map<String, dynamic> userMap) {
-    return User(
+  static CloudHubUser? fromCloudHubResponse(Map<String, dynamic> userMap) {
+    return CloudHubUser(
       globalId: userMap["global_id"],
       token: userMap["user_token"],
       displayName: userMap["name"],
@@ -53,7 +53,3 @@ class User {
     );
   }
 }
-
-enum LoginResult { DONE, ALREADY_LOGGED_IN, ERROR, NOT_REGISTERED }
-
-enum RegisterResult { DONE, ALREADY_REGISTERED, ERROR }
