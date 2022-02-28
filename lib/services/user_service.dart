@@ -6,7 +6,7 @@ import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/api_helper.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/models/user.dart';
-import 'package:yatadabaron/simple/_module.dart';
+import 'package:simply/simply.dart';
 
 class UserService extends IUserService implements ISimpleService {
   UserService({

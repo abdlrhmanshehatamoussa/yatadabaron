@@ -2,7 +2,7 @@ import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/models/bookmark.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/services/_i_local_repository.dart';
-import 'package:yatadabaron/simple/_module.dart';
+import 'package:simply/simply.dart';
 
 class BookmarksService implements IBookmarksService, ISimpleService {
   BookmarksService({

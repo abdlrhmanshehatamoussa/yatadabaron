@@ -1,5 +1,5 @@
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/simple/_module.dart';
+import 'package:simply/simply.dart';
 
 class VersionInfoService implements IVersionInfoService, ISimpleService {
   final String buildId;

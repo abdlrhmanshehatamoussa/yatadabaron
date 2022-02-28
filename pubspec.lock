@@ -381,12 +381,12 @@ packages:
     source: hosted
     version: "4.2.1"
   provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
+    version: "6.0.2"
   quiver:
     dependency: transitive
     description:
@@ -400,7 +400,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.27.1"
+    version: "0.27.3"
   scrollable_positioned_list:
     dependency: "direct main"
     description:
@@ -457,6 +457,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  simply:
+    dependency: "direct main"
+    description:
+      path: "f:/myprojects/flutter_simply/simply"
+      relative: false
+    source: path
+    version: "0.0.1"
   sky_engine:
     dependency: transitive
     description: flutter

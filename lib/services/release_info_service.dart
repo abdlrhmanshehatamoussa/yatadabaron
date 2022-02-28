@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/services/_i_local_repository.dart';
-import 'package:yatadabaron/simple/_module.dart';
+import 'package:simply/simply.dart';
 import '../commons/api_helper.dart';
 
 class ReleaseInfoService implements IReleaseInfoService, ISimpleService {

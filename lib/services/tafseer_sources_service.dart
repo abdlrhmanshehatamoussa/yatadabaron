@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/api_helper.dart';
-import 'package:yatadabaron/simple/_module.dart';
+import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
 
 class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {

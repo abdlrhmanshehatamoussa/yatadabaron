@@ -5,7 +5,7 @@ import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/pages/release_notes/view.dart';
 import 'package:yatadabaron/pages/search/view.dart';
 import 'package:yatadabaron/pages/statistics/view.dart';
-import 'package:yatadabaron/simple/_module.dart';
+import 'package:simply/simply.dart';
 
 class HomeBackend extends SimpleBackend {
   HomeBackend(BuildContext context) : super(context);

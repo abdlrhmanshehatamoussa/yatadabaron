@@ -3,7 +3,7 @@ import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'package:yatadabaron/simple/_module.dart';
+import 'package:simply/simply.dart';
 import 'view_models/statistics-payload.dart';
 
 class StatisticsBackend extends SimpleBackend {

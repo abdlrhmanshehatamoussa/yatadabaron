@@ -4,7 +4,7 @@ import 'package:archive/archive.dart';
 import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
-import 'package:yatadabaron/simple/_module.dart';
+import 'package:simply/simply.dart';
 
 class TafseerService implements ITafseerService, ISimpleService {
   TafseerService({

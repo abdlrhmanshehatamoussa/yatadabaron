@@ -14,7 +14,7 @@ description: Quran Search Engine and Statistics.
 version: 0.0.0+0
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -23,7 +23,6 @@ dependencies:
   #   path: c:/wisebay_essentials/
   sqflite: ^2.0.0+3
   rxdart: ^0.27.1
-  provider: ^5.0.0
   charts_flutter: ^0.11.0
   google_sign_in: ^5.0.0
   path_provider: ^2.0.2
@@ -42,9 +41,11 @@ dependencies:
   http: ^0.13.3
   logging: ^1.0.1
   archive: ^3.1.2
-
+  simply:
+    path: f:/myprojects/flutter_simply/simply
+publish_to: none
 flutter_icons:
-  image_path: 'icon/icon.png'
+  image_path: "icon/icon.png"
   android: true
   ios: true
 
@@ -53,13 +54,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -67,10 +66,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/data/quran_usmani.db
-   - assets/imgs/home.jpg
-   - assets/imgs/default-avatar.png
-   - assets/.env
+    - assets/data/quran_usmani.db
+    - assets/imgs/home.jpg
+    - assets/imgs/default-avatar.png
+    - assets/.env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

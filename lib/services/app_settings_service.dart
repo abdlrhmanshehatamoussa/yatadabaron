@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'package:yatadabaron/simple/_module.dart';
+import 'package:simply/simply.dart';
 
 //Imp
 class AppSettingsService implements IAppSettingsService, ISimpleService {

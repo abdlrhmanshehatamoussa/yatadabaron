@@ -11,7 +11,7 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/home/view.dart';
 import 'package:yatadabaron/_modules/service_providers.module.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
-import 'package:yatadabaron/simple/_module.dart';
+import 'package:simply/simply.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 
 class MainApp extends SimpleApp {
