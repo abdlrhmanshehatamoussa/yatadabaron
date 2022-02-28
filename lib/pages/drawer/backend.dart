@@ -21,6 +21,7 @@ class DrawerBackend extends SimpleBackend {
       return null;
     }
     return UserViewModel(
+      globalId: user.globalId,
       displayName: user.displayName,
       email: user.email,
       imageUrl: user.imageURL,
