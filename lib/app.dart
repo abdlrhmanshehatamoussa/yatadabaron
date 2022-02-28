@@ -1,9 +1,9 @@
+import 'package:cloudhub_sdk/cloudhub_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/cloudhub/cloudhub.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
 import 'package:yatadabaron/commons/themes.dart';
@@ -40,7 +40,12 @@ class MainApp extends SimpleApp {
     await dotenv.load(fileName: Constants.ASSETS_ENV);
     Map<String, String> settings = dotenv.env;
 
-    //TODO: Validate app settings
+    if (!settings.containsKey(Constants.ENV_CLOUDHUB_API_URL) ||
+        !settings.containsKey(Constants.ENV_CLOUDHUB_CLIENT_KEY) ||
+        !settings.containsKey(Constants.ENV_CLOUDHUB_CLIENT_SECRET) ||
+        !settings.containsKey(Constants.ENV_TAFSEER_TEXT_URL)) {
+      throw Exception("Initialization Error - Missing environment variable");
+    }
 
     //Initialize database provider
     String databaseFilePath = await DatabaseHelper.initializeDatabase(

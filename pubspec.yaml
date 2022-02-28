@@ -1,16 +1,6 @@
 name: yatadabaron
 description: Quran Search Engine and Statistics.
 
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 0.0.0+0
 
 environment:
@@ -19,12 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # wisebay_essentials:
-  #   path: c:/wisebay_essentials/
   sqflite: ^2.0.0+3
   rxdart: ^0.27.1
   charts_flutter: ^0.11.0
-  google_sign_in: ^5.0.0
   path_provider: ^2.0.2
   share: ^2.0.4
   launch_review: ^3.0.1
@@ -34,8 +21,6 @@ dependencies:
   flutter_dotenv: ^5.0.0
   scrollable_positioned_list: ^0.2.0-nullsafety.0
   arabic_numbers: ^1.0.0
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.3
   shared_preferences: ^2.0.6
   http: ^0.13.3
@@ -43,6 +28,9 @@ dependencies:
   archive: ^3.1.2
   simply:
     path: f:/myprojects/flutter_simply/simply
+  cloudhub_sdk:
+    path: f:/myprojects/cloudhub_flutter_sdk/cloudhub_sdk
+    
 publish_to: none
 flutter_icons:
   image_path: "icon/icon.png"

@@ -1,8 +1,8 @@
+import 'package:cloudhub_sdk/cloudhub_sdk.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/cloudhub/cloudhub.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
 

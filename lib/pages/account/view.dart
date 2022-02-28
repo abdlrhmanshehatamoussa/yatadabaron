@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:yatadabaron/cloudhub/cloudhub.dart';
 import 'package:yatadabaron/commons/localization.dart';
+import 'package:yatadabaron/pages/_viewmodels/module.dart';
 import 'package:yatadabaron/pages/account/backend.dart';
 import 'package:yatadabaron/pages/_widgets/user_avatar.dart';
 
@@ -11,7 +11,7 @@ class AccountView extends StatelessWidget {
     AccountBackend backend = AccountBackend(context);
 
     Widget _loggedIn({
-      required CloudHubUser user,
+      required UserViewModel user,
     }) {
       return Column(
         children: [
@@ -47,7 +47,7 @@ class AccountView extends StatelessWidget {
       );
     }
 
-    CloudHubUser? user = backend.currentUser;
+    UserViewModel? user = backend.currentUser;
     bool loggedIn = user != null;
     return Scaffold(
       appBar: AppBar(

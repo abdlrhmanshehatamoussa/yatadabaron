@@ -1,14 +1,24 @@
+import 'package:cloudhub_sdk/cloudhub_sdk.dart';
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/cloudhub/cloudhub.dart';
-import 'package:yatadabaron/cloudhub/src/users/module.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:simply/simply.dart';
+import 'package:yatadabaron/pages/_viewmodels/module.dart';
 
 class AccountBackend extends SimpleBackend {
   AccountBackend(BuildContext context) : super(context);
 
-  CloudHubUser? get currentUser => CloudHubUsers.instance.currentUser;
+  UserViewModel? get currentUser {
+    CloudHubUser? user = CloudHubUsers.instance.currentUser;
+    if (user == null) {
+      return null;
+    }
+    return UserViewModel(
+      displayName: user.displayName,
+      email: user.email,
+      imageUrl: user.imageURL,
+    );
+  }
 
   Future<void> signOut() async {
     bool done = await CloudHubUsers.instance.signOut();
@@ -26,16 +36,16 @@ class AccountBackend extends SimpleBackend {
     try {
       CloudHubLoginStatus result = await CloudHubUsers.instance.signInGoogle();
       switch (result) {
-        case CloudHubLoginStatus.SUCCESS:
+        case CloudHubLoginStatus.success:
           reloadApp();
           break;
-        case CloudHubLoginStatus.ALREADY_LOGGED_IN:
+        case CloudHubLoginStatus.alreadyLoggedIn:
           await _show("تم تسجيل الدخول بالفعل");
           break;
-        case CloudHubLoginStatus.ERROR:
+        case CloudHubLoginStatus.error:
           await _show("خطأ أثناء تسجيل الدخول");
           break;
-        case CloudHubLoginStatus.NOT_REGISTERED:
+        case CloudHubLoginStatus.notRegistered:
           await _show("هذا الحساب غير مسجل, برجاء تسجيل الدخول أولاً");
           break;
       }
@@ -49,13 +59,13 @@ class AccountBackend extends SimpleBackend {
       CloudHubRegisterStatus result =
           await CloudHubUsers.instance.registerGoogle();
       switch (result) {
-        case CloudHubRegisterStatus.SUCCESS:
+        case CloudHubRegisterStatus.success:
           await _show("تم إنشاء الحساب بنجاح, الآن يمكنك تسجيل الدخول");
           break;
-        case CloudHubRegisterStatus.ALREADY_REGISTERED:
+        case CloudHubRegisterStatus.alreadyRegistered:
           await _show("هذا الحساب موجود بالفعل");
           break;
-        case CloudHubRegisterStatus.ERROR:
+        case CloudHubRegisterStatus.error:
           await _show("خطأ أثناء تسجيل حساب جديد");
           break;
       }
