@@ -7,15 +7,15 @@ import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
 
 class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
-  TafseerSourcesService({required this.apiHelper, required this.localRepo});
-  final CloudHubSDK apiHelper;
+  TafseerSourcesService({required this.cloudHubSDK, required this.localRepo});
+  final CloudHubSDK cloudHubSDK;
   final ILocalRepository<TafseerSource> localRepo;
 
   Future<List<TafseerSource>> _getRemote() async {
     try {
       final Response response = await this
-          .apiHelper
-          .httpGET(endpoint: CloudHubSDK.ENDPOINT_TAFSEER_SOURCES);
+          .cloudHubSDK
+          .httpGET(endpoint: "data/public/tafseer_sources");
       List<dynamic> tafseerSourcesJson = jsonDecode(response.body);
       List<TafseerSource> results = tafseerSourcesJson
           .map((dynamic json) => TafseerSource.fromJsonRemote(json))

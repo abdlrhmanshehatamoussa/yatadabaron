@@ -14,24 +14,14 @@ class CloudHubClient {
 }
 
 class CloudHubSDK {
-  //Private Constructor
   CloudHubSDK(this._clientInfo);
-
-  //Singleton
-  static void Initialize({
-    required String clientKey,
-    required String clientSecret,
-  }) {}
 
   //Fields
   final CloudHubClient _clientInfo;
 
-  static const String ENDPOINT_NONCE = "nonce";
-  static const String ENDPOINT_ACTIONS = "data/public/actions";
-  static const String ENDPOINT_RELEASES = "data/public/releases";
+  static const String _ENDPOINT_NONCE = "nonce";
   static const String _ENDPOINT_USER = "users";
   static const String _ENDPOINT_USER_LOGIN = "users/login";
-  static const String ENDPOINT_TAFSEER_SOURCES = "data/public/tafseer_sources";
   static const int _LOGINTYPE_GOOGLE = 1932278;
 
   Map<String, String> get _basicHeaders {
@@ -107,7 +97,7 @@ class CloudHubSDK {
 
   Future<String> _generateNonce() async {
     Response result = await post(
-      Uri.parse('${this._clientInfo.apiUrl}/$ENDPOINT_NONCE'),
+      Uri.parse('${this._clientInfo.apiUrl}/$_ENDPOINT_NONCE'),
       headers: this._basicHeaders,
     );
     if (result.statusCode == 200) {

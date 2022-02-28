@@ -48,7 +48,7 @@ class MainApp extends SimpleApp {
       dbAssetsName: Constants.ASSETS_DB_NAME,
     );
 
-    //Cloud Hub Helper
+    //CloudHub SDK
     CloudHubSDK _cloudHubSdk = CloudHubSDK(
       CloudHubClient(
         apiUrl: settings[Constants.ENV_CLOUDHUB_API_URL]!,
@@ -81,19 +81,19 @@ class MainApp extends SimpleApp {
           preferences: _pref,
           mapper: new ReleaseInfoMapper(),
         ),
-        apiHelper: _cloudHubSdk,
+        cloudHubSdk: _cloudHubSdk,
       ),
     );
     registery.register<IAnalyticsService>(
       service: AnalyticsService(
         preferences: _pref,
         appVersion: int.tryParse(_info.buildNumber) ?? 0,
-        apiHelper: _cloudHubSdk,
+        cloudHubSDK: _cloudHubSdk,
       ),
     );
     registery.register<ITafseerSourcesService>(
       service: TafseerSourcesService(
-        apiHelper: _cloudHubSdk,
+        cloudHubSDK: _cloudHubSdk,
         localRepo: new SharedPrefRepository<TafseerSource>(
             preferences: _pref, mapper: new TafseerSourceMapper()),
       ),
@@ -113,7 +113,9 @@ class MainApp extends SimpleApp {
 
     registery.register<IUserService>(
       service: UserService(
-          sharedPreferences: _pref, cloudHubAPIHelper: _cloudHubSdk),
+        sharedPreferences: _pref,
+        cloudHubAPIHelper: _cloudHubSdk,
+      ),
     );
   }
 

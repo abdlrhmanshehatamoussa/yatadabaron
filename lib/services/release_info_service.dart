@@ -9,17 +9,17 @@ import '../cloudhub/cloudhub.dart';
 class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
   ReleaseInfoService({
     required this.localRepository,
-    required this.apiHelper,
+    required this.cloudHubSdk,
   });
 
   final ILocalRepository<ReleaseInfo> localRepository;
-  final CloudHubSDK apiHelper;
+  final CloudHubSDK cloudHubSdk;
 
   Future<List<ReleaseInfo>> _getRemote() async {
     try {
       Response response = await this
-          .apiHelper
-          .httpGET(endpoint: CloudHubSDK.ENDPOINT_RELEASES);
+          .cloudHubSdk
+          .httpGET(endpoint: "data/public/releases");
       String body = response.body;
       List<dynamic> releasesJson = jsonDecode(body);
       List<ReleaseInfo> results = releasesJson

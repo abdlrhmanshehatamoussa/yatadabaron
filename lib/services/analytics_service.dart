@@ -8,13 +8,13 @@ class AnalyticsService implements IAnalyticsService, ISimpleService {
   AnalyticsService({
     required this.preferences,
     required this.appVersion,
-    required this.apiHelper,
+    required this.cloudHubSDK,
   });
 
   static const String ACTIONS_SHARED_PREF_KEY = "ytdb_actions_json";
 
   final int appVersion;
-  final CloudHubSDK apiHelper;
+  final CloudHubSDK cloudHubSDK;
   final SharedPreferences preferences;
 
   @override
@@ -58,8 +58,8 @@ class AnalyticsService implements IAnalyticsService, ISimpleService {
       try {
         String payload = actions.join(",");
         payload = "[$payload]";
-        await this.apiHelper.httpPATCH(
-              endpoint: CloudHubSDK.ENDPOINT_ACTIONS,
+        await this.cloudHubSDK.httpPATCH(
+              endpoint: "data/public/actions",
               payload: payload,
             );
         await preferences.setStringList(ACTIONS_SHARED_PREF_KEY, []);
