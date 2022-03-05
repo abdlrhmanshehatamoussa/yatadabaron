@@ -29,7 +29,10 @@ class DrawerBackend extends SimpleBackend {
   }
 
   Future rate() async {
-    await CloudHubAnalytics.instance.logOnTap("DRAWER", payload: "TAB=RATE");
+    await CloudHubAnalytics.instance.logOnTap(
+      description: "drawer",
+      payload: {"tab": "rate"},
+    );
     await LaunchReview.launch();
   }
 

@@ -50,10 +50,6 @@ class TafseerPageBackend extends SimpleBackend {
     VerseTafseer result = await tafseerService.getTafseer(
         tafseerId, this.location.verseId, this.location.chapterId);
     _tafseerResultController.add(result);
-    await CloudHubAnalytics.instance.logOnTap(
-      "TAFSEER PAGE",
-      payload: "SELECTED TAFSEER=$tafseerId",
-    );
   }
 
   Future<bool> onSaveBookmarkClicked(BuildContext context) async {
@@ -90,9 +86,11 @@ class TafseerPageBackend extends SimpleBackend {
       );
     }
     await CloudHubAnalytics.instance.logOnTap(
-      "TAFSEER PAGE",
-      payload:
-          "TAFSEER SOURCE ID=$tafseerSourceID|TAFSEER DOWNLOAD STATUS=$done",
+      description: "download_tafseer",
+      payload: {
+        "tafseer_source_id": tafseerSourceID,
+        "tafseer_download_status": done
+      },
     );
   }
 

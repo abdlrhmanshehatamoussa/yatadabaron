@@ -59,7 +59,7 @@ class SearchBackend extends SimpleBackend {
   Future<void> copyVerse(Verse verse) async {
     String toCopy =
         "${verse.chapterName}\n${verse.verseTextTashkel} {${verse.verseID}}";
-    CloudHubAnalytics.instance.logOnTap("SHARE VERSE");
+    CloudHubAnalytics.instance.logOnTap(description: "share_verse");
     Share.share(toCopy);
   }
 
