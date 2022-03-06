@@ -95,9 +95,9 @@ packages:
   cloudhub_sdk:
     dependency: "direct main"
     description:
-      path: "f:/myprojects/cloudhub_flutter_sdk/cloudhub_sdk"
-      relative: false
-    source: path
+      name: cloudhub_sdk
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.0.1"
   collection:
     dependency: transitive
@@ -467,10 +467,10 @@ packages:
   simply:
     dependency: "direct main"
     description:
-      path: "f:/myprojects/flutter_simply/simply"
-      relative: false
-    source: path
-    version: "0.0.1"
+      name: simply
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   sky_engine:
     dependency: transitive
     description: flutter

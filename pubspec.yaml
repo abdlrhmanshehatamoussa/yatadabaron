@@ -26,10 +26,8 @@ dependencies:
   http: ^0.13.3
   logging: ^1.0.1
   archive: ^3.1.2
-  simply:
-    path: f:/myprojects/flutter_simply/simply
-  cloudhub_sdk:
-    path: f:/myprojects/cloudhub_flutter_sdk/cloudhub_sdk
+  simply: ^1.0.0
+  cloudhub_sdk: ^0.0.1
     
 publish_to: none
 flutter_icons:
