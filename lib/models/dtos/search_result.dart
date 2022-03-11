@@ -1,5 +1,4 @@
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'keyword_search_settings.dart';
 
 class SearchResult {
   final List<VerseSearchResult> results;

@@ -1,7 +1,6 @@
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StatisticsForm extends StatefulWidget {
