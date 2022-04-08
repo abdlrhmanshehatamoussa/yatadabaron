@@ -59,7 +59,7 @@ class SearchResultsList extends StatelessWidget {
           children:
               collection.results.map((VerseSearchResult verseSearchResult) {
             String verseIdStr =
-                Utils.convertToArabiNumber(verseSearchResult.verse.verseID);
+                Utils.convertToArabiNumber(verseSearchResult.verse.verseID, reverse: false);
             return Column(
               children: <Widget>[
                 ListTile(

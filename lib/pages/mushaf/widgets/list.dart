@@ -51,7 +51,7 @@ class VerseList extends StatelessWidget {
           color = Theme.of(context).colorScheme.secondary;
         }
         String verseBody = verse.verseTextTashkel;
-        String verseIdStr = Utils.convertToArabiNumber(verse.verseID);
+        String verseIdStr = Utils.convertToArabiNumber(verse.verseID, reverse: false);
         verseBody = "$verseBody $verseIdStr";
         Widget icon = Container();
         if (isHighlighted) {
