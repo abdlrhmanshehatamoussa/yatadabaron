@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
+import 'package:yatadabaron/commons/extensions.dart';
 import 'package:yatadabaron/commons/themes.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/home/view.dart';
@@ -127,8 +128,8 @@ class MainApp extends SimpleApp {
       if (isOnline == false) return;
 
       //Log events
-      await CloudHubAnalytics.instance.logAppStarted();
-      await CloudHubAnalytics.instance.pushEvents();
+      await CloudHubAnalytics.instance.logAppStarted().defaultNetworkTimeout();
+      await CloudHubAnalytics.instance.pushEvents().defaultNetworkTimeout();
 
       //Load releases
       var releaseInfoService =

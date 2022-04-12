@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
+import 'package:yatadabaron/commons/extensions.dart';
 
 class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
   TafseerSourcesService({
@@ -19,7 +20,7 @@ class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
       var isOnline = await this.networkDetectorService.isOnline();
       if (isOnline == false) return [];
       final Response response =
-          await CloudHubPublicData.instance.getPublicData("tafseer_sources");
+          await CloudHubPublicData.instance.getPublicData("tafseer_sources").defaultNetworkTimeout();
       List<dynamic> tafseerSourcesJson = jsonDecode(response.body);
       List<TafseerSource> results = tafseerSourcesJson
           .map((dynamic json) => TafseerSource.fromJsonRemote(json))

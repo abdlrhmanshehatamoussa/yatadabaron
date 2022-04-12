@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'dart:io';
 import 'package:archive/archive.dart';
 import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
+import 'package:yatadabaron/commons/extensions.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
 import 'package:simply/simply.dart';
 
@@ -48,11 +50,11 @@ class TafseerService implements ITafseerService, ISimpleService {
 
   @override
   Future<bool> syncTafseer(int tafseerId) async {
-    var online = await networkDetectorService.isOnline();
-    if (online == false) return false;
     try {
+      var online = await networkDetectorService.isOnline();
+      if (online == false) return false;
       Uri uri = _getRemoteUri(tafseerId);
-      final Response response = await get(uri);
+      final Response response = await get(uri).defaultNetworkTimeout();
       if ((response.contentLength ?? 0) > 0 && response.bodyBytes.isNotEmpty) {
         final Archive archive = ZipDecoder().decodeBytes(response.bodyBytes);
         for (ArchiveFile archiveFile in archive) {
@@ -61,25 +63,28 @@ class TafseerService implements ITafseerService, ISimpleService {
         }
         return true;
       }
-      return false;
     } catch (e) {
-      return false;
+      print(e);
     }
+    return false;
   }
 
   @override
   Future<int> getTafseerSizeMB(int tafseerSourceID) async {
-    var online = await networkDetectorService.isOnline();
-    if (online == false) return -1;
-    Uri uri = _getRemoteUri(tafseerSourceID);
-    final Response response = await head(uri);
-    String? sizeBytesStr = response.headers["content-length"];
-    double? sizeBytes = double.tryParse(sizeBytesStr ?? "");
-    if (sizeBytes != null) {
-      double sizeMB = sizeBytes / 1000000;
-      return sizeMB.round();
-    } else {
-      return -1;
+    try {
+      var online = await networkDetectorService.isOnline();
+      if (online == false) return -1;
+      Uri uri = _getRemoteUri(tafseerSourceID);
+      final Response response = await head(uri).defaultNetworkTimeout();
+      String? sizeBytesStr = response.headers["content-length"];
+      double? sizeBytes = double.tryParse(sizeBytesStr ?? "");
+      if (sizeBytes != null) {
+        double sizeMB = sizeBytes / 1000000;
+        return sizeMB.round();
+      }
+    } catch (e) {
+      print(e);
     }
+    return -1;
   }
 }

@@ -3,6 +3,7 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
+import 'package:yatadabaron/commons/extensions.dart';
 import 'package:yatadabaron/services/_i_local_repository.dart';
 import 'package:simply/simply.dart';
 
@@ -22,7 +23,7 @@ class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
     }
     try {
       Response response =
-          await CloudHubPublicData.instance.getPublicData("releases");
+          await CloudHubPublicData.instance.getPublicData("releases").defaultNetworkTimeout();
       String body = response.body;
       List<dynamic> releasesJson = jsonDecode(body);
       List<ReleaseInfo> results = releasesJson
