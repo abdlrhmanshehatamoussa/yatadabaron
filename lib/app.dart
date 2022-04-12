@@ -61,6 +61,13 @@ class MainApp extends SimpleApp {
       appVersion: _info.buildNumber,
     );
 
+    //Network detector
+    var networkDetectorService = NetworkDetectorService();
+
+    registery.register<INetworkDetectorService>(
+      service: networkDetectorService,
+    );
+
     registery.register<IBookmarksService>(
       service: BookmarksService(
         repository: new SharedPrefRepository<Bookmark>(
@@ -76,24 +83,26 @@ class MainApp extends SimpleApp {
       service: VersesService(databaseFilePath: databaseFilePath),
     );
     registery.register<ITafseerService>(
-      service:
-          TafseerService(tafseerURL: settings[Constants.ENV_TAFSEER_TEXT_URL]!),
+      service: TafseerService(
+        tafseerURL: settings[Constants.ENV_TAFSEER_TEXT_URL]!,
+        networkDetectorService: networkDetectorService,
+      ),
     );
     registery.register<IReleaseInfoService>(
       service: ReleaseInfoService(
-        localRepository: new SharedPrefRepository(
-          preferences: _pref,
-          mapper: new ReleaseInfoMapper(),
-        ),
-      ),
+          localRepository: new SharedPrefRepository(
+            preferences: _pref,
+            mapper: new ReleaseInfoMapper(),
+          ),
+          networkDetector: networkDetectorService),
     );
     registery.register<ITafseerSourcesService>(
       service: TafseerSourcesService(
-        localRepo: new SharedPrefRepository<TafseerSource>(
-          preferences: _pref,
-          mapper: new TafseerSourceMapper(),
-        ),
-      ),
+          localRepo: new SharedPrefRepository<TafseerSource>(
+            preferences: _pref,
+            mapper: new TafseerSourceMapper(),
+          ),
+          networkDetectorService: networkDetectorService),
     );
     registery.register<IVersionInfoService>(
       service: VersionInfoService(
@@ -112,6 +121,11 @@ class MainApp extends SimpleApp {
   @override
   Future<void> onAppStart(ISimpleServiceProvider serviceProvider) async {
     try {
+      var networkDetector =
+          serviceProvider.getService<INetworkDetectorService>();
+      bool isOnline = await networkDetector.isOnline();
+      if (isOnline == false) return;
+
       //Log events
       await CloudHubAnalytics.instance.logAppStarted();
       await CloudHubAnalytics.instance.pushEvents();

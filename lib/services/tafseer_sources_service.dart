@@ -7,11 +7,17 @@ import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
 
 class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
-  TafseerSourcesService({required this.localRepo});
+  TafseerSourcesService({
+    required this.localRepo,
+    required this.networkDetectorService,
+  });
   final ILocalRepository<TafseerSource> localRepo;
+  final INetworkDetectorService networkDetectorService;
 
   Future<List<TafseerSource>> _getRemote() async {
     try {
+      var isOnline = await this.networkDetectorService.isOnline();
+      if (isOnline == false) return [];
       final Response response =
           await CloudHubPublicData.instance.getPublicData("tafseer_sources");
       List<dynamic> tafseerSourcesJson = jsonDecode(response.body);

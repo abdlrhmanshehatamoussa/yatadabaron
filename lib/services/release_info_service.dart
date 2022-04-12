@@ -7,11 +7,19 @@ import 'package:yatadabaron/services/_i_local_repository.dart';
 import 'package:simply/simply.dart';
 
 class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
-  ReleaseInfoService({required this.localRepository});
+  ReleaseInfoService({
+    required this.localRepository,
+    required this.networkDetector,
+  });
 
   final ILocalRepository<ReleaseInfo> localRepository;
+  final INetworkDetectorService networkDetector;
 
   Future<List<ReleaseInfo>> _getRemote() async {
+    bool isOnline = await networkDetector.isOnline();
+    if (isOnline == false) {
+      return [];
+    }
     try {
       Response response =
           await CloudHubPublicData.instance.getPublicData("releases");

@@ -9,9 +9,11 @@ import 'package:simply/simply.dart';
 class TafseerService implements ITafseerService, ISimpleService {
   TafseerService({
     required this.tafseerURL,
+    required this.networkDetectorService,
   });
 
   final String tafseerURL;
+  final INetworkDetectorService networkDetectorService;
 
   Uri _getRemoteUri(int tafseerSourceId) {
     String fileName = "$tafseerSourceId.zip";
@@ -46,6 +48,8 @@ class TafseerService implements ITafseerService, ISimpleService {
 
   @override
   Future<bool> syncTafseer(int tafseerId) async {
+    var online = await networkDetectorService.isOnline();
+    if (online == false) return false;
     try {
       Uri uri = _getRemoteUri(tafseerId);
       final Response response = await get(uri);
@@ -65,6 +69,8 @@ class TafseerService implements ITafseerService, ISimpleService {
 
   @override
   Future<int> getTafseerSizeMB(int tafseerSourceID) async {
+    var online = await networkDetectorService.isOnline();
+    if (online == false) return -1;
     Uri uri = _getRemoteUri(tafseerSourceID);
     final Response response = await head(uri);
     String? sizeBytesStr = response.headers["content-length"];
@@ -73,7 +79,7 @@ class TafseerService implements ITafseerService, ISimpleService {
       double sizeMB = sizeBytes / 1000000;
       return sizeMB.round();
     } else {
-      return 0;
+      return -1;
     }
   }
 }
