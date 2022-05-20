@@ -54,7 +54,7 @@ class TafseerService implements ITafseerService, ISimpleService {
       var online = await networkDetectorService.isOnline();
       if (online == false) return false;
       Uri uri = _getRemoteUri(tafseerId);
-      final Response response = await get(uri).defaultNetworkTimeout();
+      final Response response = await get(uri);
       if ((response.contentLength ?? 0) > 0 && response.bodyBytes.isNotEmpty) {
         final Archive archive = ZipDecoder().decodeBytes(response.bodyBytes);
         for (ArchiveFile archiveFile in archive) {
