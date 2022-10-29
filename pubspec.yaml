@@ -19,7 +19,7 @@ dependencies:
   flutter_signin_button: ^2.0.0
   package_info: ^2.0.2
   flutter_dotenv: ^5.0.0
-  scrollable_positioned_list: ^0.2.0-nullsafety.0
+  scrollable_positioned_list: ^0.3.5
   arabic_numbers: ^1.0.0
   cupertino_icons: ^1.0.3
   shared_preferences: ^2.0.6
@@ -37,7 +37,7 @@ flutter_icons:
   ios: true
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.9.1
+  flutter_launcher_icons: ^0.10.0
   flutter_test:
     sdk: flutter
 
@@ -55,7 +55,6 @@ flutter:
   assets:
     - assets/data/quran_usmani.db
     - assets/imgs/home.jpg
-    - assets/imgs/default-avatar.png
     - assets/.env
 
   # An image asset can refer to one or more resolution-specific "variants", see

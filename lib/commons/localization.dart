@@ -1,5 +1,5 @@
 class Localization {
-  static const String APP_TITLE = 'يَتَدَبَّرُونْ';
+  static const String APP_TITLE = 'يَتَدَبَّرُون';
   static const String APP_DESCRIPTION =
       "يتدبرون هو محرك بحث قرآني مفتوح المصدر صدر في شوال 1439هـ, هذا التطبيق مجاني لكل الباحثين في القرآن الكريم وغير مقصود من ورائه التربح بأي شكل من الأشكال";
   static const String MUSHAF_SHARIF = 'المصحف الشريف';
