@@ -28,14 +28,14 @@ class StatisticsPage extends StatelessWidget {
           child: FrequencyChart(
             payloadStream: backend.payloadStream,
           ),
-          flex: 1,
+          flex: 3,
         ),
         Divider(),
         Expanded(
           child: FrequencyTable(
             payloadStream: backend.payloadStream,
           ),
-          flex: 1,
+          flex: 2,
         ),
       ],
     );
