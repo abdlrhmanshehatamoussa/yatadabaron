@@ -111,9 +111,9 @@ jobs:
           java-version: "12.x"
 
       - name: "Setup Flutter"
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: "2.12.0"
+          channel: 'stable'
 
       - name: Build
         run: |
