@@ -27,7 +27,6 @@ dependencies:
   logging: ^1.0.1
   archive: ^3.1.2
   simply: ^1.0.0
-  cloudhub_sdk: ^0.0.1
   connectivity_plus: ^2.3.0
     
 publish_to: none

@@ -1,4 +1,3 @@
-import 'package:cloudhub_sdk/cloudhub_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:yatadabaron/commons/localization.dart';
@@ -12,9 +11,10 @@ class DrawerBackend extends SimpleBackend {
       getService<IAppSettingsService>();
   late IVersionInfoService versionInfoService =
       getService<IVersionInfoService>();
+  late IEventLogger eventLogger = getService<IEventLogger>();
 
   Future rate() async {
-    await CloudHubAnalytics.instance.logOnTap(
+    await eventLogger.logTapEvent(
       description: "drawer",
       payload: {"tab": "rate"},
     );

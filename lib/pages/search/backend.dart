@@ -1,4 +1,3 @@
-import 'package:cloudhub_sdk/cloudhub_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
@@ -16,6 +15,7 @@ class SearchBackend extends SimpleBackend {
 
   late IChaptersService chaptersService = getService<IChaptersService>();
   late IVersesService versesService = getService<IVersesService>();
+  late IEventLogger eventLogger = getService<IEventLogger>();
 
   KeywordSearchSettings settings = KeywordSearchSettings();
   StreamObject<SearchResult> _searchResultBloc = StreamObject();
@@ -59,7 +59,7 @@ class SearchBackend extends SimpleBackend {
   Future<void> copyVerse(Verse verse) async {
     String toCopy =
         "${verse.chapterName}\n${verse.verseTextTashkel} {${verse.verseID}}";
-    CloudHubAnalytics.instance.logOnTap(description: "share_verse");
+    eventLogger.logTapEvent(description: "share_verse");
     Share.share(toCopy);
   }
 

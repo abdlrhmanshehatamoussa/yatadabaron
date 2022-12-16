@@ -1,4 +1,3 @@
-import 'package:cloudhub_sdk/cloudhub_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
@@ -6,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
-import 'package:yatadabaron/commons/extensions.dart';
 import 'package:yatadabaron/commons/themes.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/home/view.dart';
@@ -52,14 +50,6 @@ class MainApp extends SimpleApp {
     String databaseFilePath = await DatabaseHelper.initializeDatabase(
       dbAssetsDirectory: Constants.ASSETS_DB_DIRECTORY,
       dbAssetsName: Constants.ASSETS_DB_NAME,
-    );
-
-    //CloudHub SDK
-    await CloudHub.initialize(
-      apiUrl: settings[Constants.ENV_CLOUDHUB_API_URL]!,
-      clientKey: settings[Constants.ENV_CLOUDHUB_CLIENT_KEY]!,
-      clientSecret: settings[Constants.ENV_CLOUDHUB_CLIENT_SECRET]!,
-      appVersion: _info.buildNumber,
     );
 
     //Network detector
@@ -126,10 +116,11 @@ class MainApp extends SimpleApp {
           serviceProvider.getService<INetworkDetectorService>();
       bool isOnline = await networkDetector.isOnline();
       if (isOnline == false) return;
+      var eventLogger = serviceProvider.getService<IEventLogger>();
 
       //Log events
-      await CloudHubAnalytics.instance.logAppStarted().defaultNetworkTimeout();
-      await CloudHubAnalytics.instance.pushEvents().defaultNetworkTimeout();
+      await eventLogger.logAppStarted().defaultNetworkTimeout();
+      await eventLogger.pushEvents().defaultNetworkTimeout();
 
       //Load releases
       var releaseInfoService =
