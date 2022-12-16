@@ -15,8 +15,6 @@ dependencies:
   path_provider: ^2.0.2
   share: ^2.0.4
   launch_review: ^3.0.1
-  cached_network_image: ^3.1.0+1
-  flutter_signin_button: ^2.0.0
   package_info: ^2.0.2
   flutter_dotenv: ^5.0.0
   scrollable_positioned_list: ^0.3.5
@@ -24,7 +22,6 @@ dependencies:
   cupertino_icons: ^1.0.3
   shared_preferences: ^2.0.6
   http: ^0.13.3
-  logging: ^1.0.1
   archive: ^3.1.2
   simply: ^1.0.0
   connectivity_plus: ^2.3.0

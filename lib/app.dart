@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
+import 'package:yatadabaron/commons/extensions.dart';
 import 'package:yatadabaron/commons/themes.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/home/view.dart';
@@ -54,6 +55,12 @@ class MainApp extends SimpleApp {
 
     //Network detector
     var networkDetectorService = NetworkDetectorService();
+
+    registery.register<IEventLogger>(
+      service: EventLogger(
+        sharedPreferences: _pref,
+      ),
+    );
 
     registery.register<INetworkDetectorService>(
       service: networkDetectorService,
