@@ -22,9 +22,11 @@ dependencies:
   cupertino_icons: ^1.0.3
   shared_preferences: ^2.0.6
   http: ^0.13.3
+  firebase_core: ^2.4.0
   archive: ^3.1.2
   simply: ^1.0.0
   connectivity_plus: ^2.3.0
+  cloud_firestore: ^4.2.0
     
 publish_to: none
 flutter_icons:

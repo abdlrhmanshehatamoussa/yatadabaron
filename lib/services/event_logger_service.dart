@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simply/simply.dart';
@@ -7,9 +8,11 @@ import 'package:yatadabaron/_modules/service_contracts.module.dart';
 class EventLogger extends IEventLogger implements ISimpleService {
   EventLogger({
     required this.sharedPreferences,
+    required this.buildId,
   });
 
   final SharedPreferences sharedPreferences;
+  final String buildId;
   final String sharedPrefKey = "cloudhub_events";
 
   @override
@@ -32,22 +35,24 @@ class EventLogger extends IEventLogger implements ISimpleService {
 
   @override
   Future<void> pushEvents() async {
-    List<String> actions = sharedPreferences.getStringList(sharedPrefKey) ?? [];
-    if (actions.isEmpty) return;
-    try {
-      String payload = actions.join(",");
-      payload = "[$payload]";
-      Response response =
-          await sdk.httpPATCH(endpoint: "events", payload: payload);
-      if (response.statusCode == 204) {
-        await sharedPreferences.setStringList(
-          sharedPrefKey,
-          [],
-        );
-      }
-    } catch (e) {
-      return;
-    }
+    //TODO: Replace
+    // List<String> actions = sharedPreferences.getStringList(sharedPrefKey) ?? [];
+    // if (actions.isEmpty) return;
+    // try {
+    //   String payload = actions.join(",");
+    //   payload = "[$payload]";
+    //   Response response =
+    //       await sdk.httpPATCH(endpoint: "events", payload: payload);
+
+    //   if (response.statusCode == 204) {
+    //     await sharedPreferences.setStringList(
+    //       sharedPrefKey,
+    //       [],
+    //     );
+    //   }
+    // } catch (e) {
+    //   return;
+    // }
   }
 
   Future<void> _logEvent(
@@ -57,7 +62,6 @@ class EventLogger extends IEventLogger implements ISimpleService {
     DateTime createdOn = DateTime.now().toUtc();
     String? source; //TODO: Get serial key of the device
     Map<String, dynamic> actionMap = {};
-    String buildId = sdk.clientInfo.appVersion;
     actionMap["description"] = description;
     actionMap["category"] = category;
     actionMap["build_id"] = buildId;

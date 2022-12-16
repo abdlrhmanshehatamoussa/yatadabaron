@@ -15,23 +15,25 @@ class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
   final INetworkDetectorService networkDetector;
 
   Future<List<ReleaseInfo>> _getRemote() async {
-    bool isOnline = await networkDetector.isOnline();
-    if (isOnline == false) {
-      return [];
-    }
-    try {
-      Response response = await CloudHubPublicData.instance
-          .getPublicData("releases")
-          .defaultNetworkTimeout();
-      String body = response.body;
-      List<dynamic> releasesJson = jsonDecode(body);
-      List<ReleaseInfo> results = releasesJson
-          .map((dynamic json) => ReleaseInfo.fromJsonRemote(json))
-          .toList();
-      return results;
-    } catch (e) {
-      return [];
-    }
+    //TODO: Replace
+    return [];
+    // bool isOnline = await networkDetector.isOnline();
+    // if (isOnline == false) {
+    //   return [];
+    // }
+    // try {
+    //   Response response = await CloudHubPublicData.instance
+    //       .getPublicData("releases")
+    //       .defaultNetworkTimeout();
+    //   String body = response.body;
+    //   List<dynamic> releasesJson = jsonDecode(body);
+    //   List<ReleaseInfo> results = releasesJson
+    //       .map((dynamic json) => ReleaseInfo.fromJsonRemote(json))
+    //       .toList();
+    //   return results;
+    // } catch (e) {
+    //   return [];
+    // }
   }
 
   @override

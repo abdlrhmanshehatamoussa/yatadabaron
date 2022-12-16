@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
@@ -13,6 +14,8 @@ import 'package:yatadabaron/_modules/service_providers.module.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
+
+import 'firebase_options.dart';
 
 class MainApp extends SimpleApp {
   @override
@@ -46,7 +49,9 @@ class MainApp extends SimpleApp {
         !settings.containsKey(Constants.ENV_TAFSEER_TEXT_URL)) {
       throw Exception("Initialization Error - Missing environment variable");
     }
-
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     //Initialize database provider
     String databaseFilePath = await DatabaseHelper.initializeDatabase(
       dbAssetsDirectory: Constants.ASSETS_DB_DIRECTORY,
@@ -59,6 +64,7 @@ class MainApp extends SimpleApp {
     registery.register<IEventLogger>(
       service: EventLogger(
         sharedPreferences: _pref,
+        buildId: _info.buildNumber,
       ),
     );
 
