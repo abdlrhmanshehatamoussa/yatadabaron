@@ -1,9 +1,8 @@
-import 'package:cloudhub_sdk/cloudhub_sdk.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/commons/extensions.dart';
 import 'package:yatadabaron/services/_i_local_repository.dart';
 import 'package:simply/simply.dart';
 
@@ -22,11 +21,10 @@ class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
       return [];
     }
     try {
-      Response response =
-          await CloudHubPublicData.instance.getPublicData("releases").defaultNetworkTimeout();
-      String body = response.body;
-      List<dynamic> releasesJson = jsonDecode(body);
-      List<ReleaseInfo> results = releasesJson
+      var releasesSnaphost =
+          await FirebaseFirestore.instance.collection("releases").get();
+      var releases = releasesSnaphost.docs.map((e) => e.data());
+      List<ReleaseInfo> results = releases
           .map((dynamic json) => ReleaseInfo.fromJsonRemote(json))
           .toList();
       return results;
