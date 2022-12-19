@@ -1,18 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'dart:convert';
-import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/services/_i_local_repository.dart';
+import 'package:yatadabaron/services/_i_remote_repository.dart';
 import 'package:simply/simply.dart';
 
 class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
-  ReleaseInfoService({
-    required this.localRepository,
-    required this.networkDetector,
-  });
+  ReleaseInfoService(
+      {required this.localRepository,
+      required this.remoteRepository,
+      required this.networkDetector});
 
   final ILocalRepository<ReleaseInfo> localRepository;
+  final IRemoteRepository<ReleaseInfo> remoteRepository;
   final INetworkDetectorService networkDetector;
 
   Future<List<ReleaseInfo>> _getRemote() async {
@@ -21,12 +20,8 @@ class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
       return [];
     }
     try {
-      var releasesSnaphost =
-          await FirebaseFirestore.instance.collection("releases").get();
-      var releases = releasesSnaphost.docs.map((e) => e.data());
-      List<ReleaseInfo> results = releases
-          .map((dynamic json) => ReleaseInfo.fromJsonRemote(json))
-          .toList();
+      List<ReleaseInfo> results = await remoteRepository.fetchAll();
+      results.sort((a, b) => b.releaseDate.compareTo(a.releaseDate));
       return results;
     } catch (e) {
       return [];

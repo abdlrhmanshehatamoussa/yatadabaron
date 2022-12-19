@@ -1,34 +1,28 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'dart:convert';
-import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
+import 'package:yatadabaron/services/_i_remote_repository.dart';
 
 class TafseerSourcesService implements ITafseerSourcesService, ISimpleService {
   TafseerSourcesService({
     required this.localRepo,
     required this.networkDetectorService,
+    required this.remoteRepo,
   });
+  final IRemoteRepository<TafseerSource> remoteRepo;
   final ILocalRepository<TafseerSource> localRepo;
   final INetworkDetectorService networkDetectorService;
 
   Future<List<TafseerSource>> _getRemote() async {
-    return [];
-    // try {
-    //   var isOnline = await this.networkDetectorService.isOnline();
-    //   if (isOnline == false) return [];
-    //   final Response response =
-    //       await CloudHubPublicData.instance.getPublicData("tafseer_sources").defaultNetworkTimeout();
-    //   List<dynamic> tafseerSourcesJson = jsonDecode(response.body);
-    //   List<TafseerSource> results = tafseerSourcesJson
-    //       .map((dynamic json) => TafseerSource.fromJsonRemote(json))
-    //       .toList();
-    //   return results;
-    // } catch (e) {
-    //   return [];
-    // }
+    try {
+      var isOnline = await this.networkDetectorService.isOnline();
+      if (isOnline == false) return [];
+      List<TafseerSource> results = await remoteRepo.fetchAll();
+      return results;
+    } catch (e) {
+      return [];
+    }
   }
 
   @override

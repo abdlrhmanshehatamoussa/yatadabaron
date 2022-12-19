@@ -98,6 +98,10 @@ class MainApp extends SimpleApp {
             preferences: _pref,
             mapper: new ReleaseInfoMapper(),
           ),
+          remoteRepository: new FirebaseRemoteRepository<ReleaseInfo>(
+            mapper: new ReleaseInfoMapper(),
+            collectionName: "releases",
+          ),
           networkDetector: networkDetectorService),
     );
     registery.register<ITafseerSourcesService>(
@@ -105,6 +109,10 @@ class MainApp extends SimpleApp {
           localRepo: new SharedPrefRepository<TafseerSource>(
             preferences: _pref,
             mapper: new TafseerSourceMapper(),
+          ),
+          remoteRepo: new FirebaseRemoteRepository(
+            mapper: new TafseerSourceMapper(),
+            collectionName: "tafseer_sources",
           ),
           networkDetectorService: networkDetectorService),
     );
