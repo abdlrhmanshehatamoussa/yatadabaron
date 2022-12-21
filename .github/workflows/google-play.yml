@@ -13,24 +13,24 @@ jobs:
       create_env_file: false
       create_google_services_file: false
       build_number_start: 70
+      package_type: apk
+      branch: ${{env.github.ref_name}}
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Injecting Environment Variables (development)
-        id: env-development
+      - name: Injecting Environment Variables (Alpha)
+        id: env-alpha
         run: |
-          echo "lane=alpha" >> $GITHUB_ENV
-          echo "branch=development" >> $GITHUB_ENV
+          echo "lane=alpha_${{env.package_type}}" >> $GITHUB_ENV
         if: github.ref == 'refs/heads/development'
 
-      - name: Injecting Environment Variables (Main)
-        id: env-main
+      - name: Injecting Environment Variables (Production)
+        id: env-production
         run: |
-          echo "lane=production" >> $GITHUB_ENV
-          echo "branch=main" >> $GITHUB_ENV
+          echo "lane=production_${{env.package_type}}" >> $GITHUB_ENV
         if: github.ref == 'refs/heads/main'
 
       - name: Extracting Version and Build Number
@@ -125,7 +125,7 @@ jobs:
           pwd
           cd android
           flutter clean
-          flutter build appbundle --release
+          flutter build ${{env.package_type}} --release
 
       - name: Deploy Google Play
         run: |
