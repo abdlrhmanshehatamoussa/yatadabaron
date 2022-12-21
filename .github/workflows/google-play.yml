@@ -14,7 +14,7 @@ jobs:
       create_google_services_file: false
       build_number_start: 70
       package_type: apk
-      branch: ${{env.github.ref_name}}
+      branch: ${{ github.ref_name }}
 
     steps:
       - uses: actions/checkout@v3
