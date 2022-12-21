@@ -36,15 +36,15 @@ jobs:
       - name: Extracting Version and Build Number
         id: gitinfo
         run: |
+          git fetch --prune --unshallow
           buildNumber=${{ github.run_number }}
           buildNumberStart=${{env.build_number_start}}
           buildNumber=$(($buildNumber+$buildNumberStart))
           tagName=$(git describe --tags --abbrev=0)
-          echo $tagName
           tagNameSplitted=(${tagName//-/ })
           prevVersionName=tagNameSplitted[3]
           versionName=$(echo "$prevVersionName + 0.01" | bc)
-          echo version_name=$versionName, build_number=$buildNumber
+          echo tag_name=$tagName, version_name=$versionName, build_number=$buildNumber
           echo "versionName=$versionName" >> $GITHUB_ENV
           echo "buildNumber=$buildNumber" >> $GITHUB_ENV
 
