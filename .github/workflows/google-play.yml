@@ -13,7 +13,7 @@ jobs:
       create_env_file: false
       create_google_services_file: false
       build_number_start: 70
-      package_type: apk
+      package_type: appbundle
       branch: ${{ github.ref_name }}
 
     steps:
