@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
@@ -40,15 +39,6 @@ class MainApp extends SimpleApp {
     var _info = await PackageInfo.fromPlatform();
 
     //Configurations
-    await dotenv.load(fileName: Constants.ASSETS_ENV);
-    Map<String, String> settings = dotenv.env;
-
-    if (!settings.containsKey(Constants.ENV_CLOUDHUB_API_URL) ||
-        !settings.containsKey(Constants.ENV_CLOUDHUB_CLIENT_KEY) ||
-        !settings.containsKey(Constants.ENV_CLOUDHUB_CLIENT_SECRET) ||
-        !settings.containsKey(Constants.ENV_TAFSEER_TEXT_URL)) {
-      throw Exception("Initialization Error - Missing environment variable");
-    }
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -88,7 +78,7 @@ class MainApp extends SimpleApp {
     );
     registery.register<ITafseerService>(
       service: TafseerService(
-        tafseerURL: settings[Constants.ENV_TAFSEER_TEXT_URL]!,
+        tafseerURL: "https://github.com/abdlrhmanshehatamoussa/quran_tafseer",
         networkDetectorService: networkDetectorService,
       ),
     );

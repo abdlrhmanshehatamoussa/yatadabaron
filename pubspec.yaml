@@ -16,7 +16,6 @@ dependencies:
   share: ^2.0.4
   launch_review: ^3.0.1
   package_info: ^2.0.2
-  flutter_dotenv: ^5.0.0
   scrollable_positioned_list: ^0.3.5
   arabic_numbers: ^1.0.0
   cupertino_icons: ^1.0.3
