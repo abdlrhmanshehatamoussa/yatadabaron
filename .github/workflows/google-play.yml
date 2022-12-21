@@ -16,7 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: git fetch --prune --unshallow
+      with:
+        fetch-depth: 0
 
       - name: Injecting Environment Variables (development)
         id: env-development
@@ -39,6 +40,7 @@ jobs:
           buildNumberStart=${{env.build_number_start}}
           buildNumber=$(($buildNumber+$buildNumberStart))
           tagName=$(git describe --tags --abbrev=0)
+          echo $tagName
           tagNameSplitted=(${tagName//-/ })
           prevVersionName=tagNameSplitted[3]
           versionName=$(echo "$prevVersionName + 0.01" | bc)
