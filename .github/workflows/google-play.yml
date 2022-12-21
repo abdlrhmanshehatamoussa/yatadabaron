@@ -19,14 +19,14 @@ jobs:
       - name: Injecting Environment Variables (development)
         id: env-development
         run: |
-          echo "lane=test_apk" >> $GITHUB_ENV
+          echo "lane=alpha" >> $GITHUB_ENV
           echo "branch=development" >> $GITHUB_ENV
         if: github.ref == 'refs/heads/development'
 
       - name: Injecting Environment Variables (Main)
         id: env-main
         run: |
-          echo "lane=production_apk" >> $GITHUB_ENV
+          echo "lane=production" >> $GITHUB_ENV
           echo "branch=main" >> $GITHUB_ENV
         if: github.ref == 'refs/heads/main'
 
