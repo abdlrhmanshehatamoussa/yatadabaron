@@ -2,41 +2,50 @@ name: deploy-flutter-googleplay-fastlane
 
 on:
   push:
-    tags:
-      - "test@*@*"
-      - "production@*@*"
+    branches: [development, main]
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
 
-      - name: Extracting Lane, Version and Build Number
+    env:
+      create_env_file: false
+      create_google_services_file: false
+      build_number_start: 70
+      package_type: appbundle
+      branch: ${{ github.ref_name }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Injecting Environment Variables (Alpha)
+        id: env-alpha
+        run: |
+          echo "lane=alpha_${{env.package_type}}" >> $GITHUB_ENV
+        if: github.ref == 'refs/heads/development'
+
+      - name: Injecting Environment Variables (Production)
+        id: env-production
+        run: |
+          echo "lane=production_${{env.package_type}}" >> $GITHUB_ENV
+        if: github.ref == 'refs/heads/main'
+
+      - name: Extracting Version and Build Number
         id: gitinfo
         run: |
-          tag_name=${GITHUB_REF##*/}
-          tag_name_splitted=(${tag_name//@/ })
-          echo Tag Name=${tag_name}
-          lane=${tag_name_splitted[0]}
-          version=${tag_name_splitted[1]}
-          buildNumber=${tag_name_splitted[2]}
-          echo lane=$lane, version=$version, build_number=$buildNumber
-          echo "::set-output name=lane::$lane"
-          echo "::set-output name=version::$version"
-          echo "::set-output name=buildNumber::$buildNumber"
-
-      - name: Preparing Secret Keys
-        id: gitsecrets
-        run: |
-          lane=${{steps.gitinfo.outputs.lane}}
-          lane=${lane^^}
-          echo "::set-output name=CLOUDHUB_API_URL::${lane}_CLOUDHUB_API_URL"
-          echo "::set-output name=CLOUDHUB_CLIENT_KEY::${lane}_CLOUDHUB_CLIENT_KEY"
-          echo "::set-output name=CLOUDHUB_CLIENT_SECRET::${lane}_CLOUDHUB_CLIENT_SECRET"
-          echo "::set-output name=TAFSEER_SOURCES_URL::${lane}_TAFSEER_SOURCES_URL"
-          echo "::set-output name=TAFSEER_TEXT_URL::${lane}_TAFSEER_TEXT_URL"
+          buildNumber=${{ github.run_number }}
+          buildNumberStart=${{env.build_number_start}}
+          buildNumber=$(($buildNumber+$buildNumberStart))
+          tagName=$(git describe --tags --abbrev=0)
+          tagNameSplitted=(${tagName//-/ })
+          prevVersionName=${tagNameSplitted[3]}
+          versionName=$(echo "$prevVersionName + 0.01" | bc)
+          echo tag_name=$tagName, version_name=$versionName, build_number=$buildNumber
+          echo "versionName=$versionName" >> $GITHUB_ENV
+          echo "buildNumber=$buildNumber" >> $GITHUB_ENV
 
       - name: Creating Keystore file
         run: |
@@ -47,11 +56,7 @@ jobs:
 
           cd ../
           keyPropFile=key.properties
-          touch $keyPropFile
-          echo keyAlias=${{ secrets.GOOGLE_PLAY_KEYSTORE_ALIAS }}>$keyPropFile
-          echo keyPassword=${{ secrets.GOOGLE_PLAY_KEYSTORE_KEY_PASSWORD }}>>$keyPropFile
-          echo storePassword=${{ secrets.GOOGLE_PLAY_KEYSTORE_STORE_PASSWORD }}>>$keyPropFile
-          echo storeFile=$keyFile>>$keyPropFile
+          gpg -d --passphrase "${{ secrets.GPG_PASS }}" --batch $keyPropFile.asc > $keyPropFile
 
       - name: Creating Version file
         run: |
@@ -59,8 +64,8 @@ jobs:
           cd android
           verPropFile=version.properties
           touch $verPropFile
-          echo flutter.versionName=${{steps.gitinfo.outputs.version}}>$verPropFile
-          echo flutter.versionCode=${{steps.gitinfo.outputs.buildNumber}}>>$verPropFile
+          echo flutter.versionName=${{env.versionName}}>$verPropFile
+          echo flutter.versionCode=${{env.buildNumber}}>>$verPropFile
 
       - name: Creating Google Services file
         run: |
@@ -69,6 +74,7 @@ jobs:
           cd app
           file=google-services.json
           gpg -d --passphrase "${{ secrets.GPG_PASS }}" --batch $file.asc > $file
+        if: ${{env.create_google_services_file == 'true'}}
 
       - name: Creating Fastlane Secret file
         run: |
@@ -81,12 +87,9 @@ jobs:
         run: |
           pwd
           cd assets
-          touch .env
-          echo CLOUDHUB_API_URL="${{secrets[steps.gitsecrets.outputs.CLOUDHUB_API_URL]}}">.env
-          echo CLOUDHUB_CLIENT_KEY="${{secrets[steps.gitsecrets.outputs.CLOUDHUB_CLIENT_KEY]}}">>.env
-          echo CLOUDHUB_CLIENT_SECRET="${{secrets[steps.gitsecrets.outputs.CLOUDHUB_CLIENT_SECRET]}}">>.env
-          echo TAFSEER_SOURCES_URL="${{secrets[steps.gitsecrets.outputs.TAFSEER_SOURCES_URL]}}">>.env
-          echo TAFSEER_TEXT_URL="${{secrets[steps.gitsecrets.outputs.TAFSEER_TEXT_URL] }}">>.env
+          file=.env
+          gpg -d --passphrase "${{ secrets.GPG_PASS }}" --batch $file.${{env.branch}}.asc > $file
+        if: ${{env.create_env_file == 'true'}}
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -103,28 +106,36 @@ jobs:
         run: |
           pwd
           cd android
+          bundle update fastlane
           bundle exec fastlane run validate_play_store_json_key
 
       - name: "Setup Java"
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
-          java-version: "12.x"
+          distribution: "zulu"
+          java-version: "11"
 
       - name: "Setup Flutter"
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: "stable"
 
-      - name: Build
+      - name: Build Android App Package
         run: |
           pwd
           cd android
           flutter clean
-          flutter build apk --release
+          flutter build ${{env.package_type}} --release
 
-      - name: Deploy
+      - name: Deploy Google Play
         run: |
           pwd
           cd android
-          lane=${{steps.gitinfo.outputs.lane}}
+          lane=${{env.lane}}
           bundle exec fastlane $lane
+
+      - name: Append tag to the source control
+        run: |
+          tagName=googleplay-${{env.lane}}-${{env.buildNumber}}-${{env.versionName}}
+          git tag $tagName
+          git push origin $tagName

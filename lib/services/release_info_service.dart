@@ -1,19 +1,17 @@
-import 'package:cloudhub_sdk/cloudhub_sdk.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'dart:convert';
-import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/commons/extensions.dart';
 import 'package:yatadabaron/services/_i_local_repository.dart';
+import 'package:yatadabaron/services/_i_remote_repository.dart';
 import 'package:simply/simply.dart';
 
 class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
-  ReleaseInfoService({
-    required this.localRepository,
-    required this.networkDetector,
-  });
+  ReleaseInfoService(
+      {required this.localRepository,
+      required this.remoteRepository,
+      required this.networkDetector});
 
   final ILocalRepository<ReleaseInfo> localRepository;
+  final IRemoteRepository<ReleaseInfo> remoteRepository;
   final INetworkDetectorService networkDetector;
 
   Future<List<ReleaseInfo>> _getRemote() async {
@@ -22,13 +20,8 @@ class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
       return [];
     }
     try {
-      Response response =
-          await CloudHubPublicData.instance.getPublicData("releases").defaultNetworkTimeout();
-      String body = response.body;
-      List<dynamic> releasesJson = jsonDecode(body);
-      List<ReleaseInfo> results = releasesJson
-          .map((dynamic json) => ReleaseInfo.fromJsonRemote(json))
-          .toList();
+      List<ReleaseInfo> results = await remoteRepository.fetchAll();
+      results.sort((a, b) => b.releaseDate.compareTo(a.releaseDate));
       return results;
     } catch (e) {
       return [];

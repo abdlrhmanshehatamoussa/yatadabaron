@@ -1,4 +1,3 @@
-import 'package:cloudhub_sdk/cloudhub_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
@@ -23,6 +22,7 @@ class TafseerPageBackend extends SimpleBackend {
   late ITafseerSourcesService tafseerSourcesService =
       getService<ITafseerSourcesService>();
   late IBookmarksService bookmarksService = getService<IBookmarksService>();
+  late IEventLogger eventLogger = getService<IEventLogger>();
 
   Stream<VerseTafseer> get tafseerStream => _tafseerResultController.stream;
 
@@ -85,7 +85,7 @@ class TafseerPageBackend extends SimpleBackend {
         title: Localization.ERROR,
       );
     }
-    await CloudHubAnalytics.instance.logOnTap(
+    await eventLogger.logTapEvent(
       description: "download_tafseer",
       payload: {
         "tafseer_source_id": tafseerSourceID,

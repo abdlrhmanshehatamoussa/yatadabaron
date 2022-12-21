@@ -1,6 +1,5 @@
-import 'package:cloudhub_sdk/cloudhub_sdk.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
@@ -14,6 +13,8 @@ import 'package:yatadabaron/_modules/service_providers.module.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
+
+import 'firebase_options.dart';
 
 class MainApp extends SimpleApp {
   @override
@@ -38,32 +39,24 @@ class MainApp extends SimpleApp {
     var _info = await PackageInfo.fromPlatform();
 
     //Configurations
-    await dotenv.load(fileName: Constants.ASSETS_ENV);
-    Map<String, String> settings = dotenv.env;
-
-    if (!settings.containsKey(Constants.ENV_CLOUDHUB_API_URL) ||
-        !settings.containsKey(Constants.ENV_CLOUDHUB_CLIENT_KEY) ||
-        !settings.containsKey(Constants.ENV_CLOUDHUB_CLIENT_SECRET) ||
-        !settings.containsKey(Constants.ENV_TAFSEER_TEXT_URL)) {
-      throw Exception("Initialization Error - Missing environment variable");
-    }
-
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     //Initialize database provider
     String databaseFilePath = await DatabaseHelper.initializeDatabase(
       dbAssetsDirectory: Constants.ASSETS_DB_DIRECTORY,
       dbAssetsName: Constants.ASSETS_DB_NAME,
     );
 
-    //CloudHub SDK
-    await CloudHub.initialize(
-      apiUrl: settings[Constants.ENV_CLOUDHUB_API_URL]!,
-      clientKey: settings[Constants.ENV_CLOUDHUB_CLIENT_KEY]!,
-      clientSecret: settings[Constants.ENV_CLOUDHUB_CLIENT_SECRET]!,
-      appVersion: _info.buildNumber,
-    );
-
     //Network detector
     var networkDetectorService = NetworkDetectorService();
+
+    registery.register<IEventLogger>(
+      service: EventLogger(
+        sharedPreferences: _pref,
+        buildId: _info.buildNumber,
+      ),
+    );
 
     registery.register<INetworkDetectorService>(
       service: networkDetectorService,
@@ -85,7 +78,7 @@ class MainApp extends SimpleApp {
     );
     registery.register<ITafseerService>(
       service: TafseerService(
-        tafseerURL: settings[Constants.ENV_TAFSEER_TEXT_URL]!,
+        tafseerURL: "https://github.com/abdlrhmanshehatamoussa/quran_tafseer",
         networkDetectorService: networkDetectorService,
       ),
     );
@@ -95,6 +88,10 @@ class MainApp extends SimpleApp {
             preferences: _pref,
             mapper: new ReleaseInfoMapper(),
           ),
+          remoteRepository: new FirebaseRemoteRepository<ReleaseInfo>(
+            mapper: new ReleaseInfoMapper(),
+            collectionName: "releases",
+          ),
           networkDetector: networkDetectorService),
     );
     registery.register<ITafseerSourcesService>(
@@ -102,6 +99,10 @@ class MainApp extends SimpleApp {
           localRepo: new SharedPrefRepository<TafseerSource>(
             preferences: _pref,
             mapper: new TafseerSourceMapper(),
+          ),
+          remoteRepo: new FirebaseRemoteRepository(
+            mapper: new TafseerSourceMapper(),
+            collectionName: "tafseer_sources",
           ),
           networkDetectorService: networkDetectorService),
     );
@@ -126,10 +127,11 @@ class MainApp extends SimpleApp {
           serviceProvider.getService<INetworkDetectorService>();
       bool isOnline = await networkDetector.isOnline();
       if (isOnline == false) return;
+      var eventLogger = serviceProvider.getService<IEventLogger>();
 
       //Log events
-      await CloudHubAnalytics.instance.logAppStarted().defaultNetworkTimeout();
-      await CloudHubAnalytics.instance.pushEvents().defaultNetworkTimeout();
+      await eventLogger.logAppStarted().defaultNetworkTimeout();
+      await eventLogger.pushEvents().defaultNetworkTimeout();
 
       //Load releases
       var releaseInfoService =
