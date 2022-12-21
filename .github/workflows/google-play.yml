@@ -12,6 +12,7 @@ jobs:
     env:
       create_env_file: false
       create_google_services_file: false
+      build_number_start: 70
 
     steps:
       - uses: actions/checkout@v3
@@ -34,8 +35,12 @@ jobs:
         id: gitinfo
         run: |
           buildNumber=${{ github.run_number }}
-          buildNumber=$(($buildNumber+70))
-          versionName=VC$buildNumber
+          buildNumberStart=${{env.build_number_start}}
+          buildNumber=$(($buildNumber+$buildNumberStart))
+          tagName=$(git describe --tags --abbrev=0)
+          tagNameSplitted=(${tagName//-/ })
+          prevVersionName=tagNameSplitted[3]
+          versionName=$(echo "$prevVersionName + 0.01" | bc)
           echo version_name=$versionName, build_number=$buildNumber
           echo "versionName=$versionName" >> $GITHUB_ENV
           echo "buildNumber=$buildNumber" >> $GITHUB_ENV
@@ -129,6 +134,6 @@ jobs:
 
       - name: Append tag to the source control
         run: |
-          tagName=googleplay-${{env.lane}}-vc${{env.buildNumber}}
+          tagName=googleplay-${{env.lane}}-${{env.buildNumber}}-${{env.versionName}}
           git tag $tagName
           git push origin $tagName
