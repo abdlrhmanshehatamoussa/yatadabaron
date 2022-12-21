@@ -16,12 +16,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Injecting Environment Variables (Dev)
-        id: env-dev
+      - name: Injecting Environment Variables (development)
+        id: env-development
         run: |
           echo "lane=test_apk" >> $GITHUB_ENV
-          echo "branch=dev" >> $GITHUB_ENV
-        if: github.ref == 'refs/heads/dev'
+          echo "branch=development" >> $GITHUB_ENV
+        if: github.ref == 'refs/heads/development'
 
       - name: Injecting Environment Variables (Main)
         id: env-main
