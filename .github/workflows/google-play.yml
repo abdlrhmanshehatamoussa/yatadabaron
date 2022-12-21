@@ -120,7 +120,7 @@ jobs:
         with:
           channel: "stable"
 
-      - name: Build Android App Bundle
+      - name: Build Android App Package
         run: |
           pwd
           cd android
