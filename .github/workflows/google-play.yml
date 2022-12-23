@@ -2,7 +2,7 @@ name: deploy-flutter-googleplay-fastlane
 
 on:
   push:
-    branches: [development, main]
+    branches: [dev, main]
   workflow_dispatch:
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
         id: env-alpha
         run: |
           echo "lane=alpha_${{env.package_type}}" >> $GITHUB_ENV
-        if: github.ref == 'refs/heads/development'
+        if: github.ref == 'refs/heads/dev'
 
       - name: Injecting Environment Variables (Production)
         id: env-production
@@ -136,10 +136,3 @@ jobs:
           tagName=googleplay-${{env.lane}}-${{env.versionCode}}
           git tag $tagName
           git push origin $tagName
-
-      - name: Merge
-        run: |
-          git checkout development
-          git merge main
-          git push origin development
-        if: github.ref == 'refs/heads/main'
