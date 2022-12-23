@@ -1,3 +1,3 @@
 # yatadabaron
 
-Open source search engine in Holy Quran
+Open source search engine for Holy Quran
