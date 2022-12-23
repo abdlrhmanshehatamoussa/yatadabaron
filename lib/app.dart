@@ -1,3 +1,4 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
@@ -38,10 +39,6 @@ class MainApp extends SimpleApp {
     var _pref = await SharedPreferences.getInstance();
     var _info = await PackageInfo.fromPlatform();
 
-    //Configurations
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
     //Initialize database provider
     String databaseFilePath = await DatabaseHelper.initializeDatabase(
       dbAssetsDirectory: Constants.ASSETS_DB_DIRECTORY,
@@ -123,6 +120,15 @@ class MainApp extends SimpleApp {
   @override
   Future<void> onAppStart(ISimpleServiceProvider serviceProvider) async {
     try {
+      //Firebase
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+
+      await FirebaseAppCheck.instance.activate(
+        androidProvider: AndroidProvider.playIntegrity,
+      );
+
       var networkDetector =
           serviceProvider.getService<INetworkDetectorService>();
       bool isOnline = await networkDetector.isOnline();
