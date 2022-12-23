@@ -47,11 +47,15 @@ class MainApp extends SimpleApp {
 
     //Network detector
     var networkDetectorService = NetworkDetectorService();
+    var versionService = VersionInfoService(
+      buildId: _info.version,
+      versionName: "8.04",
+    );
 
     registery.register<IEventLogger>(
       service: EventLogger(
         sharedPreferences: _pref,
-        buildId: _info.buildNumber,
+        versionInfoService: versionService,
       ),
     );
 
@@ -104,10 +108,7 @@ class MainApp extends SimpleApp {
           networkDetectorService: networkDetectorService),
     );
     registery.register<IVersionInfoService>(
-      service: VersionInfoService(
-        buildId: _info.buildNumber,
-        versionName: _info.version,
-      ),
+      service: versionService,
     );
 
     registery.register<IAppSettingsService>(

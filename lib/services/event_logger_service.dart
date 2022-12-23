@@ -8,11 +8,11 @@ import 'package:yatadabaron/_modules/service_contracts.module.dart';
 class EventLogger extends IEventLogger implements ISimpleService {
   EventLogger({
     required this.sharedPreferences,
-    required this.buildId,
+    required this.versionInfoService,
   });
 
   final SharedPreferences sharedPreferences;
-  final String buildId;
+  final IVersionInfoService versionInfoService;
   final String sharedPrefKey = "cloudhub_events";
 
   @override
@@ -64,7 +64,7 @@ class EventLogger extends IEventLogger implements ISimpleService {
     Map<String, dynamic> actionMap = {};
     actionMap["description"] = description;
     actionMap["category"] = category;
-    actionMap["build_id"] = buildId;
+    actionMap["build_id"] = versionInfoService.getBuildId();
     if (source != null) actionMap["source"] = source;
     if (payload != null) actionMap["payload"] = jsonEncode(payload);
     actionMap["created_on"] =

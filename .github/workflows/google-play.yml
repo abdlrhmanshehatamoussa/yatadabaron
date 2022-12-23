@@ -12,7 +12,7 @@ jobs:
     env:
       create_env_file: false
       create_google_services_file: false
-      build_number_start: 70
+      version_code_start: 70
       package_type: appbundle
       branch: ${{ github.ref_name }}
 
@@ -33,19 +33,16 @@ jobs:
           echo "lane=production_${{env.package_type}}" >> $GITHUB_ENV
         if: github.ref == 'refs/heads/main'
 
-      - name: Extracting Version and Build Number
+      - name: Extracting VersionCode & VersionName
         id: gitinfo
         run: |
-          buildNumber=${{ github.run_number }}
-          buildNumberStart=${{env.build_number_start}}
-          buildNumber=$(($buildNumber+$buildNumberStart))
-          tagName=$(git describe --tags --abbrev=0)
-          tagNameSplitted=(${tagName//-/ })
-          prevVersionName=${tagNameSplitted[3]}
-          versionName=$(echo "$prevVersionName + 0.01" | bc)
-          echo tag_name=$tagName, version_name=$versionName, build_number=$buildNumber
-          echo "versionName=$versionName" >> $GITHUB_ENV
-          echo "buildNumber=$buildNumber" >> $GITHUB_ENV
+          versionCode=${{ github.run_number }}
+          versionCodeStart=${{env.version_code_start}}
+          versionCode=$(($versionCode+$versionCodeStart))
+          commitSHA=${{ github.sha }}
+          echo tag_name=$tagName, version_code=$versionCode
+          echo "versionName=$commitSHA" >> $GITHUB_ENV
+          echo "versionCode=$versionCode" >> $GITHUB_ENV
 
       - name: Creating Keystore file
         run: |
@@ -65,7 +62,7 @@ jobs:
           verPropFile=version.properties
           touch $verPropFile
           echo flutter.versionName=${{env.versionName}}>$verPropFile
-          echo flutter.versionCode=${{env.buildNumber}}>>$verPropFile
+          echo flutter.versionCode=${{env.versionCode}}>>$verPropFile
 
       - name: Creating Google Services file
         run: |
@@ -136,6 +133,13 @@ jobs:
 
       - name: Append tag to the source control
         run: |
-          tagName=googleplay-${{env.lane}}-${{env.buildNumber}}-${{env.versionName}}
+          tagName=googleplay-${{env.lane}}-${{env.versionCode}}
           git tag $tagName
           git push origin $tagName
+
+      - name: Merge
+        run: |
+          git checkout development
+          git merge main
+          git push origin development
+        if: github.ref == 'refs/heads/main'
