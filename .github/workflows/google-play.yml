@@ -40,7 +40,7 @@ jobs:
           versionCodeStart=${{env.version_code_start}}
           versionCode=$(($versionCode+$versionCodeStart))
           commitSHA=${{ github.sha }}
-          echo tag_name=$tagName, version_code=$versionCode
+          echo commit_sha=$commitSHA, version_code=$versionCode
           echo "versionName=$commitSHA" >> $GITHUB_ENV
           echo "versionCode=$versionCode" >> $GITHUB_ENV
 
