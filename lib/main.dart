@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:simply/simply.dart';
-import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,14 +9,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/database_helper.dart';
-import 'package:yatadabaron/commons/extensions.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_providers.module.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
 import 'commons/localization.dart';
 import 'commons/themes.dart';
 import 'firebase_options.dart';
+import 'global.dart';
 import 'pages/home/view.dart';
+
+export 'global.dart';
 
 final StreamObject<String> _simpleStream = StreamObject(initialValue: "");
 Stream<String> get _reloadStream => _simpleStream.stream;
@@ -196,19 +197,5 @@ Future<bool> init() async {
     return true;
   } catch (e) {
     return false;
-  }
-}
-
-extension NavigationExtensions on NavigatorState {
-  pushWidget({required Widget view}) {
-    return this.push(MaterialPageRoute(
-      builder: (context) => view,
-    ));
-  }
-
-  pushReplacementWidget({required Widget view}) {
-    return this.pushReplacement(MaterialPageRoute(
-      builder: (context) => view,
-    ));
   }
 }
