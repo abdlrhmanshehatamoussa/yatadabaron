@@ -1,6 +1,4 @@
-import 'package:simply/simply.dart';
-
-abstract class IEventLogger extends SimpleService {
+abstract class IEventLogger {
   Future<void> logTapEvent({
     required String description,
     Map<String, dynamic>? payload,

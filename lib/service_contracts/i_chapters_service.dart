@@ -1,7 +1,6 @@
-import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 
-abstract class IChaptersService extends SimpleService {
+abstract class IChaptersService {
   //Get All Chapters Without Quran
   Future<List<Chapter>> getAll();
 

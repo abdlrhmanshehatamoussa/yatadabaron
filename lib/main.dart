@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simply/simply.dart';
+import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,7 +18,7 @@ import 'commons/themes.dart';
 import 'firebase_options.dart';
 import 'pages/home/view.dart';
 
-final SimpleStream<String> _simpleStream = SimpleStream(initialValue: "");
+final StreamObject<String> _simpleStream = StreamObject(initialValue: "");
 Stream<String> get _reloadStream => _simpleStream.stream;
 GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 

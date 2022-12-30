@@ -1,6 +1,4 @@
-import 'package:simply/simply.dart';
-
-abstract class IVersionInfoService extends SimpleService {
+abstract class IVersionInfoService {
   String getVersionName();
   String getBuildId();
 }
