@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
@@ -32,7 +33,8 @@ void main() {
       future: init(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return splashApp();
-        if (snapshot.data! == false) return errorApp(Localization.LOADING_ERROR);
+        if (snapshot.data! == false)
+          return errorApp(Localization.LOADING_ERROR);
         return StreamBuilder<String>(
           stream: _reloadStream,
           builder: (context, snapshot) {
@@ -173,9 +175,9 @@ Future<bool> init() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-
     await FirebaseAppCheck.instance.activate(
-      androidProvider: AndroidProvider.playIntegrity,
+      androidProvider:
+          kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
     );
 
     var networkDetector = Simply.get<INetworkDetectorService>();
