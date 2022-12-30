@@ -6,8 +6,8 @@ import 'package:simply/simply.dart';
 import 'view_models/mushaf_state.dart';
 import '../_viewmodels/module.dart';
 
-class MushafBackend {
-  MushafBackend({
+class MushafController {
+  MushafController({
     required this.mushafSettings,
   }) {
     reloadVerses(mushafSettings);

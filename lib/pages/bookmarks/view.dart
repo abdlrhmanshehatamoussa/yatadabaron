@@ -8,7 +8,7 @@ import 'widgets/list.dart';
 class BookmarksView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    BookmarksBackend backend = BookmarksBackend();
+    BookmarksController backend = BookmarksController();
     return CustomPageWrapper(
       pageTitle: Localization.BOOKMARKS,
       child: Center(

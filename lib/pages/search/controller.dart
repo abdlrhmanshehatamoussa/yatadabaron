@@ -7,8 +7,8 @@ import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:simply/simply.dart';
 import '../_viewmodels/module.dart';
 
-class SearchBackend {
-  SearchBackend()  {
+class SearchController {
+  SearchController()  {
     _stateBloc.add(SearchState.INITIAL);
   }
 

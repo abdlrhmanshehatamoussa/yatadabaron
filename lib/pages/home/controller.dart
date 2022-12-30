@@ -6,8 +6,8 @@ import 'package:yatadabaron/pages/release_notes/view.dart';
 import 'package:yatadabaron/pages/search/view.dart';
 import 'package:yatadabaron/pages/statistics/view.dart';
 
-class HomeBackend {
-  HomeBackend();
+class HomeController {
+  HomeController();
 
   void goSearchPage() {
     Simply.navPush(

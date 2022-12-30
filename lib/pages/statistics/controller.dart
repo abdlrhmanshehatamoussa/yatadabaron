@@ -5,8 +5,8 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:simply/simply.dart';
 import 'view_models/statistics-payload.dart';
 
-class StatisticsBackend {
-  StatisticsBackend()  {
+class StatisticsController {
+  StatisticsController()  {
     _stateBloc.add(SearchState.INITIAL);
   }
 

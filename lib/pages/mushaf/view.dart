@@ -17,7 +17,7 @@ class MushafPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MushafBackend backend = MushafBackend(
+    MushafController backend = MushafController(
       mushafSettings: this.mushafSettings,
     );
     return Scaffold(

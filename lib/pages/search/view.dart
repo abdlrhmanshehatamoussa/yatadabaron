@@ -21,7 +21,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SearchBackend backend = SearchBackend();
+    SearchController backend = SearchController();
     backend.errorStream.listen((Exception error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(error.toString()),

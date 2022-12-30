@@ -5,8 +5,8 @@ import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:simply/simply.dart';
 import '../_viewmodels/module.dart';
 
-class BookmarksBackend {
-  BookmarksBackend() {
+class BookmarksController {
+  BookmarksController() {
     reloadBookmarks();
   }
 

@@ -33,7 +33,7 @@ class TafseerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TafseerPageBackend backend = TafseerPageBackend(
+    TafseerPageController backend = TafseerPageController(
       location: location,
     );
     return Scaffold(

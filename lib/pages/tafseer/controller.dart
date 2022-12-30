@@ -8,8 +8,8 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:simply/simply.dart';
 import '../_viewmodels/module.dart';
 
-class TafseerPageBackend {
-  TafseerPageBackend({
+class TafseerPageController {
+  TafseerPageController({
     required this.location,
   });
 
