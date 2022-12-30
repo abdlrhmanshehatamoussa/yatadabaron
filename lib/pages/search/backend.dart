@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/localization.dart';
@@ -9,7 +8,7 @@ import 'package:simply/simply.dart';
 import '../_viewmodels/module.dart';
 
 class SearchBackend {
-  SearchBackend(BuildContext context)  {
+  SearchBackend()  {
     _stateBloc.add(SearchState.INITIAL);
   }
 

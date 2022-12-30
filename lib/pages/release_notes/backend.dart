@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:simply/simply.dart';
 
 class ReleaseNotesBackend {
-  ReleaseNotesBackend(BuildContext context);
+  ReleaseNotesBackend();
 
   late IReleaseInfoService releaseInfoService =
       Simply.get<IReleaseInfoService>();

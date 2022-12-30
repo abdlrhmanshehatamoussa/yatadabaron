@@ -11,8 +11,7 @@ import '../_viewmodels/module.dart';
 class TafseerPageBackend {
   TafseerPageBackend({
     required this.location,
-    required BuildContext context,
-  }) ;
+  });
 
   final MushafLocation location;
   final StreamObject<VerseTafseer> _tafseerResultController =
@@ -52,7 +51,7 @@ class TafseerPageBackend {
     _tafseerResultController.add(result);
   }
 
-  Future<bool> onSaveBookmarkClicked(BuildContext context) async {
+  Future<bool> onSaveBookmarkClicked() async {
     bool done = await bookmarksService.addBookmark(
       this.location.chapterId,
       this.location.verseId,

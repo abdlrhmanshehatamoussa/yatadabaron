@@ -12,7 +12,7 @@ import 'package:yatadabaron/pages/_widgets/module.dart';
 class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    StatisticsBackend backend = StatisticsBackend(context);
+    StatisticsBackend backend = StatisticsBackend();
     Widget resultsArea = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,

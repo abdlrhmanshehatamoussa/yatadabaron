@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeBackend backend = HomeBackend(context);
+    HomeBackend backend = HomeBackend();
     List<HomeGridItemViewModel> _gridItems = [
       HomeGridItemViewModel(
         title: Localization.SEARCH_IN_QURAN,

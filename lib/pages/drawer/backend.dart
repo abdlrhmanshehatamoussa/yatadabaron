@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:simply/simply.dart';
 
 class DrawerBackend {
-  DrawerBackend(BuildContext context);
+  DrawerBackend();
 
   late IAppSettingsService appSettingsService =
       Simply.get<IAppSettingsService>();

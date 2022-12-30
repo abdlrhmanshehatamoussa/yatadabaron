@@ -6,7 +6,7 @@ import 'package:yatadabaron/pages/_widgets/module.dart';
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    DrawerBackend backend = DrawerBackend(context);
+    DrawerBackend backend = DrawerBackend();
 
     return Container(
       padding: EdgeInsets.all(0),

@@ -19,7 +19,6 @@ class MushafPage extends StatelessWidget {
   Widget build(BuildContext context) {
     MushafBackend backend = MushafBackend(
       mushafSettings: this.mushafSettings,
-      context: context,
     );
     return Scaffold(
       body: StreamBuilder<MushafPageState>(

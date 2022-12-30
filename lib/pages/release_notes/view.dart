@@ -8,7 +8,7 @@ import 'package:yatadabaron/pages/_widgets/module.dart';
 class ReleaseNotesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ReleaseNotesBackend backend = ReleaseNotesBackend(context);
+    ReleaseNotesBackend backend = ReleaseNotesBackend();
     String currentVersion = backend.getVersionName();
     return CustomPageWrapper(
       pageTitle: Localization.RELEASE_NOTES,

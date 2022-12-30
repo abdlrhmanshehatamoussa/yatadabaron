@@ -35,14 +35,13 @@ class TafseerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TafseerPageBackend backend = TafseerPageBackend(
       location: location,
-      context: context,
     );
     return Scaffold(
       appBar: TafseerAppBar.build(
         context: context,
         onShare: () async => await backend.shareVerse(),
         onSaveBookmark: () async {
-          bool done = await backend.onSaveBookmarkClicked(context);
+          bool done = await backend.onSaveBookmarkClicked();
           await _handleAfterBookmarkSaved(context, done);
         },
       ),
