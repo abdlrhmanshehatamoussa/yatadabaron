@@ -1,16 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/main.dart';
 import 'package:yatadabaron/pages/tafseer/view.dart';
 import 'package:simply/simply.dart';
 import 'view_models/mushaf_state.dart';
 import '../_viewmodels/module.dart';
 
-class MushafBackend {
-  MushafBackend({
+class MushafController {
+  MushafController({
     required this.mushafSettings,
-    required BuildContext context,
   }) {
     reloadVerses(mushafSettings);
   }
@@ -68,7 +66,7 @@ class MushafBackend {
   }
 
   void goTafseerPage(Verse verse) {
-    Simply.navPush(
+    appNavigator.pushWidget(
       view: TafseerPage(
         location: MushafLocation(
           verseId: verse.verseID,

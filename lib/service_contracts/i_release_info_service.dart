@@ -1,7 +1,6 @@
-import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 
-abstract class IReleaseInfoService extends SimpleService {
+abstract class IReleaseInfoService {
   Future<List<ReleaseInfo>> getReleases();
   Future<int> syncReleases();
 }

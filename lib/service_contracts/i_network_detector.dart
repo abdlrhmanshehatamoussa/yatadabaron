@@ -1,5 +1,3 @@
-import 'package:simply/simply.dart';
-
-abstract class INetworkDetectorService extends SimpleService {
+abstract class INetworkDetectorService {
   Future<bool> isOnline();
 }

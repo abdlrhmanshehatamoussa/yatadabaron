@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/commons/extensions.dart';
+import 'package:yatadabaron/main.dart';
 
 class NetworkDetectorService implements INetworkDetectorService {
   final Connectivity _connectivity = Connectivity();

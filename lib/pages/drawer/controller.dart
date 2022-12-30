@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:simply/simply.dart';
+import 'package:yatadabaron/main.dart';
 
-class DrawerBackend {
-  DrawerBackend(BuildContext context);
+class DrawerCustomController {
+  DrawerCustomController();
 
   late IAppSettingsService appSettingsService =
       Simply.get<IAppSettingsService>();
@@ -23,7 +23,7 @@ class DrawerBackend {
 
   Future<void> toggleNightMode(bool mode) async {
     await appSettingsService.updateNightMode(mode);
-    Simply.reload("");
+    appReload("");
   }
 
   bool isNightMode() {

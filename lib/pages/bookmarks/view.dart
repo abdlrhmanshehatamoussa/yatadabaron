@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'package:yatadabaron/pages/bookmarks/backend.dart';
+import 'package:yatadabaron/pages/bookmarks/controller.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 import 'widgets/list.dart';
 
 class BookmarksView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    BookmarksBackend backend = BookmarksBackend(context);
+    BookmarksController backend = BookmarksController();
     return CustomPageWrapper(
       pageTitle: Localization.BOOKMARKS,
       child: Center(

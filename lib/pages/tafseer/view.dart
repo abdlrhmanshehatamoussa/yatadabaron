@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'package:yatadabaron/pages/tafseer/backend.dart';
+import 'package:yatadabaron/pages/tafseer/controller.dart';
 import '../_viewmodels/module.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/selector.dart';
@@ -33,16 +33,15 @@ class TafseerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TafseerPageBackend backend = TafseerPageBackend(
+    TafseerPageController backend = TafseerPageController(
       location: location,
-      context: context,
     );
     return Scaffold(
       appBar: TafseerAppBar.build(
         context: context,
         onShare: () async => await backend.shareVerse(),
         onSaveBookmark: () async {
-          bool done = await backend.onSaveBookmarkClicked(context);
+          bool done = await backend.onSaveBookmarkClicked();
           await _handleAfterBookmarkSaved(context, done);
         },
       ),

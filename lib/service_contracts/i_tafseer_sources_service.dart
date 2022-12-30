@@ -1,6 +1,5 @@
-import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 
-abstract class ITafseerSourcesService extends SimpleService {
+abstract class ITafseerSourcesService {
   Future<List<TafseerSource>> getTafseerSources();
 }

@@ -1,7 +1,6 @@
-import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 
-abstract class IBookmarksService extends SimpleService {
+abstract class IBookmarksService {
   Future<void> removeBookmark(String id);
 
   Future<bool> addBookmark(int chapterId, int verseId);

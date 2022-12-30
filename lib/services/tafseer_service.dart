@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:archive/archive.dart';
 import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/commons/extensions.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
+import 'package:yatadabaron/main.dart';
 
 class TafseerService implements ITafseerService {
   TafseerService({
@@ -18,7 +18,7 @@ class TafseerService implements ITafseerService {
 
   Uri _getRemoteUri(int tafseerSourceId) {
     String fileName = "$tafseerSourceId.zip";
-    String remoteFileURL = "$tafseerURL/$fileName";
+    String remoteFileURL = "$tafseerURL/raw/main/$fileName";
     Uri uri = Uri.parse(remoteFileURL);
     return uri;
   }

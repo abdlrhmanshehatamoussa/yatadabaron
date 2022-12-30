@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/localization.dart';
-import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:simply/simply.dart';
+import 'package:yatadabaron/main.dart';
 import 'view_models/statistics-payload.dart';
 
-class StatisticsBackend {
-  StatisticsBackend(BuildContext context)  {
+class StatisticsController {
+  StatisticsController() {
     _stateBloc.add(SearchState.INITIAL);
   }
 
