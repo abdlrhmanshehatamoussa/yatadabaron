@@ -1,6 +1,7 @@
+import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 
-abstract class IVersesService {
+abstract class IVersesService extends SimpleService {
   //Search
   Future<SearchResult> keywordSearch(KeywordSearchSettings settings);
 

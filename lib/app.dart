@@ -14,10 +14,10 @@ import 'package:yatadabaron/_modules/service_providers.module.dart';
 import 'package:yatadabaron/_modules/services.module.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
-
+import 'commons/localization.dart';
 import 'firebase_options.dart';
 
-class MainApp extends SimpleApp {
+class MainApp extends SimpleMaterialApp {
   @override
   Widget startupErrorPage(String errorMessage) {
     return Splash(
@@ -35,7 +35,7 @@ class MainApp extends SimpleApp {
   }
 
   @override
-  Future<void> registerServices(ISimpleServiceRegistery registery) async {
+  Future<void> initialize() async {
     var _pref = await SharedPreferences.getInstance();
     var _info = await PackageInfo.fromPlatform();
 
@@ -52,74 +52,81 @@ class MainApp extends SimpleApp {
       versionName: "8.04",
     );
 
-    registery.register<IEventLogger>(
+    Simply.register<IEventLogger>(
       service: EventLogger(
         sharedPreferences: _pref,
         versionInfoService: versionService,
       ),
+      method: InjectionMethod.singleton,
     );
 
-    registery.register<INetworkDetectorService>(
+    Simply.register<INetworkDetectorService>(
       service: networkDetectorService,
+      method: InjectionMethod.singleton,
     );
 
-    registery.register<IBookmarksService>(
+    Simply.register<IBookmarksService>(
       service: BookmarksService(
         repository: new SharedPrefRepository<Bookmark>(
           preferences: _pref,
           mapper: BookmarksMapper(),
         ),
       ),
+      method: InjectionMethod.singleton,
     );
-    registery.register<IChaptersService>(
+    Simply.register<IChaptersService>(
       service: ChaptersService(databasePath: databaseFilePath),
     );
-    registery.register<IVersesService>(
+    Simply.register<IVersesService>(
       service: VersesService(databaseFilePath: databaseFilePath),
     );
-    registery.register<ITafseerService>(
+    Simply.register<ITafseerService>(
       service: TafseerService(
         tafseerURL: "https://github.com/abdlrhmanshehatamoussa/quran_tafseer",
         networkDetectorService: networkDetectorService,
       ),
+      method: InjectionMethod.singleton,
     );
-    registery.register<IReleaseInfoService>(
+    Simply.register<IReleaseInfoService>(
       service: ReleaseInfoService(
-          localRepository: new SharedPrefRepository(
-            preferences: _pref,
-            mapper: new ReleaseInfoMapper(),
-          ),
-          remoteRepository: new FirebaseRemoteRepository<ReleaseInfo>(
-            mapper: new ReleaseInfoMapper(),
-            collectionName: "releases",
-          ),
-          networkDetector: networkDetectorService),
+        localRepository: new SharedPrefRepository(
+          preferences: _pref,
+          mapper: new ReleaseInfoMapper(),
+        ),
+        remoteRepository: new FirebaseRemoteRepository<ReleaseInfo>(
+          mapper: new ReleaseInfoMapper(),
+          collectionName: "releases",
+        ),
+        networkDetector: networkDetectorService,
+      ),
+      method: InjectionMethod.singleton,
     );
-    registery.register<ITafseerSourcesService>(
+    Simply.register<ITafseerSourcesService>(
       service: TafseerSourcesService(
-          localRepo: new SharedPrefRepository<TafseerSource>(
-            preferences: _pref,
-            mapper: new TafseerSourceMapper(),
-          ),
-          remoteRepo: new FirebaseRemoteRepository(
-            mapper: new TafseerSourceMapper(),
-            collectionName: "tafseer_sources",
-          ),
-          networkDetectorService: networkDetectorService),
+        localRepo: new SharedPrefRepository<TafseerSource>(
+          preferences: _pref,
+          mapper: new TafseerSourceMapper(),
+        ),
+        remoteRepo: new FirebaseRemoteRepository(
+          mapper: new TafseerSourceMapper(),
+          collectionName: "tafseer_sources",
+        ),
+        networkDetectorService: networkDetectorService,
+      ),
+      method: InjectionMethod.singleton,
     );
-    registery.register<IVersionInfoService>(
+    Simply.register<IVersionInfoService>(
       service: versionService,
+      method: InjectionMethod.singleton,
     );
 
-    registery.register<IAppSettingsService>(
+    Simply.register<IAppSettingsService>(
       service: AppSettingsService(
         sharedPreferences: _pref,
       ),
+      method: InjectionMethod.singleton,
     );
-  }
 
-  @override
-  Future<void> onAppStart(ISimpleServiceProvider serviceProvider) async {
     try {
       //Firebase
       await Firebase.initializeApp(
@@ -130,19 +137,17 @@ class MainApp extends SimpleApp {
         androidProvider: AndroidProvider.playIntegrity,
       );
 
-      var networkDetector =
-          serviceProvider.getService<INetworkDetectorService>();
+      var networkDetector = Simply.get<INetworkDetectorService>();
       bool isOnline = await networkDetector.isOnline();
       if (isOnline == false) return;
-      var eventLogger = serviceProvider.getService<IEventLogger>();
+      var eventLogger = Simply.get<IEventLogger>();
 
       //Log events
       await eventLogger.logAppStarted().defaultNetworkTimeout();
       await eventLogger.pushEvents().defaultNetworkTimeout();
 
       //Load releases
-      var releaseInfoService =
-          serviceProvider.getService<IReleaseInfoService>();
+      var releaseInfoService = Simply.get<IReleaseInfoService>();
       await releaseInfoService.syncReleases();
     } catch (e) {
       print(e);
@@ -150,16 +155,22 @@ class MainApp extends SimpleApp {
   }
 
   @override
-  Widget buildApp(
-    ISimpleServiceProvider serviceProvider,
-    String payload,
-  ) {
-    var appSettingsService = serviceProvider.getService<IAppSettingsService>();
+  MaterialApp buildApp(String payload, GlobalKey<NavigatorState> navigatorKey) {
+    var appSettingsService = Simply.get<IAppSettingsService>();
     bool isNightMode = appSettingsService.currentValue.nightMode;
     ThemeData theme = isNightMode ? Themes.darkTheme() : Themes.lightTheme();
-    return CustomMaterialApp(
-      widget: HomePage(),
+    return MaterialApp(
+      navigatorKey: navigatorKey,
+      key: UniqueKey(),
       theme: theme,
+      builder: (BuildContext context, child) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: child!,
+        );
+      },
+      title: Localization.APP_TITLE,
+      home: HomePage(),
     );
   }
 }

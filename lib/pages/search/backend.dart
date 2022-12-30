@@ -8,14 +8,14 @@ import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:simply/simply.dart';
 import '../_viewmodels/module.dart';
 
-class SearchBackend extends SimpleBackend {
-  SearchBackend(BuildContext context) : super(context) {
+class SearchBackend {
+  SearchBackend(BuildContext context)  {
     _stateBloc.add(SearchState.INITIAL);
   }
 
-  late IChaptersService chaptersService = getService<IChaptersService>();
-  late IVersesService versesService = getService<IVersesService>();
-  late IEventLogger eventLogger = getService<IEventLogger>();
+  late IChaptersService chaptersService = Simply.get<IChaptersService>();
+  late IVersesService versesService = Simply.get<IVersesService>();
+  late IEventLogger eventLogger = Simply.get<IEventLogger>();
 
   KeywordSearchSettings settings = KeywordSearchSettings();
   StreamObject<SearchResult> _searchResultBloc = StreamObject();
@@ -66,7 +66,7 @@ class SearchBackend extends SimpleBackend {
   Future<void> goMushafPage(Verse verse) async {
     int chapterId = verse.chapterId;
     int verseID = verse.verseID;
-    navigatePush(
+    Simply.navPush(
       view: MushafPage(
         mushafSettings: MushafSettings.fromSearch(
           chapterId: chapterId,

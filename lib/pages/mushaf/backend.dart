@@ -7,18 +7,18 @@ import 'package:simply/simply.dart';
 import 'view_models/mushaf_state.dart';
 import '../_viewmodels/module.dart';
 
-class MushafBackend extends SimpleBackend {
+class MushafBackend {
   MushafBackend({
     required this.mushafSettings,
     required BuildContext context,
-  }) : super(context) {
+  }) {
     reloadVerses(mushafSettings);
   }
 
   final MushafSettings? mushafSettings;
-  late IChaptersService chaptersService = getService<IChaptersService>();
-  late IVersesService versesService = getService<IVersesService>();
-  late IBookmarksService bookmarksService = getService<IBookmarksService>();
+  late IChaptersService chaptersService = Simply.get<IChaptersService>();
+  late IVersesService versesService = Simply.get<IVersesService>();
+  late IBookmarksService bookmarksService = Simply.get<IBookmarksService>();
 
   StreamObject<MushafPageState> _stateStreamObj = StreamObject();
   Stream<MushafPageState> get stateStream => _stateStreamObj.stream;
@@ -68,7 +68,7 @@ class MushafBackend extends SimpleBackend {
   }
 
   void goTafseerPage(Verse verse) {
-    navigatePush(
+    Simply.navPush(
       view: TafseerPage(
         location: MushafLocation(
           verseId: verse.verseID,

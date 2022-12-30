@@ -6,9 +6,8 @@ import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/extensions.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
-import 'package:simply/simply.dart';
 
-class TafseerService implements ITafseerService, ISimpleService {
+class TafseerService implements ITafseerService {
   TafseerService({
     required this.tafseerURL,
     required this.networkDetectorService,

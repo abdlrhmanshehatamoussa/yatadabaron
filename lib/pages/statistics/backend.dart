@@ -6,13 +6,13 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:simply/simply.dart';
 import 'view_models/statistics-payload.dart';
 
-class StatisticsBackend extends SimpleBackend {
-  StatisticsBackend(BuildContext context) : super(context) {
+class StatisticsBackend {
+  StatisticsBackend(BuildContext context)  {
     _stateBloc.add(SearchState.INITIAL);
   }
 
-  late IChaptersService chaptersService = getService<IChaptersService>();
-  late IVersesService versesService = getService<IVersesService>();
+  late IChaptersService chaptersService = Simply.get<IChaptersService>();
+  late IVersesService versesService = Simply.get<IVersesService>();
 
   StreamObject<BasicSearchSettings> _settingsBloc = StreamObject();
   StreamObject<SearchState> _stateBloc = StreamObject();

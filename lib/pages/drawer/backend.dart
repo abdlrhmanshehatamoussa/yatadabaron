@@ -4,14 +4,14 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:simply/simply.dart';
 
-class DrawerBackend extends SimpleBackend {
-  DrawerBackend(BuildContext context) : super(context);
+class DrawerBackend {
+  DrawerBackend(BuildContext context);
 
   late IAppSettingsService appSettingsService =
-      getService<IAppSettingsService>();
+      Simply.get<IAppSettingsService>();
   late IVersionInfoService versionInfoService =
-      getService<IVersionInfoService>();
-  late IEventLogger eventLogger = getService<IEventLogger>();
+      Simply.get<IVersionInfoService>();
+  late IEventLogger eventLogger = Simply.get<IEventLogger>();
 
   Future rate() async {
     await eventLogger.logTapEvent(
@@ -23,7 +23,7 @@ class DrawerBackend extends SimpleBackend {
 
   Future<void> toggleNightMode(bool mode) async {
     await appSettingsService.updateNightMode(mode);
-    reloadApp();
+    Simply.reload("");
   }
 
   bool isNightMode() {
