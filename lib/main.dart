@@ -194,13 +194,13 @@ Future<void> init() async {
 }
 
 extension NavigationExtensions on NavigatorState {
-  pushView({required Widget view}) {
+  pushWidget({required Widget view}) {
     return this.push(MaterialPageRoute(
       builder: (context) => view,
     ));
   }
 
-  replaceView({required Widget view}) {
+  pushReplacementWidget({required Widget view}) {
     return this.pushReplacement(MaterialPageRoute(
       builder: (context) => view,
     ));

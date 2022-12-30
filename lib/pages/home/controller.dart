@@ -1,4 +1,5 @@
 import 'package:simply/simply.dart';
+import 'package:yatadabaron/main.dart';
 import 'package:yatadabaron/pages/about/page.dart';
 import 'package:yatadabaron/pages/bookmarks/view.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
@@ -10,13 +11,13 @@ class HomeController {
   HomeController();
 
   void goSearchPage() {
-    Simply.navPush(
+    appNavigator.pushWidget(
       view: SearchPage(),
     );
   }
 
   void goMushafPage() {
-    Simply.navPush(
+    appNavigator.pushWidget(
       view: MushafPage(
         mushafSettings: null,
       ),
@@ -24,25 +25,25 @@ class HomeController {
   }
 
   void goStatisticsPage() {
-    Simply.navPush(
+    appNavigator.pushWidget(
       view: StatisticsPage(),
     );
   }
 
   void goBookmarksPage() {
-    Simply.navPush(
+    appNavigator.pushWidget(
       view: BookmarksView(),
     );
   }
 
   void goReleaseNotesPage() {
-    Simply.navPush(
+    appNavigator.pushWidget(
       view: ReleaseNotesPage(),
     );
   }
 
   void goAboutPage() {
-    Simply.navPush(
+    appNavigator.pushWidget(
       view: AboutPage(),
     );
   }

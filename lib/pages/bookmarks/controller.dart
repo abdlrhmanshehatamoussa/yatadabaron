@@ -1,6 +1,7 @@
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/main.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:simply/simply.dart';
 import '../_viewmodels/module.dart';
@@ -11,8 +12,7 @@ class BookmarksController {
   }
 
   late IVersesService versesService = Simply.get<IVersesService>();
-  late IBookmarksService bookmarksService =
-      Simply.get<IBookmarksService>();
+  late IBookmarksService bookmarksService = Simply.get<IBookmarksService>();
   final StreamObject<List<Verse>> _versesStreamObj = StreamObject();
   Stream<List<Verse>> get bookmarkedVersesStream => _versesStreamObj.stream;
 
@@ -33,7 +33,7 @@ class BookmarksController {
   }
 
   void goMushafPage(Bookmark bookmark) {
-    Simply.navReplace(
+    appNavigator.pushReplacementWidget(
       view: MushafPage(
         mushafSettings: MushafSettings.fromBookmark(
           chapterId: bookmark.chapterId,
