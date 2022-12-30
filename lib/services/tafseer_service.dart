@@ -18,7 +18,7 @@ class TafseerService implements ITafseerService {
 
   Uri _getRemoteUri(int tafseerSourceId) {
     String fileName = "$tafseerSourceId.zip";
-    String remoteFileURL = "$tafseerURL/$fileName";
+    String remoteFileURL = "$tafseerURL/raw/main/$fileName";
     Uri uri = Uri.parse(remoteFileURL);
     return uri;
   }
