@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'package:yatadabaron/pages/tafseer/backend.dart';
+import 'package:yatadabaron/pages/tafseer/controller.dart';
 import '../_viewmodels/module.dart';
 import 'widgets/app_bar.dart';
 import 'widgets/selector.dart';

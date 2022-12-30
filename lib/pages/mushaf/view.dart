@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'package:yatadabaron/pages/mushaf/backend.dart';
+import 'package:yatadabaron/pages/mushaf/controller.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
 import '../_viewmodels/module.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/pages/statistics/backend.dart';
+import 'package:yatadabaron/pages/statistics/controller.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';
 import './widgets/statistics-form.dart';
