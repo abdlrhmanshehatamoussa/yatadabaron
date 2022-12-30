@@ -26,12 +26,13 @@ Function(String) get appReload => (payload) => _simpleStream.add(payload);
 NavigatorState get appNavigator => _navigatorKey.currentState!;
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    FutureBuilder(
+    FutureBuilder<bool>(
       future: init(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return splashApp();
-        if (snapshot.hasError) return errorApp(snapshot.error);
+        if (snapshot.data! == false) return errorApp(Localization.LOADING_ERROR);
         return StreamBuilder<String>(
           stream: _reloadStream,
           builder: (context, snapshot) {
@@ -78,96 +79,96 @@ Widget buildApp() {
   );
 }
 
-Future<void> init() async {
-  var _pref = await SharedPreferences.getInstance();
-  var _info = await PackageInfo.fromPlatform();
-
-  //Initialize database provider
-  String databaseFilePath = await DatabaseHelper.initializeDatabase(
-    dbAssetsDirectory: Constants.ASSETS_DB_DIRECTORY,
-    dbAssetsName: Constants.ASSETS_DB_NAME,
-  );
-
-  //Network detector
-  var networkDetectorService = NetworkDetectorService();
-  var versionService = VersionInfoService(buildId: _info.version);
-
-  Simply.register<IEventLogger>(
-    service: EventLogger(
-      sharedPreferences: _pref,
-      versionInfoService: versionService,
-    ),
-    method: InjectionMethod.singleton,
-  );
-
-  Simply.register<INetworkDetectorService>(
-    service: networkDetectorService,
-    method: InjectionMethod.singleton,
-  );
-
-  Simply.register<IBookmarksService>(
-    service: BookmarksService(
-      repository: new SharedPrefRepository<Bookmark>(
-        preferences: _pref,
-        mapper: BookmarksMapper(),
-      ),
-    ),
-    method: InjectionMethod.singleton,
-  );
-  Simply.register<IChaptersService>(
-    service: ChaptersService(databasePath: databaseFilePath),
-  );
-  Simply.register<IVersesService>(
-    service: VersesService(databaseFilePath: databaseFilePath),
-  );
-  Simply.register<ITafseerService>(
-    service: TafseerService(
-      tafseerURL: "https://github.com/abdlrhmanshehatamoussa/quran_tafseer",
-      networkDetectorService: networkDetectorService,
-    ),
-    method: InjectionMethod.singleton,
-  );
-  Simply.register<IReleaseInfoService>(
-    service: ReleaseInfoService(
-      localRepository: new SharedPrefRepository(
-        preferences: _pref,
-        mapper: new ReleaseInfoMapper(),
-      ),
-      remoteRepository: new FirebaseRemoteRepository<ReleaseInfo>(
-        mapper: new ReleaseInfoMapper(),
-        collectionName: "releases",
-      ),
-      networkDetector: networkDetectorService,
-    ),
-    method: InjectionMethod.singleton,
-  );
-  Simply.register<ITafseerSourcesService>(
-    service: TafseerSourcesService(
-      localRepo: new SharedPrefRepository<TafseerSource>(
-        preferences: _pref,
-        mapper: new TafseerSourceMapper(),
-      ),
-      remoteRepo: new FirebaseRemoteRepository(
-        mapper: new TafseerSourceMapper(),
-        collectionName: "tafseer_sources",
-      ),
-      networkDetectorService: networkDetectorService,
-    ),
-    method: InjectionMethod.singleton,
-  );
-  Simply.register<IVersionInfoService>(
-    service: versionService,
-    method: InjectionMethod.singleton,
-  );
-
-  Simply.register<IAppSettingsService>(
-    service: AppSettingsService(
-      sharedPreferences: _pref,
-    ),
-    method: InjectionMethod.singleton,
-  );
-
+Future<bool> init() async {
   try {
+    var _pref = await SharedPreferences.getInstance();
+    var _info = await PackageInfo.fromPlatform();
+
+    //Initialize database provider
+    String databaseFilePath = await DatabaseHelper.initializeDatabase(
+      dbAssetsDirectory: Constants.ASSETS_DB_DIRECTORY,
+      dbAssetsName: Constants.ASSETS_DB_NAME,
+    );
+
+    //Network detector
+    var networkDetectorService = NetworkDetectorService();
+    var versionService = VersionInfoService(buildId: _info.version);
+
+    Simply.register<IEventLogger>(
+      service: EventLogger(
+        sharedPreferences: _pref,
+        versionInfoService: versionService,
+      ),
+      method: InjectionMethod.singleton,
+    );
+
+    Simply.register<INetworkDetectorService>(
+      service: networkDetectorService,
+      method: InjectionMethod.singleton,
+    );
+
+    Simply.register<IBookmarksService>(
+      service: BookmarksService(
+        repository: new SharedPrefRepository<Bookmark>(
+          preferences: _pref,
+          mapper: BookmarksMapper(),
+        ),
+      ),
+      method: InjectionMethod.singleton,
+    );
+    Simply.register<IChaptersService>(
+      service: ChaptersService(databasePath: databaseFilePath),
+    );
+    Simply.register<IVersesService>(
+      service: VersesService(databaseFilePath: databaseFilePath),
+    );
+    Simply.register<ITafseerService>(
+      service: TafseerService(
+        tafseerURL: "https://github.com/abdlrhmanshehatamoussa/quran_tafseer",
+        networkDetectorService: networkDetectorService,
+      ),
+      method: InjectionMethod.singleton,
+    );
+    Simply.register<IReleaseInfoService>(
+      service: ReleaseInfoService(
+        localRepository: new SharedPrefRepository(
+          preferences: _pref,
+          mapper: new ReleaseInfoMapper(),
+        ),
+        remoteRepository: new FirebaseRemoteRepository<ReleaseInfo>(
+          mapper: new ReleaseInfoMapper(),
+          collectionName: "releases",
+        ),
+        networkDetector: networkDetectorService,
+      ),
+      method: InjectionMethod.singleton,
+    );
+    Simply.register<ITafseerSourcesService>(
+      service: TafseerSourcesService(
+        localRepo: new SharedPrefRepository<TafseerSource>(
+          preferences: _pref,
+          mapper: new TafseerSourceMapper(),
+        ),
+        remoteRepo: new FirebaseRemoteRepository(
+          mapper: new TafseerSourceMapper(),
+          collectionName: "tafseer_sources",
+        ),
+        networkDetectorService: networkDetectorService,
+      ),
+      method: InjectionMethod.singleton,
+    );
+    Simply.register<IVersionInfoService>(
+      service: versionService,
+      method: InjectionMethod.singleton,
+    );
+
+    Simply.register<IAppSettingsService>(
+      service: AppSettingsService(
+        sharedPreferences: _pref,
+      ),
+      method: InjectionMethod.singleton,
+    );
+
     //Firebase
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -179,18 +180,20 @@ Future<void> init() async {
 
     var networkDetector = Simply.get<INetworkDetectorService>();
     bool isOnline = await networkDetector.isOnline();
-    if (isOnline == false) return;
-    var eventLogger = Simply.get<IEventLogger>();
+    if (isOnline) {
+      var eventLogger = Simply.get<IEventLogger>();
 
-    //Log events
-    await eventLogger.logAppStarted().defaultNetworkTimeout();
-    await eventLogger.pushEvents().defaultNetworkTimeout();
+      //Log events
+      await eventLogger.logAppStarted().defaultNetworkTimeout();
+      await eventLogger.pushEvents().defaultNetworkTimeout();
 
-    //Load releases
-    var releaseInfoService = Simply.get<IReleaseInfoService>();
-    await releaseInfoService.syncReleases();
+      //Load releases
+      var releaseInfoService = Simply.get<IReleaseInfoService>();
+      await releaseInfoService.syncReleases();
+    }
+    return true;
   } catch (e) {
-    print(e);
+    return false;
   }
 }
 
