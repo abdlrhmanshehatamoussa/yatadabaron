@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/pages/statistics/backend.dart';
+import 'package:yatadabaron/pages/statistics/controller.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';
 import './widgets/statistics-form.dart';
@@ -12,7 +12,7 @@ import 'package:yatadabaron/pages/_widgets/module.dart';
 class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    StatisticsBackend backend = StatisticsBackend(context);
+    StatisticsController backend = StatisticsController();
     Widget resultsArea = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,

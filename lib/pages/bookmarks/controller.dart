@@ -1,18 +1,17 @@
-import 'package:flutter/material.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/main.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:simply/simply.dart';
 import '../_viewmodels/module.dart';
 
-class BookmarksBackend extends SimpleBackend {
-  BookmarksBackend(BuildContext context) : super(context) {
+class BookmarksController {
+  BookmarksController() {
     reloadBookmarks();
   }
 
-  late IVersesService versesService = getService<IVersesService>();
-  late IBookmarksService bookmarksService = getService<IBookmarksService>();
+  late IVersesService versesService = Simply.get<IVersesService>();
+  late IBookmarksService bookmarksService = Simply.get<IBookmarksService>();
   final StreamObject<List<Verse>> _versesStreamObj = StreamObject();
   Stream<List<Verse>> get bookmarkedVersesStream => _versesStreamObj.stream;
 
@@ -33,7 +32,7 @@ class BookmarksBackend extends SimpleBackend {
   }
 
   void goMushafPage(Bookmark bookmark) {
-    navigateReplace(
+    appNavigator.pushReplacementWidget(
       view: MushafPage(
         mushafSettings: MushafSettings.fromBookmark(
           chapterId: bookmark.chapterId,

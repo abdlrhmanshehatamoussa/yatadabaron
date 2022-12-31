@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 
-class EventLogger extends IEventLogger implements ISimpleService {
+class EventLogger extends IEventLogger {
   EventLogger({
     required this.sharedPreferences,
     required this.versionInfoService,

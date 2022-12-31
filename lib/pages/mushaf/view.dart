@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'package:yatadabaron/pages/mushaf/backend.dart';
+import 'package:yatadabaron/pages/mushaf/controller.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
 import '../_viewmodels/module.dart';
@@ -17,9 +17,8 @@ class MushafPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MushafBackend backend = MushafBackend(
+    MushafController backend = MushafController(
       mushafSettings: this.mushafSettings,
-      context: context,
     );
     return Scaffold(
       body: StreamBuilder<MushafPageState>(

@@ -1,23 +1,23 @@
-import 'package:flutter/material.dart';
+import 'package:simply/simply.dart';
+import 'package:yatadabaron/main.dart';
 import 'package:yatadabaron/pages/about/page.dart';
 import 'package:yatadabaron/pages/bookmarks/view.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/pages/release_notes/view.dart';
 import 'package:yatadabaron/pages/search/view.dart';
 import 'package:yatadabaron/pages/statistics/view.dart';
-import 'package:simply/simply.dart';
 
-class HomeBackend extends SimpleBackend {
-  HomeBackend(BuildContext context) : super(context);
+class HomeController {
+  HomeController();
 
   void goSearchPage() {
-    navigatePush(
+    appNavigator.pushWidget(
       view: SearchPage(),
     );
   }
 
   void goMushafPage() {
-    navigatePush(
+    appNavigator.pushWidget(
       view: MushafPage(
         mushafSettings: null,
       ),
@@ -25,25 +25,25 @@ class HomeBackend extends SimpleBackend {
   }
 
   void goStatisticsPage() {
-    navigatePush(
+    appNavigator.pushWidget(
       view: StatisticsPage(),
     );
   }
 
   void goBookmarksPage() {
-    navigatePush(
+    appNavigator.pushWidget(
       view: BookmarksView(),
     );
   }
 
   void goReleaseNotesPage() {
-    navigatePush(
+    appNavigator.pushWidget(
       view: ReleaseNotesPage(),
     );
   }
 
   void goAboutPage() {
-    navigatePush(
+    appNavigator.pushWidget(
       view: AboutPage(),
     );
   }

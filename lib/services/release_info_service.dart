@@ -2,9 +2,8 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/services/_i_local_repository.dart';
 import 'package:yatadabaron/services/_i_remote_repository.dart';
-import 'package:simply/simply.dart';
 
-class ReleaseInfoService implements IReleaseInfoService, ISimpleService {
+class ReleaseInfoService implements IReleaseInfoService {
   ReleaseInfoService(
       {required this.localRepository,
       required this.remoteRepository,

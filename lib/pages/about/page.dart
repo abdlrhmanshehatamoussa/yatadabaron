@@ -1,7 +1,8 @@
+import 'package:simply/simply.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 import 'package:flutter/material.dart';
-import 'backend.dart';
+import 'package:yatadabaron/service_contracts/i_version_info_service.dart';
 
 class AboutPage extends StatelessWidget {
   Widget customText(String text) {
@@ -17,12 +18,14 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AboutPageBackend backend = AboutPageBackend(context);
     List<String> statements = [
       Localization.APP_DESCRIPTION,
       Localization.MUSHAF_DESCRIPTION,
       Localization.TAFSEER_ABOUT,
-      (Localization.VERSION_BUILD_ID).replaceFirst("#", backend.buildId),
+      (Localization.VERSION_BUILD_ID).replaceFirst(
+        "#",
+        Simply.get<IVersionInfoService>().getBuildId(),
+      ),
     ];
     return CustomPageWrapper(
       pageTitle: Localization.ABOUT,

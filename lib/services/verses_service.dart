@@ -1,12 +1,11 @@
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:simply/simply.dart';
 import '../../commons/database_mixin.dart';
 
 class VersesService
     with DatabaseMixin
-    implements IVersesService, ISimpleService {
+    implements IVersesService {
   final String databaseFilePath;
 
   VersesService({

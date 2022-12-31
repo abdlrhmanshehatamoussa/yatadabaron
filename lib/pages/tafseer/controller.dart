@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/commons/stream_object.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:simply/simply.dart';
+import 'package:yatadabaron/main.dart';
 import '../_viewmodels/module.dart';
 
-class TafseerPageBackend extends SimpleBackend {
-  TafseerPageBackend({
+class TafseerPageController {
+  TafseerPageController({
     required this.location,
-    required BuildContext context,
-  }) : super(context);
+  });
 
   final MushafLocation location;
   final StreamObject<VerseTafseer> _tafseerResultController =
       StreamObject<VerseTafseer>();
-  late IVersesService versesService = getService<IVersesService>();
-  late ITafseerService tafseerService = getService<ITafseerService>();
+  late IVersesService versesService = Simply.get<IVersesService>();
+  late ITafseerService tafseerService = Simply.get<ITafseerService>();
   late ITafseerSourcesService tafseerSourcesService =
-      getService<ITafseerSourcesService>();
-  late IBookmarksService bookmarksService = getService<IBookmarksService>();
-  late IEventLogger eventLogger = getService<IEventLogger>();
+      Simply.get<ITafseerSourcesService>();
+  late IBookmarksService bookmarksService = Simply.get<IBookmarksService>();
+  late IEventLogger eventLogger = Simply.get<IEventLogger>();
 
   Stream<VerseTafseer> get tafseerStream => _tafseerResultController.stream;
 
@@ -52,7 +51,7 @@ class TafseerPageBackend extends SimpleBackend {
     _tafseerResultController.add(result);
   }
 
-  Future<bool> onSaveBookmarkClicked(BuildContext context) async {
+  Future<bool> onSaveBookmarkClicked() async {
     bool done = await bookmarksService.addBookmark(
       this.location.chapterId,
       this.location.verseId,

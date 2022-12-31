@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'package:yatadabaron/pages/release_notes/backend.dart';
+import 'package:yatadabaron/pages/release_notes/controller.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 
 class ReleaseNotesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ReleaseNotesBackend backend = ReleaseNotesBackend(context);
+    ReleaseNotesController backend = ReleaseNotesController();
     String currentVersion = backend.getVersionName();
     return CustomPageWrapper(
       pageTitle: Localization.RELEASE_NOTES,
