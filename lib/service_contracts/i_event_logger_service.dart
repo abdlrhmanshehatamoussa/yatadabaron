@@ -4,5 +4,4 @@ abstract class IEventLogger {
     Map<String, dynamic>? payload,
   });
   Future<void> logAppStarted();
-  Future<void> pushEvents();
 }
