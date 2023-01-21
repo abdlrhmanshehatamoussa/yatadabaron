@@ -31,7 +31,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     FutureBuilder<bool>(
-      future: init(),
+      future: register(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return splashApp();
         if (snapshot.data! == false)
@@ -82,7 +82,7 @@ Widget buildApp() {
   );
 }
 
-Future<bool> init() async {
+Future<bool> register() async {
   try {
     var _pref = await SharedPreferences.getInstance();
     var _info = await PackageInfo.fromPlatform();
@@ -98,10 +98,7 @@ Future<bool> init() async {
     var versionService = VersionInfoService(buildId: _info.version);
 
     Simply.register<IEventLogger>(
-      service: EventLogger(
-        sharedPreferences: _pref,
-        versionInfoService: versionService,
-      ),
+      service: EventLogger(),
       method: InjectionMethod.singleton,
     );
 
@@ -171,31 +168,32 @@ Future<bool> init() async {
       ),
       method: InjectionMethod.singleton,
     );
-
-    //Firebase
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    await FirebaseAppCheck.instance.activate(
-      androidProvider:
-          kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
-    );
-
-    var networkDetector = Simply.get<INetworkDetectorService>();
-    bool isOnline = await networkDetector.isOnline();
-    if (isOnline) {
-      var eventLogger = Simply.get<IEventLogger>();
-
-      //Log events
-      await eventLogger.logAppStarted().defaultNetworkTimeout();
-      await eventLogger.pushEvents().defaultNetworkTimeout();
-
-      //Load releases
-      var releaseInfoService = Simply.get<IReleaseInfoService>();
-      await releaseInfoService.syncReleases();
-    }
+    await init();
     return true;
   } catch (e) {
     return false;
+  }
+}
+
+Future<void> init() async {
+  //Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseAppCheck.instance.activate(
+    androidProvider:
+        kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
+  );
+
+  //Log events
+  var eventLogger = Simply.get<IEventLogger>();
+  await eventLogger.logAppStarted();
+
+  //Load releases
+  var networkDetector = Simply.get<INetworkDetectorService>();
+  bool isOnline = await networkDetector.isOnline();
+  if (isOnline) {
+    var releaseInfoService = Simply.get<IReleaseInfoService>();
+    await releaseInfoService.syncReleases();
   }
 }

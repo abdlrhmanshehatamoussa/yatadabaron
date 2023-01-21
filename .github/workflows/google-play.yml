@@ -11,7 +11,7 @@ jobs:
 
     env:
       create_env_file: false
-      create_google_services_file: false
+      create_google_services_file: true
       version_code_start: 70
       package_type: appbundle
       branch: ${{ github.ref_name }}
