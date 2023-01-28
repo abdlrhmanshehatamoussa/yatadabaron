@@ -36,7 +36,7 @@ class TafseerSourcesService implements ITafseerSourcesService {
   Future<bool> syncTafseerSources() async {
     try {
       List<TafseerSource> remote = await _getRemote();
-      await localRepo.merge(remote, (a, b) => a.tafseerId == a.tafseerId);
+      await localRepo.merge(remote, (a, b) => a.tafseerId == b.tafseerId);
       return true;
     } catch (e) {
       print(
