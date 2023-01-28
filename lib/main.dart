@@ -185,15 +185,22 @@ Future<void> init() async {
         kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
   );
 
-  //Log events
-  var eventLogger = Simply.get<IEventLogger>();
-  await eventLogger.logAppStarted();
+  try {
+    //Log events
+    var eventLogger = Simply.get<IEventLogger>();
+    await eventLogger.logAppStarted();
 
-  //Load releases
-  var networkDetector = Simply.get<INetworkDetectorService>();
-  bool isOnline = await networkDetector.isOnline();
-  if (isOnline) {
-    var releaseInfoService = Simply.get<IReleaseInfoService>();
-    await releaseInfoService.syncReleases();
+    //Sync online data
+    var networkDetector = Simply.get<INetworkDetectorService>();
+    bool isOnline = await networkDetector.isOnline();
+    if (isOnline) {
+      var releaseInfoService = Simply.get<IReleaseInfoService>();
+      await releaseInfoService.syncReleases();
+
+      var tafseerSourcesService = Simply.get<ITafseerSourcesService>();
+      await tafseerSourcesService.syncTafseerSources();
+    }
+  } catch (e) {
+    print("Initialization error, ${e.toString()}");
   }
 }

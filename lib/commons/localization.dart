@@ -54,7 +54,7 @@ class Localization {
   static const String NIGHT_MODE = "الوضع الليلي";
   static const String TAFSEER_PAGE = "التفسير";
   static const String NO_TRANSLATIONS_AVAILABLE =
-      "حدث خطأ أثناء التحميل, تأكد من اتصالك بالانترنت وحاول مرة آخري";
+      "لا يوجد تفاسير متاحة في اللحظة الحالية, تأكد من اتصالك بالإنترنت أو ارجع إلي إدارة التطبيق";
   static const String DOWNLOAD_TRANSLATION_FIRST =
       "يجب أن تقوم بتحميل هذا التفسير أولاً";
   static const String PLEASE_WAIT = "برجاء الانتظار";
