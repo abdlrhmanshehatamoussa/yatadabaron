@@ -15,8 +15,8 @@ class ReleaseNotesPage extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(5),
         child: Center(
-          child: FutureBuilder<List<ReleaseInfo>>(
-            future: backend.getVersions(),
+          child: StreamBuilder<List<ReleaseInfo>>(
+            stream: backend.releasesStream,
             builder: (_, AsyncSnapshot<List<ReleaseInfo>> snapshot) {
               if (snapshot.hasData) {
                 List<ReleaseInfo> releases = snapshot.data!;
