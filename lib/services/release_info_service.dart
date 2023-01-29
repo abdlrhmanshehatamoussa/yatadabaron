@@ -13,31 +13,44 @@ class ReleaseInfoService implements IReleaseInfoService {
   final IRemoteRepository<ReleaseInfo> remoteRepository;
   final INetworkDetectorService networkDetector;
 
-  Future<List<ReleaseInfo>> _getRemote() async {
-    bool isOnline = await networkDetector.isOnline();
-    if (isOnline == false) {
-      return [];
-    }
-    try {
-      List<ReleaseInfo> results = await remoteRepository.fetchAll();
-      results.sort((a, b) => b.releaseDate.compareTo(a.releaseDate));
-      return results;
-    } catch (e) {
-      return [];
-    }
-  }
-
   @override
   Future<int> syncReleases() async {
-    List<ReleaseInfo> remotes = await _getRemote();
-    if (remotes.isNotEmpty) await localRepository.replace(remotes);
-    return remotes.length;
+    try {
+      List<ReleaseInfo> remotes = await _getRemote();
+      if (remotes.isNotEmpty) await localRepository.replace(remotes);
+      return remotes.length;
+    } catch (e) {
+      print("Error while synchronizing releases");
+    }
+    return 0;
   }
 
   @override
   Future<List<ReleaseInfo>> getReleases() async {
-    List<ReleaseInfo> local = await localRepository.getAll();
-    local.sort((a, b) => b.releaseName.compareTo(a.releaseName));
-    return local;
+    try {
+      List<ReleaseInfo> local = await localRepository.getAll();
+      local.sort((a, b) => b.releaseName.compareTo(a.releaseName));
+      return local;
+    } catch (e) {
+      print(
+          "Error while fetching releases from local repository: ${e.toString()}");
+    }
+    return [];
+  }
+
+  Future<List<ReleaseInfo>> _getRemote() async {
+    try {
+      bool isOnline = await networkDetector.isOnline();
+      if (isOnline == false) {
+        return [];
+      }
+      List<ReleaseInfo> results = await remoteRepository.fetchAll();
+      results.sort((a, b) => b.releaseDate.compareTo(a.releaseDate));
+      return results;
+    } catch (e) {
+      print(
+          "Error while fetching releases from remote repository: ${e.toString()}");
+      return [];
+    }
   }
 }

@@ -85,7 +85,7 @@ class TafseerPage extends StatelessWidget {
                   );
                 } else if (availableTafseerSnapshot.data?.isEmpty ?? true) {
                   return Center(
-                    child: Text(Localization.NO_TRANSLATIONS_AVAILABLE),
+                    child: Text(Localization.NO_TRANSLATIONS_AVAILABLE, textAlign: TextAlign.center,),
                   );
                 } else {
                   return StreamBuilder<VerseTafseer>(

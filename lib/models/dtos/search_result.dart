@@ -22,8 +22,8 @@ class SearchResult {
         ),
       );
     });
-    cols.sort((a, b) => a.results.length.compareTo(b.results.length));
-    return cols.reversed.toList();
+    cols.sort((a, b) => a.results.first.verse.chapterId.compareTo(b.results.first.verse.chapterId));
+    return cols;
   }
 
   int get totalMatchCount {
