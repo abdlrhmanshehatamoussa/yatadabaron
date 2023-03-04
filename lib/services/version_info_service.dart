@@ -2,10 +2,11 @@ import 'package:yatadabaron/_modules/service_contracts.module.dart';
 
 class VersionInfoService implements IVersionInfoService {
   final String buildId;
-  final String versionName = "8.06";
+  final String versionName;
 
   VersionInfoService({
     required this.buildId,
+    required this.versionName,
   });
 
   @override

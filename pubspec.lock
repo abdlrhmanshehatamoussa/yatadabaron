@@ -273,7 +273,7 @@ packages:
       name: fl_chart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.55.2"
+    version: "0.61.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -554,7 +554,7 @@ packages:
       name: simply
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.0"
+    version: "6.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
