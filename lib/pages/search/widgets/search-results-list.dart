@@ -47,7 +47,7 @@ class SearchResultsList extends StatelessWidget {
           isMasculine: false,
         );
         return ExpansionTile(
-          initiallyExpanded: false,
+          initiallyExpanded: i==0,
           title: Text(
             "$collectionName  [$resultsCountArabic ${Localization.IN} $versesCountArabic]",
             style: TextStyle(
