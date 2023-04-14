@@ -22,18 +22,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Injecting Environment Variables (Alpha)
-        id: env-alpha
-        run: |
-          echo "lane=alpha_${{env.package_type}}" >> $GITHUB_ENV
-        if: github.ref != 'refs/heads/main'
-
-      - name: Injecting Environment Variables (Production)
-        id: env-production
-        run: |
-          echo "lane=production_${{env.package_type}}" >> $GITHUB_ENV
-        if: github.ref == 'refs/heads/main'
-
       - name: Extracting Version Code
         run: |
           versionCode=${{ github.run_number }}
