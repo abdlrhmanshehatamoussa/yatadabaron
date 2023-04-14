@@ -133,3 +133,9 @@ jobs:
           pwd
           cd android
           bundle exec fastlane ${{env.lane}}
+      
+      - name: Append tag to the source control
+        run: |
+          tagName=release-${{env.versionName}}-${{env.versionCode}}-{{env.lane}}
+          git tag $tagName
+          git push origin $tagName
