@@ -136,6 +136,6 @@ jobs:
       
       - name: Append tag to the source control
         run: |
-          tagName=release-${{env.versionName}}-${{env.versionCode}}-{{env.lane}}
+          tagName=release-${{env.versionName}}-${{env.versionCode}}-${{env.lane}}
           git tag $tagName
           git push origin $tagName
