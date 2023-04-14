@@ -2,7 +2,7 @@ name: deploy-flutter-googleplay-fastlane
 
 on:
   push:
-    branches: [dev, main]
+    branches: [main, beta-*]
   workflow_dispatch:
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
         id: env-alpha
         run: |
           echo "lane=alpha_${{env.package_type}}" >> $GITHUB_ENV
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref != 'refs/heads/main'
 
       - name: Injecting Environment Variables (Production)
         id: env-production
@@ -57,32 +57,32 @@ jobs:
           echo "ver_minor=$minor" >> $GITHUB_ENV
           echo "ver_fix=$fix" >> $GITHUB_ENV
 
-      - name: Extracting Version (Major)
+      - name: Extracting Version (Production-Major)
         run: |
           major=$(echo "${{env.ver_major}} + 1" | bc)
           versionName=$major.0.0
           echo "versionName=$versionName" >> $GITHUB_ENV
-        if: ${{env.ver_prefix == 'major'}}
+        if: ${{(env.ver_prefix == 'major') && (env.branch == 'main')}}
 
-      - name: Extracting Version (Minor)
+      - name: Extracting Version (Production-Minor)
         run: |
           minor=$(echo "${{env.ver_minor}} + 1" | bc)
           versionName=${{env.ver_major}}.$minor.0
           echo "versionName=$versionName" >> $GITHUB_ENV
-        if: ${{env.ver_prefix == 'minor'}}
+        if: ${{(env.ver_prefix == 'minor') && (env.branch == 'main')}}
 
-      - name: Extracting Version (Fix)
+      - name: Extracting Version (Production-Fix)
         run: |
           fix=$(echo "${{env.ver_fix}} + 1" | bc)
           versionName=${{env.ver_major}}.${{env.ver_minor}}.$fix
           echo "versionName=$versionName" >> $GITHUB_ENV
-        if: ${{env.ver_prefix == 'fix'}}
+        if: ${{(env.ver_prefix == 'fix') && (env.branch == 'main')}}
 
-      - name: Extracting Version (Merge)
+      - name: Extracting Version (Beta)
         run: |
-          versionName=${{env.ver_major}}.${{env.ver_minor}}.${{env.ver_fix}}
+          versionName=0.0.0
           echo "versionName=$versionName" >> $GITHUB_ENV
-        if: ${{env.ver_prefix == 'merge'}}
+        if: ${{ (env.branch != 'main') }}
 
       - name: Extracting New Tag Name
         run: |
