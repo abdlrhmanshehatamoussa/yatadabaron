@@ -40,12 +40,12 @@ jobs:
 
       - name: Fastlane lane (Alpha)
         run: |
-          echo "lane=alpha_${{env.package_type}}"
+          echo "lane=alpha_${{env.package_type}}" >> $GITHUB_ENV
         if: ${{env.environment == 'test'}}
 
       - name: Fastlane lane (production)
         run: |
-          echo "lane=production_${{env.package_type}}"
+          echo "lane=production_${{env.package_type}}" >> $GITHUB_ENV
         if: ${{env.environment == 'production'}}
 
       - name: Creating Keystore file
