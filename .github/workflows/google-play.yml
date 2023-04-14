@@ -30,16 +30,65 @@ jobs:
           echo "lane=production_${{env.package_type}}" >> $GITHUB_ENV
         if: github.ref == 'refs/heads/main'
 
-      - name: Extracting VersionCode & VersionName
-        id: gitinfo
+      - name: Extracting Version Code
         run: |
           versionCode=${{ github.run_number }}
           versionCodeStart=${{env.version_code_start}}
           versionCode=$(($versionCode+$versionCodeStart))
-          commitSHA=${{ github.sha }}
-          echo commit_sha=$commitSHA, version_code=$versionCode
-          echo "versionName=$commitSHA" >> $GITHUB_ENV
           echo "versionCode=$versionCode" >> $GITHUB_ENV
+
+      - name: Preparing Version Info
+        run: |
+          tagName=$(git describe --tags --abbrev=0)
+          tagNameSplitted=(${tagName//-/ })
+          prevVersionName=${tagNameSplitted[3]}
+          prevVersionNameSplitted=(${prevVersionName//./ })
+          lastCommitName=$(git show -s --format=%s)
+          lastCommitNameSplitted=(${lastCommitName//:/ })
+          prefix=${lastCommitNameSplitted[0]}
+          major=${prevVersionNameSplitted[0]}
+          minor=${prevVersionNameSplitted[1]}
+          fix=${prevVersionNameSplitted[2]}
+          echo "ver_prefix=$prefix" >> $GITHUB_ENV
+          echo "ver_major=$major" >> $GITHUB_ENV
+          echo "ver_minor=$minor" >> $GITHUB_ENV
+          echo "ver_fix=$fix" >> $GITHUB_ENV
+
+      - name: Extracting Version (Major)
+        run: |
+          major=$(echo "${{env.ver_major}} + 1" | bc)
+          versionName=$major.0.0
+          echo "versionName=$versionName" >> $GITHUB_ENV
+        if: ${{env.ver_prefix == 'major'}}
+
+      - name: Extracting Version (Minor)
+        run: |
+          minor=$(echo "${{env.ver_minor}} + 1" | bc)
+          versionName=${{env.ver_major}}.$minor.0
+          echo "versionName=$versionName" >> $GITHUB_ENV
+        if: ${{env.ver_prefix == 'minor'}}
+
+      - name: Extracting Version (Fix)
+        run: |
+          fix=$(echo "${{env.ver_fix}} + 1" | bc)
+          versionName=${{env.ver_major}}.${{env.ver_minor}}.$fix
+          echo "versionName=$versionName" >> $GITHUB_ENV
+        if: ${{env.ver_prefix == 'fix'}}
+
+      - name: Extracting Version (Merge)
+        run: |
+          versionName=${{env.ver_major}}.${{env.ver_minor}}.${{env.ver_fix}}
+          echo "versionName=$versionName" >> $GITHUB_ENV
+        if: ${{ (env.ver_prefix != 'major') && (env.ver_prefix != 'minor') && (env.ver_prefix != 'fix') }}
+
+      - name: Extracting New Tag Name
+        run: |
+          newTagName=googleplay-${{env.lane}}-$versionCode-$versionName
+          echo "newTagName=$newTagName" >> $GITHUB_ENV
+
+      - name: Printing Version Info
+        run: |
+          echo version_name=${{env.versionName}}, version_code=${{env.versionCode}}, newTagName=${{env.newTagName}}
 
       - name: Creating Keystore file
         run: |
@@ -130,6 +179,5 @@ jobs:
 
       - name: Append tag to the source control
         run: |
-          tagName=googleplay-${{env.lane}}-${{env.versionCode}}
-          git tag $tagName
-          git push origin $tagName
+          git tag ${{env.newTagName}}
+          git push origin ${{env.newTagName}}

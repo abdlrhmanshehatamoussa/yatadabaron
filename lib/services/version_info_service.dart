@@ -11,9 +11,7 @@ class VersionInfoService implements IVersionInfoService {
 
   @override
   String getBuildId() {
-    return this.buildId.length > 8
-        ? this.buildId.substring(0, 7)
-        : this.buildId;
+    return this.buildId;
   }
 
   @override

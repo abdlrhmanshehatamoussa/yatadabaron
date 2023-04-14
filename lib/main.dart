@@ -95,7 +95,7 @@ Future<bool> register() async {
 
     //Network detector
     var networkDetectorService = NetworkDetectorService();
-    var versionService = VersionInfoService(buildId: _info.version, versionName: "8.7.0");
+    var versionService = VersionInfoService(buildId: _info.buildNumber, versionName: _info.version);
 
     Simply.register<IEventLogger>(
       service: EventLogger(),
