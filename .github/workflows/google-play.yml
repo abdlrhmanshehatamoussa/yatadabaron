@@ -1,6 +1,6 @@
 name: deploy-flutter-googleplay-fastlane
 
-on: 
+on:
   push:
     branches: [dev, main]
   workflow_dispatch:
@@ -82,7 +82,7 @@ jobs:
         run: |
           versionName=${{env.ver_major}}.${{env.ver_minor}}.${{env.ver_fix}}
           echo "versionName=$versionName" >> $GITHUB_ENV
-        if: ${{ (env.ver_prefix != 'major') && (env.ver_prefix != 'minor') && (env.ver_prefix != 'fix') }}
+        if: ${{env.ver_prefix == 'merge'}}
 
       - name: Extracting New Tag Name
         run: |
