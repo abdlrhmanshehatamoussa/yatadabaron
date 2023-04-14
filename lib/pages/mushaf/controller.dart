@@ -1,3 +1,4 @@
+import 'package:share/share.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/main.dart';
@@ -78,5 +79,12 @@ class MushafController {
 
   void updateShowEmla2y(bool v) {
     _showEmla2yStreamObj.add(v);
+  }
+
+  Future<void> shareVerse(Verse verse) async {
+    verse = await versesService.getSingleVerse(verse.verseID, verse.chapterId);
+    String toCopy =
+        "${verse.chapterName}\n${verse.verseTextTashkel} {${verse.verseID}}";
+    await Share.share(toCopy);
   }
 }

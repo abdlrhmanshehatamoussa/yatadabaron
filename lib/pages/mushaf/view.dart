@@ -71,6 +71,7 @@ class MushafPage extends StatelessWidget {
                       showEmla2y: showEmla2y,
                       iconData: icon,
                       onItemTap: backend.goTafseerPage,
+                      onItemLongTap: (v) async => await backend.shareVerse(v),
                     );
                   },
                 ),

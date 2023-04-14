@@ -11,6 +11,7 @@ class VerseList extends StatelessWidget {
   final IconData? iconData;
   final bool showEmla2y;
   final Function(Verse verse) onItemTap;
+  final Function(Verse verse) onItemLongTap;
 
   const VerseList({
     required this.verses,
@@ -19,6 +20,7 @@ class VerseList extends StatelessWidget {
     required this.showEmla2y,
     required this.startFromVerse,
     required this.highlightedVerse,
+    required this.onItemLongTap,
   });
 
   @override
@@ -51,7 +53,8 @@ class VerseList extends StatelessWidget {
           color = Theme.of(context).colorScheme.secondary;
         }
         String verseBody = verse.verseTextTashkel;
-        String verseIdStr = Utils.convertToArabiNumber(verse.verseID, reverse: false);
+        String verseIdStr =
+            Utils.convertToArabiNumber(verse.verseID, reverse: false);
         verseBody = "$verseBody $verseIdStr";
         Widget icon = Container();
         if (isHighlighted) {
@@ -62,7 +65,10 @@ class VerseList extends StatelessWidget {
         }
         Widget? subtitle;
         if (showEmla2y) {
-          subtitle = Text(verse.verseText,style: TextStyle(fontSize: 15),);
+          subtitle = Text(
+            verse.verseText,
+            style: TextStyle(fontSize: 15),
+          );
         }
         return Stack(
           alignment: Alignment.topRight,
@@ -92,6 +98,7 @@ class VerseList extends StatelessWidget {
               subtitle: subtitle,
               selected: isHighlighted,
               onTap: () async => await this.onItemTap(verse),
+              onLongPress: () async => await this.onItemLongTap(verse),
             ),
             icon,
           ],
