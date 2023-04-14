@@ -1,4 +1,3 @@
-import 'package:simply/simply.dart';
 import 'package:yatadabaron/main.dart';
 import 'package:yatadabaron/pages/about/page.dart';
 import 'package:yatadabaron/pages/bookmarks/view.dart';
