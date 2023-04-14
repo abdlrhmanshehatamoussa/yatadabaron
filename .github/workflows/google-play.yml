@@ -1,8 +1,10 @@
-name: deploy-flutter-googleplay-fastlane
+name: googleplay-fastlane
 
 on:
   push:
-    branches: [main, 'beta-*']
+    tags:
+      - "test@*.*.*"
+      - "prod@*.*.*"
   workflow_dispatch:
 
 jobs:
@@ -14,7 +16,6 @@ jobs:
       create_google_services_file: true
       version_code_start: 70
       package_type: appbundle
-      branch: ${{ github.ref_name }}
 
     steps:
       - uses: actions/checkout@v3
@@ -40,58 +41,24 @@ jobs:
           versionCode=$(($versionCode+$versionCodeStart))
           echo "versionCode=$versionCode" >> $GITHUB_ENV
 
-      - name: Preparing Version Info
+      - name: Extracting Build environment and Version Name
         run: |
-          tagName=$(git describe --tags --abbrev=0)
-          tagNameSplitted=(${tagName//-/ })
-          prevVersionName=${tagNameSplitted[3]}
-          prevVersionNameSplitted=(${prevVersionName//./ })
-          lastCommitName=$(git show -s --format=%s)
-          lastCommitNameSplitted=(${lastCommitName//:/ })
-          prefix=${lastCommitNameSplitted[0]}
-          major=${prevVersionNameSplitted[0]}
-          minor=${prevVersionNameSplitted[1]}
-          fix=${prevVersionNameSplitted[2]}
-          echo "ver_prefix=$prefix" >> $GITHUB_ENV
-          echo "ver_major=$major" >> $GITHUB_ENV
-          echo "ver_minor=$minor" >> $GITHUB_ENV
-          echo "ver_fix=$fix" >> $GITHUB_ENV
-
-      - name: Extracting Version (Production-Major)
-        run: |
-          major=$(echo "${{env.ver_major}} + 1" | bc)
-          versionName=$major.0.0
+          tag_name=${GITHUB_REF##*/}
+          tag_name_splitted=(${tag_name//@/ })
+          environment=${tag_name_splitted[0]}
+          versionName=${tag_name_splitted[1]}
           echo "versionName=$versionName" >> $GITHUB_ENV
-        if: ${{(env.ver_prefix == 'major') && (env.branch == 'main')}}
+          echo "environment=$environment" >> $GITHUB_ENV
 
-      - name: Extracting Version (Production-Minor)
+      - name: Fastlane lane (Alpha)
         run: |
-          minor=$(echo "${{env.ver_minor}} + 1" | bc)
-          versionName=${{env.ver_major}}.$minor.0
-          echo "versionName=$versionName" >> $GITHUB_ENV
-        if: ${{(env.ver_prefix == 'minor') && (env.branch == 'main')}}
+          echo "lane=alpha_${{env.package_type}}"
+        if: ${{env.environment == 'test'}}
 
-      - name: Extracting Version (Production-Fix)
+      - name: Fastlane lane (production)
         run: |
-          fix=$(echo "${{env.ver_fix}} + 1" | bc)
-          versionName=${{env.ver_major}}.${{env.ver_minor}}.$fix
-          echo "versionName=$versionName" >> $GITHUB_ENV
-        if: ${{(env.ver_prefix == 'fix') && (env.branch == 'main')}}
-
-      - name: Extracting Version (Beta)
-        run: |
-          versionName=0.0.0
-          echo "versionName=$versionName" >> $GITHUB_ENV
-        if: ${{ (env.branch != 'main') }}
-
-      - name: Extracting New Tag Name
-        run: |
-          newTagName=googleplay-${{env.lane}}-$versionCode-$versionName
-          echo "newTagName=$newTagName" >> $GITHUB_ENV
-
-      - name: Printing Version Info
-        run: |
-          echo version_name=${{env.versionName}}, version_code=${{env.versionCode}}, newTagName=${{env.newTagName}}
+          echo "lane=production_${{env.package_type}}"
+        if: ${{env.environment == 'production'}}
 
       - name: Creating Keystore file
         run: |
@@ -134,7 +101,7 @@ jobs:
           pwd
           cd assets
           file=.env
-          gpg -d --passphrase "${{ secrets.GPG_PASS }}" --batch $file.${{env.branch}}.asc > $file
+          gpg -d --passphrase "${{ secrets.GPG_PASS }}" --batch $file.${{env.environment}}.asc > $file
         if: ${{env.create_env_file == 'true'}}
 
       - name: Set up Ruby
@@ -177,10 +144,4 @@ jobs:
         run: |
           pwd
           cd android
-          lane=${{env.lane}}
-          bundle exec fastlane $lane
-
-      - name: Append tag to the source control
-        run: |
-          git tag ${{env.newTagName}}
-          git push origin ${{env.newTagName}}
+          bundle exec fastlane ${{env.lane}}
