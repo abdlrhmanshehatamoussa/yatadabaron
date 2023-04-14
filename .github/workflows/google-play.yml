@@ -2,7 +2,7 @@ name: deploy-flutter-googleplay-fastlane
 
 on:
   push:
-    branches: [main, beta-*]
+    branches: [main, 'beta-*']
   workflow_dispatch:
 
 jobs:
