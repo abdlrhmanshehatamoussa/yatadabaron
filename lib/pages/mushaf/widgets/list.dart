@@ -39,37 +39,14 @@ class VerseList extends StatelessWidget {
       itemScrollController: ItemScrollController(),
       itemCount: verses.length,
       initialScrollIndex: scrollIndex,
-      separatorBuilder: (_, __) {
-        return Divider(
-          height: 1,
-          color: Theme.of(context).colorScheme.primary,
-        );
-      },
+      separatorBuilder: (_, __) =>
+          Divider(height: 1, color: Theme.of(context).colorScheme.primary),
       itemBuilder: (context, i) {
         Verse verse = verses[i];
-        Color? color;
         bool isHighlighted = verse.verseID == (highlightedVerse ?? 0);
-        if (isHighlighted) {
-          color = Theme.of(context).colorScheme.secondary;
-        }
-        String verseBody = verse.verseTextTashkel;
-        String verseIdStr =
+        String verseBody = verse.verseTextTashkel +
+            " " +
             Utils.convertToArabiNumber(verse.verseID, reverse: false);
-        verseBody = "$verseBody $verseIdStr";
-        Widget icon = Container();
-        if (isHighlighted) {
-          icon = Container(
-            child: Icon(iconData),
-            padding: EdgeInsets.all(5),
-          );
-        }
-        Widget? subtitle;
-        if (showEmla2y) {
-          subtitle = Text(
-            verse.verseText,
-            style: TextStyle(fontSize: 15),
-          );
-        }
         return Stack(
           alignment: Alignment.topRight,
           clipBehavior: Clip.antiAlias,
@@ -89,18 +66,30 @@ class VerseList extends StatelessWidget {
                         fontWeight: FontWeight.normal,
                         fontSize: 28,
                         fontFamily: "Usmani",
-                        color: color,
+                        color: isHighlighted
+                            ? Theme.of(context).colorScheme.secondary
+                            : null,
                       ),
                     ),
                   ],
                 ),
               ),
-              subtitle: subtitle,
+              subtitle: showEmla2y
+                  ? Text(
+                      verse.verseText,
+                      style: TextStyle(fontSize: 15),
+                    )
+                  : null,
               selected: isHighlighted,
               onTap: () async => await this.onItemTap(verse),
               onLongPress: () async => await this.onItemLongTap(verse),
             ),
-            icon,
+            isHighlighted
+                ? Container(
+                    child: Icon(iconData, size: 15,),
+                    padding: EdgeInsets.all(5),
+                  )
+                : Container(),
           ],
         );
       },
