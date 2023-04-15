@@ -9,6 +9,9 @@ import './widgets/search-results-list.dart';
 import './widgets/search-summary.dart';
 
 class SearchPage extends StatelessWidget {
+  final SearchController? controller;
+
+  const SearchPage({Key? key, this.controller}) : super(key: key);
   Widget customText(String text) {
     return Center(
       child: Text(
@@ -21,7 +24,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SearchController backend = SearchController();
+    SearchController backend = controller ?? SearchController();
     backend.errorStream.listen((Exception error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(error.toString()),
