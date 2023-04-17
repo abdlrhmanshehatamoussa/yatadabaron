@@ -3,9 +3,6 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'package:yatadabaron/main.dart';
-import 'package:yatadabaron/pages/search/controller.dart';
-import 'package:yatadabaron/pages/search/view.dart';
 
 class VerseList extends StatelessWidget {
   final List<Verse> verses;
@@ -78,43 +75,9 @@ class VerseList extends StatelessWidget {
                 ),
               ),
               subtitle: showEmla2y
-                  ? SelectableText(
+                  ? Text(
                       verse.verseText,
                       style: TextStyle(fontSize: 15),
-                      contextMenuBuilder: (context, editableTextState) {
-                        return AdaptiveTextSelectionToolbar(
-                          anchors: editableTextState.contextMenuAnchors,
-                          children: [
-                            InkWell(
-                              onTap: () async {
-                                var selected = editableTextState
-                                    .currentTextEditingValue.text
-                                    .substring(
-                                  editableTextState
-                                      .currentTextEditingValue.selection.start,
-                                  editableTextState
-                                      .currentTextEditingValue.selection.end,
-                                );
-                                var controller = SearchController();
-                                await controller
-                                    .changeSettings(KeywordSearchSettings(
-                                  basmala: false,
-                                  keyword: selected,
-                                  chapterID: null,
-                                ));
-                                appNavigator.pushWidget(
-                                    view: SearchPage(controller: controller));
-                              },
-                              child: Container(
-                                child: SizedBox(
-                                  child: Text('بحث في القرآن'),
-                                ),
-                                padding: EdgeInsets.all(10),
-                              ),
-                            )
-                          ],
-                        );
-                      },
                     )
                   : null,
               selected: isHighlighted,
