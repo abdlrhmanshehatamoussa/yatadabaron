@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/pages/mushaf/controller.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
@@ -17,6 +17,19 @@ class MushafPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(
+      Duration.zero,
+      () async => await Utils.showFeatureUpdateDialog(
+        updateId: "mushaf_searchwhilereading_1",
+        context: context,
+        title: "آخر التحديثات",
+        imageUrl:
+            "https://raw.githubusercontent.com/abdlrhmanshehatamoussa/yatadabaron-assets/main/verse-search.jfif",
+        body: "* اضغط ضغطة مُطَوَّلة علي الآية للمشاركة"
+            "\n"
+            "* اضغط مرتين علي أي كلمة في الآية (الرسم الإملائي وليس العثماني) للبحث عنها في المصحف الشريف, كما هو موضح:",
+      ),
+    );
     MushafController backend = MushafController(
       mushafSettings: this.mushafSettings,
     );
@@ -60,41 +73,13 @@ class MushafPage extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: CustomStreamBuilder<bool>(
-                  stream: backend.showEmla2yStream,
-                  loading: LoadingWidget(),
-                  done: (bool showEmla2y) {
-                    return VerseList(
-                      verses: state.verses,
-                      highlightedVerse: highlightedVerseId,
-                      startFromVerse: state.startFromVerse,
-                      showEmla2y: showEmla2y,
-                      iconData: icon,
-                      onItemTap: backend.goTafseerPage,
-                      onItemLongTap: (v) async => await backend.shareVerse(v),
-                    );
-                  },
-                ),
-              ),
-              Container(
-                color: Theme.of(context).primaryColor,
-                child: CustomStreamBuilder<bool>(
-                  stream: backend.showEmla2yStream,
-                  loading: LoadingWidget(),
-                  done: (bool show) {
-                    return ListTile(
-                      title: Text(
-                        Localization.RASM_EMLA2y,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                      ),
-                      trailing: Switch(
-                        value: show,
-                        onChanged: (bool v) => backend.updateShowEmla2y(v),
-                      ),
-                    );
-                  },
+                child: VerseList(
+                  verses: state.verses,
+                  highlightedVerse: highlightedVerseId,
+                  startFromVerse: state.startFromVerse,
+                  iconData: icon,
+                  onItemTap: backend.goTafseerPage,
+                  onItemLongTap: (v) async => await backend.shareVerse(v),
                 ),
               ),
             ],

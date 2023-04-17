@@ -8,3 +8,4 @@ export '../service_contracts/i_verses_service.dart';
 export '../service_contracts/i_version_info_service.dart';
 export '../service_contracts/i_network_detector.dart';
 export '../service_contracts/i_event_logger_service.dart';
+export '../service_contracts/i_muted_messages_service.dart';

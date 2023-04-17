@@ -1,4 +1,6 @@
 import 'package:arabic_numbers/arabic_numbers.dart';
+import 'package:simply/simply.dart';
+import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import './localization.dart';
 import 'package:flutter/material.dart';
 
@@ -153,6 +155,62 @@ class Utils {
     );
   }
 
+  static Future<void> showFeatureUpdateDialog({
+    required BuildContext context,
+    required String updateId,
+    required String title,
+    required String body,
+    String? imageUrl,
+  }) async {
+    var service = Simply.get<IMutedMessagesService>();
+    if (await service.isMuted(updateId)) {
+      return;
+    }
+    return await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        content: Wrap(
+          children: [
+            Text(body),
+            imageUrl != null
+                ? Image.network(
+                    imageUrl,
+                    fit: BoxFit.scaleDown,
+                    errorBuilder: (context, error, stackTrace) => Container(),
+                  )
+                : Container(),
+          ],
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              "إخفاء",
+              textAlign: TextAlign.center,
+            ),
+          ),
+          TextButton(
+            onPressed: () async {
+              await service.mute(updateId);
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              "عدم الإظهار مرة آخرى",
+              textAlign: TextAlign.center,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   static Future<void> showPleaseWaitDialog({
     required BuildContext context,
     required String title,
@@ -239,5 +297,4 @@ class Utils {
     }
     return results;
   }
-
 }

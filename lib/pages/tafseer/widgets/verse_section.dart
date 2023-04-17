@@ -5,6 +5,7 @@ class VerseSection extends StatelessWidget {
   final String verseTextTashkeel;
   final String chapterName;
   final int verseId;
+  
 
   VerseSection({
     required this.verseTextTashkeel,
@@ -19,20 +20,12 @@ class VerseSection extends StatelessWidget {
       padding: EdgeInsets.all(5),
       child: ListTile(
         title: Text(
-          verseTextTashkeel,
+          chapterName + "\n" + verseTextTashkeel + " " + verseIdArabic,
           style: TextStyle(
             fontSize: 25,
             fontFamily: 'Usmani',
           ),
-        ),
-        subtitle: Text(
-          '$chapterName - [$verseIdArabic]',
-          style: TextStyle(
-            fontSize: 15,
-            fontFamily: 'Arial',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        )
       ),
     );
   }
