@@ -63,7 +63,6 @@ class TafseerPage extends StatelessWidget {
                       chapterName: snapshot.data!.chapterName ?? "",
                       verseTextTashkeel: snapshot.data!.verseTextTashkel,
                       verseId: snapshot.data!.verseID,
-                      verseTextEmla2y: snapshot.data!.verseText,
                     );
                   }
                 },

@@ -5,14 +5,12 @@ class VerseSection extends StatelessWidget {
   final String verseTextTashkeel;
   final String chapterName;
   final int verseId;
-  final String verseTextEmla2y;
   
 
   VerseSection({
     required this.verseTextTashkeel,
     required this.chapterName,
     required this.verseId,
-    required this.verseTextEmla2y,
   });
 
   @override
