@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/utils.dart';
-import 'package:yatadabaron/pages/_widgets/custom_search_toolbar.dart';
 
 class VerseSection extends StatelessWidget {
   final String verseTextTashkeel;

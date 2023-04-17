@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/pages/mushaf/controller.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
@@ -18,23 +19,15 @@ class MushafPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(
       Duration.zero,
-      () async => await showDialog(
+      () async => await Utils.showNewUpdatesDialog(
+        updateId: "mushaf_searchwhilereading_1",
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text("آخر التحديثات", style: TextStyle(fontWeight: FontWeight.bold),),
-          content: Wrap(
-            children: [
-              Text("* اضغط ضغطة مُطَوَّلة علي الآية للمشاركة"
-                  "\n"
-                  "* اضغط مرتين علي أي كلمة في الآية (الرسم الإملائي وليس العثماني) للبحث عنها في المصحف الشريف, كما هو موضح:"),
-              Image.network(
-                "https://raw.githubusercontent.com/abdlrhmanshehatamoussa/yatadabaron-assets/main/verse-search.jfif",
-                fit: BoxFit.scaleDown,
-                errorBuilder: (context, error, stackTrace) => Container(),
-              ),
-            ],
-          ),
-        ),
+        title: "آخر التحديثات",
+        imageUrl:
+            "https://raw.githubusercontent.com/abdlrhmanshehatamoussa/yatadabaron-assets/main/verse-search.jfif",
+        body: "* اضغط ضغطة مُطَوَّلة علي الآية للمشاركة"
+            "\n"
+            "* اضغط مرتين علي أي كلمة في الآية (الرسم الإملائي وليس العثماني) للبحث عنها في المصحف الشريف, كما هو موضح:",
       ),
     );
     MushafController backend = MushafController(

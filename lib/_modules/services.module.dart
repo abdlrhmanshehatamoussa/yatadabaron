@@ -9,3 +9,4 @@ export '../services/app_settings_service.dart';
 export '../services/_i_local_repository.dart';
 export '../services/network_detector.dart';
 export '../services/event_logger_service.dart';
+export '../services/muted_messages_service.dart';

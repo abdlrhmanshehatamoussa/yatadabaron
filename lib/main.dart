@@ -95,7 +95,8 @@ Future<bool> register() async {
 
     //Network detector
     var networkDetectorService = NetworkDetectorService();
-    var versionService = VersionInfoService(buildId: _info.buildNumber, versionName: _info.version);
+    var versionService = VersionInfoService(
+        buildId: _info.buildNumber, versionName: _info.version);
 
     Simply.register<IEventLogger>(
       service: EventLogger(),
@@ -167,6 +168,11 @@ Future<bool> register() async {
         sharedPreferences: _pref,
       ),
       method: InjectionMethod.singleton,
+    );
+
+    Simply.register<IMutedMessagesService>(
+      method: InjectionMethod.scoped,
+      service: MutedMessages(sharedPreferences: _pref),
     );
     await init();
     return true;

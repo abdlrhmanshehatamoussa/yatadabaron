@@ -44,7 +44,7 @@ class Localization {
   static const String RATE = 'تقييم التطبيق';
   static const String ABOUT = 'عن التطبيق';
   static const String MUSHAF_DESCRIPTION =
-      'المصحف المستخدم هو مصحف حفص بالرسم العثماني ومصدره مجمع الملك فهد لطباعة المصحف الشريف https://qurancomplex.gov.sa';
+      'المصحف المستخدم هو مصحف حفص بالرسم العثماني ومصدره مجمع الملك فهد لطباعة المصحف الشريف \nhttps://qurancomplex.gov.sa';
   static const String ONE_MASC = 'واحد';
   static const String ONE_FEM = 'واحدة';
   static const String VERSE_MOTHANA = "آيتان";
@@ -62,7 +62,7 @@ class Localization {
   static const String CLICK_TO_DOWNLOAD_TAFSEER = "اضغط لتحميل التفسير";
   static const String MEGA_BYTES = "[% ميجا بايت]";
   static const String TAFSEER_ABOUT =
-      "التفسيرات المتاحة مصدرها https://github.com/Mr-DDDAlKilanny/tafseer-sqlite-db";
+      "التفسيرات المتاحة مصدرها \nhttps://github.com/Mr-DDDAlKilanny/tafseer-sqlite-db";
   static const String RELEASE_NOTES = "أحدث الاصدارات";
   static const String RELEASE_NAME = "رقم الاصدار";
   static const String BOOKMARKS = "المرجعيات";

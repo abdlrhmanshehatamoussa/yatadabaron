@@ -6,7 +6,7 @@ import 'package:yatadabaron/service_contracts/i_version_info_service.dart';
 
 class AboutPage extends StatelessWidget {
   Widget customText(String text) {
-    return Text(
+    return SelectableText(
       text,
       style: TextStyle(fontSize: 18),
     );
