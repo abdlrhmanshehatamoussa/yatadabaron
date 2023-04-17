@@ -70,7 +70,10 @@ class VerseList extends StatelessWidget {
                 verse.verseText,
                 style: TextStyle(fontSize: 20),
                 contextMenuBuilder: (context, editableTextState) =>
-                    CustomSerachToolbar(editableTextState: editableTextState),
+                    CustomSerachToolbar(
+                  editableTextState: editableTextState,
+                  chapterId: verse.chapterId,
+                ),
               ),
               selected: isHighlighted,
               onTap: () async => await this.onItemTap(verse),

@@ -28,16 +28,7 @@ class VerseSection extends StatelessWidget {
             fontSize: 25,
             fontFamily: 'Usmani',
           ),
-        ),
-        subtitle: SelectableText(
-          verseTextEmla2y,
-          style: TextStyle(
-            fontSize: 20,
-            color: Theme.of(context).colorScheme.secondary,
-            fontFamily: 'Arial',
-          ),
-          contextMenuBuilder: (context, editableTextState) => CustomSerachToolbar(editableTextState: editableTextState),
-        ),
+        )
       ),
     );
   }

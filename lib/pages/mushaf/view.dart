@@ -16,6 +16,27 @@ class MushafPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(
+      Duration.zero,
+      () async => await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("آخر التحديثات", style: TextStyle(fontWeight: FontWeight.bold),),
+          content: Wrap(
+            children: [
+              Text("* اضغط ضغطة مُطَوَّلة علي الآية للمشاركة"
+                  "\n"
+                  "* اضغط مرتين علي أي كلمة في الآية (الرسم الإملائي وليس العثماني) للبحث عنها في المصحف الشريف, كما هو موضح:"),
+              Image.network(
+                "https://raw.githubusercontent.com/abdlrhmanshehatamoussa/yatadabaron-assets/main/verse-search.jfif",
+                fit: BoxFit.scaleDown,
+                errorBuilder: (context, error, stackTrace) => Container(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
     MushafController backend = MushafController(
       mushafSettings: this.mushafSettings,
     );
