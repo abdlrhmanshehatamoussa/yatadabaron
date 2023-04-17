@@ -155,7 +155,7 @@ class Utils {
     );
   }
 
-  static Future<void> showNewUpdatesDialog({
+  static Future<void> showFeatureUpdateDialog({
     required BuildContext context,
     required String updateId,
     required String title,

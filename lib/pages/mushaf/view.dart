@@ -19,7 +19,7 @@ class MushafPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(
       Duration.zero,
-      () async => await Utils.showNewUpdatesDialog(
+      () async => await Utils.showFeatureUpdateDialog(
         updateId: "mushaf_searchwhilereading_1",
         context: context,
         title: "آخر التحديثات",
