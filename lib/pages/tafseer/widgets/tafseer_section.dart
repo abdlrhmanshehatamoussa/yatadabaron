@@ -20,7 +20,7 @@ class TafseerSection extends StatelessWidget {
     if (tafseer != null) {
       return Container(
         padding: EdgeInsets.all(15),
-        child: Text(
+        child: SelectableText(
           tafseer!,
           style: TextStyle(fontSize: 17, fontFamily: 'Arial'),
         ),

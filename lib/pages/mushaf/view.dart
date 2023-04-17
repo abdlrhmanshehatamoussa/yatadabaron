@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/mushaf/controller.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
@@ -60,41 +59,13 @@ class MushafPage extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: CustomStreamBuilder<bool>(
-                  stream: backend.showEmla2yStream,
-                  loading: LoadingWidget(),
-                  done: (bool showEmla2y) {
-                    return VerseList(
-                      verses: state.verses,
-                      highlightedVerse: highlightedVerseId,
-                      startFromVerse: state.startFromVerse,
-                      showEmla2y: showEmla2y,
-                      iconData: icon,
-                      onItemTap: backend.goTafseerPage,
-                      onItemLongTap: (v) async => await backend.shareVerse(v),
-                    );
-                  },
-                ),
-              ),
-              Container(
-                color: Theme.of(context).primaryColor,
-                child: CustomStreamBuilder<bool>(
-                  stream: backend.showEmla2yStream,
-                  loading: LoadingWidget(),
-                  done: (bool show) {
-                    return ListTile(
-                      title: Text(
-                        Localization.RASM_EMLA2y,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                      ),
-                      trailing: Switch(
-                        value: show,
-                        onChanged: (bool v) => backend.updateShowEmla2y(v),
-                      ),
-                    );
-                  },
+                child: VerseList(
+                  verses: state.verses,
+                  highlightedVerse: highlightedVerseId,
+                  startFromVerse: state.startFromVerse,
+                  iconData: icon,
+                  onItemTap: backend.goTafseerPage,
+                  onItemLongTap: (v) async => await backend.shareVerse(v),
                 ),
               ),
             ],

@@ -3,13 +3,13 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/pages/_widgets/custom_search_toolbar.dart';
 
 class VerseList extends StatelessWidget {
   final List<Verse> verses;
   final int startFromVerse;
   final int? highlightedVerse;
   final IconData? iconData;
-  final bool showEmla2y;
   final Function(Verse verse) onItemTap;
   final Function(Verse verse) onItemLongTap;
 
@@ -17,7 +17,6 @@ class VerseList extends StatelessWidget {
     required this.verses,
     required this.onItemTap,
     required this.iconData,
-    required this.showEmla2y,
     required this.startFromVerse,
     required this.highlightedVerse,
     required this.onItemLongTap,
@@ -44,9 +43,6 @@ class VerseList extends StatelessWidget {
       itemBuilder: (context, i) {
         Verse verse = verses[i];
         bool isHighlighted = verse.verseID == (highlightedVerse ?? 0);
-        String verseBody = verse.verseTextTashkel +
-            " " +
-            Utils.convertToArabiNumber(verse.verseID, reverse: false);
         return Stack(
           alignment: Alignment.topRight,
           clipBehavior: Clip.antiAlias,
@@ -57,29 +53,25 @@ class VerseList extends StatelessWidget {
                 left: 5,
                 right: 10,
               ),
-              title: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: verseBody,
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 28,
-                        fontFamily: "Usmani",
-                        color: isHighlighted
-                            ? Theme.of(context).colorScheme.secondary
-                            : null,
-                      ),
-                    ),
-                  ],
+              title: Text(
+                verse.verseTextTashkel +
+                    " " +
+                    Utils.convertToArabiNumber(verse.verseID, reverse: false),
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 28,
+                  fontFamily: "Usmani",
+                  color: isHighlighted
+                      ? Theme.of(context).colorScheme.secondary
+                      : null,
                 ),
               ),
-              subtitle: showEmla2y
-                  ? Text(
-                      verse.verseText,
-                      style: TextStyle(fontSize: 15),
-                    )
-                  : null,
+              subtitle: SelectableText(
+                verse.verseText,
+                style: TextStyle(fontSize: 20),
+                contextMenuBuilder: (context, editableTextState) =>
+                    CustomSerachToolbar(editableTextState: editableTextState),
+              ),
               selected: isHighlighted,
               onTap: () async => await this.onItemTap(verse),
               onLongPress: () async => await this.onItemLongTap(verse),

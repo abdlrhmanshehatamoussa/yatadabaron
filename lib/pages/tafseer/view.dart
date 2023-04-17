@@ -51,7 +51,7 @@ class TafseerPage extends StatelessWidget {
             height: 5,
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: SingleChildScrollView(
               child: FutureBuilder<Verse>(
                 future: backend.loadVerseDTO(),
@@ -63,6 +63,7 @@ class TafseerPage extends StatelessWidget {
                       chapterName: snapshot.data!.chapterName ?? "",
                       verseTextTashkeel: snapshot.data!.verseTextTashkel,
                       verseId: snapshot.data!.verseID,
+                      verseTextEmla2y: snapshot.data!.verseText,
                     );
                   }
                 },
@@ -74,7 +75,7 @@ class TafseerPage extends StatelessWidget {
             color: Theme.of(context).colorScheme.secondary,
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: FutureBuilder<List<TafseerSource>>(
               future: backend.getAvailableTafseers(),
               builder: (_,
