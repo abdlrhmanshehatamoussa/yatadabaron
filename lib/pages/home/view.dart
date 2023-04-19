@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
 import 'controller.dart';
@@ -43,6 +44,13 @@ class HomePage extends StatelessWidget {
         title: Localization.ABOUT,
         icon: Icons.help,
         onTap: backend.goAboutPage,
+      ),
+      HomeGridItemViewModel(
+        title: "الشكاوى و المقترحات",
+        icon: Icons.telegram,
+        onTap: () async {
+          launchUrl(Uri.parse("https://t.me/+4ynYuVL39TcxNDA0"));
+        },
       ),
     ];
 

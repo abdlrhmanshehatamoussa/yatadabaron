@@ -25,6 +25,7 @@ dependencies:
   archive: ^3.1.2
   simply: ^6.0.0
   connectivity_plus: ^2.3.0
+  url_launcher: ^6.1.10
   cloud_firestore: ^4.2.0
   firebase_app_check: ^0.1.1+7
   firebase_analytics: ^10.1.0
