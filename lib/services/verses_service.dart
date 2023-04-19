@@ -3,9 +3,7 @@ import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import '../../commons/database_mixin.dart';
 
-class VersesService
-    with DatabaseMixin
-    implements IVersesService {
+class VersesService with DatabaseMixin implements IVersesService {
   final String databaseFilePath;
 
   VersesService({
@@ -271,6 +269,40 @@ class VersesService
   }
 }
 
+class VerseServiceWeb extends IVersesService {
+  @override
+  Future<List<LetterFrequency>> getLetterFrequency(
+      BasicSearchSettings settings) async {
+    return [];
+  }
+
+  @override
+  Future<Verse> getSingleVerse(int verseId, int chapterId) async {
+    return Verse(
+      chapterId: chapterId,
+      verseID: verseId,
+      verseText: "Testing . ..",
+      verseTextTashkel: "Test test test",
+    );
+  }
+
+  @override
+  Future<List<Verse>> getVersesByChapterId(int? chapterId, bool basmala) async {
+    return [
+      Verse(
+        chapterId: chapterId ?? 0,
+        verseID: 1,
+        verseText: "Testing . ..",
+        verseTextTashkel: "Test test test",
+      )
+    ];
+  }
+
+  @override
+  Future<SearchResult> keywordSearch(KeywordSearchSettings settings) async {
+    return SearchResult(settings: settings, results: []);
+  }
+}
 
 
     //This approach depends on mapping the words across the Emla2y and Usmani text

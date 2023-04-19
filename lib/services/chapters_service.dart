@@ -2,9 +2,7 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/database_mixin.dart';
 
-class ChaptersService
-    with DatabaseMixin
-    implements IChaptersService {
+class ChaptersService with DatabaseMixin implements IChaptersService {
   final String databasePath;
 
   ChaptersService({
@@ -55,5 +53,24 @@ class ChaptersService
     }
 
     throw Exception("Invalid Chapter Id");
+  }
+}
+
+class ChaptersServiceWeb extends IChaptersService {
+  @override
+  Future<List<Chapter>> getAll() async {
+    return [
+      Chapter(chapterID: 1, chapterNameAR: "Test", chapterNameEN: "Test", location: ChapterLocation.MADANI, sajdaLocation: 0, verseCount: 1)
+    ];
+  }
+
+  @override
+  Future<Chapter> getChapter(int chapterID) async {
+    return Chapter(chapterID: 1, chapterNameAR: "Test", chapterNameEN: "Test", location: ChapterLocation.MADANI, sajdaLocation: 0, verseCount: 1);
+  }
+
+  @override
+  Future<String> getChapterName(int chapterID) async {
+    return "Test";
   }
 }
