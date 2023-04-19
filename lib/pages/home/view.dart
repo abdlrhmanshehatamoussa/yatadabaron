@@ -49,7 +49,10 @@ class HomePage extends StatelessWidget {
         title: "الشكاوى و المقترحات",
         icon: Icons.telegram,
         onTap: () async {
-          launchUrl(Uri.parse("https://t.me/+4ynYuVL39TcxNDA0"));
+          launchUrl(
+            Uri.parse("https://t.me/+4ynYuVL39TcxNDA0"),
+            mode: LaunchMode.externalApplication,
+          );
         },
       ),
     ];
