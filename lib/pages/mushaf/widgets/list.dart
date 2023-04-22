@@ -10,6 +10,7 @@ class VerseList extends StatelessWidget {
   final int startFromVerse;
   final int? highlightedVerse;
   final IconData? iconData;
+  final bool searchable;
   final Function(Verse verse) onItemTap;
   final Function(Verse verse) onItemLongTap;
 
@@ -20,6 +21,7 @@ class VerseList extends StatelessWidget {
     required this.startFromVerse,
     required this.highlightedVerse,
     required this.onItemLongTap,
+    required this.searchable,
   });
 
   @override
@@ -69,11 +71,16 @@ class VerseList extends StatelessWidget {
               subtitle: SelectableText(
                 verse.verseText,
                 style: TextStyle(fontSize: 20),
-                contextMenuBuilder: (context, editableTextState) =>
-                    CustomSerachToolbar(
-                  editableTextState: editableTextState,
-                  chapterId: verse.chapterId,
-                ),
+                contextMenuBuilder: (context, editableTextState) {
+                  return searchable
+                      ? CustomSerachToolbar(
+                          editableTextState: editableTextState,
+                          chapterId: verse.chapterId,
+                        )
+                      : AdaptiveTextSelectionToolbar.editableText(
+                          editableTextState: editableTextState,
+                        );
+                },
               ),
               selected: isHighlighted,
               onTap: () async => await this.onItemTap(verse),

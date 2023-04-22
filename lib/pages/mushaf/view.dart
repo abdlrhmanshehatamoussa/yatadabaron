@@ -79,6 +79,7 @@ class MushafPage extends StatelessWidget {
                   verses: state.verses,
                   highlightedVerse: highlightedVerseId,
                   startFromVerse: state.startFromVerse,
+                  searchable: state.mode != MushafMode.SEARCH,
                   iconData: icon,
                   onItemTap: backend.goTafseerPage,
                   onItemLongTap: (v) async => await backend.shareVerse(v),
