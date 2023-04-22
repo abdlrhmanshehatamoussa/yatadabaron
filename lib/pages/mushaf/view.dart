@@ -17,19 +17,21 @@ class MushafPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(
-      Duration.zero,
-      () async => await Utils.showFeatureUpdateDialog(
-        updateId: "mushaf_searchwhilereading_1",
-        context: context,
-        title: "آخر التحديثات",
-        imageUrl:
-            "https://raw.githubusercontent.com/abdlrhmanshehatamoussa/yatadabaron-assets/main/verse-search.jfif",
-        body: "* اضغط ضغطة مُطَوَّلة علي الآية للمشاركة"
-            "\n"
-            "* اضغط مرتين علي أي كلمة في الآية (الرسم الإملائي وليس العثماني) للبحث عنها في المصحف الشريف, كما هو موضح:",
-      ),
-    );
+    if (mushafSettings == null) {
+      Future.delayed(
+        Duration.zero,
+        () async => await Utils.showFeatureUpdateDialog(
+          updateId: "mushaf_searchwhilereading_1",
+          context: context,
+          title: "آخر التحديثات",
+          imageUrl:
+              "https://raw.githubusercontent.com/abdlrhmanshehatamoussa/yatadabaron-assets/main/verse-search.jfif",
+          body: "* اضغط ضغطة مُطَوَّلة علي الآية للمشاركة"
+              "\n"
+              "* اضغط مرتين علي أي كلمة في الآية (الرسم الإملائي وليس العثماني) للبحث عنها في المصحف الشريف, كما هو موضح:",
+        ),
+      );
+    }
     MushafController backend = MushafController(
       mushafSettings: this.mushafSettings,
     );
