@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
@@ -70,7 +71,10 @@ class VerseList extends StatelessWidget {
               ),
               subtitle: SelectableText(
                 verse.verseText,
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+                  fontSize: 17,
+                  fontFamily: Constants.EMLA2Y_FONT_NAME,
+                ),
                 contextMenuBuilder: (context, editableTextState) {
                   return searchable
                       ? CustomSerachToolbar(

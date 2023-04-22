@@ -51,3 +51,6 @@ flutter:
     - family: Usmani
       fonts:
         - asset: assets/fonts/UthmanicHafs1 Ver16.ttf
+    - family: Emla2y
+      fonts:
+        - asset: assets/fonts/NotoNaskhArabic-VariableFont_wght.ttf

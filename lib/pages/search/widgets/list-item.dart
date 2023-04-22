@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/commons/constants.dart';
 
 class SearchResultsListItem extends StatelessWidget {
   final String verseId;
@@ -25,6 +26,7 @@ class SearchResultsListItem extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.normal,
           fontSize: textSize,
+          fontFamily: Constants.EMLA2Y_FONT_NAME,
           color: slice.match ? matchColor : null,
         ),
       );
