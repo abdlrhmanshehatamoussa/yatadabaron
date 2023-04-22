@@ -15,7 +15,7 @@ class ChaptersDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 400,
       width: double.maxFinite,
       child: ListView.separated(
         separatorBuilder: (_, __) => Divider(),
