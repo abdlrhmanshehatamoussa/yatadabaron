@@ -88,7 +88,7 @@ class TafseerPageController {
       description: "download_tafseer",
       payload: {
         "tafseer_source_id": tafseerSourceID,
-        "tafseer_download_status": done
+        "tafseer_download_status": done.toString()
       },
     );
   }
