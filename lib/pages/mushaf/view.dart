@@ -17,7 +17,7 @@ class MushafPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (mushafSettings == null) {
+    if (mushafSettings == null || mushafSettings!.mode == MushafMode.BOOKMARK) {
       Future.delayed(
         Duration.zero,
         () async => await Utils.showFeatureUpdateDialog(
