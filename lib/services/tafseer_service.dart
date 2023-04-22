@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'package:archive/archive_io.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'dart:io';
-import 'package:archive/archive.dart';
+import 'package:path/path.dart';
 import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/file_helper.dart';
@@ -24,7 +26,8 @@ class TafseerService implements ITafseerService {
   }
 
   String _getFileName(int chapterId, int verseId, int tafseerId) {
-    return "$tafseerId.$chapterId.$verseId";
+    return join(
+        "tafseer", tafseerId.toString(), "$tafseerId.$chapterId.$verseId");
   }
 
   @override
@@ -56,10 +59,11 @@ class TafseerService implements ITafseerService {
       final Response response = await get(uri);
       if ((response.contentLength ?? 0) > 0 && response.bodyBytes.isNotEmpty) {
         final Archive archive = ZipDecoder().decodeBytes(response.bodyBytes);
-        for (ArchiveFile archiveFile in archive) {
-          File diskFile = await FileHelper.create(archiveFile.name);
-          await diskFile.writeAsBytes(archiveFile.content);
-        }
+        var outputDirectory = join(
+            (await getApplicationDocumentsDirectory()).path,
+            "tafseer",
+            tafseerId.toString());
+        extractArchiveToDisk(archive, outputDirectory);
         return true;
       }
     } catch (e) {
