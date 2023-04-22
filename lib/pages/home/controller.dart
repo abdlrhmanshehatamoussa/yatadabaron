@@ -1,8 +1,7 @@
 import 'package:yatadabaron/main.dart';
-import 'package:yatadabaron/pages/about/page.dart';
 import 'package:yatadabaron/pages/bookmarks/view.dart';
+import 'package:yatadabaron/pages/contact/page.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
-import 'package:yatadabaron/pages/release_notes/view.dart';
 import 'package:yatadabaron/pages/search/view.dart';
 import 'package:yatadabaron/pages/statistics/view.dart';
 
@@ -35,15 +34,9 @@ class HomeController {
     );
   }
 
-  void goReleaseNotesPage() {
+  void goContactPage() {
     appNavigator.pushWidget(
-      view: ReleaseNotesPage(),
-    );
-  }
-
-  void goAboutPage() {
-    appNavigator.pushWidget(
-      view: AboutPage(),
+      view: ContactPage(),
     );
   }
 }

@@ -37,9 +37,25 @@ class CustomDrawer extends StatelessWidget {
                 child: Column(
                   children: [
                     ListTile(
+                      title: Text(Localization.RELEASE_NOTES),
+                      trailing: Icon(
+                        Icons.new_releases,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      onTap: () => backend.goReleaseNotesPage(),
+                    ),
+                    ListTile(
+                      title: Text(Localization.ABOUT),
+                      trailing: Icon(
+                        Icons.question_mark,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      onTap: () => backend.goAboutPage(),
+                    ),
+                    ListTile(
                       title: Text(Localization.RATE),
                       trailing: Icon(
-                        Icons.star,
+                        Icons.rate_review,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
                       onTap: () async => await backend.rate(),

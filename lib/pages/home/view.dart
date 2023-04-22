@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
 import 'controller.dart';
@@ -36,24 +35,9 @@ class HomePage extends StatelessWidget {
         onTap: backend.goBookmarksPage,
       ),
       HomeGridItemViewModel(
-        title: Localization.RELEASE_NOTES,
-        icon: Icons.new_releases_rounded,
-        onTap: backend.goReleaseNotesPage,
-      ),
-      HomeGridItemViewModel(
-        title: Localization.ABOUT,
-        icon: Icons.help,
-        onTap: backend.goAboutPage,
-      ),
-      HomeGridItemViewModel(
-        title: "الشكاوى و المقترحات",
-        icon: Icons.telegram,
-        onTap: () async {
-          launchUrl(
-            Uri.parse("https://t.me/+4ynYuVL39TcxNDA0"),
-            mode: LaunchMode.externalApplication,
-          );
-        },
+        title: Localization.CONTACT_US,
+        icon: Icons.support_agent,
+        onTap: backend.goContactPage,
       ),
     ];
 
