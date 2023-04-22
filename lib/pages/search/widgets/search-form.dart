@@ -8,10 +8,12 @@ class SearchForm extends StatefulWidget {
     required this.chaptersFuture,
     required this.onSearch,
     required this.settings,
+    required this.showCloseButton,
   });
 
   final Future<List<Chapter>> chaptersFuture;
   final KeywordSearchSettings settings;
+  final bool showCloseButton;
   final Function(KeywordSearchSettings settings) onSearch;
 
   @override
@@ -21,6 +23,7 @@ class SearchForm extends StatefulWidget {
     required BuildContext context,
     required Future<List<Chapter>> chaptersFuture,
     required KeywordSearchSettings settings,
+    required bool closeButton,
     required Function(KeywordSearchSettings settings) onSearch,
   }) async {
     await showDialog(
@@ -34,6 +37,7 @@ class SearchForm extends StatefulWidget {
               child: SearchForm(
                 onSearch: onSearch,
                 settings: settings,
+                showCloseButton: closeButton,
                 chaptersFuture: chaptersFuture,
               ),
             )
@@ -84,7 +88,7 @@ class _State extends State<SearchForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               searchButton(context),
-              closeButton(context),
+              widget.showCloseButton ? closeButton(context) : Container(),
             ],
           )
         ],
@@ -214,12 +218,7 @@ class _State extends State<SearchForm> {
       child: _customButton(
         context: context,
         onTap: () async {
-          try {
-            await widget.onSearch(settings);
-          } catch (e) {
-            print(e);
-          }
-          Navigator.of(context).pop();
+          await widget.onSearch(settings);
         },
         text: Localization.SEARCH,
       ),

@@ -5,12 +5,14 @@ class CustomPageWrapper extends StatelessWidget {
   final Widget? floatingButton;
   final Widget? drawer;
   final String? pageTitle;
+  final bool centered;
 
   CustomPageWrapper({
     required this.child,
     this.pageTitle,
     this.drawer,
     this.floatingButton,
+    this.centered = true,
   });
 
   @override
@@ -33,7 +35,7 @@ class CustomPageWrapper extends StatelessWidget {
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(0),
-                alignment: Alignment.center,
+                alignment: centered ? Alignment.center : null,
                 child: this.child,
               ),
             ),

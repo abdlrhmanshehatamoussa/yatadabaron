@@ -66,15 +66,17 @@ class SearchPage extends StatelessWidget {
           context: context,
           settings: backend.settings,
           chaptersFuture: backend.getMushafChapters(),
-          onSearch: (KeywordSearchSettings settings) async =>
-              await backend.changeSettings(settings),
+          closeButton: true,
+          onSearch: (KeywordSearchSettings settings) async {
+            await backend.changeSettings(settings);
+            Navigator.of(context).pop();
+          },
         );
       },
       child: Icon(Icons.search),
       mini: true,
     );
 
-    Widget initialMessage = customText(Localization.TAP_SEARCH_BUTTON);
     Widget invalidSettingsMessage =
         customText(Localization.INVALID_SEARCH_SETTINGS);
 
@@ -82,11 +84,24 @@ class SearchPage extends StatelessWidget {
       stream: backend.stateStream,
       builder: (BuildContext context, AsyncSnapshot<SearchState> snapshot) {
         SearchState? state = snapshot.data;
+        if (state == null) {
+          return LoadingWidget();
+        }
         Widget? body;
         Widget? btn = floatingButton;
         switch (state) {
           case SearchState.INITIAL:
-            body = initialMessage;
+            body = Container(
+              padding: EdgeInsets.all(3),
+              child: SearchForm(
+                settings: backend.settings,
+                chaptersFuture: backend.getMushafChapters(),
+                showCloseButton: false,
+                onSearch: (KeywordSearchSettings settings) async =>
+                    await backend.changeSettings(settings),
+              ),
+            );
+            btn = null;
             break;
           case SearchState.IN_PROGRESS:
             body = LoadingWidget();
@@ -101,13 +116,11 @@ class SearchPage extends StatelessWidget {
           default:
             break;
         }
-        if (state == null) {
-          return LoadingWidget();
-        }
         return CustomPageWrapper(
           pageTitle: Localization.SEARCH_IN_QURAN,
           child: body,
           floatingButton: btn,
+          centered: false,
         );
       },
     );
