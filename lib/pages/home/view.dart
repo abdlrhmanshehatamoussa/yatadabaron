@@ -35,6 +35,11 @@ class HomePage extends StatelessWidget {
         onTap: backend.goBookmarksPage,
       ),
       HomeGridItemViewModel(
+        title: Localization.TARTEEL_PAGE,
+        icon: Icons.headset_rounded,
+        onTap: backend.goTarteelPage,
+      ),
+      HomeGridItemViewModel(
         title: Localization.CONTACT_US,
         icon: Icons.support_agent,
         onTap: backend.goContactPage,
