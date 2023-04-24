@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
@@ -15,19 +16,9 @@ class HomePage extends StatelessWidget {
     HomeController backend = HomeController();
     List<HomeGridItemViewModel> _gridItems = [
       HomeGridItemViewModel(
-        title: Localization.SEARCH_IN_QURAN,
-        icon: Icons.search,
-        onTap: backend.goSearchPage,
-      ),
-      HomeGridItemViewModel(
         title: Localization.MUSHAF_SHARIF,
         icon: Icons.book_sharp,
         onTap: backend.goMushafPage,
-      ),
-      HomeGridItemViewModel(
-        title: Localization.QURAN_STATISTICS,
-        icon: Icons.insert_chart_sharp,
-        onTap: backend.goStatisticsPage,
       ),
       HomeGridItemViewModel(
         title: Localization.BOOKMARKS,
@@ -40,6 +31,24 @@ class HomePage extends StatelessWidget {
         onTap: backend.goContactPage,
       ),
     ];
+    if (!kIsWeb) {
+      _gridItems.insert(
+        0,
+        HomeGridItemViewModel(
+          title: Localization.SEARCH_IN_QURAN,
+          icon: Icons.search,
+          onTap: backend.goSearchPage,
+        ),
+      );
+      _gridItems.insert(
+        2,
+        HomeGridItemViewModel(
+          title: Localization.QURAN_STATISTICS,
+          icon: Icons.insert_chart_sharp,
+          onTap: backend.goStatisticsPage,
+        ),
+      );
+    }
 
     return Scaffold(
       key: _key,

@@ -4,9 +4,9 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 
 class VerseServiceWeb extends IVersesService {
-  final String uthmaniEdition = "quran-uthmani";
+  final String simpleEdition = "quran-uthmani-min";
   final String cleanEdition = "quran-simple-clean";
-  String get editionsCommaSeparated => "$uthmaniEdition,$cleanEdition";
+  String get editionsCommaSeparated => "$simpleEdition,$cleanEdition";
 
   @override
   Future<List<LetterFrequency>> getLetterFrequency(
@@ -24,7 +24,7 @@ class VerseServiceWeb extends IVersesService {
         (element) => element["edition"]["identifier"] == cleanEdition);
 
     var tashkeelEdition = editions.firstWhere(
-        (element) => element["edition"]["identifier"] == uthmaniEdition);
+        (element) => element["edition"]["identifier"] == simpleEdition);
     return Verse(
       chapterId: chapterId,
       verseID: verseId,
@@ -43,7 +43,7 @@ class VerseServiceWeb extends IVersesService {
     var noTashkeelEdition = editions.firstWhere(
         (element) => element["edition"]["identifier"] == cleanEdition);
     var tashkeelEdition = editions.firstWhere(
-        (element) => element["edition"]["identifier"] == uthmaniEdition);
+        (element) => element["edition"]["identifier"] == simpleEdition);
     var result = <Verse>[];
     for (var i = 0; i < tashkeelEdition["ayahs"].length; i++) {
       var tashkeelAyah = tashkeelEdition["ayahs"][i];
