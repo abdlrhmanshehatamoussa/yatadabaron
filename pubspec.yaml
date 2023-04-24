@@ -29,6 +29,7 @@ dependencies:
   cloud_firestore: ^4.2.0
   firebase_app_check: ^0.1.1+7
   firebase_analytics: ^10.1.0
+  just_audio: ^0.9.32
     
 publish_to: none
 flutter_icons:
