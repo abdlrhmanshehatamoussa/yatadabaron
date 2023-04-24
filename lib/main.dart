@@ -109,48 +109,7 @@ Future<bool> register() async {
       method: InjectionMethod.singleton,
     );
 
-    if (kIsWeb) {
-      Simply.register<IChaptersService>(
-        service: ChaptersServiceWeb(),
-      );
-      Simply.register<IVersesService>(
-        service: VerseServiceWeb(),
-      );
-
-      Simply.register<IVersionInfoService>(
-        service: VersionInfoService(buildId: "0", versionName: "0.0.0"),
-        method: InjectionMethod.singleton,
-      );
-    } else {
-      var _info = await PackageInfo.fromPlatform();
-      Simply.register<IVersionInfoService>(
-        service: VersionInfoService(
-          buildId: _info.buildNumber,
-          versionName: _info.version,
-        ),
-        method: InjectionMethod.singleton,
-      );
-
-      //Initialize database provider
-      String databaseFilePath = await DatabaseHelper.initializeDatabase(
-        dbAssetsDirectory: Constants.ASSETS_DB_DIRECTORY,
-        dbAssetsName: Constants.ASSETS_DB_NAME,
-      );
-      Simply.register<IChaptersService>(
-        service: ChaptersService(databasePath: databaseFilePath),
-      );
-      Simply.register<IVersesService>(
-        service: VersesService(databaseFilePath: databaseFilePath),
-      );
-    }
-
-    Simply.register<ITafseerService>(
-      service: TafseerService(
-        tafseerURL: "https://github.com/abdlrhmanshehatamoussa/quran_tafseer",
-        networkDetectorService: networkDetectorService,
-      ),
-      method: InjectionMethod.singleton,
-    );
+    await registerPlatformSpecificDependencies();
     Simply.register<IReleaseInfoService>(
       service: ReleaseInfoService(
         localRepository: new SharedPrefRepository(
@@ -198,6 +157,61 @@ Future<bool> register() async {
   }
 }
 
+Future<void> registerPlatformSpecificDependencies() async {
+  //ITafseerService
+  var tafseerURL = "https://github.com/abdlrhmanshehatamoussa/quran_tafseer";
+  Simply.register<ITafseerService>(
+    service: kIsWeb
+        ? TafseerServiceWeb(
+            tafseerURL: tafseerURL,
+          )
+        : TafseerService(
+            tafseerURL: tafseerURL,
+            networkDetectorService: NetworkDetectorService(),
+          ),
+    method: InjectionMethod.singleton,
+  );
+
+  //IVersionService
+  if (kIsWeb) {
+    Simply.register<IVersionInfoService>(
+      service: VersionInfoService(buildId: "0", versionName: "0.0.0"),
+      method: InjectionMethod.singleton,
+    );
+  } else {
+    var _info = await PackageInfo.fromPlatform();
+    Simply.register<IVersionInfoService>(
+      service: VersionInfoService(
+        buildId: _info.buildNumber,
+        versionName: _info.version,
+      ),
+      method: InjectionMethod.singleton,
+    );
+  }
+
+  //IChapterService + IVerseService
+  if (kIsWeb) {
+    Simply.register<IChaptersService>(
+      service: ChaptersServiceWeb(),
+    );
+    Simply.register<IVersesService>(
+      service: VerseServiceWeb(),
+    );
+  } else {
+    //Initialize database provider
+    String databaseFilePath = await DatabaseHelper.initializeDatabase(
+      dbAssetsDirectory: Constants.ASSETS_DB_DIRECTORY,
+      dbAssetsName: Constants.ASSETS_DB_NAME,
+    );
+    Simply.register<IChaptersService>(
+      service: ChaptersService(databasePath: databaseFilePath),
+    );
+    Simply.register<IVersesService>(
+      service: VersesService(databaseFilePath: databaseFilePath),
+    );
+  }
+}
+
 Future<void> init() async {
   //Firebase
   await Firebase.initializeApp(
@@ -206,7 +220,8 @@ Future<void> init() async {
   await FirebaseAppCheck.instance.activate(
     androidProvider:
         kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
-    webRecaptchaSiteKey: kReleaseMode ? "" : "AC7307BF-240F-47E3-9F4D-F644F4D284D0",
+    webRecaptchaSiteKey:
+        kReleaseMode ? "" : "AC7307BF-240F-47E3-9F4D-F644F4D284D0",
   );
 
   try {
