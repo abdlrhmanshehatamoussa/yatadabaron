@@ -109,7 +109,7 @@ Future<bool> register() async {
       method: InjectionMethod.singleton,
     );
 
-    await registerPlatformSpecificDependencies();
+    await registerPlatformSpecificDependencies(_pref);
     Simply.register<IReleaseInfoService>(
       service: ReleaseInfoService(
         localRepository: new SharedPrefRepository(
@@ -121,20 +121,6 @@ Future<bool> register() async {
           collectionName: "releases",
         ),
         networkDetector: networkDetectorService,
-      ),
-      method: InjectionMethod.singleton,
-    );
-    Simply.register<ITafseerSourcesService>(
-      service: TafseerSourcesService(
-        localRepo: new SharedPrefRepository<TafseerSource>(
-          preferences: _pref,
-          mapper: new TafseerSourceMapper(),
-        ),
-        remoteRepo: new FirebaseRemoteRepository(
-          mapper: new TafseerSourceMapper(),
-          collectionName: "tafseer_sources",
-        ),
-        networkDetectorService: networkDetectorService,
       ),
       method: InjectionMethod.singleton,
     );
@@ -157,7 +143,9 @@ Future<bool> register() async {
   }
 }
 
-Future<void> registerPlatformSpecificDependencies() async {
+Future<void> registerPlatformSpecificDependencies(
+  SharedPreferences _pref,
+) async {
   //ITafseerService
   var tafseerURL = "https://github.com/abdlrhmanshehatamoussa/quran_tafseer";
   Simply.register<ITafseerService>(
@@ -171,6 +159,36 @@ Future<void> registerPlatformSpecificDependencies() async {
           ),
     method: InjectionMethod.singleton,
   );
+
+  //ITafseerSourceService
+  if (kIsWeb) {
+    Simply.register<ITafseerSourcesService>(
+      service: TafseerSourcesServiceWeb(
+        localRepo: SharedPrefRepository<TafseerSource>(
+          preferences: _pref,
+          mapper: TafseerSourceMapper(),
+        ),
+        remoteRepo: TafseerSourceRemoteRepoWeb(),
+        networkDetectorService: NetworkDetectorService(),
+      ),
+      method: InjectionMethod.singleton,
+    );
+  } else {
+    Simply.register<ITafseerSourcesService>(
+      service: TafseerSourcesService(
+        localRepo: SharedPrefRepository<TafseerSource>(
+          preferences: _pref,
+          mapper: TafseerSourceMapper(),
+        ),
+        remoteRepo: FirebaseRemoteRepository(
+          mapper: TafseerSourceMapper(),
+          collectionName: "tafseer_sources",
+        ),
+        networkDetectorService: NetworkDetectorService(),
+      ),
+      method: InjectionMethod.singleton,
+    );
+  }
 
   //IVersionService
   if (kIsWeb) {

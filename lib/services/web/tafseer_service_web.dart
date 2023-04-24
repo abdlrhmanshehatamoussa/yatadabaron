@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 
@@ -13,9 +15,11 @@ class TafseerServiceWeb extends ITafseerService {
     int verseId,
     int chapterId,
   ) async {
-    var key = "$tafseerId.$chapterId.$verseId";
+    var response = await get(Uri.parse(
+        "http://api.quran-tafseer.com/tafseer/$tafseerId/$chapterId/$verseId"));
+    var body = jsonDecode(utf8.decode(response.bodyBytes));
     return VerseTafseer(
-      tafseerText: "N/A",
+      tafseerText: body["text"],
       tafseerSourceID: tafseerId,
       verseId: verseId,
     );
