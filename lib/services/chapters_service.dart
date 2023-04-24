@@ -55,22 +55,3 @@ class ChaptersService with DatabaseMixin implements IChaptersService {
     throw Exception("Invalid Chapter Id");
   }
 }
-
-class ChaptersServiceWeb extends IChaptersService {
-  @override
-  Future<List<Chapter>> getAll() async {
-    return [
-      Chapter(chapterID: 1, chapterNameAR: "Test", chapterNameEN: "Test", location: ChapterLocation.MADANI, sajdaLocation: 0, verseCount: 1)
-    ];
-  }
-
-  @override
-  Future<Chapter> getChapter(int chapterID) async {
-    return Chapter(chapterID: 1, chapterNameAR: "Test", chapterNameEN: "Test", location: ChapterLocation.MADANI, sajdaLocation: 0, verseCount: 1);
-  }
-
-  @override
-  Future<String> getChapterName(int chapterID) async {
-    return "Test";
-  }
-}

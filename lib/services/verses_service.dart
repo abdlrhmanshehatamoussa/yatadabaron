@@ -269,42 +269,6 @@ class VersesService with DatabaseMixin implements IVersesService {
   }
 }
 
-class VerseServiceWeb extends IVersesService {
-  @override
-  Future<List<LetterFrequency>> getLetterFrequency(
-      BasicSearchSettings settings) async {
-    return [];
-  }
-
-  @override
-  Future<Verse> getSingleVerse(int verseId, int chapterId) async {
-    return Verse(
-      chapterId: chapterId,
-      verseID: verseId,
-      verseText: "Testing . ..",
-      verseTextTashkel: "Test test test",
-    );
-  }
-
-  @override
-  Future<List<Verse>> getVersesByChapterId(int? chapterId, bool basmala) async {
-    return [
-      Verse(
-        chapterId: chapterId ?? 0,
-        verseID: 1,
-        verseText: "Testing . ..",
-        verseTextTashkel: "Test test test",
-      )
-    ];
-  }
-
-  @override
-  Future<SearchResult> keywordSearch(KeywordSearchSettings settings) async {
-    return SearchResult(settings: settings, results: []);
-  }
-}
-
-
     //This approach depends on mapping the words across the Emla2y and Usmani text
     // List<String> textEmla2yWords = textEmla2y.split(" ");
     // List<String> textTashkelWords = textTashkel.split(" ");
