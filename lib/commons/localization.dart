@@ -13,10 +13,10 @@ class Localization {
   static const String WHOLE_WORD = 'كلمة مستقلة';
   static const String WITHIN_VERSE = 'جزء من كلمة';
   static const String CHAPTER = 'السورة';
-  static const String EMPTY_SEARCH_RESULTS = 'لم يتم العثور علي نتائج.';
+  static const String EMPTY_SEARCH_RESULTS = 'لم يتم العثور على نتائج.';
   static const String TAP_SEARCH_BUTTON = 'اضغط علامة البحث للبدء';
   static const String SEARCH_SUMMARY =
-      'تم العثور علي (#) لكلمة (#) في (#), نوع البحث (#), فيما يلي النتائج بالرسم الإملائي';
+      'تم العثور على (#) لكلمة (#) في (#), نوع البحث (#), فيما يلي النتائج بالرسم الإملائي';
   static const String CLOSE = 'الخروج';
   static const String SEARCH_ERROR =
       'حدث خطأ ما أثناء البحث, برجاء المحاولة مرة آخري أو التواصل مع ادارة التطبيق';
@@ -30,7 +30,7 @@ class Localization {
   static const String WHOLE_QURAN = 'القرآن الكريم كاملاً';
   static const String QURAN_STATISTICS = 'احصائيات القرآن';
   static const String TAP_STAT_BUTTON =
-      'اضغط علي علامة الرسم البياني لاظهار الاحصائيات';
+      'اضغط على علامة الرسم البياني لاظهار الاحصائيات';
   static const String FREQUENCY = 'التكرار';
   static const String LETTER = 'الحرف';
   static const String STATISTICS_SUMMARY =
