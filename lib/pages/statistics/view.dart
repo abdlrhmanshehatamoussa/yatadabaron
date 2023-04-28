@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/pages/statistics/controller.dart';
 import './widgets/frequency-chart.dart';
 import './widgets/frequency-table.dart';
@@ -40,26 +39,27 @@ class StatisticsPage extends StatelessWidget {
       ],
     );
 
-    Widget initialMessage = Text(
-      Localization.TAP_STAT_BUTTON,
-      style: Utils.emptyListStyle(),
-    );
-
     return CustomPageWrapper(
       pageTitle: Localization.QURAN_STATISTICS,
+      centered: false,
       child: StreamBuilder<SearchState>(
         stream: backend.stateStream,
         builder: (_, AsyncSnapshot<SearchState> snapshot) {
           if (snapshot.hasData) {
             switch (snapshot.data) {
-              case SearchState.INITIAL:
-                return initialMessage;
               case SearchState.IN_PROGRESS:
                 return LoadingWidget();
               case SearchState.DONE:
                 return resultsArea;
+              case SearchState.INITIAL:
               default:
-                return initialMessage;
+                return StatisticsForm(
+                  onFormSubmit: (BasicSearchSettings searchSettings) async {
+                    await backend.changeSettings(searchSettings);
+                  },
+                  chaptersFuture: backend.getMushafChapters(),
+                  showCloseButton: false,
+                );
             }
           }
           return LoadingWidget();

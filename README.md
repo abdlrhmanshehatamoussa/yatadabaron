@@ -1,9 +1,10 @@
+
 # yatadabaron
 Open source search engine for Holy Quran
 
-# TO DO
-[x] Allow copying more than one verse
-[] Play audio for single verse
-[] Keep screen on while reading
-[] Increase reading space in Mushaf
-[] Remove unnecessary page in Letter Statistics Page
+## Features
+- [x] Allow copying more than one verse
+- [x] Increase reading space in Mushaf
+- [x] Remove unnecessary page in Letter Statistics Page 
+- [ ] Play audio for single verse
+-  ~~Keep screen on while reading~~

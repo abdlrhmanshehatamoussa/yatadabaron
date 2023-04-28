@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/pages/drawer/view.dart';
@@ -31,7 +30,7 @@ class HomePage extends StatelessWidget {
         onTap: backend.goContactPage,
       ),
     ];
-    if (!kIsWeb) {
+    if (true) {
       _gridItems.insert(
         0,
         HomeGridItemViewModel(

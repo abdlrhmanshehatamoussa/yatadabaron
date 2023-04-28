@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 
 class StatisticsForm extends StatefulWidget {
   final void Function(BasicSearchSettings) onFormSubmit;
+  final bool showCloseButton;
   final Future<List<Chapter>> chaptersFuture;
 
   const StatisticsForm({
     Key? key,
     required this.onFormSubmit,
     required this.chaptersFuture,
+    required this.showCloseButton,
   }) : super(key: key);
 
   @override
@@ -32,6 +34,7 @@ class StatisticsForm extends StatefulWidget {
               child: StatisticsForm(
                 chaptersFuture: chaptersFuture,
                 onFormSubmit: onFormSubmit,
+                showCloseButton: true,
               ),
             )
           ],
@@ -43,6 +46,71 @@ class StatisticsForm extends StatefulWidget {
 
 class _State extends State<StatisticsForm> {
   BasicSearchSettings settings = BasicSearchSettings();
+
+  @override
+  Widget build(BuildContext context) {
+    Widget _chaptersWidget = Container();
+    if (settings.wholeQuran == false) {
+      _chaptersWidget = chapterWidget(
+        chaptersFuture: widget.chaptersFuture,
+        value: settings.chapterId,
+        onChanged: (int? id) {
+          setState(() {
+            if (id != null) {
+              settings = settings.updateChapterId(id);
+            }
+          });
+        },
+      );
+    }
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          _switch(
+            title: Localization.SEARCH_IN_WHOLE_QURAN,
+            value: settings.wholeQuran,
+            onChanged: (bool whole) {
+              setState(() {
+                if (whole) {
+                  settings = settings.updateChapterId(null);
+                } else {
+                  settings = settings.updateChapterId(1);
+                }
+              });
+            },
+          ),
+          _chaptersWidget,
+          settings.wholeQuran ? Container() : Divider(),
+          _switch(
+            title: Localization.BASMALA_MODE,
+            value: settings.basmala,
+            onChanged: (bool basmala) {
+              setState(() {
+                settings = settings.updateBasmala(basmala);
+              });
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(5),
+                child: _customButton(
+                    context: context,
+                    onPressed: () {
+                      widget.onFormSubmit(settings);
+                      Navigator.of(context).pop();
+                    },
+                    text: Localization.SEARCH),
+              ),
+              widget.showCloseButton ? closeButton(context) : Container(),
+            ],
+          )
+        ],
+      ),
+      scrollDirection: Axis.vertical,
+    );
+  }
 
   Widget chapterWidget({
     required Future<List<Chapter>> chaptersFuture,
@@ -109,71 +177,6 @@ class _State extends State<StatisticsForm> {
             Navigator.of(context).pop();
           },
           text: Localization.CLOSE),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Widget _chaptersWidget = Container();
-    if (settings.wholeQuran == false) {
-      _chaptersWidget = chapterWidget(
-        chaptersFuture: widget.chaptersFuture,
-        value: settings.chapterId,
-        onChanged: (int? id) {
-          setState(() {
-            if (id != null) {
-              settings = settings.updateChapterId(id);
-            }
-          });
-        },
-      );
-    }
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          _switch(
-            title: Localization.SEARCH_IN_WHOLE_QURAN,
-            value: settings.wholeQuran,
-            onChanged: (bool whole) {
-              setState(() {
-                if (whole) {
-                  settings = settings.updateChapterId(null);
-                } else {
-                  settings = settings.updateChapterId(1);
-                }
-              });
-            },
-          ),
-          _chaptersWidget,
-          settings.wholeQuran ? Container() : Divider(),
-          _switch(
-            title: Localization.BASMALA_MODE,
-            value: settings.basmala,
-            onChanged: (bool basmala) {
-              setState(() {
-                settings = settings.updateBasmala(basmala);
-              });
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(5),
-                child: _customButton(
-                    context: context,
-                    onPressed: () {
-                      widget.onFormSubmit(settings);
-                      Navigator.of(context).pop();
-                    },
-                    text: Localization.SEARCH),
-              ),
-              closeButton(context),
-            ],
-          )
-        ],
-      ),
-      scrollDirection: Axis.vertical,
     );
   }
 }
