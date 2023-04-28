@@ -103,6 +103,7 @@ class _MushafPageState extends State<MushafPage> {
                         onPressed: () {
                           setState(() {
                             showEmla2y = !showEmla2y;
+                            showFeatureDialog();
                           });
                         },
                         icon: Icon(

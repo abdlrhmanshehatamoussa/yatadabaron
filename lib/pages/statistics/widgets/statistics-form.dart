@@ -5,43 +5,16 @@ import 'package:flutter/material.dart';
 
 class StatisticsForm extends StatefulWidget {
   final void Function(BasicSearchSettings) onFormSubmit;
-  final bool showCloseButton;
   final Future<List<Chapter>> chaptersFuture;
 
   const StatisticsForm({
     Key? key,
     required this.onFormSubmit,
     required this.chaptersFuture,
-    required this.showCloseButton,
   }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _State();
-
-  static Future<void> show({
-    required BuildContext context,
-    required void Function(BasicSearchSettings) onFormSubmit,
-    required Future<List<Chapter>> chaptersFuture,
-  }) async {
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(10),
-              child: StatisticsForm(
-                chaptersFuture: chaptersFuture,
-                onFormSubmit: onFormSubmit,
-                showCloseButton: true,
-              ),
-            )
-          ],
-        );
-      },
-    );
-  }
 }
 
 class _State extends State<StatisticsForm> {
@@ -95,15 +68,13 @@ class _State extends State<StatisticsForm> {
             children: <Widget>[
               Container(
                 padding: EdgeInsets.all(5),
-                child: _customButton(
-                    context: context,
-                    onPressed: () {
-                      widget.onFormSubmit(settings);
-                      Navigator.of(context).pop();
-                    },
-                    text: Localization.SEARCH),
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.onFormSubmit(settings);
+                  },
+                  child: Text(Localization.SEARCH),
+                ),
               ),
-              widget.showCloseButton ? closeButton(context) : Container(),
             ],
           )
         ],
@@ -157,26 +128,6 @@ class _State extends State<StatisticsForm> {
         value: value,
         onChanged: onChanged,
       ),
-    );
-  }
-
-  Widget _customButton(
-      {required BuildContext context,
-      Function? onPressed,
-      required String text}) {
-    return ElevatedButton(
-        onPressed: onPressed as void Function()?, child: Text(text));
-  }
-
-  Widget closeButton(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(5),
-      child: _customButton(
-          context: context,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          text: Localization.CLOSE),
     );
   }
 }

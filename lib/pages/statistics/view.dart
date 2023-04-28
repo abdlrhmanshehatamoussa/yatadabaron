@@ -12,72 +12,71 @@ class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     StatisticsController backend = StatisticsController();
-    Widget resultsArea = Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        StatisticsSummaryWidget(
-          payloadStream: backend.payloadStream,
-        ),
-        Divider(
-          height: 1,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        Expanded(
-          child: FrequencyChart(
-            payloadStream: backend.payloadStream,
-          ),
-          flex: 3,
-        ),
-        Divider(),
-        Expanded(
-          child: FrequencyTable(
-            payloadStream: backend.payloadStream,
-          ),
-          flex: 2,
-        ),
-      ],
-    );
 
-    return CustomPageWrapper(
-      pageTitle: Localization.QURAN_STATISTICS,
-      centered: false,
-      child: StreamBuilder<SearchState>(
-        stream: backend.stateStream,
-        builder: (_, AsyncSnapshot<SearchState> snapshot) {
-          if (snapshot.hasData) {
-            switch (snapshot.data) {
-              case SearchState.IN_PROGRESS:
-                return LoadingWidget();
-              case SearchState.DONE:
-                return resultsArea;
-              case SearchState.INITIAL:
-              default:
-                return StatisticsForm(
-                  onFormSubmit: (BasicSearchSettings searchSettings) async {
-                    await backend.changeSettings(searchSettings);
-                  },
-                  chaptersFuture: backend.getMushafChapters(),
-                  showCloseButton: false,
-                );
-            }
-          }
+    return StreamBuilder<SearchState>(
+      stream: backend.stateStream,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
           return LoadingWidget();
-        },
-      ),
-      floatingButton: FloatingActionButton(
-        child: Icon(Icons.insert_chart),
-        mini: true,
-        onPressed: () async {
-          await StatisticsForm.show(
-            context: context,
-            chaptersFuture: backend.getMushafChapters(),
-            onFormSubmit: (BasicSearchSettings searchSettings) async {
-              await backend.changeSettings(searchSettings);
-            },
-          );
-        },
-      ),
+        }
+        Widget body;
+        Widget? btn;
+        switch (snapshot.data) {
+          case SearchState.IN_PROGRESS:
+            body = LoadingWidget();
+            break;
+          case SearchState.DONE:
+            body = Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                StatisticsSummaryWidget(
+                  payloadStream: backend.payloadStream,
+                ),
+                Divider(
+                  height: 1,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                Expanded(
+                  child: FrequencyChart(
+                    payloadStream: backend.payloadStream,
+                  ),
+                  flex: 3,
+                ),
+                Divider(),
+                Expanded(
+                  child: FrequencyTable(
+                    payloadStream: backend.payloadStream,
+                  ),
+                  flex: 2,
+                ),
+              ],
+            );
+            btn = FloatingActionButton(
+              child: Icon(Icons.insert_chart),
+              mini: true,
+              onPressed: () {
+                backend.resetState();
+              },
+            );
+            break;
+          case SearchState.INITIAL:
+          default:
+            body = StatisticsForm(
+              onFormSubmit: (BasicSearchSettings searchSettings) async {
+                await backend.changeSettings(searchSettings);
+              },
+              chaptersFuture: backend.getMushafChapters(),
+            );
+            break;
+        }
+        return CustomPageWrapper(
+          pageTitle: Localization.QURAN_STATISTICS,
+          centered: false,
+          child: body,
+          floatingButton: btn,
+        );
+      },
     );
   }
 }

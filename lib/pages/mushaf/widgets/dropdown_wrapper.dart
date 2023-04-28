@@ -64,7 +64,7 @@ class MushafDropDownWrapper extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: "   (${chapterSummary(selectedChapter)})",
+                    text: "\n${chapterSummary(selectedChapter)}",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
