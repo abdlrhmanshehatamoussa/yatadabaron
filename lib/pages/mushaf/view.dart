@@ -22,6 +22,8 @@ class _MushafPageState extends State<MushafPage> {
   List<int> selectedIds = [];
   MushafController backend = MushafController();
   MushafPageState? state;
+  bool showEmla2y = false;
+  bool fullScreen = false;
 
   @override
   void initState() {
@@ -64,24 +66,55 @@ class _MushafPageState extends State<MushafPage> {
               color: Theme.of(context).primaryColor,
             ),
           ),
-          Container(
-            color: Theme.of(context).primaryColor,
-            child: MushafDropDownWrapper(
-              onChapterSelected: (Chapter chapter) async {
-                selectedIds = [];
-                state = await backend.reloadVerses(
-                  MushafSettings.fromSelection(
-                    chapterId: chapter.chapterID,
-                    verseId: 1,
+          !fullScreen
+              ? Container(
+                  color: Theme.of(context).primaryColor,
+                  padding: EdgeInsets.all(5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: MushafDropDownWrapper(
+                          onChapterSelected: (Chapter chapter) async {
+                            selectedIds = [];
+                            state = await backend.reloadVerses(
+                              MushafSettings.fromSelection(
+                                chapterId: chapter.chapterID,
+                                verseId: 1,
+                              ),
+                            );
+                            setState(() {});
+                          },
+                          chapters: state!.chapters,
+                          selectedChapter: state!.chapter,
+                          onBack: () => Navigator.of(context).pop(),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            fullScreen = true;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.fullscreen,
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            showEmla2y = !showEmla2y;
+                          });
+                        },
+                        icon: Icon(
+                          showEmla2y ? Icons.close : Icons.search,
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                      ),
+                    ],
                   ),
-                );
-                setState(() {});
-              },
-              chapters: state!.chapters,
-              selectedChapter: state!.chapter,
-              onBack: () => Navigator.of(context).pop(),
-            ),
-          ),
+                )
+              : Container(),
           Expanded(
             flex: 1,
             child: VerseList(
@@ -90,6 +123,7 @@ class _MushafPageState extends State<MushafPage> {
               startFromVerse: state!.startFromVerse,
               searchable: state!.mode != MushafMode.SEARCH,
               iconData: icon,
+              showEmla2y: showEmla2y,
               onItemTap: (v) {
                 if (selectedIds.isEmpty) {
                   backend.goTafseerPage(v);
@@ -172,6 +206,17 @@ class _MushafPageState extends State<MushafPage> {
               : Container(),
         ],
       ),
+      floatingActionButton: fullScreen
+          ? FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  fullScreen = false;
+                });
+              },
+              child: Icon(Icons.fullscreen_exit),
+              mini: true,
+            )
+          : null,
     );
   }
 

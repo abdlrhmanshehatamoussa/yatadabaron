@@ -38,55 +38,36 @@ class MushafDropDownWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? chName = selectedChapter.chapterNameAR;
-    String title = chName;
     return Row(
       children: [
-        GestureDetector(
-          child: Container(
-            padding: EdgeInsets.all(25),
-            child: Icon(
-              Icons.arrow_back,
-              color: Theme.of(context).colorScheme.onBackground,
-              size: 28,
-            ),
+        IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).colorScheme.onBackground,
+            size: 28,
           ),
-          onTap: onBack,
+          onPressed: onBack,
         ),
         Expanded(
           child: GestureDetector(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: ListTile(
-                    title: Text(
-                      title,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "Arial",
-                        color: Theme.of(context).colorScheme.onBackground,
-                        fontSize: 22,
-                      ),
-                    ),
-                    subtitle: Text(
-                      chapterSummary(selectedChapter),
-                      style: TextStyle(
-                        fontFamily: "Arial",
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: "${selectedChapter.chapterNameAR}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Arial",
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 22,
                     ),
                   ),
-                  flex: 5,
-                ),
-                Expanded(
-                  child: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-                  flex: 1,
-                )
-              ],
+                  TextSpan(
+                    text: "   (${chapterSummary(selectedChapter)})",
+                    style: TextStyle(color: Theme.of(context).colorScheme.onBackground)
+                  )
+                ],
+              ),
             ),
             onTap: () async {
               await ChaptersDropDown.show(
