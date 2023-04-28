@@ -92,6 +92,8 @@ class _MushafPageState extends State<MushafPage> {
                         onPressed: () {
                           setState(() {
                             fullScreen = true;
+                            showEmla2y = false;
+                            selectedIds.clear();
                           });
                         },
                         icon: Icon(
@@ -102,8 +104,12 @@ class _MushafPageState extends State<MushafPage> {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            showEmla2y = !showEmla2y;
-                            showFeatureDialog();
+                            if (showEmla2y) {
+                              showEmla2y = false;
+                            } else {
+                              showEmla2y = true;
+                              showFeatureDialog();
+                            }
                           });
                         },
                         icon: Icon(

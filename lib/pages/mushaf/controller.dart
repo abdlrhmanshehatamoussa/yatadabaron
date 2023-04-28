@@ -63,13 +63,15 @@ class MushafController {
       return;
     }
     List<String> lines = [];
+    String? chapterName;
     for (var verse in verses) {
       verse =
           await versesService.getSingleVerse(verse.verseID, verse.chapterId);
+      chapterName = verse.chapterName;
       String line = "${verse.verseTextTashkel} {${verse.verseID}}";
       lines.add(line);
     }
-    var toShare = "${verses[0].chapterName}\n" + lines.join("\n");
+    var toShare = "$chapterName\n" + lines.join("\n");
     await Share.share(toShare);
   }
 }
