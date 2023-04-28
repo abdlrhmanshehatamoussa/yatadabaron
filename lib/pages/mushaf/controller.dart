@@ -10,21 +10,13 @@ import 'view_models/mushaf_state.dart';
 import '../_viewmodels/module.dart';
 
 class MushafController {
-  MushafController({
-    required this.mushafSettings,
-  }) {
-    reloadVerses(mushafSettings);
-  }
+  MushafController();
 
-  final MushafSettings? mushafSettings;
   late IChaptersService chaptersService = Simply.get<IChaptersService>();
   late IVersesService versesService = Simply.get<IVersesService>();
   late IBookmarksService bookmarksService = Simply.get<IBookmarksService>();
 
-  StreamObject<MushafPageState> _stateStreamObj = StreamObject();
-  Stream<MushafPageState> get stateStream => _stateStreamObj.stream;
-
-  Future reloadVerses(MushafSettings? mushafSettings) async {
+  Future<MushafPageState> reloadVerses(MushafSettings? mushafSettings) async {
     if (mushafSettings == null) {
       Bookmark? lastBookmark = await bookmarksService.getLastBookmark();
       if (lastBookmark != null) {
@@ -54,16 +46,7 @@ class MushafController {
       mode: mushafSettings.mode,
       chapters: chapters,
     );
-    _stateStreamObj.add(state);
-  }
-
-  Future<void> onChapterSelected(Chapter chapter) async {
-    await reloadVerses(
-      MushafSettings.fromSelection(
-        chapterId: chapter.chapterID,
-        verseId: 1,
-      ),
-    );
+    return state;
   }
 
   void goTafseerPage(Verse verse) {
