@@ -37,7 +37,6 @@ class _MushafPageState extends State<MushafPage> {
 
   @override
   Widget build(BuildContext context) {
-    showFeatureDialog();
     int? highlightedVerseId;
     IconData? icon;
     if (state == null) {
