@@ -10,6 +10,7 @@ class VerseList extends StatelessWidget {
   final List<Verse> verses;
   final int startFromVerse;
   final int? highlightedVerse;
+  final List<int> selectedVerses;
   final IconData? iconData;
   final bool searchable;
   final Function(Verse verse) onItemTap;
@@ -23,6 +24,7 @@ class VerseList extends StatelessWidget {
     required this.highlightedVerse,
     required this.onItemLongTap,
     required this.searchable,
+    required this.selectedVerses,
   });
 
   @override
@@ -86,6 +88,12 @@ class VerseList extends StatelessWidget {
                         );
                 },
               ),
+              leading: selectedVerses.contains(verse.verseID)
+                  ? Icon(
+                      Icons.check_circle,
+                      color: Theme.of(context).colorScheme.secondary,
+                    )
+                  : null,
               selected: isHighlighted,
               onTap: () async => await this.onItemTap(verse),
               onLongPress: () async => await this.onItemLongTap(verse),

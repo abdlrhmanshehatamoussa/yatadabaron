@@ -8,7 +8,7 @@ import '../_viewmodels/module.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 import './widgets/list.dart';
 
-class MushafPage extends StatelessWidget {
+class MushafPage extends StatefulWidget {
   final MushafSettings? mushafSettings;
 
   MushafPage({
@@ -16,8 +16,15 @@ class MushafPage extends StatelessWidget {
   });
 
   @override
+  State<StatefulWidget> createState() => _MushafPageState();
+}
+
+class _MushafPageState extends State<MushafPage> {
+  List<int> selectedIds = [];
+  @override
   Widget build(BuildContext context) {
-    if (mushafSettings == null || mushafSettings!.mode == MushafMode.BOOKMARK) {
+    if (widget.mushafSettings == null ||
+        widget.mushafSettings!.mode == MushafMode.BOOKMARK) {
       Future.delayed(
         Duration.zero,
         () async => await Utils.showFeatureUpdateDialog(
@@ -33,7 +40,7 @@ class MushafPage extends StatelessWidget {
       );
     }
     MushafController backend = MushafController(
-      mushafSettings: this.mushafSettings,
+      mushafSettings: widget.mushafSettings,
     );
     return Scaffold(
       body: StreamBuilder<MushafPageState>(
@@ -81,10 +88,88 @@ class MushafPage extends StatelessWidget {
                   startFromVerse: state.startFromVerse,
                   searchable: state.mode != MushafMode.SEARCH,
                   iconData: icon,
-                  onItemTap: backend.goTafseerPage,
-                  onItemLongTap: (v) async => await backend.shareVerse(v),
+                  onItemTap: (v) {
+                    if (selectedIds.isEmpty) {
+                      backend.goTafseerPage(v);
+                    } else {
+                      setState(() {
+                        if (selectedIds.contains(v.verseID)) {
+                          selectedIds.remove(v.verseID);
+                        } else {
+                          selectedIds.add(v.verseID);
+                        }
+                      });
+                    }
+                  },
+                  onItemLongTap: selectedIds.isEmpty
+                      ? (v) {
+                          setState(
+                            () {
+                              selectedIds.add(v.verseID);
+                            },
+                          );
+                        }
+                      : (v) {},
+                  selectedVerses: selectedIds,
                 ),
               ),
+              selectedIds.isNotEmpty
+                  ? Card(
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "تم تحديد"
+                              " ("
+                              "${Utils.convertToArabiNumber(selectedIds.length)}"
+                              ")",
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                await backend.shareVerses(state.verses
+                                    .where(
+                                        (v) => selectedIds.contains(v.verseID))
+                                    .toList());
+                              },
+                              style: ButtonStyle(
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.all(15))),
+                              child: Text("مشاركة"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  selectedIds.clear();
+                                  selectedIds.addAll(
+                                      state.verses.map((v) => v.verseID));
+                                });
+                              },
+                              style: ButtonStyle(
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.all(15))),
+                              child: Text("تحديد الكل"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  selectedIds.clear();
+                                });
+                              },
+                              style: ButtonStyle(
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.all(15))),
+                              child: Text("إلغاء"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Container(),
             ],
           );
         },

@@ -1,3 +1,5 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:share/share.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
@@ -75,10 +77,18 @@ class MushafController {
     );
   }
 
-  Future<void> shareVerse(Verse verse) async {
-    verse = await versesService.getSingleVerse(verse.verseID, verse.chapterId);
-    String toCopy =
-        "${verse.chapterName}\n${verse.verseTextTashkel} {${verse.verseID}}";
-    await Share.share(toCopy);
+  Future<void> shareVerses(List<Verse> verses) async {
+    if (verses.isEmpty) {
+      return;
+    }
+    List<String> lines = [];
+    for (var verse in verses) {
+      verse =
+          await versesService.getSingleVerse(verse.verseID, verse.chapterId);
+      String line = "${verse.verseTextTashkel} {${verse.verseID}}";
+      lines.add(line);
+    }
+    var toShare = "${verses[0].chapterName}\n" + lines.join("\n");
+    await Share.share(toShare);
   }
 }
