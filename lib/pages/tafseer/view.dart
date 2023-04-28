@@ -3,8 +3,8 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/tafseer/controller.dart';
+import 'package:yatadabaron/pages/tafseer/widgets/play_button.dart';
 import '../_viewmodels/module.dart';
-import 'widgets/app_bar.dart';
 import 'widgets/selector.dart';
 import 'widgets/tafseer_section.dart';
 import 'widgets/verse_section.dart';
@@ -37,13 +37,30 @@ class TafseerPage extends StatelessWidget {
       location: location,
     );
     return Scaffold(
-      appBar: TafseerAppBar.build(
-        context: context,
-        onShare: () async => await backend.shareVerse(),
-        onSaveBookmark: () async {
-          bool done = await backend.onSaveBookmarkClicked();
-          await _handleAfterBookmarkSaved(context, done);
-        },
+      appBar: AppBar(
+        title: Text(Localization.TAFSEER_PAGE),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(40),
+          child: ButtonBar(
+            children: [
+              SingleVersePlayButton(
+                verseId: location.verseId,
+                chapterId: location.chapterId,
+              ),
+              IconButton(
+                onPressed: () async {
+                  bool done = await backend.onSaveBookmarkClicked();
+                  await _handleAfterBookmarkSaved(context, done);
+                },
+                icon: Icon(Icons.bookmark_add_sharp),
+              ),
+              IconButton(
+                onPressed: () async => await backend.shareVerse(),
+                icon: Icon(Icons.share),
+              )
+            ],
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -85,7 +102,10 @@ class TafseerPage extends StatelessWidget {
                   );
                 } else if (availableTafseerSnapshot.data?.isEmpty ?? true) {
                   return Center(
-                    child: Text(Localization.NO_TRANSLATIONS_AVAILABLE, textAlign: TextAlign.center,),
+                    child: Text(
+                      Localization.NO_TRANSLATIONS_AVAILABLE,
+                      textAlign: TextAlign.center,
+                    ),
                   );
                 } else {
                   return StreamBuilder<VerseTafseer>(
