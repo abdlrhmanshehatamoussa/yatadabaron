@@ -48,6 +48,7 @@ class MushafDropDownWrapper extends StatelessWidget {
           ),
           onPressed: onBack,
         ),
+        VerticalDivider(),
         Expanded(
           child: GestureDetector(
             child: Text.rich(
@@ -57,14 +58,16 @@ class MushafDropDownWrapper extends StatelessWidget {
                     text: "${selectedChapter.chapterNameAR}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontFamily: "Arial",
+                      fontFamily: "Usmani",
                       color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 22,
                     ),
                   ),
                   TextSpan(
                     text: "   (${chapterSummary(selectedChapter)})",
-                    style: TextStyle(color: Theme.of(context).colorScheme.onBackground)
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                   )
                 ],
               ),

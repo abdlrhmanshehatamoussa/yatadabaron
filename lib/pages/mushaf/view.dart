@@ -69,7 +69,7 @@ class _MushafPageState extends State<MushafPage> {
           !fullScreen
               ? Container(
                   color: Theme.of(context).primaryColor,
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(10),
                   child: Row(
                     children: [
                       Expanded(
