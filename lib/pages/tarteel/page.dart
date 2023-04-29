@@ -57,27 +57,9 @@ class _TarteelPageState extends State<TarteelPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(chapterName ?? 'ترتيل'),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.playableItems.length,
-              itemBuilder: (context, index) {
-                var item = widget.playableItems[index];
-                return ListTile(
-                  title: Text(
-                    item.verseText,
-                    style: TextStyle(fontFamily: "Usmani", fontSize: 25),
-                  ),
-                  selected: _playlistIndex == item.order,
-                  selectedColor: Theme.of(context).colorScheme.secondary,
-                );
-              },
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(16.0),
+        bottom: PreferredSize(
+          child: Container(
+            padding: EdgeInsets.all(3),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -134,6 +116,27 @@ class _TarteelPageState extends State<TarteelPage> {
                   },
                 ),
               ],
+            ),
+          ),
+          preferredSize: Size.fromHeight(kToolbarHeight),
+        ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: widget.playableItems.length,
+              itemBuilder: (context, index) {
+                var item = widget.playableItems[index];
+                return ListTile(
+                  title: Text(
+                    item.verseText,
+                    style: TextStyle(fontFamily: "Usmani", fontSize: 25),
+                  ),
+                  selected: _playlistIndex == item.order,
+                  selectedColor: Theme.of(context).colorScheme.secondary,
+                );
+              },
             ),
           ),
         ],
