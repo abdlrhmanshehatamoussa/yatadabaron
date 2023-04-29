@@ -6,7 +6,6 @@ import 'package:yatadabaron/pages/mushaf/widgets/dropdown.dart';
 
 class MushafDropDownWrapper extends StatelessWidget {
   final Function(Chapter chapter) onChapterSelected;
-  final void Function() onBack;
   final List<Chapter> chapters;
   final Chapter selectedChapter;
 
@@ -15,7 +14,6 @@ class MushafDropDownWrapper extends StatelessWidget {
     required this.onChapterSelected,
     required this.chapters,
     required this.selectedChapter,
-    required this.onBack,
   }) : super(key: key);
 
   String chapterSummary(Chapter chapter) {
@@ -38,53 +36,42 @@ class MushafDropDownWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Theme.of(context).colorScheme.onBackground,
-            size: 28,
-          ),
-          onPressed: onBack,
-        ),
-        VerticalDivider(),
-        Expanded(
-          child: GestureDetector(
-            child: Text.rich(
+    return GestureDetector(
+      child: SingleChildScrollView(
+        child: Text.rich(
+          TextSpan(
+            children: [
               TextSpan(
-                children: [
-                  TextSpan(
-                    text: "${selectedChapter.chapterNameAR}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "Usmani",
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 22,
-                    ),
-                  ),
-                  TextSpan(
-                    text: "\n${chapterSummary(selectedChapter)}",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  )
-                ],
+                text: "${selectedChapter.chapterNameAR}",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Usmani",
+                  color: Theme.of(context).colorScheme.onBackground,
+                  fontSize: 22,
+                ),
               ),
-            ),
-            onTap: () async {
-              await ChaptersDropDown.show(
-                context: context,
-                chapters: chapters,
-                onChapterSelected: (Chapter chapter) async {
-                  await onChapterSelected(chapter);
-                  Navigator.of(context).pop();
-                },
-              );
-            },
+              TextSpan(
+                text: "   (${chapterSummary(selectedChapter)})",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  fontSize: 12,
+                ),
+              )
+            ],
           ),
         ),
-      ],
+        scrollDirection: Axis.horizontal,
+      ),
+      onTap: () async {
+        await ChaptersDropDown.show(
+          context: context,
+          chapters: chapters,
+          onChapterSelected: (Chapter chapter) async {
+            await onChapterSelected(chapter);
+            Navigator.of(context).pop();
+          },
+        );
+      },
     );
   }
 }

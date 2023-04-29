@@ -80,7 +80,7 @@ class TafseerPageController {
       Navigator.of(context).pop();
       await Utils.showCustomDialog(
         context: context,
-        text: Localization.NO_TRANSLATIONS_AVAILABLE,
+        text: Localization.INTERNET_CONNECTION_ERROR,
         title: Localization.ERROR,
       );
     }
