@@ -15,41 +15,39 @@ class TarteelPage extends StatefulWidget {
 class _TarteelPageState extends State<TarteelPage> {
   var _audioPlayer = AudioPlayer();
   var _playlistIndex = 0;
-  var _playbackState = PlaybackState.none;
-  StreamSubscription<PlayerState>? streamSubscription;
+  var _playbackState = PlaybackState.initial;
+  String? chapterName;
+  StreamSubscription<PlaybackState>? streamSubscription;
   StreamSubscription<int?>? indexStreamSubscription;
 
   @override
   void initState() {
     super.initState();
-    _audioPlayer
-        .setAudioSource(
-      ConcatenatingAudioSource(
-        children: widget.playableItems
-            .map((item) => AudioSource.uri(Uri.parse(item.audioUrl)))
-            .toList(),
-      ),
-    )
-        .then((value) {
-      streamSubscription = _audioPlayer.playerStateStream.listen((playerState) {
-        if (playerState.playing) {
-          setState(() {
-            _playbackState = PlaybackState.playing;
-          });
-        } else if (playerState.processingState == ProcessingState.completed) {
-          setState(() {
-            _playbackState = PlaybackState.stopped;
-          });
-        } else {
-          setState(() {
-            _playbackState = PlaybackState.paused;
-          });
-        }
+
+    streamSubscription = _audioPlayer.playerStateStream.map((originalEvent) {
+      if (originalEvent.processingState == ProcessingState.loading ||
+          originalEvent.processingState == ProcessingState.buffering) {
+        return PlaybackState.loading;
+      }
+      if (originalEvent.processingState == ProcessingState.completed) {
+        return PlaybackState.completed;
+      }
+      if (originalEvent.playing) {
+        return PlaybackState.playing;
+      }
+      if (originalEvent.processingState == ProcessingState.idle) {
+        return PlaybackState.initial;
+      }
+      return PlaybackState.paused;
+    }).listen((mappedEvent) {
+      setState(() {
+        _playbackState = mappedEvent;
       });
-      indexStreamSubscription = _audioPlayer.currentIndexStream.listen((event) {
-        setState(() {
-          _playlistIndex = event ?? 0;
-        });
+    });
+    indexStreamSubscription = _audioPlayer.currentIndexStream.listen((event) {
+      setState(() {
+        _playlistIndex = event ?? 0;
+        chapterName = widget.playableItems[_playlistIndex].chapterName;
       });
     });
   }
@@ -58,7 +56,7 @@ class _TarteelPageState extends State<TarteelPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ترتيل'),
+        title: Text(chapterName ?? 'ترتيل'),
       ),
       body: Column(
         children: [
@@ -81,23 +79,59 @@ class _TarteelPageState extends State<TarteelPage> {
           Container(
             padding: EdgeInsets.all(16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Icon(Icons.pause),
-                  onPressed: _playbackState == PlaybackState.playing
-                      ? () async => await _audioPlayer.pause()
-                      : null,
+                  icon: Icon(Icons.skip_next),
+                  onPressed: () async {
+                    if (_audioPlayer.audioSource == null) {
+                      return;
+                    }
+                    await _audioPlayer.seekToNext();
+                    await _audioPlayer.play();
+                  },
                 ),
-                SizedBox(width: 16.0),
                 IconButton(
-                  icon: Icon(Icons.play_arrow),
-                  onPressed: _playbackState == PlaybackState.paused ||
-                          _playbackState == PlaybackState.stopped
-                      ? () async {
-                          await _audioPlayer.play();
-                        }
-                      : null,
+                  icon: (_playbackState == PlaybackState.playing)
+                      ? Icon(Icons.pause)
+                      : Icon(Icons.play_arrow),
+                  onPressed: _playbackState == PlaybackState.loading
+                      ? null
+                      : () async {
+                          switch (_playbackState) {
+                            case PlaybackState.loading:
+                              return;
+                            case PlaybackState.initial:
+                            case PlaybackState.completed:
+                              //Implement caching
+                              await _audioPlayer.setAudioSource(
+                                ConcatenatingAudioSource(
+                                  children: widget.playableItems
+                                      .map((item) => AudioSource.uri(
+                                          Uri.parse(item.audioUrl)))
+                                      .toList(),
+                                ),
+                              );
+                              await _audioPlayer.play();
+                              break;
+                            case PlaybackState.playing:
+                              await _audioPlayer.pause();
+                              break;
+                            case PlaybackState.paused:
+                              await _audioPlayer.play();
+                              break;
+                          }
+                        },
+                ),
+                IconButton(
+                  icon: Icon(Icons.skip_previous),
+                  onPressed: () async {
+                    if (_audioPlayer.audioSource == null) {
+                      return;
+                    }
+                    await _audioPlayer.seekToPrevious();
+                    await _audioPlayer.play();
+                  },
                 ),
               ],
             ),
@@ -116,4 +150,4 @@ class _TarteelPageState extends State<TarteelPage> {
   }
 }
 
-enum PlaybackState { none, playing, paused, stopped }
+enum PlaybackState { paused, initial, playing, completed, loading }

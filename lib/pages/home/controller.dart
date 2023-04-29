@@ -4,8 +4,7 @@ import 'package:yatadabaron/pages/contact/page.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/pages/search/view.dart';
 import 'package:yatadabaron/pages/statistics/view.dart';
-import 'package:yatadabaron/pages/tarteel/page.dart';
-import '../tarteel/playable_item.dart';
+import 'package:yatadabaron/pages/tarteel/select_page.dart';
 
 class HomeController {
   HomeController();
@@ -42,16 +41,9 @@ class HomeController {
     );
   }
 
-  void goTarteelPage() async {
+  void goTarteelPage() {
     appNavigator.pushWidget(
-      view: TarteelPage(
-        playableItems: await TarteelPlayableItem.mock(
-          "Saood_ash-Shuraym_128kbps",
-          2,
-          190,
-          230,
-        ),
-      ),
+      view: TarteelSelectionPage(),
     );
   }
 }
