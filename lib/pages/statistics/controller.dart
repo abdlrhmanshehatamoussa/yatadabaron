@@ -53,4 +53,8 @@ class StatisticsController {
   Future<List<Chapter>> getMushafChapters() async {
     return await chaptersService.getAll();
   }
+
+  void resetState() {
+    _stateBloc.add(SearchState.INITIAL);
+  }
 }

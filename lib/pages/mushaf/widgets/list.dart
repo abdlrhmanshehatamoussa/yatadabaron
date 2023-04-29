@@ -10,8 +10,10 @@ class VerseList extends StatelessWidget {
   final List<Verse> verses;
   final int startFromVerse;
   final int? highlightedVerse;
+  final List<int> selectedVerses;
   final IconData? iconData;
   final bool searchable;
+  final bool showEmla2y;
   final Function(Verse verse) onItemTap;
   final Function(Verse verse) onItemLongTap;
 
@@ -23,6 +25,8 @@ class VerseList extends StatelessWidget {
     required this.highlightedVerse,
     required this.onItemLongTap,
     required this.searchable,
+    required this.selectedVerses,
+    required this.showEmla2y,
   });
 
   @override
@@ -69,7 +73,7 @@ class VerseList extends StatelessWidget {
                       : null,
                 ),
               ),
-              subtitle: SelectableText(
+              subtitle: showEmla2y ? SelectableText(
                 verse.verseText,
                 style: TextStyle(
                   fontSize: 17,
@@ -85,7 +89,13 @@ class VerseList extends StatelessWidget {
                           editableTextState: editableTextState,
                         );
                 },
-              ),
+              ) : null,
+              leading: selectedVerses.contains(verse.verseID)
+                  ? Icon(
+                      Icons.check_circle,
+                      color: Theme.of(context).colorScheme.secondary,
+                    )
+                  : null,
               selected: isHighlighted,
               onTap: () async => await this.onItemTap(verse),
               onLongPress: () async => await this.onItemLongTap(verse),

@@ -8,21 +8,13 @@ import 'view_models/mushaf_state.dart';
 import '../_viewmodels/module.dart';
 
 class MushafController {
-  MushafController({
-    required this.mushafSettings,
-  }) {
-    reloadVerses(mushafSettings);
-  }
+  MushafController();
 
-  final MushafSettings? mushafSettings;
   late IChaptersService chaptersService = Simply.get<IChaptersService>();
   late IVersesService versesService = Simply.get<IVersesService>();
   late IBookmarksService bookmarksService = Simply.get<IBookmarksService>();
 
-  StreamObject<MushafPageState> _stateStreamObj = StreamObject();
-  Stream<MushafPageState> get stateStream => _stateStreamObj.stream;
-
-  Future reloadVerses(MushafSettings? mushafSettings) async {
+  Future<MushafPageState> reloadVerses(MushafSettings? mushafSettings) async {
     if (mushafSettings == null) {
       Bookmark? lastBookmark = await bookmarksService.getLastBookmark();
       if (lastBookmark != null) {
@@ -52,16 +44,7 @@ class MushafController {
       mode: mushafSettings.mode,
       chapters: chapters,
     );
-    _stateStreamObj.add(state);
-  }
-
-  Future<void> onChapterSelected(Chapter chapter) async {
-    await reloadVerses(
-      MushafSettings.fromSelection(
-        chapterId: chapter.chapterID,
-        verseId: 1,
-      ),
-    );
+    return state;
   }
 
   void goTafseerPage(Verse verse) {
@@ -75,10 +58,20 @@ class MushafController {
     );
   }
 
-  Future<void> shareVerse(Verse verse) async {
-    verse = await versesService.getSingleVerse(verse.verseID, verse.chapterId);
-    String toCopy =
-        "${verse.chapterName}\n${verse.verseTextTashkel} {${verse.verseID}}";
-    await Share.share(toCopy);
+  Future<void> shareVerses(List<Verse> verses) async {
+    if (verses.isEmpty) {
+      return;
+    }
+    List<String> lines = [];
+    String? chapterName;
+    for (var verse in verses) {
+      verse =
+          await versesService.getSingleVerse(verse.verseID, verse.chapterId);
+      chapterName = verse.chapterName;
+      String line = "${verse.verseTextTashkel} {${verse.verseID}}";
+      lines.add(line);
+    }
+    var toShare = "$chapterName\n" + lines.join("\n");
+    await Share.share(toShare);
   }
 }

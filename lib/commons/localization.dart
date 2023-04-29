@@ -13,10 +13,10 @@ class Localization {
   static const String WHOLE_WORD = 'كلمة مستقلة';
   static const String WITHIN_VERSE = 'جزء من كلمة';
   static const String CHAPTER = 'السورة';
-  static const String EMPTY_SEARCH_RESULTS = 'لم يتم العثور علي نتائج.';
+  static const String EMPTY_SEARCH_RESULTS = 'لم يتم العثور على نتائج.';
   static const String TAP_SEARCH_BUTTON = 'اضغط علامة البحث للبدء';
   static const String SEARCH_SUMMARY =
-      'تم العثور علي (#) لكلمة (#) في (#), نوع البحث (#), فيما يلي النتائج بالرسم الإملائي';
+      'تم العثور على (#) لكلمة (#) في (#), نوع البحث (#), فيما يلي النتائج بالرسم الإملائي';
   static const String CLOSE = 'الخروج';
   static const String SEARCH_ERROR =
       'حدث خطأ ما أثناء البحث, برجاء المحاولة مرة آخري أو التواصل مع ادارة التطبيق';
@@ -30,7 +30,7 @@ class Localization {
   static const String WHOLE_QURAN = 'القرآن الكريم كاملاً';
   static const String QURAN_STATISTICS = 'احصائيات القرآن';
   static const String TAP_STAT_BUTTON =
-      'اضغط علي علامة الرسم البياني لاظهار الاحصائيات';
+      'اضغط على علامة الرسم البياني لاظهار الاحصائيات';
   static const String FREQUENCY = 'التكرار';
   static const String LETTER = 'الحرف';
   static const String STATISTICS_SUMMARY =
@@ -54,8 +54,8 @@ class Localization {
   static const String OK = "تم";
   static const String NIGHT_MODE = "الوضع الليلي";
   static const String TAFSEER_PAGE = "التفسير";
-  static const String NO_TRANSLATIONS_AVAILABLE =
-      "لا يوجد تفاسير متاحة في اللحظة الحالية, تأكد من اتصالك بالإنترنت أو ارجع إلي إدارة التطبيق";
+  static const String INTERNET_CONNECTION_ERROR =
+      "تأكد من اتصالك بالإنترنت أو ارجع إلى إدارة التطبيق";
   static const String DOWNLOAD_TRANSLATION_FIRST =
       "يجب أن تقوم بتحميل هذا التفسير أولاً";
   static const String PLEASE_WAIT = "برجاء الانتظار";
@@ -86,4 +86,6 @@ class Localization {
   static const String VERSION_BUILD_ID = "رقم النسخة: #";
   static const String CONTACT_US = "تواصل معنا";
   static const String TARTEEL_PAGE = "ترتيل";
+  static const String QURAN_AUDIO_SOURCE =
+      "أصوات القراءة مصدرها\n" "https://everyayah.com";
 }
