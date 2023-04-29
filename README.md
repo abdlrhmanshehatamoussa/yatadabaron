@@ -6,5 +6,5 @@ Open source search engine for Holy Quran
 - [x] Allow copying more than one verse
 - [x] Increase reading space in Mushaf
 - [x] Remove unnecessary page in Letter Statistics Page 
-- [ ] Play audio for single verse
+- [x] Play audio for single verse
 -  ~~Keep screen on while reading~~

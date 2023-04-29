@@ -3,7 +3,7 @@ import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/pages/tafseer/controller.dart';
-import 'package:yatadabaron/pages/tafseer/widgets/play_button.dart';
+import 'package:yatadabaron/pages/tafseer/widgets/play_widget.dart';
 import '../_viewmodels/module.dart';
 import 'widgets/selector.dart';
 import 'widgets/tafseer_section.dart';
@@ -39,28 +39,19 @@ class TafseerPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(Localization.TAFSEER_PAGE),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(40),
-          child: ButtonBar(
-            children: [
-              SingleVersePlayButton(
-                verseId: location.verseId,
-                chapterId: location.chapterId,
-              ),
-              IconButton(
-                onPressed: () async {
-                  bool done = await backend.onSaveBookmarkClicked();
-                  await _handleAfterBookmarkSaved(context, done);
-                },
-                icon: Icon(Icons.bookmark_add_sharp),
-              ),
-              IconButton(
-                onPressed: () async => await backend.shareVerse(),
-                icon: Icon(Icons.share),
-              )
-            ],
+        actions: [
+          IconButton(
+            onPressed: () async {
+              bool done = await backend.onSaveBookmarkClicked();
+              await _handleAfterBookmarkSaved(context, done);
+            },
+            icon: Icon(Icons.bookmark_add_sharp),
           ),
-        ),
+          IconButton(
+            onPressed: () async => await backend.shareVerse(),
+            icon: Icon(Icons.share),
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -152,6 +143,17 @@ class TafseerPage extends StatelessWidget {
               },
             ),
           ),
+          Divider(
+            height: 5,
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            child: VersePlayWidget(
+              verseId: location.verseId,
+              chapterId: location.chapterId,
+            ),
+          )
         ],
       ),
     );
