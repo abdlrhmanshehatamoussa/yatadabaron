@@ -199,7 +199,7 @@ final reciterNameMap = {
   "Muhsin_Al_Qasim_192kbps": "محسن القاسم",
   "Nasser_Alqatami_128kbps": "ناصر القطامي",
   "Sahl_Yassin_128kbps": "سهل ياسين",
-  "Salaah_AbdulRahman_Bukhatir_128kbps": "صلاح البخاطر",
+  "Salaah_AbdulRahman_Bukhatir_128kbps": "صلاح بو خاطر",
   "Salah_Al_Budair_128kbps": "صلاح البدير",
   "Yaser_Salamah_128kbps": "ياسر سلامة",
 };
