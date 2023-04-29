@@ -37,26 +37,30 @@ class MushafDropDownWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Text.rich(
-        TextSpan(
-          children: [
-            TextSpan(
-              text: "${selectedChapter.chapterNameAR}",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: "Usmani",
-                color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 22,
+      child: SingleChildScrollView(
+        child: Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: "${selectedChapter.chapterNameAR}",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Usmani",
+                  color: Theme.of(context).colorScheme.onBackground,
+                  fontSize: 22,
+                ),
               ),
-            ),
-            TextSpan(
-              text: "\n${chapterSummary(selectedChapter)}",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-            )
-          ],
+              TextSpan(
+                text: "   (${chapterSummary(selectedChapter)})",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  fontSize: 12,
+                ),
+              )
+            ],
+          ),
         ),
+        scrollDirection: Axis.horizontal,
       ),
       onTap: () async {
         await ChaptersDropDown.show(

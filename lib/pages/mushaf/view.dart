@@ -43,20 +43,24 @@ class _MushafPageState extends State<MushafPage> {
 
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         toolbarHeight: fullScreen ? 0 : null,
-        title: MushafDropDownWrapper(
-          onChapterSelected: (Chapter chapter) async {
-            selectedIds = [];
-            state = await backend.reloadVerses(
-              MushafSettings.fromSelection(
-                chapterId: chapter.chapterID,
-                verseId: 1,
-              ),
-            );
-            setState(() {});
-          },
-          chapters: state!.chapters,
-          selectedChapter: state!.chapter,
+        title: Padding(
+          padding: EdgeInsets.all(15),
+          child: MushafDropDownWrapper(
+            onChapterSelected: (Chapter chapter) async {
+              selectedIds = [];
+              state = await backend.reloadVerses(
+                MushafSettings.fromSelection(
+                  chapterId: chapter.chapterID,
+                  verseId: 1,
+                ),
+              );
+              setState(() {});
+            },
+            chapters: state!.chapters,
+            selectedChapter: state!.chapter,
+          ),
         ),
         actions: [
           IconButton(
