@@ -5,23 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/service_contracts/i_version_info_service.dart';
 
 class AboutPage extends StatelessWidget {
-  Widget customText(String text) {
-    return SelectableText(
-      text,
-      style: TextStyle(fontSize: 18),
-    );
-  }
-
-  Widget customDivider() {
-    return Divider(height: 10, color: Colors.white);
-  }
-
   @override
   Widget build(BuildContext context) {
     List<String> statements = [
       Localization.APP_DESCRIPTION,
       Localization.MUSHAF_DESCRIPTION,
       Localization.TAFSEER_ABOUT,
+      Localization.QURAN_AUDIO_SOURCE,
       (Localization.VERSION_BUILD_ID).replaceFirst(
         "#",
         Simply.get<IVersionInfoService>().getBuildId(),
@@ -34,11 +24,16 @@ class AboutPage extends StatelessWidget {
         child: Center(
           child: ListView.separated(
             itemBuilder: (_, int i) {
-              String text = "- ${statements[i]}";
-              return customText(text);
+              return SelectableText(
+                "- ${statements[i]}",
+                style: TextStyle(fontSize: 18),
+              );
             },
             separatorBuilder: (_, __) {
-              return customDivider();
+              return Divider(
+                height: 10,
+                color: Theme.of(context).colorScheme.secondary,
+              );
             },
             itemCount: statements.length,
           ),
