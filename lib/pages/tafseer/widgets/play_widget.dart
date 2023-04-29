@@ -1,8 +1,13 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
+import 'package:yatadabaron/commons/localization.dart';
 
 class VersePlayWidget extends StatefulWidget {
   final int verseId;
@@ -70,7 +75,36 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
                 var verseIndex = widget.verseId.toString().padLeft(3, "0");
                 var url =
                     "https://everyayah.com/data/$reciterKey/$chapterIndex$verseIndex.mp3";
-                await player.setAudioSource(AudioSource.uri(Uri.parse(url)));
+                var fileName = join(
+                    (await getApplicationDocumentsDirectory()).path,
+                    "audio",
+                    reciterKey,
+                    "$chapterIndex$verseIndex.mp3");
+                var file = File(fileName);
+                if (await file.exists() == false) {
+                  try {
+                    final Response response = await get(Uri.parse(url));
+                    if ((response.contentLength ?? 0) > 0 &&
+                        response.bodyBytes.isNotEmpty) {
+                      await file.create(recursive: true);
+                      await file.writeAsBytes(response.bodyBytes);
+                    }
+                  } catch (e) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(
+                          "خطأ",
+                        ),
+                        content: Text(
+                          Localization.INTERNET_CONNECTION_ERROR,
+                        ),
+                      ),
+                    );
+                    return;
+                  }
+                }
+                await player.setAudioSource(AudioSource.file(fileName));
                 await player.play();
                 break;
               case AudioPlayerState.playing:

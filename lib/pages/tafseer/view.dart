@@ -94,7 +94,7 @@ class TafseerPage extends StatelessWidget {
                 } else if (availableTafseerSnapshot.data?.isEmpty ?? true) {
                   return Center(
                     child: Text(
-                      Localization.NO_TRANSLATIONS_AVAILABLE,
+                      Localization.INTERNET_CONNECTION_ERROR,
                       textAlign: TextAlign.center,
                     ),
                   );
