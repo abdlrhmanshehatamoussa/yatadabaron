@@ -6,8 +6,12 @@ import 'package:yatadabaron/pages/tarteel/playable_item.dart';
 
 class TarteelPage extends StatefulWidget {
   final List<TarteelPlayableItem> playableItems;
+  final String reciterName;
 
-  TarteelPage({required this.playableItems});
+  TarteelPage({
+    required this.playableItems,
+    required this.reciterName,
+  });
 
   @override
   _TarteelPageState createState() => _TarteelPageState();
@@ -59,17 +63,32 @@ class _TarteelPageState extends State<TarteelPage> {
 
   @override
   Widget build(BuildContext context) {
+    double iconSize = 35;
+    var iconColor = Theme.of(context).colorScheme.onBackground;
     return Scaffold(
       appBar: AppBar(
-        title: Text(chapterName ?? 'ترتيل'),
-        bottom: PreferredSize(
-          child: Container(
-            padding: EdgeInsets.all(3),
+        title: SingleChildScrollView(
+          child: Text(
+            "${widget.reciterName} ($chapterName)",
+            style: TextStyle(fontSize: 25),
+          ),
+          scrollDirection: Axis.horizontal,
+        ),
+      ),
+      body: Column(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(5),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  icon: Icon(Icons.skip_next),
+                  icon: Icon(
+                    Icons.skip_next,
+                    size: iconSize,
+                    color: iconColor,
+                  ),
                   onPressed: () async {
                     if (_audioPlayer.audioSource == null) {
                       return;
@@ -80,8 +99,16 @@ class _TarteelPageState extends State<TarteelPage> {
                 ),
                 IconButton(
                   icon: (_playbackState == PlaybackState.playing)
-                      ? Icon(Icons.pause)
-                      : Icon(Icons.play_arrow),
+                      ? Icon(
+                          Icons.pause,
+                          size: iconSize,
+                          color: iconColor,
+                        )
+                      : Icon(
+                          Icons.play_arrow,
+                          size: iconSize,
+                          color: iconColor,
+                        ),
                   onPressed: _playbackState == PlaybackState.loading
                       ? null
                       : () async {
@@ -90,7 +117,7 @@ class _TarteelPageState extends State<TarteelPage> {
                               return;
                             case PlaybackState.initial:
                             case PlaybackState.completed:
-                              //Implement caching
+                              //TODO: Implement caching
                               await _audioPlayer.setAudioSource(
                                 ConcatenatingAudioSource(
                                   children: widget.playableItems
@@ -111,7 +138,11 @@ class _TarteelPageState extends State<TarteelPage> {
                         },
                 ),
                 IconButton(
-                  icon: Icon(Icons.skip_previous),
+                  icon: Icon(
+                    Icons.skip_previous,
+                    size: iconSize,
+                    color: iconColor,
+                  ),
                   onPressed: () async {
                     if (_audioPlayer.audioSource == null) {
                       return;
@@ -123,11 +154,6 @@ class _TarteelPageState extends State<TarteelPage> {
               ],
             ),
           ),
-          preferredSize: Size.fromHeight(kToolbarHeight),
-        ),
-      ),
-      body: Column(
-        children: [
           Expanded(
             child: ScrollablePositionedList.separated(
               itemScrollController: scrollController,

@@ -51,9 +51,11 @@ class TarteelSelectionPage extends StatelessWidget {
               }
 
               appNavigator.pushWidget(
-                  view: TarteelPage(
-                playableItems: result,
-              ));
+                view: TarteelPage(
+                  playableItems: result,
+                  reciterName: "سعود الشريم",
+                ),
+              );
             },
             icon: Text("ترتيل"),
           )
