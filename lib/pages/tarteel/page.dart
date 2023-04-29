@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:yatadabaron/pages/tarteel/playable_item.dart';
 
 class TarteelPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _TarteelPageState extends State<TarteelPage> {
   String? chapterName;
   StreamSubscription<PlaybackState>? streamSubscription;
   StreamSubscription<int?>? indexStreamSubscription;
+  final ItemScrollController scrollController = ItemScrollController();
 
   @override
   void initState() {
@@ -48,6 +50,9 @@ class _TarteelPageState extends State<TarteelPage> {
       setState(() {
         _playlistIndex = event ?? 0;
         chapterName = widget.playableItems[_playlistIndex].chapterName;
+        scrollController.jumpTo(
+          index: _playlistIndex,
+        );
       });
     });
   }
@@ -124,8 +129,11 @@ class _TarteelPageState extends State<TarteelPage> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
+            child: ScrollablePositionedList.separated(
+              itemScrollController: scrollController,
+              separatorBuilder: (BuildContext context, int index) => Divider(),
               itemCount: widget.playableItems.length,
+              initialScrollIndex: _playlistIndex,
               itemBuilder: (context, index) {
                 var item = widget.playableItems[index];
                 return ListTile(
