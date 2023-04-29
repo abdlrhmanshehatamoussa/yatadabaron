@@ -39,6 +39,10 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
       });
     }
     streamSubscription = player.playerStateStream.map((originalEvent) {
+      if (originalEvent.processingState == ProcessingState.loading ||
+          originalEvent.processingState == ProcessingState.buffering) {
+        return AudioPlayerState.loading;
+      }
       if (originalEvent.processingState == ProcessingState.completed) {
         return AudioPlayerState.completed;
       }
@@ -61,60 +65,71 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
     return Row(
       children: [
         IconButton(
-          onPressed: () async {
-            await player.stop();
-          },
+          onPressed: state == AudioPlayerState.loading
+              ? null
+              : () async {
+                  await player.stop();
+                },
           icon: Icon(Icons.stop),
         ),
         IconButton(
-          onPressed: () async {
-            switch (state) {
-              case AudioPlayerState.completed:
-              case AudioPlayerState.initial:
-                var chapterIndex = widget.chapterId.toString().padLeft(3, "0");
-                var verseIndex = widget.verseId.toString().padLeft(3, "0");
-                var url =
-                    "https://everyayah.com/data/$reciterKey/$chapterIndex$verseIndex.mp3";
-                var fileName = join(
-                    (await getApplicationDocumentsDirectory()).path,
-                    "audio",
-                    reciterKey,
-                    "$chapterIndex$verseIndex.mp3");
-                var file = File(fileName);
-                if (await file.exists() == false) {
-                  try {
-                    final Response response = await get(Uri.parse(url));
-                    if ((response.contentLength ?? 0) > 0 &&
-                        response.bodyBytes.isNotEmpty) {
-                      await file.create(recursive: true);
-                      await file.writeAsBytes(response.bodyBytes);
-                    }
-                  } catch (e) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text(
-                          "خطأ",
-                        ),
-                        content: Text(
-                          Localization.INTERNET_CONNECTION_ERROR,
-                        ),
-                      ),
-                    );
-                    return;
+          onPressed: state == AudioPlayerState.loading
+              ? null
+              : () async {
+                  switch (state) {
+                    case AudioPlayerState.loading:
+                      return;
+                    case AudioPlayerState.completed:
+                    case AudioPlayerState.initial:
+                      setState(() {
+                        state = AudioPlayerState.loading;
+                      });
+                      var chapterIndex =
+                          widget.chapterId.toString().padLeft(3, "0");
+                      var verseIndex =
+                          widget.verseId.toString().padLeft(3, "0");
+                      var url =
+                          "https://everyayah.com/data/$reciterKey/$chapterIndex$verseIndex.mp3";
+                      var fileName = join(
+                          (await getApplicationDocumentsDirectory()).path,
+                          "audio",
+                          reciterKey,
+                          "$chapterIndex$verseIndex.mp3");
+                      var file = File(fileName);
+                      if (await file.exists() == false) {
+                        try {
+                          final Response response = await get(Uri.parse(url));
+                          if ((response.contentLength ?? 0) > 0 &&
+                              response.bodyBytes.isNotEmpty) {
+                            await file.create(recursive: true);
+                            await file.writeAsBytes(response.bodyBytes);
+                          }
+                        } catch (e) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(
+                                "خطأ",
+                              ),
+                              content: Text(
+                                Localization.INTERNET_CONNECTION_ERROR,
+                              ),
+                            ),
+                          );
+                          return;
+                        }
+                      }
+                      await player.setAudioSource(AudioSource.file(fileName));
+                      await player.play();
+                      break;
+                    case AudioPlayerState.playing:
+                      await player.pause();
+                      break;
+                    case AudioPlayerState.paused:
+                      await player.play();
+                      break;
                   }
-                }
-                await player.setAudioSource(AudioSource.file(fileName));
-                await player.play();
-                break;
-              case AudioPlayerState.playing:
-                await player.pause();
-                break;
-              case AudioPlayerState.paused:
-                await player.play();
-                break;
-            }
-          },
+                },
           icon: (state == AudioPlayerState.playing)
               ? Icon(Icons.pause)
               : Icon(Icons.play_arrow),
@@ -159,7 +174,7 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
   }
 }
 
-enum AudioPlayerState { paused, initial, playing, completed }
+enum AudioPlayerState { paused, initial, playing, completed, loading }
 
 final reciterNameMap = {
   "Husary_128kbps": "الحصري",
