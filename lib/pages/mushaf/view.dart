@@ -116,7 +116,6 @@ class _MushafPageState extends State<MushafPage> {
                   verses: state!.verses,
                   highlightedVerse: highlightedVerseId,
                   startFromVerse: state!.startFromVerse,
-                  searchable: state!.mode != MushafMode.SEARCH,
                   iconData: icon,
                   showEmla2y: showEmla2y,
                   onItemTap: (v) {
