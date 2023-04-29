@@ -37,122 +37,109 @@ class _MushafPageState extends State<MushafPage> {
 
   @override
   Widget build(BuildContext context) {
-    int? highlightedVerseId;
-    IconData? icon;
     if (state == null) {
-      return Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
     }
-    if (state!.mode == MushafMode.BOOKMARK ||
-        state!.mode == MushafMode.SEARCH) {
-      highlightedVerseId = state!.startFromVerse;
-      if (state!.mode == MushafMode.BOOKMARK) {
-        icon = Icons.bookmark_added_sharp;
-      } else {
-        icon = Icons.search_sharp;
-      }
-    }
+
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: fullScreen ? 0 : null,
+        title: MushafDropDownWrapper(
+          onChapterSelected: (Chapter chapter) async {
+            selectedIds = [];
+            state = await backend.reloadVerses(
+              MushafSettings.fromSelection(
+                chapterId: chapter.chapterID,
+                verseId: 1,
+              ),
+            );
+            setState(() {});
+          },
+          chapters: state!.chapters,
+          selectedChapter: state!.chapter,
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                fullScreen = true;
+                showEmla2y = false;
+                selectedIds.clear();
+              });
+            },
+            icon: Icon(
+              Icons.fullscreen,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                if (showEmla2y) {
+                  showEmla2y = false;
+                } else {
+                  showEmla2y = true;
+                  showFeatureDialog();
+                }
+              });
+            },
+            icon: Icon(
+              showEmla2y ? Icons.close : Icons.search,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+          ),
+        ],
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
-            height: MediaQuery.of(context).padding.top,
-            child: Container(
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
-          !fullScreen
-              ? Container(
-                  color: Theme.of(context).primaryColor,
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: MushafDropDownWrapper(
-                          onChapterSelected: (Chapter chapter) async {
-                            selectedIds = [];
-                            state = await backend.reloadVerses(
-                              MushafSettings.fromSelection(
-                                chapterId: chapter.chapterID,
-                                verseId: 1,
-                              ),
-                            );
-                            setState(() {});
-                          },
-                          chapters: state!.chapters,
-                          selectedChapter: state!.chapter,
-                          onBack: () => Navigator.of(context).pop(),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            fullScreen = true;
-                            showEmla2y = false;
-                            selectedIds.clear();
-                          });
-                        },
-                        icon: Icon(
-                          Icons.fullscreen,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            if (showEmla2y) {
-                              showEmla2y = false;
-                            } else {
-                              showEmla2y = true;
-                              showFeatureDialog();
-                            }
-                          });
-                        },
-                        icon: Icon(
-                          showEmla2y ? Icons.close : Icons.search,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : Container(),
           Expanded(
             flex: 1,
-            child: VerseList(
-              verses: state!.verses,
-              highlightedVerse: highlightedVerseId,
-              startFromVerse: state!.startFromVerse,
-              searchable: state!.mode != MushafMode.SEARCH,
-              iconData: icon,
-              showEmla2y: showEmla2y,
-              onItemTap: (v) {
-                if (selectedIds.isEmpty) {
-                  backend.goTafseerPage(v);
-                } else {
-                  setState(() {
-                    if (selectedIds.contains(v.verseID)) {
-                      selectedIds.remove(v.verseID);
-                    } else {
-                      selectedIds.add(v.verseID);
-                    }
-                  });
+            child: Builder(
+              builder: (_) {
+                int? highlightedVerseId;
+                IconData? icon;
+                if (state!.mode == MushafMode.BOOKMARK ||
+                    state!.mode == MushafMode.SEARCH) {
+                  highlightedVerseId = state!.startFromVerse;
+                  if (state!.mode == MushafMode.BOOKMARK) {
+                    icon = Icons.bookmark_added_sharp;
+                  } else {
+                    icon = Icons.search_sharp;
+                  }
                 }
-              },
-              onItemLongTap: selectedIds.isEmpty
-                  ? (v) {
-                      setState(
-                        () {
+                return VerseList(
+                  verses: state!.verses,
+                  highlightedVerse: highlightedVerseId,
+                  startFromVerse: state!.startFromVerse,
+                  searchable: state!.mode != MushafMode.SEARCH,
+                  iconData: icon,
+                  showEmla2y: showEmla2y,
+                  onItemTap: (v) {
+                    if (selectedIds.isEmpty) {
+                      backend.goTafseerPage(v);
+                    } else {
+                      setState(() {
+                        if (selectedIds.contains(v.verseID)) {
+                          selectedIds.remove(v.verseID);
+                        } else {
                           selectedIds.add(v.verseID);
-                        },
-                      );
+                        }
+                      });
                     }
-                  : (v) {},
-              selectedVerses: selectedIds,
+                  },
+                  onItemLongTap: selectedIds.isEmpty
+                      ? (v) {
+                          setState(
+                            () {
+                              selectedIds.add(v.verseID);
+                            },
+                          );
+                        }
+                      : (v) {},
+                  selectedVerses: selectedIds,
+                );
+              },
             ),
           ),
           selectedIds.isNotEmpty
