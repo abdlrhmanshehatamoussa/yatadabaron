@@ -14,9 +14,16 @@ class TarteelSelectionPage extends StatefulWidget {
 class _State extends State<TarteelSelectionPage> with _Controller {
   var chapterId = 2;
   var start = 1;
-  var end = 2;
+  var end = 286;
   var reciterName = "Saood_ash-Shuraym_128kbps";
   var loading = false;
+  double size = 0;
+
+  @override
+  void initState() {
+    recalculateDownloadSize();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +34,7 @@ class _State extends State<TarteelSelectionPage> with _Controller {
           DropdownButton<int>(items: [], onChanged: (v) {}),
           TextFormField(),
           TextFormField(),
+          size > 0 ? Text(size.toStringAsFixed(2) + " ميجابايت") : Container(),
           IconButton(
             onPressed: loading
                 ? null
@@ -48,6 +56,16 @@ class _State extends State<TarteelSelectionPage> with _Controller {
         ],
       ),
     );
+  }
+
+  Future<void> recalculateDownloadSize() async {
+    size = await calculateDownloadableSizeMb(
+      chapterId,
+      start,
+      end,
+      reciterName,
+    );
+    setState(() {});
   }
 }
 
@@ -93,5 +111,22 @@ class _Controller {
         reciterName: "سعود الشريم",
       ),
     );
+  }
+
+  Future<double> calculateDownloadableSizeMb(
+    int chapterId,
+    int start,
+    int end,
+    String reciterName,
+  ) async {
+    double total = 0;
+    for (var i = start; i <= end; i++) {
+      total += await audioDownloaderService.getSizeMb(
+        i,
+        chapterId,
+        reciterName,
+      );
+    }
+    return total;
   }
 }
