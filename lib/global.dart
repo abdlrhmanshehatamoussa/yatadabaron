@@ -57,7 +57,7 @@ final reciterNameMap = {
   "Minshawy_Mujawwad_192kbps": "المنشاوي - مجود",
   "mahmoud_ali_al_banna_32kbps": "محمود علي البنا",
   "Mohammad_al_Tablaway_128kbps": "محمد الطبلاوي",
-  "Saood_ash-Shuraym_128kbps": "سعود الشريم",
+  "Saood_ash-Shuraym_64kbps": "سعود الشريم",
   "MaherAlMuaiqly128kbps": "ماهر المعيقلي",
   "Alafasy_128kbps": "مشاري العفاسي",
   "Abdurrahmaan_As-Sudais_192kbps": "عبد الرحمن السديس",

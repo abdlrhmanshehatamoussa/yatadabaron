@@ -193,13 +193,6 @@ class _TarteelPageState extends State<TarteelPage> {
                     item.verseText,
                     style: TextStyle(fontFamily: "Usmani", fontSize: 25),
                   ),
-                  onTap: () async {
-                    if (_audioPlayer.audioSource == null) {
-                      return;
-                    }
-                    await _audioPlayer.seek(Duration.zero, index: index);
-                    await _audioPlayer.play();
-                  },
                   selected: _playlistIndex == item.order,
                   selectedColor: Theme.of(context).colorScheme.secondary,
                 );
