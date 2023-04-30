@@ -17,8 +17,8 @@ class _State extends State<TarteelSelectionPage> with _Controller {
   var reciterKey = reciterNameMap.keys.first;
   var loading = false;
   double size = 0;
-  final fromController = TextEditingController();
-  final toController = TextEditingController();
+  final fromController = TextEditingController(text: "1");
+  final toController = TextEditingController(text: "1");
   List<Chapter> chapters = [];
 
   @override
