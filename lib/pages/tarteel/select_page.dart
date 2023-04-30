@@ -204,7 +204,21 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                             Icons.play_circle,
                             size: 150,
                           ),
-                        )
+                        ),
+                  Divider(
+                    height: 20,
+                    color: Colors.transparent,
+                  ),
+                  ListTile(
+                    title: Text(
+                      "من فضلك تأكد من اتصالك بالواي فاي أولاً لتجنب استهلاك كميات كبيرة من الباقة",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Icon(
+                    Icons.warning,
+                    size: 40,
+                  )
                 ],
               ),
       ),
