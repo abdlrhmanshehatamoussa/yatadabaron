@@ -15,14 +15,13 @@ class TarteelSelectionPage extends StatefulWidget {
 }
 
 class _State extends State<TarteelSelectionPage> with _Controller {
-  var reciterKey = reciterNameMap.keys.first;
-  var loading = false;
+  var reciterKey = "";
   var initialized = false;
-  double size = 0;
-  var chapterId = 1;
-  int start = 1;
-  int end = 7;
-  List<int> verses = List.generate(7, (i) => i + 1);
+  var loading = false;
+  var chapterId = 0;
+  int start = 0;
+  int end = 0;
+  List<int> verses = [];
   List<Chapter> chapters = [];
 
   @override
@@ -31,7 +30,13 @@ class _State extends State<TarteelSelectionPage> with _Controller {
       setState(() {
         chapters = value;
         reciterKey = getReciter();
-        initialized = true;
+        getTarteelLocation().then((locationArray) {
+          chapterId = locationArray[0];
+          start = locationArray[1];
+          end = locationArray[2];
+          verses = List.generate(end, (i) => i + 1);
+          initialized = true;
+        });
       });
     });
     super.initState();
@@ -66,7 +71,6 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                         ? null
                         : (v) async {
                             if (v != null) {
-                              await setReciter(v);
                               setState(() {
                                 reciterKey = v;
                               });
@@ -181,8 +185,14 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                               loading = true;
                             });
                             try {
+                              await setReciter(reciterKey);
+                              await setTarteelLocation(chapterId, start, end);
                               await onClickTarteel(
-                                  chapterId, start, end, reciterKey);
+                                chapterId,
+                                start,
+                                end,
+                                reciterKey,
+                              );
                             } catch (e) {
                               Utils.showInternetConnectionErrorDialog(context);
                             }
@@ -215,6 +225,16 @@ class _Controller {
 
   Future<void> setReciter(String reciterKey) async {
     await appSettingsService.updateReciter(reciterKey);
+  }
+
+  Future<void> setTarteelLocation(int chapterId, int start, int end) async {
+    await appSettingsService.updateTarteelLocation([chapterId, start, end]);
+  }
+
+  Future<List<int>> getTarteelLocation() async {
+    return appSettingsService.currentValue.tarteelLocation.isEmpty
+        ? [1, 1, 7]
+        : appSettingsService.currentValue.tarteelLocation;
   }
 
   Future<List<Chapter>> getChapters() async {
