@@ -56,20 +56,24 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                               value: reciterKey,
                             ))
                         .toList(),
-                    onChanged: (v) {
-                      if (v != null) {
-                        setState(() {
-                          reciterKey = v;
-                        });
-                      }
-                    },
+                    onChanged: loading
+                        ? null
+                        : (v) {
+                            if (v != null) {
+                              setState(() {
+                                reciterKey = v;
+                              });
+                            }
+                          },
                     value: reciterKey,
                     isExpanded: true,
                   ),
                   DropdownButtonFormField<int>(
+                    key: UniqueKey(),
                     isExpanded: true,
                     items: chapters
                         .map((chapter) => DropdownMenuItem<int>(
+                              key: UniqueKey(),
                               child: Text(chapter.chapterNameAR),
                               value: chapter.chapterID,
                             ))
