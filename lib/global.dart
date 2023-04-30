@@ -40,3 +40,9 @@ extension NavigationExtensions on NavigatorState {
     ));
   }
 }
+
+extension StringExtensions on String {
+  isRemoteUrl() {
+    return startsWith("https://") || startsWith("http://");
+  }
+}

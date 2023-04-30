@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:yatadabaron/global.dart';
 import 'package:yatadabaron/pages/tarteel/playable_item.dart';
 
 class TarteelPage extends StatefulWidget {
@@ -117,12 +118,13 @@ class _TarteelPageState extends State<TarteelPage> {
                               return;
                             case PlaybackState.initial:
                             case PlaybackState.completed:
-                              //TODO: Implement caching
                               await _audioPlayer.setAudioSource(
                                 ConcatenatingAudioSource(
                                   children: widget.playableItems
-                                      .map((item) => AudioSource.uri(
-                                          Uri.parse(item.audioUrl)))
+                                      .map((item) => item.audioUrl.isRemoteUrl()
+                                          ? AudioSource.uri(
+                                              Uri.parse(item.audioUrl))
+                                          : AudioSource.file(item.audioUrl))
                                       .toList(),
                                 ),
                               );

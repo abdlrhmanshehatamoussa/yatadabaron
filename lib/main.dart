@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
@@ -226,6 +227,18 @@ Future<void> registerPlatformSpecificDependencies(
     );
     Simply.register<IVersesService>(
       service: VersesService(databaseFilePath: databaseFilePath),
+    );
+  }
+
+  //Audio Downloader
+  if (kIsWeb) {
+    Simply.register<IVerseAudioDownloader>(
+      service: VerseAudioDownloaderWeb(),
+    );
+  } else {
+    var applicationDirectory = (await getApplicationDocumentsDirectory()).path;
+    Simply.register<IVerseAudioDownloader>(
+      service: VerseAudioDownloader(applicationDirectory),
     );
   }
 }
