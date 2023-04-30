@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:path/path.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/commons/localization.dart';
+import 'package:yatadabaron/commons/utils.dart';
+import 'package:yatadabaron/main.dart';
 
 class VersePlayWidget extends StatefulWidget {
   final int verseId;
@@ -29,6 +26,7 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
   AudioPlayerState state = AudioPlayerState.initial;
   String reciterKey = "Husary_128kbps";
   final appSettingsService = Simply.get<IAppSettingsService>();
+  final audioDownloaderService = Simply.get<IVerseAudioDownloader>();
 
   @override
   void initState() {
@@ -84,43 +82,23 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
                       setState(() {
                         state = AudioPlayerState.loading;
                       });
-                      var chapterIndex =
-                          widget.chapterId.toString().padLeft(3, "0");
-                      var verseIndex =
-                          widget.verseId.toString().padLeft(3, "0");
-                      var url =
-                          "https://everyayah.com/data/$reciterKey/$chapterIndex$verseIndex.mp3";
-                      var fileName = join(
-                          (await getApplicationDocumentsDirectory()).path,
-                          "audio",
+                      try {
+                        var audioUrls =
+                            await audioDownloaderService.getAudioUrlsOrPath(
+                          widget.chapterId,
+                          widget.verseId,
+                          widget.verseId,
                           reciterKey,
-                          "$chapterIndex$verseIndex.mp3");
-                      var file = File(fileName);
-                      if (await file.exists() == false) {
-                        try {
-                          final Response response = await get(Uri.parse(url));
-                          if ((response.contentLength ?? 0) > 0 &&
-                              response.bodyBytes.isNotEmpty) {
-                            await file.create(recursive: true);
-                            await file.writeAsBytes(response.bodyBytes);
-                          }
-                        } catch (e) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                "خطأ",
-                              ),
-                              content: Text(
-                                Localization.INTERNET_CONNECTION_ERROR,
-                              ),
-                            ),
-                          );
-                          return;
-                        }
+                        );
+                        var audioUrl = audioUrls[0];
+                        await player.setAudioSource(audioUrl.isRemoteUrl()
+                            ? AudioSource.uri(Uri.parse(audioUrl))
+                            : AudioSource.file(audioUrl));
+                        await player.play();
+                      } catch (e) {
+                        Utils.showInternetConnectionErrorDialog(context);
+                        return;
                       }
-                      await player.setAudioSource(AudioSource.file(fileName));
-                      await player.play();
                       break;
                     case AudioPlayerState.playing:
                       await player.pause();
@@ -175,46 +153,3 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
 }
 
 enum AudioPlayerState { paused, initial, playing, completed, loading }
-
-final reciterNameMap = {
-  "Husary_128kbps": "الحصري",
-  "Husary_128kbps_Mujawwad": "الحصري - مجود",
-  "Husary_Muallim_128kbps": "الحصري - معلم",
-  "Abdul_Basit_Mujawwad_128kbps": "عبد الباسط مجود",
-  "Abdul_Basit_Murattal_192kbps": "عبد الباسط مرتل",
-  "Minshawy_Murattal_128kbps": "المنشاوي - مرتل",
-  "Minshawy_Mujawwad_192kbps": "المنشاوي - مجود",
-  "mahmoud_ali_al_banna_32kbps": "محمود علي البنا",
-  "Mohammad_al_Tablaway_128kbps": "محمد الطبلاوي",
-  "Saood_ash-Shuraym_128kbps": "سعود الشريم",
-  "MaherAlMuaiqly128kbps": "ماهر المعيقلي",
-  "Alafasy_128kbps": "مشاري العفاسي",
-  "Abdurrahmaan_As-Sudais_192kbps": "عبد الرحمن السديس",
-  "Muhammad_Ayyoub_128kbps": "محمد أيوب",
-  "Muhammad_Jibreel_128kbps": "محمد جبريل",
-  "Ahmed_Neana_128kbps": "أحمد نعينع",
-  "Ali_Jaber_64kbps": "علي جابر",
-  "Yasser_Ad-Dussary_128kbps": "ياسر الدوسري",
-  "Abdullaah_3awwaad_Al-Juhaynee_128kbps": "عبد الله عواد الجهني",
-  "ahmed_ibn_ali_al_ajamy_128kbps": "أحمد ابن علي العجمي",
-  "Ghamadi_40kbps": "الغامدي",
-  "Hudhaify_128kbps": "الحذيفي",
-  "Fares_Abbad_64kbps": "فارس عباد",
-  "Ayman_Sowaid_64kbps": "أيمن سويد",
-  "Abu_Bakr_Ash-Shaatree_128kbps": "أبو بكر الشاطري",
-  "Abdullah_Basfar_192kbps": "عبد الله بصفر",
-  "Abdullah_Matroud_128kbps": "عبد الله مطرود",
-  "Akram_AlAlaqimy_128kbps": "أكرم العلاقمي",
-  "Ali_Hajjaj_AlSuesy_128kbps": "علي حجاج السويسي",
-  "aziz_alili_128kbps": "عزيز العلي",
-  "Hani_Rifai_192kbps": "هاني الرفاعي",
-  "Khaalid_Abdullaah_al-Qahtaanee_192kbps": "خالد عبد الله القحطاني",
-  "khalefa_al_tunaiji_64kbps": "خليفة الطنيجي",
-  "Muhammad_AbdulKareem_128kbps": "محمد عبد الكريم",
-  "Muhsin_Al_Qasim_192kbps": "محسن القاسم",
-  "Nasser_Alqatami_128kbps": "ناصر القطامي",
-  "Sahl_Yassin_128kbps": "سهل ياسين",
-  "Salaah_AbdulRahman_Bukhatir_128kbps": "صلاح بو خاطر",
-  "Salah_Al_Budair_128kbps": "صلاح البدير",
-  "Yaser_Salamah_128kbps": "ياسر سلامة",
-};

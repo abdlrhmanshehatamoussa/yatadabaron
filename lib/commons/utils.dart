@@ -297,4 +297,18 @@ class Utils {
     }
     return results;
   }
+
+  static void showInternetConnectionErrorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          "خطأ",
+        ),
+        content: Text(
+          Localization.INTERNET_CONNECTION_ERROR,
+        ),
+      ),
+    );
+  }
 }

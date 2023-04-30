@@ -4,6 +4,7 @@ import 'package:yatadabaron/pages/contact/page.dart';
 import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:yatadabaron/pages/search/view.dart';
 import 'package:yatadabaron/pages/statistics/view.dart';
+import 'package:yatadabaron/pages/tarteel/select_page.dart';
 
 class HomeController {
   HomeController();
@@ -37,6 +38,12 @@ class HomeController {
   void goContactPage() {
     appNavigator.pushWidget(
       view: ContactPage(),
+    );
+  }
+
+  void goTarteelPage() {
+    appNavigator.pushWidget(
+      view: TarteelSelectionPage(),
     );
   }
 }

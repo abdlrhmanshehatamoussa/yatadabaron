@@ -16,6 +16,7 @@ class AppSettingsService implements IAppSettingsService {
       language: "ar",
       nightMode: _getBool(Constants.PREF_NIGHT_MODE_KEY) ?? false,
       reciterKey: _getString(Constants.PREF_RECITER_KEY),
+      tarteelLocation: _getList(Constants.PREF_TARTEEL_LOCATION),
     );
   }
 
@@ -35,6 +36,19 @@ class AppSettingsService implements IAppSettingsService {
     }
   }
 
+  List<int> _getList(String k) {
+    try {
+      return this
+              .sharedPreferences
+              .getStringList(k)
+              ?.map((e) => int.parse(e))
+              .toList() ??
+          [];
+    } catch (e) {
+      return [];
+    }
+  }
+
   bool? _getBool(String k) {
     try {
       return this.sharedPreferences.getBool(k);
@@ -46,5 +60,13 @@ class AppSettingsService implements IAppSettingsService {
   @override
   Future<void> updateReciter(String reciterKey) async {
     await sharedPreferences.setString(Constants.PREF_RECITER_KEY, reciterKey);
+  }
+
+  @override
+  Future<void> updateTarteelLocation(List<int> list) async {
+    await sharedPreferences.setStringList(
+      Constants.PREF_TARTEEL_LOCATION,
+      list.map((e) => e.toString()).toList(),
+    );
   }
 }

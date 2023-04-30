@@ -1,3 +1,5 @@
+import 'package:arabic_numbers/arabic_numbers.dart';
+
 class Verse {
   final String? chapterName;
   final int chapterId;
@@ -12,4 +14,7 @@ class Verse {
     required this.verseTextTashkel,
     required this.verseID,
   });
+
+  String get verseTextTashkelWithNumber =>
+      verseTextTashkel + " " + ArabicNumbers().convert(verseID.toString());
 }

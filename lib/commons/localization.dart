@@ -85,6 +85,7 @@ class Localization {
   static const String IN = "في";
   static const String VERSION_BUILD_ID = "رقم النسخة: #";
   static const String CONTACT_US = "تواصل معنا";
+  static const String TARTEEL_PAGE = "ترتيل";
   static const String QURAN_AUDIO_SOURCE =
       "أصوات القراءة مصدرها\n" "https://everyayah.com";
 }
