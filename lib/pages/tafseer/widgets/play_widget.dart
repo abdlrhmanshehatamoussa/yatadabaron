@@ -83,12 +83,14 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
                         state = AudioPlayerState.loading;
                       });
                       try {
-                        var audioUrl =
-                            await audioDownloaderService.getAudioUrlOrPath(
-                          widget.verseId,
+                        var audioUrls =
+                            await audioDownloaderService.getAudioUrlsOrPath(
                           widget.chapterId,
+                          widget.verseId,
+                          widget.verseId,
                           reciterKey,
                         );
+                        var audioUrl = audioUrls[0];
                         await player.setAudioSource(audioUrl.isRemoteUrl()
                             ? AudioSource.uri(Uri.parse(audioUrl))
                             : AudioSource.file(audioUrl));

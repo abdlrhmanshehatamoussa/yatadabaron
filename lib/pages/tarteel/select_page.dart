@@ -14,14 +14,20 @@ class TarteelSelectionPage extends StatefulWidget {
 class _State extends State<TarteelSelectionPage> with _Controller {
   var chapterId = 2;
   var start = 1;
-  var end = 286;
-  var reciterName = "Saood_ash-Shuraym_128kbps";
+  var end = 20;
+  var reciterKey = "Saood_ash-Shuraym_128kbps";
   var loading = false;
   double size = 0;
 
   @override
   void initState() {
-    recalculateDownloadSize();
+    // audioDownloaderService
+    //     .getSizeMb(chapterId, start, end, reciterKey)
+    //     .then((value) {
+    //   setState(() {
+    //     size = value;
+    //   });
+    // });
     super.initState();
   }
 
@@ -43,7 +49,7 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                       loading = true;
                     });
                     try {
-                      await onClickTarteel(chapterId, start, end, reciterName);
+                      await onClickTarteel(chapterId, start, end, reciterKey);
                     } catch (e) {
                       Utils.showInternetConnectionErrorDialog(context);
                     }
@@ -51,21 +57,14 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                       loading = false;
                     });
                   },
-            icon: Icon(Icons.play_circle, size: 50),
+            icon: Icon(
+              Icons.play_circle,
+              size: 50,
+            ),
           )
         ],
       ),
     );
-  }
-
-  Future<void> recalculateDownloadSize() async {
-    size = await calculateDownloadableSizeMb(
-      chapterId,
-      start,
-      end,
-      reciterName,
-    );
-    setState(() {});
   }
 }
 
@@ -78,7 +77,7 @@ class _Controller {
     int chapterId,
     int start,
     int end,
-    String reciterName,
+    String reciterKey,
   ) async {
     var result = <TarteelPlayableItem>[];
     var chapterName =
@@ -87,13 +86,11 @@ class _Controller {
     verses = verses
         .where((element) => element.verseID >= start && element.verseID <= end)
         .toList();
-    for (var i = 0; i < verses.length; i++) {
+    var audioUrls = await audioDownloaderService.getAudioUrlsOrPath(
+        chapterId, start, end, reciterKey);
+    for (var i = 0; i < audioUrls.length; i++) {
+      var audioUrl = audioUrls[i];
       var verse = verses[i];
-      var audioUrl = await audioDownloaderService.getAudioUrlOrPath(
-        verse.verseID,
-        chapterId,
-        reciterName,
-      );
       result.add(
         TarteelPlayableItem(
           order: i,
@@ -111,22 +108,5 @@ class _Controller {
         reciterName: "سعود الشريم",
       ),
     );
-  }
-
-  Future<double> calculateDownloadableSizeMb(
-    int chapterId,
-    int start,
-    int end,
-    String reciterName,
-  ) async {
-    double total = 0;
-    for (var i = start; i <= end; i++) {
-      total += await audioDownloaderService.getSizeMb(
-        i,
-        chapterId,
-        reciterName,
-      );
-    }
-    return total;
   }
 }

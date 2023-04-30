@@ -1,12 +1,14 @@
 abstract class IVerseAudioDownloader {
-  Future<String> getAudioUrlOrPath(
-    int verseId,
+  Future<List<String>> getAudioUrlsOrPath(
     int chapterId,
+    int start,
+    int end,
     String reciterKey,
   );
   Future<double> getSizeMb(
-    int verseId,
     int chapterId,
+    int start,
+    int end,
     String reciterKey,
   );
 }

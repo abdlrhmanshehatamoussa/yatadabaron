@@ -9,78 +9,78 @@ class VerseAudioDownloader extends VerseAudioDownloaderWeb {
   VerseAudioDownloader(this.applicationDirectory);
 
   @override
-  Future<String> getAudioUrlOrPath(
-    int verseId,
+  Future<List<String>> getAudioUrlsOrPath(
     int chapterId,
+    int start,
+    int end,
     String reciterKey,
   ) async {
-    var file = _getAudioFile(
-      verseId,
+    var remoteUrls = await super.getAudioUrlsOrPath(
       chapterId,
+      start,
+      end,
       reciterKey,
-      applicationDirectory,
     );
-    if (await file.exists()) {
-      return file.path;
+    var result = <String>[];
+    var j = 0;
+    for (var i = start; i <= end; i++) {
+      var fileName = join(
+        applicationDirectory,
+        "audio",
+        reciterKey,
+        "$chapterId$i.mp3",
+      );
+      var file = File(fileName);
+      if (await file.exists() == false) {
+        final Response response = await get(Uri.parse(remoteUrls[j]));
+        if ((response.contentLength ?? 0) > 0 &&
+            response.bodyBytes.isNotEmpty) {
+          await file.create(recursive: true);
+          await file.writeAsBytes(response.bodyBytes);
+        }
+      }
+      result.add(file.path);
+      j += 1;
     }
-    var remoteUrl = await super.getAudioUrlOrPath(
-      verseId,
-      chapterId,
-      reciterKey,
-    );
-    final Response response = await get(Uri.parse(remoteUrl));
-    if ((response.contentLength ?? 0) > 0 && response.bodyBytes.isNotEmpty) {
-      await file.create(recursive: true);
-      await file.writeAsBytes(response.bodyBytes);
-    }
-    return file.path;
-  }
-
-  File _getAudioFile(
-    int verseId,
-    int chapterId,
-    String reciterKey,
-    String parentDirectory,
-  ) {
-    var fileName = join(
-      parentDirectory,
-      "audio",
-      reciterKey,
-      "$chapterId$verseId.mp3",
-    );
-    return File(fileName);
+    return result;
   }
 }
 
 class VerseAudioDownloaderWeb extends IVerseAudioDownloader {
   @override
-  Future<String> getAudioUrlOrPath(
-    int verseId,
+  Future<List<String>> getAudioUrlsOrPath(
     int chapterId,
+    int start,
+    int end,
     String reciterKey,
   ) async {
-    return _getAudioRemoteUrl(verseId, chapterId, reciterKey);
+    var result = <String>[];
+    for (var i = start; i <= end; i++) {
+      var verseIndex = i.toString().padLeft(3, '0');
+      var chapterIndex = chapterId.toString().padLeft(3, '0');
+      var audioUrl =
+          "https://everyayah.com/data/$reciterKey/$chapterIndex$verseIndex.mp3";
+      result.add(audioUrl);
+    }
+    return result;
   }
 
   @override
   Future<double> getSizeMb(
-    int verseId,
     int chapterId,
+    int start,
+    int end,
     String reciterKey,
   ) async {
-    var url = _getAudioRemoteUrl(verseId, chapterId, reciterKey);
-    Uri uri = Uri.parse(url);
-    final Response response = await head(uri).defaultNetworkTimeout();
-    String? sizeBytesStr = response.headers["content-length"];
-    double sizeMB = double.parse(sizeBytesStr ?? "") / 1000000;
-    return sizeMB;
-  }
-
-  String _getAudioRemoteUrl(int verseId, int chapterId, String reciterKey) {
-    var verseIndex = verseId.toString().padLeft(3, '0');
-    var chapterIndex = chapterId.toString().padLeft(3, '0');
-    var audioUrl =
-        "https://everyayah.com/data/$reciterKey/$chapterIndex$verseIndex.mp3";
-    return audioUrl;
+    var urls = await getAudioUrlsOrPath(chapterId, start, end, reciterKey);
+    double totalBytes = 0;
+    for (var i = 0; i < urls.length; i++) {
+      Uri uri = Uri.parse(urls[i]);
+      final Response response = await head(uri).defaultNetworkTimeout();
+      String? sizeBytesStr = response.headers["content-length"];
+      double sizeBytes = double.parse(sizeBytesStr ?? "");
+      totalBytes += sizeBytes;
+    }
+    return totalBytes / 1000;
   }
 }
