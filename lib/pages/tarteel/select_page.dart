@@ -17,6 +17,7 @@ class TarteelSelectionPage extends StatefulWidget {
 class _State extends State<TarteelSelectionPage> with _Controller {
   var reciterKey = reciterNameMap.keys.first;
   var loading = false;
+  var initialized = false;
   double size = 0;
   var chapterId = 1;
   int start = 1;
@@ -29,6 +30,8 @@ class _State extends State<TarteelSelectionPage> with _Controller {
     getChapters().then((value) {
       setState(() {
         chapters = value;
+        reciterKey = getReciter();
+        initialized = true;
       });
     });
     super.initState();
@@ -40,7 +43,7 @@ class _State extends State<TarteelSelectionPage> with _Controller {
       appBar: AppBar(title: Text("ترتيل")),
       body: Container(
         padding: EdgeInsets.all(5),
-        child: chapters.isEmpty
+        child: !initialized
             ? Center(
                 child: CircularProgressIndicator(),
               )
@@ -61,8 +64,9 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                         .toList(),
                     onChanged: loading
                         ? null
-                        : (v) {
+                        : (v) async {
                             if (v != null) {
+                              await setReciter(v);
                               setState(() {
                                 reciterKey = v;
                               });
@@ -202,6 +206,16 @@ class _Controller {
   final verseService = Simply.get<IVersesService>();
   final chapterService = Simply.get<IChaptersService>();
   final audioDownloaderService = Simply.get<IVerseAudioDownloader>();
+  final appSettingsService = Simply.get<IAppSettingsService>();
+
+  String getReciter() {
+    return appSettingsService.currentValue.reciterKey ??
+        reciterNameMap.keys.first;
+  }
+
+  Future<void> setReciter(String reciterKey) async {
+    await appSettingsService.updateReciter(reciterKey);
+  }
 
   Future<List<Chapter>> getChapters() async {
     return await chapterService.getAll();
