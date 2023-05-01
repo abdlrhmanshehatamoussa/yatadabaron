@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/pages/mushaf/controller.dart';
@@ -32,6 +33,7 @@ class _MushafPageState extends State<MushafPage> {
         state = value;
       });
     });
+    Wakelock.enable();
     super.initState();
   }
 
@@ -214,6 +216,12 @@ class _MushafPageState extends State<MushafPage> {
             )
           : null,
     );
+  }
+
+  @override
+  void dispose() {
+    Wakelock.disable();
+    super.dispose();
   }
 
   void showFeatureDialog() {

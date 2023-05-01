@@ -1,3 +1,4 @@
+import 'package:wakelock/wakelock.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +9,15 @@ import './widgets/search-form.dart';
 import './widgets/search-results-list.dart';
 import './widgets/search-summary.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   final SearchController? controller;
-
   const SearchPage({Key? key, this.controller}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _State();
+}
+
+class _State extends State<SearchPage> {
   Widget customText(String text) {
     return Center(
       child: Text(
@@ -23,8 +29,20 @@ class SearchPage extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    Wakelock.enable();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Wakelock.disable();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    SearchController backend = controller ?? SearchController();
+    SearchController backend = widget.controller ?? SearchController();
     backend.errorStream.listen((Exception error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(error.toString()),

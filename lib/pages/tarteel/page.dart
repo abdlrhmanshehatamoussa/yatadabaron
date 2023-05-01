@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:yatadabaron/global.dart';
 import 'package:yatadabaron/pages/tarteel/playable_item.dart';
 
@@ -30,7 +31,7 @@ class _TarteelPageState extends State<TarteelPage> {
   @override
   void initState() {
     super.initState();
-
+    Wakelock.enable();
     streamSubscription = _audioPlayer.playerStateStream.map((originalEvent) {
       if (originalEvent.processingState == ProcessingState.loading ||
           originalEvent.processingState == ProcessingState.buffering) {
@@ -209,6 +210,7 @@ class _TarteelPageState extends State<TarteelPage> {
     streamSubscription?.cancel().then((value) {
       indexStreamSubscription?.cancel().then((value) => _audioPlayer.dispose());
     });
+    Wakelock.disable();
     super.dispose();
   }
 }
