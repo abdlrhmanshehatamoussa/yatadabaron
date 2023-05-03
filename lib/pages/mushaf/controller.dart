@@ -1,6 +1,7 @@
 import 'package:share/share.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/main.dart';
 import 'package:yatadabaron/pages/tafseer/view.dart';
 import 'package:simply/simply.dart';
@@ -68,10 +69,11 @@ class MushafController {
       verse =
           await versesService.getSingleVerse(verse.verseID, verse.chapterId);
       chapterName = verse.chapterName;
-      String line = "${verse.verseTextTashkel} {${verse.verseID}}";
+      String line =
+          "${verse.verseTextTashkel} (${Utils.convertToArabiNumber(verse.verseID)})";
       lines.add(line);
     }
-    var toShare = "$chapterName\n" + lines.join("\n");
+    var toShare = "${lines.join("\n")}\n($chapterName)";
     await Share.share(toShare);
   }
 }

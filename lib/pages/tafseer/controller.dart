@@ -32,9 +32,7 @@ class TafseerPageController {
 
   Future<void> shareVerse() async {
     Verse _verse = await loadVerseDTO();
-    String toCopy =
-        "${_verse.chapterName}\n${_verse.verseTextTashkel} {${_verse.verseID}}";
-    await Share.share(toCopy);
+    await Share.share(_verse.toString());
   }
 
   Future<List<TafseerSource>> getAvailableTafseers() async {

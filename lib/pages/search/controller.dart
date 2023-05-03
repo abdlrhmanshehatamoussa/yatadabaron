@@ -56,10 +56,8 @@ class SearchController {
   }
 
   Future<void> copyVerse(Verse verse) async {
-    String toCopy =
-        "${verse.chapterName}\n${verse.verseTextTashkel} {${verse.verseID}}";
-    eventLogger.logTapEvent(description: "share_verse");
-    Share.share(toCopy);
+    await eventLogger.logTapEvent(description: "share_verse");
+    Share.share(verse.toString());
   }
 
   Future<void> goMushafPage(Verse verse) async {
