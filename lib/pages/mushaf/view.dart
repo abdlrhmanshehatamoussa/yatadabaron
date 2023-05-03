@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/commons/utils.dart';
@@ -25,6 +26,7 @@ class _MushafPageState extends State<MushafPage> {
   MushafPageState? state;
   bool showEmla2y = false;
   bool fullScreen = false;
+  ItemScrollController controller = ItemScrollController();
 
   @override
   void initState() {
@@ -51,14 +53,18 @@ class _MushafPageState extends State<MushafPage> {
           padding: EdgeInsets.all(15),
           child: MushafDropDownWrapper(
             onChapterSelected: (Chapter chapter) async {
-              selectedIds = [];
               state = await backend.reloadVerses(
                 MushafSettings.fromSelection(
                   chapterId: chapter.chapterID,
                   verseId: 1,
                 ),
               );
-              setState(() {});
+              setState(() {
+                selectedIds = [];
+                if (controller.isAttached) {
+                  controller.jumpTo(index: 0);
+                }
+              });
             },
             chapters: state!.chapters,
             selectedChapter: state!.chapter,
@@ -117,6 +123,7 @@ class _MushafPageState extends State<MushafPage> {
                 return VerseList(
                   verses: state!.verses,
                   highlightedVerse: highlightedVerseId,
+                  controller: controller,
                   startFromVerse: state!.startFromVerse,
                   iconData: icon,
                   showEmla2y: showEmla2y,
