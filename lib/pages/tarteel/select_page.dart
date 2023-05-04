@@ -126,7 +126,7 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                         items: verses
                             .map((verseId) => DropdownMenuItem<int>(
                                   key: UniqueKey(),
-                                  child: Text(verseId.toString()),
+                                  child: Text(verseId.toArabicNumber()),
                                   value: verseId,
                                 ))
                             .toList(),
@@ -150,7 +150,7 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                         items: verses
                             .map((verseId) => DropdownMenuItem<int>(
                                   key: UniqueKey(),
-                                  child: Text(verseId.toString()),
+                                  child: Text(verseId.toArabicNumber()),
                                   value: verseId,
                                 ))
                             .toList(),
