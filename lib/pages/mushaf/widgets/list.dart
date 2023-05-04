@@ -16,7 +16,6 @@ class VerseList extends StatelessWidget {
   final bool showEmla2y;
   final Function(Verse verse) onItemTap;
   final Function(Verse verse) onItemLongTap;
-  final ItemScrollController controller;
 
   VerseList({
     required this.verses,
@@ -27,7 +26,6 @@ class VerseList extends StatelessWidget {
     required this.onItemLongTap,
     required this.selectedVerses,
     required this.showEmla2y,
-    required this.controller,
   });
 
   @override
@@ -43,7 +41,7 @@ class VerseList extends StatelessWidget {
 
     int scrollIndex = startFromVerse - 1;
     return ScrollablePositionedList.separated(
-      itemScrollController: controller,
+      key: UniqueKey(),
       itemCount: verses.length,
       initialScrollIndex: scrollIndex,
       separatorBuilder: (_, __) =>
