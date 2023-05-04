@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
-import 'package:yatadabaron/commons/utils.dart';
+import 'package:yatadabaron/global.dart';
 
 class ChaptersDropDown extends StatelessWidget {
   final List<Chapter> chapters;
@@ -22,7 +22,6 @@ class ChaptersDropDown extends StatelessWidget {
         itemCount: chapters.length,
         itemBuilder: (_, int i) {
           Chapter chapter = chapters[i];
-          String idStr = Utils.convertToArabiNumber(chapter.chapterID, reverse: false);
           return ListTile(
             title: Text(
               chapter.chapterNameAR,
@@ -31,7 +30,7 @@ class ChaptersDropDown extends StatelessWidget {
               ),
             ),
             leading: Text(
-              "$idStr",
+              chapter.chapterID.toArabicNumber(),
               style: TextStyle(fontSize: 18, fontFamily: "Arial"),
             ),
             onTap: () => this.onChapterSelected(chapter),

@@ -1,19 +1,17 @@
-import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
+import 'package:yatadabaron/global.dart';
 import './localization.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
-  static String convertToArabiNumber(dynamic x, {bool reverse = true}) {
-    String converted = ArabicNumbers().convert(x);
-    if (reverse == true) {
-      String reversed = converted.split('').reversed.join();
-      return reversed;
-    } else {
-      return converted;
-    }
-  }
+  //static String _convertToArabiNumber(dynamic x, {bool reverse = true}) {
+    // String converted = ArabicNumbers.convert(x);
+    // if (reverse == true) {
+    //   converted = converted.split('').reversed.join();
+    // }
+    // return converted;
+  //}
 
   static List<String> arabicLetters() {
     return [
@@ -113,7 +111,7 @@ class Utils {
     required int count,
     required bool isMasculine,
   }) {
-    String countAr = Utils.convertToArabiNumber(count, reverse: false);
+    String countAr = count.toArabicNumber();
     if (count == 1) {
       if (isMasculine) {
         return "$single ${Localization.ONE_MASC}";
@@ -310,5 +308,20 @@ class Utils {
         ),
       ),
     );
+  }
+
+  static bool isListContinuous(List<int> verseIds) {
+    if (verseIds.length == 1) {
+      return true;
+    }
+    verseIds.sort();
+    for (var i = 0; i < verseIds.length - 1; i++) {
+      var current = verseIds[i];
+      var next = verseIds[i + 1];
+      if (next - current > 1) {
+        return false;
+      }
+    }
+    return true;
   }
 }

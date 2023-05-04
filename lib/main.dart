@@ -241,6 +241,17 @@ Future<void> registerPlatformSpecificDependencies(
       service: VerseAudioDownloader(applicationDirectory),
     );
   }
+
+  //Share Service
+  if (kIsWeb) {
+    Simply.register<IShareService>(
+      service: ShareServiceWeb(),
+    );
+  } else {
+    Simply.register<IShareService>(
+      service: ShareService(),
+    );
+  }
 }
 
 Future<void> init() async {

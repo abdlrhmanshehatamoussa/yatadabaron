@@ -1,8 +1,7 @@
-import 'package:arabic_numbers/arabic_numbers.dart';
-import 'package:yatadabaron/commons/utils.dart';
+import 'package:yatadabaron/global.dart';
 
 class Verse {
-  final String? chapterName;
+  String? chapterName;
   final int chapterId;
   final String verseText;
   final String verseTextTashkel;
@@ -16,11 +15,8 @@ class Verse {
     required this.verseID,
   });
 
-  String get verseTextTashkelWithNumber =>
-      verseTextTashkel + " " + ArabicNumbers().convert(verseID.toString());
-
   @override
   String toString() {
-    return "{$verseTextTashkel} ($chapterName:${Utils.convertToArabiNumber(verseID)})";
+    return "{$verseTextTashkel} [$chapterName:${verseID.toArabicNumber()}]";
   }
 }

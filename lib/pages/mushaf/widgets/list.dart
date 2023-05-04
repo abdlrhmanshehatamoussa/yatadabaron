@@ -4,6 +4,7 @@ import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/global.dart';
 import 'package:yatadabaron/pages/_widgets/custom_search_toolbar.dart';
 
 class VerseList extends StatelessWidget {
@@ -61,9 +62,7 @@ class VerseList extends StatelessWidget {
                 right: 10,
               ),
               title: Text(
-                verse.verseTextTashkel +
-                    " " +
-                    Utils.convertToArabiNumber(verse.verseID, reverse: false),
+                verse.verseTextTashkel + " " + verse.verseID.toArabicNumber(),
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 28,

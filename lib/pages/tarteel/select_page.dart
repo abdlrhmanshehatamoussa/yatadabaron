@@ -1,4 +1,3 @@
-import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:flutter/material.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
@@ -86,10 +85,8 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                         .map((chapter) => DropdownMenuItem<int>(
                               key: UniqueKey(),
                               child: SingleChildScrollView(
-                                child: Text(ArabicNumbers()
-                                        .convert(chapter.chapterID.toString()) +
-                                    " - " +
-                                    chapter.chapterNameAR),
+                                child: Text(
+                                    "${chapter.chapterID.toArabicNumber()} - ${chapter.chapterNameAR}"),
                                 padding: EdgeInsets.all(10),
                                 scrollDirection: Axis.horizontal,
                               ),
@@ -283,7 +280,7 @@ class _Controller {
         result.add(
           TarteelPlayableItem(
             order: i,
-            verseText: verse.verseTextTashkelWithNumber,
+            verseText: verse.verseTextTashkel,
             verseId: verse.verseID,
             chapterName: chapterName,
             audioUrl: audioUrl,

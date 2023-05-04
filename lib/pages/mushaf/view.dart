@@ -3,6 +3,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/commons/utils.dart';
+import 'package:yatadabaron/global.dart';
 import 'package:yatadabaron/pages/mushaf/controller.dart';
 import 'package:yatadabaron/pages/mushaf/view_models/mushaf_state.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown_wrapper.dart';
@@ -164,16 +165,19 @@ class _MushafPageState extends State<MushafPage> {
                         Text(
                           "تم تحديد"
                           " ("
-                          "${Utils.convertToArabiNumber(selectedIds.length)}"
+                          "${selectedIds.length.toArabicNumber()}"
                           ")",
                           style: TextStyle(
                               color: Theme.of(context).colorScheme.secondary),
                         ),
                         TextButton(
                           onPressed: () async {
-                            await backend.shareVerses(state!.verses
-                                .where((v) => selectedIds.contains(v.verseID))
-                                .toList());
+                            await backend.shareVerses(
+                              state!.verses
+                                  .where((v) => selectedIds.contains(v.verseID))
+                                  .toList(),
+                              state!.chapter.chapterNameAR,
+                            );
                           },
                           style: ButtonStyle(
                               padding: MaterialStateProperty.all(

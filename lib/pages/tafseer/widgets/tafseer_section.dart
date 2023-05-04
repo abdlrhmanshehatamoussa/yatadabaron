@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/commons/localization.dart';
+import 'package:yatadabaron/global.dart';
 
 class TafseerSection extends StatelessWidget {
   final String? tafseer;
@@ -36,8 +36,7 @@ class TafseerSection extends StatelessWidget {
             if (snapshot.hasData) {
               String message = Localization.CLICK_TO_DOWNLOAD_TAFSEER;
               if (snapshot.data! > 0) {
-                String size =
-                    Utils.convertToArabiNumber(snapshot.data, reverse: false);
+                String size = snapshot.data!.toArabicNumber();
                 message +=
                     " " + Localization.MEGA_BYTES.replaceFirst("%", size);
               }

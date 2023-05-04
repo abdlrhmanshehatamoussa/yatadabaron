@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/utils.dart';
+import 'package:yatadabaron/global.dart';
 
 class VerseSection extends StatelessWidget {
   final String verseTextTashkeel;
   final String chapterName;
   final int verseId;
-  
 
   VerseSection({
     required this.verseTextTashkeel,
@@ -15,18 +14,16 @@ class VerseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String verseIdArabic = Utils.convertToArabiNumber(verseId,reverse: false);
     return Container(
       padding: EdgeInsets.all(5),
       child: ListTile(
-        title: Text(
-          chapterName + "\n" + verseTextTashkeel + " " + verseIdArabic,
-          style: TextStyle(
-            fontSize: 25,
-            fontFamily: 'Usmani',
-          ),
-        )
-      ),
+          title: Text(
+        chapterName + "\n" + verseTextTashkeel + " " + verseId.toArabicNumber(),
+        style: TextStyle(
+          fontSize: 25,
+          fontFamily: 'Usmani',
+        ),
+      )),
     );
   }
 }

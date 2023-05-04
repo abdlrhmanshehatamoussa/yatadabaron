@@ -1,4 +1,3 @@
-import 'package:share/share.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
@@ -15,6 +14,7 @@ class SearchController {
   late IChaptersService chaptersService = Simply.get<IChaptersService>();
   late IVersesService versesService = Simply.get<IVersesService>();
   late IEventLogger eventLogger = Simply.get<IEventLogger>();
+  late IShareService _shareService = Simply.get<IShareService>();
 
   KeywordSearchSettings settings = KeywordSearchSettings();
   StreamObject<SearchResult> _searchResultBloc = StreamObject();
@@ -52,12 +52,12 @@ class SearchController {
   Stream<Exception> get errorStream => _errorStream.stream;
 
   Future<void> share(String toCopy) async {
-    Share.share(toCopy);
+    _shareService.share(toCopy);
   }
 
   Future<void> copyVerse(Verse verse) async {
     await eventLogger.logTapEvent(description: "share_verse");
-    Share.share(verse.toString());
+    _shareService.share(verse.toString());
   }
 
   Future<void> goMushafPage(Verse verse) async {

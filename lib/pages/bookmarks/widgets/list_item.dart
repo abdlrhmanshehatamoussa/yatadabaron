@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/global.dart';
 
 class BookmarkListItem extends StatelessWidget {
   final Verse verse;
@@ -18,7 +18,6 @@ class BookmarkListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     String title = "${verse.chapterName}";
     String subtitle = "${verse.verseTextTashkel}";
-    String verseIdArabic = Utils.convertToArabiNumber(verse.verseID);
     TextStyle usmaniStyle = TextStyle(
       fontWeight: FontWeight.normal,
       fontFamily: "Usmani",
@@ -51,7 +50,7 @@ class BookmarkListItem extends StatelessWidget {
         ),
       ),
       leading: Text(
-        verseIdArabic,
+        verse.verseID.toArabicNumber(),
         style: usmaniStyle.copyWith(fontSize: 32),
       ),
       onTap: () async => await onBookmarkClick(

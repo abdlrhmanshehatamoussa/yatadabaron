@@ -9,14 +9,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.18"
-  arabic_numbers:
-    dependency: "direct main"
-    description:
-      name: arabic_numbers
-      sha256: e8786218a2c299314d069556b0f30ce2e441fb0565e988b67c77ac97b1152ffb
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   archive:
     dependency: "direct main"
     description:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/global.dart';
 import 'list-item.dart';
 
 class SearchResultsList extends StatelessWidget {
@@ -47,7 +48,7 @@ class SearchResultsList extends StatelessWidget {
           isMasculine: false,
         );
         return ExpansionTile(
-          initiallyExpanded: i==0,
+          initiallyExpanded: i == 0,
           title: Text(
             "$collectionName  [$resultsCountArabic ${Localization.IN} $versesCountArabic]",
             style: TextStyle(
@@ -59,7 +60,7 @@ class SearchResultsList extends StatelessWidget {
           children:
               collection.results.map((VerseSearchResult verseSearchResult) {
             String verseIdStr =
-                Utils.convertToArabiNumber(verseSearchResult.verse.verseID, reverse: false);
+                verseSearchResult.verse.verseID.toArabicNumber();
             return Column(
               children: <Widget>[
                 ListTile(

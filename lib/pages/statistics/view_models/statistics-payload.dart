@@ -1,6 +1,7 @@
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/global.dart';
 
 class StatisticsPayload {
   final String? chapterName;
@@ -17,10 +18,8 @@ class StatisticsPayload {
     results.forEach((LetterFrequency lf) {
       totalCount += lf.frequency;
     });
-    String totalCountAr =
-        Utils.convertToArabiNumber(totalCount, reverse: false);
-    result = Utils.replaceMultiple(
-        result, "#", [this.chapterName, basmalaState, totalCountAr]);
+    result = Utils.replaceMultiple(result, "#",
+        [this.chapterName, basmalaState, totalCount.toArabicNumber()]);
     return result;
   }
 }

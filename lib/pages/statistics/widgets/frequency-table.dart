@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/global.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 import '../view_models/statistics-payload.dart';
 
@@ -38,10 +38,6 @@ class FrequencyTable extends StatelessWidget {
                   ),
                 ],
                 rows: snapshot.data!.results.map((LetterFrequency lf) {
-                  String freq = Utils.convertToArabiNumber(
-                    lf.frequency,
-                    reverse: false,
-                  );
                   return DataRow(
                     cells: [
                       DataCell(
@@ -55,7 +51,7 @@ class FrequencyTable extends StatelessWidget {
                       ),
                       DataCell(
                         Text(
-                          freq,
+                          lf.frequency.toArabicNumber(),
                           style: TextStyle(
                             fontFamily: 'Arial',
                             fontSize: 20,

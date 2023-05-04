@@ -191,7 +191,7 @@ class _TarteelPageState extends State<TarteelPage> {
                 var item = widget.playableItems[index];
                 return ListTile(
                   title: Text(
-                    item.verseText,
+                    "${item.verseText} ${item.verseId.toArabicNumber()}",
                     style: TextStyle(fontFamily: "Usmani", fontSize: 25),
                   ),
                   selected: _playlistIndex == item.order,

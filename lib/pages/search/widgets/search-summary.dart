@@ -60,8 +60,7 @@ class SearchSummaryWidget extends StatelessWidget {
   String get toShare {
     String toCopy = "$summary\n\n";
     searchResult.results.forEach((VerseSearchResult verseSearchResult) {
-      toCopy +=
-          "${verseSearchResult.verse.chapterName}\n${verseSearchResult.verse.verseTextTashkel} {${verseSearchResult.verse.verseID}}\n\n";
+      toCopy += "${verseSearchResult.verse.toString()}\n";
     });
     return toCopy;
   }

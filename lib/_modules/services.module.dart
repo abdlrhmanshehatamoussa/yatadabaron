@@ -12,3 +12,4 @@ export '../services/event_logger_service.dart';
 export '../services/muted_messages_service.dart';
 export '../services/web/_module.dart';
 export '../services/verse_audio_downloader.dart';
+export '../services/share_service.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/global.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/dropdown.dart';
 
 class MushafDropDownWrapper extends StatelessWidget {
@@ -27,10 +28,7 @@ class MushafDropDownWrapper extends StatelessWidget {
       plural: Localization.VERSE_PLURAL,
       single: Localization.VERSE,
     );
-    String chapterIdArabic = Utils.convertToArabiNumber(
-      chapter.chapterID,
-      reverse: false,
-    );
+    String chapterIdArabic = chapter.chapterID.toArabicNumber();
     return "$chapterIdArabic | $locationStr | $versesCoun";
   }
 

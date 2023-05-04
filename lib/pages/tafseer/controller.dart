@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:share/share.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
@@ -22,6 +21,7 @@ class TafseerPageController {
       Simply.get<ITafseerSourcesService>();
   late IBookmarksService bookmarksService = Simply.get<IBookmarksService>();
   late IEventLogger eventLogger = Simply.get<IEventLogger>();
+  late IShareService _shareService = Simply.get<IShareService>();
 
   Stream<VerseTafseer> get tafseerStream => _tafseerResultController.stream;
 
@@ -32,7 +32,7 @@ class TafseerPageController {
 
   Future<void> shareVerse() async {
     Verse _verse = await loadVerseDTO();
-    await Share.share(_verse.toString());
+    await _shareService.share(_verse.toString());
   }
 
   Future<List<TafseerSource>> getAvailableTafseers() async {

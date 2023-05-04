@@ -10,3 +10,4 @@ export '../service_contracts/i_network_detector.dart';
 export '../service_contracts/i_event_logger_service.dart';
 export '../service_contracts/i_muted_messages_service.dart';
 export '../service_contracts/i_verse_audio_downloader.dart';
+export '../service_contracts/i_share_service.dart';
