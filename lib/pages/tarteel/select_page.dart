@@ -33,7 +33,10 @@ class _State extends State<TarteelSelectionPage> with _Controller {
           chapterId = locationArray[0];
           start = locationArray[1];
           end = locationArray[2];
-          verses = List.generate(end, (i) => i + 1);
+          var versesCount = chapters
+              .firstWhere((element) => element.chapterID == chapterId)
+              .verseCount;
+          verses = List.generate(versesCount, (i) => i + 1);
           initialized = true;
         });
       });
