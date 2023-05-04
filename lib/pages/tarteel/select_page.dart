@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
@@ -49,179 +51,205 @@ class _State extends State<TarteelSelectionPage> with _Controller {
     return Scaffold(
       appBar: AppBar(title: Text("ترتيل")),
       body: Container(
-        padding: EdgeInsets.all(5),
-        child: !initialized
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : Column(
-                children: [
-                  DropdownButton<String>(
-                    key: UniqueKey(),
-                    items: reciterNameMap.keys
-                        .map((reciterKey) => DropdownMenuItem<String>(
-                              key: UniqueKey(),
-                              child: SingleChildScrollView(
-                                child: Text(reciterNameMap[reciterKey] ?? ""),
-                                padding: EdgeInsets.all(10),
-                                scrollDirection: Axis.horizontal,
-                              ),
-                              value: reciterKey,
-                            ))
-                        .toList(),
-                    onChanged: loading
-                        ? null
-                        : (v) async {
-                            if (v != null) {
-                              setState(() {
-                                reciterKey = v;
-                              });
-                            }
-                          },
-                    value: reciterKey,
-                    isExpanded: true,
-                  ),
-                  DropdownButton<int>(
-                    key: UniqueKey(),
-                    isExpanded: true,
-                    items: chapters
-                        .map((chapter) => DropdownMenuItem<int>(
-                              key: UniqueKey(),
-                              child: SingleChildScrollView(
-                                child: Text(
-                                    "${chapter.chapterID.toArabicNumber()} - ${chapter.chapterNameAR}"),
-                                padding: EdgeInsets.all(10),
-                                scrollDirection: Axis.horizontal,
-                              ),
-                              value: chapter.chapterID,
-                            ))
-                        .toList(),
-                    onChanged: loading
-                        ? null
-                        : (v) {
-                            if (v != null) {
-                              setState(() {
-                                chapterId = v;
-                                var versesCount = chapters
-                                    .firstWhere((c) => c.chapterID == chapterId)
-                                    .verseCount;
-                                verses =
-                                    List.generate(versesCount, (i) => i + 1);
-                                start = 1;
-                                end = versesCount;
-                              });
-                            }
-                          },
-                    value: chapterId,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        "من الآية:",
-                        textAlign: TextAlign.center,
-                      ),
-                      DropdownButton<int>(
-                        key: UniqueKey(),
-                        items: verses
-                            .map((verseId) => DropdownMenuItem<int>(
-                                  key: UniqueKey(),
-                                  child: Text(verseId.toArabicNumber()),
-                                  value: verseId,
-                                ))
-                            .toList(),
-                        onChanged: loading
-                            ? null
-                            : (v) {
-                                if (v != null) {
-                                  setState(() {
-                                    start = v;
-                                  });
-                                }
-                              },
-                        value: start,
-                      ),
-                      Text(
-                        "إلى الآية:",
-                        textAlign: TextAlign.center,
-                      ),
-                      DropdownButton<int>(
-                        key: UniqueKey(),
-                        items: verses
-                            .map((verseId) => DropdownMenuItem<int>(
-                                  key: UniqueKey(),
-                                  child: Text(verseId.toArabicNumber()),
-                                  value: verseId,
-                                ))
-                            .toList(),
-                        onChanged: loading
-                            ? null
-                            : (v) {
-                                if (v != null) {
-                                  setState(() {
-                                    end = v;
-                                  });
-                                }
-                              },
-                        value: end,
-                      )
-                    ],
-                  ),
-                  Divider(
-                    height: 25,
-                    color: Colors.transparent,
-                  ),
-                  loading
-                      ? CustomCircularProgressIndicator(
-                          radius: 150,
-                          text: "جاري التحميل",
-                        )
-                      : TextButton(
-                          onPressed: () async {
-                            if (start > end) {
-                              return;
-                            }
-                            setState(() {
-                              loading = true;
-                            });
-                            try {
-                              await setReciter(reciterKey);
-                              await setTarteelLocation(chapterId, start, end);
-                              await onClickTarteel(
-                                chapterId,
-                                start,
-                                end,
-                                reciterKey,
-                              );
-                            } catch (e) {
-                              Utils.showInternetConnectionErrorDialog(context);
-                            }
-                            setState(() {
-                              loading = false;
-                            });
-                          },
-                          child: Icon(
-                            Icons.play_circle,
-                            size: 150,
+          padding: EdgeInsets.all(5),
+          child: !initialized
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Column(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          DropdownButton<String>(
+                            key: UniqueKey(),
+                            items: reciterNameMap.keys
+                                .map((reciterKey) => DropdownMenuItem<String>(
+                                      key: UniqueKey(),
+                                      child: SingleChildScrollView(
+                                        child: Text(
+                                            reciterNameMap[reciterKey] ?? ""),
+                                        padding: EdgeInsets.all(10),
+                                        scrollDirection: Axis.horizontal,
+                                      ),
+                                      value: reciterKey,
+                                    ))
+                                .toList(),
+                            onChanged: loading
+                                ? null
+                                : (v) async {
+                                    if (v != null) {
+                                      setState(() {
+                                        reciterKey = v;
+                                      });
+                                    }
+                                  },
+                            value: reciterKey,
+                            isExpanded: true,
                           ),
-                        ),
-                  Divider(
-                    height: 20,
-                    color: Colors.transparent,
-                  ),
-                  ListTile(
-                    title: Text(
-                      "من فضلك تأكد من اتصالك بالواي فاي أولاً لتجنب استهلاك كميات كبيرة من الباقة",
-                      textAlign: TextAlign.center,
+                          DropdownButton<int>(
+                            key: UniqueKey(),
+                            isExpanded: true,
+                            items: chapters
+                                .map((chapter) => DropdownMenuItem<int>(
+                                      key: UniqueKey(),
+                                      child: SingleChildScrollView(
+                                        child: Text(
+                                            "${chapter.chapterID.toArabicNumber()} - ${chapter.chapterNameAR}"),
+                                        padding: EdgeInsets.all(10),
+                                        scrollDirection: Axis.horizontal,
+                                      ),
+                                      value: chapter.chapterID,
+                                    ))
+                                .toList(),
+                            onChanged: loading
+                                ? null
+                                : (v) {
+                                    if (v != null) {
+                                      setState(() {
+                                        chapterId = v;
+                                        var versesCount = chapters
+                                            .firstWhere(
+                                                (c) => c.chapterID == chapterId)
+                                            .verseCount;
+                                        verses = List.generate(
+                                            versesCount, (i) => i + 1);
+                                        start = 1;
+                                        end = versesCount;
+                                      });
+                                    }
+                                  },
+                            value: chapterId,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    var jump = end - start + 1;
+                                    var oldStart = start;
+                                    start = max(start - jump, 1);
+                                    end -= oldStart - start;
+                                  });
+                                },
+                                icon: Icon(Icons.skip_next),
+                              ),
+                              Text(
+                                "من الآية:",
+                                textAlign: TextAlign.center,
+                              ),
+                              DropdownButton<int>(
+                                key: UniqueKey(),
+                                items: verses
+                                    .map((verseId) => DropdownMenuItem<int>(
+                                          key: UniqueKey(),
+                                          child: Text(verseId.toArabicNumber()),
+                                          value: verseId,
+                                        ))
+                                    .toList(),
+                                onChanged: loading
+                                    ? null
+                                    : (v) {
+                                        if (v != null) {
+                                          setState(() {
+                                            start = v;
+                                          });
+                                        }
+                                      },
+                                value: start,
+                              ),
+                              Text(
+                                "إلى الآية:",
+                                textAlign: TextAlign.center,
+                              ),
+                              DropdownButton<int>(
+                                key: UniqueKey(),
+                                items: verses
+                                    .map((verseId) => DropdownMenuItem<int>(
+                                          key: UniqueKey(),
+                                          child: Text(verseId.toArabicNumber()),
+                                          value: verseId,
+                                        ))
+                                    .toList(),
+                                onChanged: loading
+                                    ? null
+                                    : (v) {
+                                        if (v != null) {
+                                          setState(() {
+                                            end = v;
+                                          });
+                                        }
+                                      },
+                                value: end,
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    var versesCount = verses.reduce(max);
+                                    var jump = end - start + 1;
+                                    var oldEnd = end;
+                                    end = min(end + jump, versesCount);
+                                    start += end - oldEnd;
+                                  });
+                                },
+                                icon: Icon(Icons.skip_previous),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            height: 25,
+                            color: Colors.transparent,
+                          ),
+                          loading
+                              ? CustomCircularProgressIndicator(
+                                  radius: 150,
+                                  text: "جاري التحميل",
+                                )
+                              : TextButton(
+                                  onPressed: () async {
+                                    if (start > end) {
+                                      return;
+                                    }
+                                    setState(() {
+                                      loading = true;
+                                    });
+                                    try {
+                                      await setReciter(reciterKey);
+                                      await setTarteelLocation(
+                                          chapterId, start, end);
+                                      await onClickTarteel(
+                                        chapterId,
+                                        start,
+                                        end,
+                                        reciterKey,
+                                      );
+                                    } catch (e) {
+                                      Utils.showInternetConnectionErrorDialog(
+                                          context);
+                                    }
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                  },
+                                  child: Icon(
+                                    Icons.play_circle,
+                                    size: 150,
+                                  ),
+                                ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Icon(
-                    Icons.warning,
-                    size: 40,
-                  )
-                ],
-              ),
-      ),
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Text(
+                        "⚠ من فضلك تأكد من اتصالك بالواي فاي أولاً لتجنب استهلاك كميات كبيرة من الباقة",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 13),
+                      ),
+                    )
+                  ],
+                )),
     );
   }
 }

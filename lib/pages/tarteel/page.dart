@@ -201,13 +201,11 @@ class _TarteelPageState extends State<TarteelPage> {
                   selectedColor: Theme.of(context).colorScheme.secondary,
                   onTap: () async {
                     await _audioPlayer.pause();
-                    var playableItem = widget.playableItems
-                        .firstWhere((i) => i.order == _playlistIndex);
                     appNavigator.pushWidget(
                       view: TafseerPage(
                         location: MushafLocation(
-                          chapterId: playableItem.chapterId,
-                          verseId: playableItem.verseId,
+                          chapterId: item.chapterId,
+                          verseId: item.verseId,
                         ),
                       ),
                     );
