@@ -282,6 +282,7 @@ class _Controller {
         var verse = verses[i];
         result.add(
           TarteelPlayableItem(
+            chapterId: chapterId,
             order: i,
             verseText: verse.verseTextTashkel,
             verseId: verse.verseID,

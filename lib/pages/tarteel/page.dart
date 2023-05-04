@@ -4,6 +4,9 @@ import 'package:just_audio/just_audio.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:yatadabaron/global.dart';
+import 'package:yatadabaron/main.dart';
+import 'package:yatadabaron/pages/_viewmodels/module.dart';
+import 'package:yatadabaron/pages/tafseer/view.dart';
 import 'package:yatadabaron/pages/tarteel/playable_item.dart';
 
 class TarteelPage extends StatefulWidget {
@@ -196,6 +199,19 @@ class _TarteelPageState extends State<TarteelPage> {
                   ),
                   selected: _playlistIndex == item.order,
                   selectedColor: Theme.of(context).colorScheme.secondary,
+                  onTap: () async {
+                    await _audioPlayer.pause();
+                    var playableItem = widget.playableItems
+                        .firstWhere((i) => i.order == _playlistIndex);
+                    appNavigator.pushWidget(
+                      view: TafseerPage(
+                        location: MushafLocation(
+                          chapterId: playableItem.chapterId,
+                          verseId: playableItem.verseId,
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
             ),
