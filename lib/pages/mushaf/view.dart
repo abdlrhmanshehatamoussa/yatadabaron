@@ -117,6 +117,7 @@ class _MushafPageState extends State<MushafPage> {
                   }
                 }
                 return VerseList(
+                  listKey: state != null ? Key(state!.chapter.chapterID.toString()) : UniqueKey(),
                   verses: state!.verses,
                   highlightedVerse: highlightedVerseId,
                   startFromVerse: state!.startFromVerse,
