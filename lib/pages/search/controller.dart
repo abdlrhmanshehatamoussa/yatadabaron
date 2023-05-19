@@ -6,8 +6,8 @@ import 'package:yatadabaron/pages/mushaf/view.dart';
 import 'package:simply/simply.dart';
 import '../_viewmodels/module.dart';
 
-class SearchController {
-  SearchController() {
+class SearchCustomController {
+  SearchCustomController() {
     _stateBloc.add(SearchState.INITIAL);
   }
 

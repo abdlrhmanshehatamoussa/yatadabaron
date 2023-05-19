@@ -27,7 +27,7 @@ class CustomSerachToolbar extends StatelessWidget {
               editableTextState.currentTextEditingValue.selection.start,
               editableTextState.currentTextEditingValue.selection.end,
             );
-            var controller = SearchController();
+            var controller = SearchCustomController();
             await controller.changeSettings(KeywordSearchSettings(
               basmala: false,
               keyword: selected,
@@ -50,7 +50,7 @@ class CustomSerachToolbar extends StatelessWidget {
               editableTextState.currentTextEditingValue.selection.start,
               editableTextState.currentTextEditingValue.selection.end,
             );
-            var controller = SearchController();
+            var controller = SearchCustomController();
             await controller.changeSettings(KeywordSearchSettings(
               basmala: false,
               keyword: selected,

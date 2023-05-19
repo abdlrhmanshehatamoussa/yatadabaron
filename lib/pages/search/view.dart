@@ -10,7 +10,7 @@ import './widgets/search-results-list.dart';
 import './widgets/search-summary.dart';
 
 class SearchPage extends StatefulWidget {
-  final SearchController? controller;
+  final SearchCustomController? controller;
   const SearchPage({Key? key, this.controller}) : super(key: key);
 
   @override
@@ -42,7 +42,7 @@ class _State extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    SearchController backend = widget.controller ?? SearchController();
+    SearchCustomController backend = widget.controller ?? SearchCustomController();
     backend.errorStream.listen((Exception error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(error.toString()),
