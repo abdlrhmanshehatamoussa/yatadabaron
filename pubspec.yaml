@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
   sqflite: ^2.0.0+3
   rxdart: ^0.27.1
-  fl_chart: ^0.61.0
+  fl_chart: ^0.62.0
   path_provider: ^2.0.2
   share: ^2.0.4
   launch_review: ^3.0.1
@@ -24,7 +24,7 @@ dependencies:
   firebase_core: ^2.4.0
   archive: ^3.1.2
   simply: ^6.0.0
-  connectivity_plus: ^2.3.0
+  connectivity_plus: ^4.0.1
   url_launcher: ^6.1.10
   cloud_firestore: ^4.2.0
   firebase_app_check: ^0.1.1+7
@@ -38,7 +38,7 @@ flutter_icons:
   ios: true
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.11.0
+  flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
 
