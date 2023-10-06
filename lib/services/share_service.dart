@@ -1,4 +1,4 @@
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 
 class ShareService extends IShareService {

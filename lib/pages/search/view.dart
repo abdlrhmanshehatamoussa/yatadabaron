@@ -1,4 +1,4 @@
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:flutter/material.dart';
@@ -30,13 +30,13 @@ class _State extends State<SearchPage> {
 
   @override
   void initState() {
-    Wakelock.enable();
+    WakelockPlus.enable();
     super.initState();
   }
 
   @override
   void dispose() {
-    Wakelock.disable();
+    WakelockPlus.disable();
     super.dispose();
   }
 

@@ -5,7 +5,7 @@ import 'package:simply/simply.dart';
 import 'package:yatadabaron/pages/_widgets/module.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/constants.dart';
@@ -262,8 +262,9 @@ Future<void> init() async {
   await FirebaseAppCheck.instance.activate(
     androidProvider:
         kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
-    webRecaptchaSiteKey:
-        kReleaseMode ? "" : "AC7307BF-240F-47E3-9F4D-F644F4D284D0",
+    webProvider: kReleaseMode
+        ? ReCaptchaV3Provider("AC7307BF-240F-47E3-9F4D-F644F4D284D0")
+        : null,
   );
 
   try {

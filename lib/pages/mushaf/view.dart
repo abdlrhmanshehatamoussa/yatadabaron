@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/global.dart';
@@ -34,7 +34,7 @@ class _MushafPageState extends State<MushafPage> {
         state = value;
       });
     });
-    Wakelock.enable();
+    WakelockPlus.enable();
     super.initState();
   }
 
@@ -226,7 +226,7 @@ class _MushafPageState extends State<MushafPage> {
 
   @override
   void dispose() {
-    Wakelock.disable();
+    WakelockPlus.disable();
     super.dispose();
   }
 
