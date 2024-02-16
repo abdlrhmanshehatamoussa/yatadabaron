@@ -29,7 +29,7 @@ class ReleaseInfoService implements IReleaseInfoService {
   Future<List<ReleaseInfo>> getReleases() async {
     try {
       List<ReleaseInfo> local = await localRepository.getAll();
-      local.sort((a, b) => b.releaseName.compareTo(a.releaseName));
+      local.sort((a, b) => b.releaseDate.compareTo(a.releaseDate));
       return local;
     } catch (e) {
       print(

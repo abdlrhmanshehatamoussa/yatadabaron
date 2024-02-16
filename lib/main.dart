@@ -259,13 +259,15 @@ Future<void> init() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAppCheck.instance.activate(
-    androidProvider:
-        kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
-    webProvider: kReleaseMode
-        ? ReCaptchaV3Provider("AC7307BF-240F-47E3-9F4D-F644F4D284D0")
-        : null,
-  );
+  if (!kIsWeb) {
+    await FirebaseAppCheck.instance.activate(
+      androidProvider:
+          kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
+      webProvider: kReleaseMode
+          ? ReCaptchaV3Provider("AC7307BF-240F-47E3-9F4D-F644F4D284D0")
+          : null,
+    );
+  }
 
   try {
     //Log events
