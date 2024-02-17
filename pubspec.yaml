@@ -58,3 +58,11 @@ flutter:
     - family: Warsh
       fonts:
         - asset: assets/fonts/UthmanicWarsh V21.ttf
+
+    - family: Qaloon
+      fonts:
+        - asset: assets/fonts/UthmanicQaloon1 Ver09.ttf
+    
+    - family: Doori
+      fonts:
+        - asset: assets/fonts/UthmanicDoori1 Ver09.ttf

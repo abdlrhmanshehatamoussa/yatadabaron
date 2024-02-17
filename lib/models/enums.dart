@@ -8,7 +8,7 @@ enum ChapterLocation { MAKKI, MADANI }
 
 enum MushafMode { BOOKMARK, SEARCH, SELECTION }
 
-enum MushafType { HAFS, WARSH, QALOON }
+enum MushafType { HAFS, WARSH, QALOON, DOORI }
 
 extension MushafTypeExtended on MushafType {
   String get fontName {
@@ -17,6 +17,10 @@ extension MushafTypeExtended on MushafType {
         return "Usmani";
       case MushafType.WARSH:
         return "Warsh";
+      case MushafType.QALOON:
+        return "Qaloon";
+      case MushafType.DOORI:
+        return "Doori";
       default:
         return "Usmani";
     }
