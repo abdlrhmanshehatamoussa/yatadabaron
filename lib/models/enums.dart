@@ -6,8 +6,12 @@ enum SearchMode { START, END, WORD, WITHIN }
 
 enum ChapterLocation { MAKKI, MADANI }
 
-extension SearchModeExtended on SearchMode{
-  String? get name{
+enum MushafMode { BOOKMARK, SEARCH, SELECTION }
+
+enum MushafType { HAFS, WARSH, QALOON }
+
+extension SearchModeExtended on SearchMode {
+  String? get name {
     switch (this) {
       case SearchMode.END:
         return Localization.VERSE_END;

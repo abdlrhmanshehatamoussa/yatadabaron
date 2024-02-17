@@ -1,5 +1,4 @@
 import 'package:yatadabaron/_modules/models.module.dart';
-import '../../_viewmodels/module.dart';
 
 class MushafPageState {
   final List<Verse> verses;
