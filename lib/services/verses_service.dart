@@ -1,3 +1,4 @@
+import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/utils.dart';
@@ -9,9 +10,6 @@ class VersesService with DatabaseMixin implements IVersesService {
   VersesService({
     required this.databaseFilePath,
   });
-
-  static const String _TABLE_NAME_BASMALA = "verses_with_basmala";
-  static const String _TABLE_NAME_NO_BASMALA = "verses";
 
   List<SearchSlice> _generateSlices(
     String haystack,
@@ -97,7 +95,7 @@ class VersesService with DatabaseMixin implements IVersesService {
     bool basmala = searchSettings.basmala;
     String keyword = searchSettings.keyword;
     SearchMode searchMode = searchSettings.mode;
-    String table = basmala ? _TABLE_NAME_BASMALA : _TABLE_NAME_NO_BASMALA;
+    String table = _getTableName(basmala);
     String chapterCondition;
     if (searchSettings.searchInWholeQuran) {
       chapterCondition = " > 0 ";
@@ -202,9 +200,10 @@ class VersesService with DatabaseMixin implements IVersesService {
   @override
   Future<Verse> getSingleVerse(int verseId, int chapterId) async {
     //Prepare Query
+    String table = _getTableName(false);
     String query =
         "SELECT v.ayah as verse_id,text_tashkel as verse_text_tashkel,text as verse_text,c.arabic as chapter_name "
-        "FROM $_TABLE_NAME_NO_BASMALA as v "
+        "FROM $table as v "
         "INNER JOIN CHAPTERS as c on c.c0sura = v.sura "
         "where v.ayah = $verseId and v.sura = $chapterId";
 
@@ -237,7 +236,7 @@ class VersesService with DatabaseMixin implements IVersesService {
     bool basmala,
   ) async {
     //Prepare Query
-    String table = basmala ? _TABLE_NAME_BASMALA : _TABLE_NAME_NO_BASMALA;
+    String table = _getTableName(basmala);
     String chapterCondition =
         (chapterId == null) ? "" : "WHERE sura = $chapterId";
     String query =
@@ -266,6 +265,22 @@ class VersesService with DatabaseMixin implements IVersesService {
       return result;
     }).toList();
     return results;
+  }
+
+  String _getTableName(bool basmala) {
+    Map<MushafType, Map<bool, String>> tables = {
+      MushafType.HAFS: {
+        true: "verses_with_basmala",
+        false: "verses",
+      },
+      MushafType.WARSH: {
+        true: "verses_warsh_with_basmala",
+        false: "verses_warsh",
+      }
+    };
+    final mushafTypeService = Simply.get<IMushafTypeService>();
+    MushafType mushafType = mushafTypeService.getMushafType();
+    return tables[mushafType]![basmala]!;
   }
 }
 
