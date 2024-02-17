@@ -4,7 +4,7 @@ import 'package:yatadabaron/_modules/service_contracts.module.dart';
 class MushafTypeService implements IMushafTypeService {
   @override
   MushafType getMushafType() {
-    return MushafType.WARSH;
+    return MushafType.HAFS;
   }
 
   @override
