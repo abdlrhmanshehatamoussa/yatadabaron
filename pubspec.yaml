@@ -55,3 +55,6 @@ flutter:
     - family: Emla2y
       fonts:
         - asset: assets/fonts/NotoNaskhArabic-VariableFont_wght.ttf
+    - family: Warsh
+      fonts:
+        - asset: assets/fonts/UthmanicWarsh V21.ttf
