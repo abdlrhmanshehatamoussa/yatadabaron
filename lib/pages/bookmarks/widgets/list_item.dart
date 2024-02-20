@@ -18,24 +18,26 @@ class BookmarkListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String title = "${verse.chapterName}";
-    String subtitle = "${verse.verseTextTashkel}";
     TextStyle usmaniStyle = TextStyle(
       fontWeight: FontWeight.normal,
       fontFamily: Simply.get<IMushafTypeService>().getMushafType().fontName,
       fontSize: 18,
     );
     return ListTile(
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: 20,
+      title: SingleChildScrollView(
+        child: Text(
+          verse.verseTextTashkel,
+          style: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.visible,  
+          ),
+          
         ),
+        scrollDirection: Axis.horizontal,
       ),
       subtitle: SingleChildScrollView(
         child: Text(
-          subtitle,
-          style: usmaniStyle,
+          verse.chapterName!,
         ),
         scrollDirection: Axis.horizontal,
       ),

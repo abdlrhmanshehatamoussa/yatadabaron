@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:simply/simply.dart';
+import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/global.dart';
+import 'package:yatadabaron/models/enums.dart';
 
 class VerseSection extends StatelessWidget {
   final String verseTextTashkeel;
@@ -21,7 +24,7 @@ class VerseSection extends StatelessWidget {
         chapterName + "\n" + verseTextTashkeel + " " + verseId.toArabicNumber(),
         style: TextStyle(
           fontSize: 25,
-          fontFamily: 'Usmani',
+          fontFamily: Simply.get<IMushafTypeService>().getMushafType().fontName,
         ),
       )),
     );
