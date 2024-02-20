@@ -12,15 +12,15 @@ class BookmarksView extends StatelessWidget {
     return CustomPageWrapper(
       pageTitle: Localization.BOOKMARKS,
       child: Center(
-        child: StreamBuilder<List<Verse>>(
-          stream: backend.bookmarkedVersesStream,
+        child: StreamBuilder<List<Bookmark>>(
+          stream: backend.bookmarksStream,
           builder: (_, snapshot) {
             if (!snapshot.hasData) {
               return LoadingWidget();
             }
-            List<Verse> verses = snapshot.data ?? [];
+            List<Bookmark> bookmarks = snapshot.data ?? [];
             return BookmarksList(
-              verses: verses,
+              bookmarks: bookmarks,
               onBookmarkClick: backend.goMushafPage,
               onBookmarkRemove: backend.removeBookmark,
             );

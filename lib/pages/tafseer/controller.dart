@@ -50,10 +50,11 @@ class TafseerPageController {
   }
 
   Future<bool> onSaveBookmarkClicked() async {
-    bool done = await bookmarksService.addBookmark(
-      this.location.chapterId,
-      this.location.verseId,
-    );
+    bool done = await bookmarksService.addBookmark(Bookmark(
+      chapterId: this.location.chapterId,
+      verseId: this.location.verseId,
+      mushafType: Simply.get<IMushafTypeService>().getMushafType(),
+    ));
     return done;
   }
 

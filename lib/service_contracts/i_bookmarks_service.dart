@@ -3,9 +3,9 @@ import 'package:yatadabaron/_modules/models.module.dart';
 abstract class IBookmarksService {
   Future<void> removeBookmark(String id);
 
-  Future<bool> addBookmark(int chapterId, int verseId);
+  Future<bool> addBookmark(Bookmark bookmark);
 
-  Future<List<Bookmark>> getBookmarks();
+  Future<List<Bookmark>> getBookmarks(MushafType mushafType);
 
-  Future<Bookmark?> getLastBookmark();
+  Future<Bookmark?> getLastBookmark(MushafType mushafType);
 }

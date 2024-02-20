@@ -4,20 +4,20 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'list_item.dart';
 
 class BookmarksList extends StatelessWidget {
-  final List<Verse> verses;
+  final List<Bookmark> bookmarks;
   final Function(Bookmark bookmark) onBookmarkClick;
   final Function(Bookmark bookmark) onBookmarkRemove;
 
   const BookmarksList({
     Key? key,
-    required this.verses,
+    required this.bookmarks,
     required this.onBookmarkClick,
     required this.onBookmarkRemove,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (verses.length == 0) {
+    if (bookmarks.length == 0) {
       return Text(Localization.EMPTY_BOOKMARKS);
     }
     return ListView.separated(
@@ -27,15 +27,13 @@ class BookmarksList extends StatelessWidget {
           height: 10,
         );
       },
-      itemCount: verses.length,
+      itemCount: bookmarks.length,
       itemBuilder: (_, int index) {
-        Verse verse = verses[index];
+        Bookmark bookmark = bookmarks[index];
         return BookmarkListItem(
-          verse: verse,
-          onBookmarkRemove: (Bookmark loc) async =>
-              await onBookmarkRemove(loc),
-          onBookmarkClick: (Bookmark loc) async =>
-              await onBookmarkClick(loc),
+          bookmark: bookmark,
+          onRemove: () async => await onBookmarkRemove(bookmark),
+          onClick: () async => await onBookmarkClick(bookmark),
         );
       },
     );

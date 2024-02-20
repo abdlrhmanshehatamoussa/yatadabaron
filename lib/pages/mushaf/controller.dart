@@ -17,7 +17,9 @@ class MushafController {
 
   Future<MushafPageState> reloadVerses(MushafSettings? mushafSettings) async {
     if (mushafSettings == null) {
-      Bookmark? lastBookmark = await bookmarksService.getLastBookmark();
+      Bookmark? lastBookmark = await bookmarksService.getLastBookmark(
+          Simply.get<IMushafTypeService>().getMushafType()
+      );
       if (lastBookmark != null) {
         mushafSettings = MushafSettings.fromBookmark(
           chapterId: lastBookmark.chapterId,

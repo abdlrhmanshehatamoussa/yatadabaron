@@ -5,6 +5,7 @@ Open source search engine for Holy Quran
 ## To do
 - [ ] Search with tashkeel
 - [ ] Mushaf Warsh
+    - [ ] Chapter verses count
 ## Done
 - [x] Allow copying more than one verse
 - [x] Increase reading space in Mushaf

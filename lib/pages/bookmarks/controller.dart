@@ -12,18 +12,13 @@ class BookmarksController {
 
   late IVersesService versesService = Simply.get<IVersesService>();
   late IBookmarksService bookmarksService = Simply.get<IBookmarksService>();
-  final StreamObject<List<Verse>> _versesStreamObj = StreamObject();
-  Stream<List<Verse>> get bookmarkedVersesStream => _versesStreamObj.stream;
+  final StreamObject<List<Bookmark>> _bookmarksStreamObj = StreamObject();
+  Stream<List<Bookmark>> get bookmarksStream => _bookmarksStreamObj.stream;
 
   Future<void> reloadBookmarks() async {
-    List<Verse> results = [];
-    List<Bookmark> locations = await bookmarksService.getBookmarks();
-    for (var location in locations) {
-      Verse v = await versesService.getSingleVerse(
-          location.verseId, location.chapterId);
-      results.add(v);
-    }
-    _versesStreamObj.add(results);
+    List<Bookmark> locations = await bookmarksService
+        .getBookmarks(Simply.get<IMushafTypeService>().getMushafType());
+    _bookmarksStreamObj.add(locations);
   }
 
   Future<void> removeBookmark(Bookmark bookmark) async {
