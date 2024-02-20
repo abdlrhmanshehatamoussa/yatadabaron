@@ -1,8 +1,4 @@
-enum MushafMode {
-  BOOKMARK,
-  SEARCH,
-  SELECTION,
-}
+import 'package:yatadabaron/_modules/models.module.dart';
 
 class MushafSettings {
   final int chapterId;

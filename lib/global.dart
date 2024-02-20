@@ -108,3 +108,4 @@ final reciterNameMap = {
   "Salah_Al_Budair_128kbps": "صلاح البدير",
   "Yaser_Salamah_128kbps": "ياسر سلامة",
 };
+// "warsh/warsh_Abdul_Basit_128kbps": "عبد الباسط - ورش",

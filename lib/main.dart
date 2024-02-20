@@ -100,6 +100,11 @@ Future<bool> register() async {
       method: InjectionMethod.singleton,
     );
 
+    Simply.register<IMushafTypeService>(
+      service: MushafTypeService(),
+      method: InjectionMethod.singleton,
+    );
+
     Simply.register<IBookmarksService>(
       service: BookmarksService(
         repository: new SharedPrefRepository<Bookmark>(
