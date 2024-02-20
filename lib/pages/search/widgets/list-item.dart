@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/constants.dart';
 
 class SearchResultsListItem extends StatelessWidget {
@@ -37,7 +39,7 @@ class SearchResultsListItem extends StatelessWidget {
       style: TextStyle(
         fontWeight: FontWeight.normal,
         fontSize: idSize,
-        fontFamily: "Usmani",
+        fontFamily: Simply.get<IMushafTypeService>().getMushafType().fontName,
         color: idColor,
       ),
     ));

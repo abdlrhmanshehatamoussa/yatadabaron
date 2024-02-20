@@ -2,7 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:simply/simply.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/main.dart';
 import 'package:yatadabaron/pages/_viewmodels/module.dart';
 import 'package:yatadabaron/pages/tafseer/view.dart';
@@ -194,7 +197,12 @@ class _TarteelPageState extends State<TarteelPage> {
                 return ListTile(
                   title: Text(
                     "${item.verseText} ${item.verseId.toArabicNumber()}",
-                    style: TextStyle(fontFamily: "Usmani", fontSize: 25),
+                    style: TextStyle(
+                      fontFamily: Simply.get<IMushafTypeService>()
+                          .getMushafType()
+                          .fontName,
+                      fontSize: 25,
+                    ),
                   ),
                   selected: _playlistIndex == item.order,
                   selectedColor: Theme.of(context).colorScheme.secondary,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:simply/simply.dart';
+import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/constants.dart';
 import 'package:yatadabaron/commons/localization.dart';
 import 'package:yatadabaron/commons/utils.dart';
@@ -66,7 +68,7 @@ class VerseList extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 28,
-                  fontFamily: "Usmani",
+                  fontFamily: Simply.get<IMushafTypeService>().getMushafType().fontName,
                   color: isHighlighted
                       ? Theme.of(context).colorScheme.secondary
                       : null,

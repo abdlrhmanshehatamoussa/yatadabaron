@@ -71,7 +71,10 @@ class SearchResultsList extends StatelessWidget {
                   ),
                   subtitle: Text(
                     verseSearchResult.verse.chapterName!,
-                    style: TextStyle(fontSize: 16, fontFamily: "Usmani"),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: "Usmani",
+                    ),
                   ),
                   onTap: () => this.onItemPress(verseSearchResult.verse),
                   onLongPress: () =>

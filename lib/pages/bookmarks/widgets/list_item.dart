@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/global.dart';
 
 class BookmarkListItem extends StatelessWidget {
@@ -20,7 +22,7 @@ class BookmarkListItem extends StatelessWidget {
     String subtitle = "${verse.verseTextTashkel}";
     TextStyle usmaniStyle = TextStyle(
       fontWeight: FontWeight.normal,
-      fontFamily: "Usmani",
+      fontFamily: Simply.get<IMushafTypeService>().getMushafType().fontName,
       fontSize: 18,
     );
     return ListTile(
