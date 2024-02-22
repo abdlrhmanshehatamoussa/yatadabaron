@@ -6,6 +6,7 @@ import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/main.dart';
+import 'package:yatadabaron/pages/_widgets/reciter_selector.dart';
 import 'package:yatadabaron/pages/mushaf/widgets/circular_progress.dart';
 import 'package:yatadabaron/pages/tarteel/page.dart';
 import 'playable_item.dart';
@@ -61,20 +62,7 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                     Expanded(
                       child: Column(
                         children: [
-                          DropdownButton<String>(
-                            key: UniqueKey(),
-                            items: reciterNameMap.keys
-                                .map((reciterKey) => DropdownMenuItem<String>(
-                                      key: UniqueKey(),
-                                      child: SingleChildScrollView(
-                                        child: Text(
-                                            reciterNameMap[reciterKey] ?? ""),
-                                        padding: EdgeInsets.all(10),
-                                        scrollDirection: Axis.horizontal,
-                                      ),
-                                      value: reciterKey,
-                                    ))
-                                .toList(),
+                          ReciterSelector(
                             onChanged: loading
                                 ? null
                                 : (v) async {
@@ -84,8 +72,7 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                                       });
                                     }
                                   },
-                            value: reciterKey,
-                            isExpanded: true,
+                            initialValue: reciterKey,
                           ),
                           DropdownButton<int>(
                             key: UniqueKey(),

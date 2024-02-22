@@ -6,6 +6,7 @@ Open source search engine for Holy Quran
 - [ ] Search with tashkeel
 - [ ] Mushaf Warsh
     - [ ] Chapter verses count
+    - [ ] Remove Basmala
 ## Done
 - [x] Allow copying more than one verse
 - [x] Increase reading space in Mushaf

@@ -5,6 +5,7 @@ import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/main.dart';
+import 'package:yatadabaron/pages/_widgets/reciter_selector.dart';
 
 class VersePlayWidget extends StatefulWidget {
   final int verseId;
@@ -114,18 +115,7 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
         ),
         Expanded(
           flex: 1,
-          child: DropdownButton<String>(
-            isExpanded: true,
-            items: reciterNameMap.keys
-                .map((reciterKey) => DropdownMenuItem<String>(
-                      child: SingleChildScrollView(
-                        child: Text(reciterNameMap[reciterKey] ?? ""),
-                        padding: EdgeInsets.all(10),
-                        scrollDirection: Axis.horizontal,
-                      ),
-                      value: reciterKey,
-                    ))
-                .toList(),
+          child: ReciterSelector(
             onChanged: state == AudioPlayerState.initial ||
                     state == AudioPlayerState.completed
                 ? (v) async {
@@ -137,7 +127,7 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
                     }
                   }
                 : null,
-            value: reciterKey,
+            initialValue: reciterKey,
           ),
         ),
       ],
