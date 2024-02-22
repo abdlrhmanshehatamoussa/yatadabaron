@@ -17,7 +17,7 @@ class TarteelSelectionPage extends StatefulWidget {
 }
 
 class _State extends State<TarteelSelectionPage> with _Controller {
-  var reciterKey = "";
+  String? reciterKey;
   var initialized = false;
   var loading = false;
   var chapterId = 0;
@@ -31,7 +31,7 @@ class _State extends State<TarteelSelectionPage> with _Controller {
     getChapters().then((value) {
       setState(() {
         chapters = value;
-        reciterKey = getReciter();
+        reciterKey = getCachedReciterOrDefault();
         getTarteelLocation().then((locationArray) {
           chapterId = locationArray[0];
           start = locationArray[1];
@@ -202,15 +202,17 @@ class _State extends State<TarteelSelectionPage> with _Controller {
                                       loading = true;
                                     });
                                     try {
-                                      await setReciter(reciterKey);
-                                      await setTarteelLocation(
-                                          chapterId, start, end);
-                                      await onClickTarteel(
-                                        chapterId,
-                                        start,
-                                        end,
-                                        reciterKey,
-                                      );
+                                      if (reciterKey != null) {
+                                        await setCachedReciter(reciterKey!);
+                                        await setTarteelLocation(
+                                            chapterId, start, end);
+                                        await onClickTarteel(
+                                          chapterId,
+                                          start,
+                                          end,
+                                          reciterKey!,
+                                        );
+                                      }
                                     } catch (e) {
                                       Utils.showInternetConnectionErrorDialog(
                                           context);
@@ -245,15 +247,19 @@ class _Controller {
   final verseService = Simply.get<IVersesService>();
   final chapterService = Simply.get<IChaptersService>();
   final audioDownloaderService = Simply.get<IVerseAudioDownloader>();
+  final reciterService = Simply.get<IReciterService>();
   final appSettingsService = Simply.get<IAppSettingsService>();
+  final mushafTypeService = Simply.get<IMushafTypeService>();
 
-  String getReciter() {
-    return appSettingsService.currentValue.reciterKey ??
-        reciterNameMap.keys.first;
+  MushafType get currentMushafType => mushafTypeService.getMushafType();
+
+  String? getCachedReciterOrDefault() {
+    return reciterService.getCachedReciterKey(currentMushafType) ??
+        reciterService.getReciterKeys(currentMushafType).first;
   }
 
-  Future<void> setReciter(String reciterKey) async {
-    await appSettingsService.updateReciter(reciterKey);
+  Future<void> setCachedReciter(String reciterKey) async {
+    await reciterService.setCachedReciterKey(reciterKey, currentMushafType);
   }
 
   Future<void> setTarteelLocation(int chapterId, int start, int end) async {
@@ -310,7 +316,7 @@ class _Controller {
       appNavigator.pushWidget(
         view: TarteelPage(
           playableItems: result,
-          reciterName: reciterNameMap[reciterKey] ?? "",
+          reciterName: reciterService.getReciterName(reciterKey),
         ),
       );
     }

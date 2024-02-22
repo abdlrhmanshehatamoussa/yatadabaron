@@ -142,6 +142,11 @@ Future<bool> register() async {
       method: InjectionMethod.scoped,
       service: MutedMessages(sharedPreferences: _pref),
     );
+
+    Simply.register<IReciterService>(
+      method: InjectionMethod.singleton,
+      service: ReciterService(sharedPreferences: _pref),
+    );
     await init();
     return true;
   } catch (e) {

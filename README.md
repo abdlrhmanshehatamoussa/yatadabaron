@@ -7,6 +7,7 @@ Open source search engine for Holy Quran
 - [ ] Mushaf Warsh
     - [ ] Chapter verses count
     - [ ] Remove Basmala
+    - [ ] Tarteel location
 ## Done
 - [x] Allow copying more than one verse
 - [x] Increase reading space in Mushaf

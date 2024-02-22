@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import '../../global.dart';
+import 'package:simply/simply.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
+import 'package:yatadabaron/_modules/service_contracts.module.dart';
 
 class ReciterSelector extends StatelessWidget {
   final String? initialValue;
   final Function(String?)? onChanged;
+
+  final reciterService = Simply.get<IReciterService>();
+  final mushafTypeService = Simply.get<IMushafTypeService>();
+
+  MushafType get currentMushafType => mushafTypeService.getMushafType();
 
   ReciterSelector({
     Key? key,
@@ -16,11 +23,12 @@ class ReciterSelector extends StatelessWidget {
     return DropdownButton<String>(
       key: UniqueKey(),
       isExpanded: true,
-      items: reciterNameMap.keys
+      items: reciterService
+          .getReciterKeys(currentMushafType)
           .map((reciterKey) => DropdownMenuItem<String>(
                 key: UniqueKey(),
                 child: SingleChildScrollView(
-                  child: Text(reciterNameMap[reciterKey] ?? ""),
+                  child: Text(reciterService.getReciterName(reciterKey)),
                   padding: EdgeInsets.all(10),
                   scrollDirection: Axis.horizontal,
                 ),

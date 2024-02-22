@@ -15,7 +15,6 @@ class AppSettingsService implements IAppSettingsService {
     return AppSettings(
       language: "ar",
       nightMode: _getBool(Constants.PREF_NIGHT_MODE_KEY) ?? false,
-      reciterKey: _getString(Constants.PREF_RECITER_KEY),
       tarteelLocation: _getList(Constants.PREF_TARTEEL_LOCATION),
     );
   }
@@ -26,14 +25,6 @@ class AppSettingsService implements IAppSettingsService {
           Constants.PREF_NIGHT_MODE_KEY,
           nightMode,
         );
-  }
-
-  String? _getString(String k) {
-    try {
-      return this.sharedPreferences.getString(k);
-    } catch (e) {
-      return null;
-    }
   }
 
   List<int> _getList(String k) {
@@ -55,11 +46,6 @@ class AppSettingsService implements IAppSettingsService {
     } catch (e) {
       return null;
     }
-  }
-
-  @override
-  Future<void> updateReciter(String reciterKey) async {
-    await sharedPreferences.setString(Constants.PREF_RECITER_KEY, reciterKey);
   }
 
   @override

@@ -7,7 +7,6 @@ class Constants {
   static const String ENV_CLOUDHUB_CLIENT_SECRET = "CLOUDHUB_CLIENT_SECRET";
   static const String ENV_TAFSEER_TEXT_URL = "TAFSEER_TEXT_URL";
   static const String PREF_NIGHT_MODE_KEY = "yatadabaron_night_mode";
-  static const String PREF_RECITER_KEY = "yatadabaron_reciter_key";
   static const String EMLA2Y_FONT_NAME = "Emla2y";
   static const String PREF_TARTEEL_LOCATION = "yatadabaron_tarteel_location";
 }

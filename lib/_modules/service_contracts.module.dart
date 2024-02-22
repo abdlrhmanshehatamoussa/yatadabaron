@@ -12,3 +12,4 @@ export '../service_contracts/i_muted_messages_service.dart';
 export '../service_contracts/i_verse_audio_downloader.dart';
 export '../service_contracts/i_share_service.dart';
 export '../service_contracts/i_mushaf_type_service.dart';
+export '../service_contracts/i_reciter_service.dart';

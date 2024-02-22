@@ -14,3 +14,4 @@ export '../services/web/_module.dart';
 export '../services/verse_audio_downloader.dart';
 export '../services/share_service.dart';
 export '../services/mushaf_type_service.dart';
+export '../services/reciter_service.dart';

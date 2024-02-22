@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:simply/simply.dart';
+import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/utils.dart';
 import 'package:yatadabaron/main.dart';
@@ -25,18 +26,21 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
   final AudioPlayer player = AudioPlayer();
   StreamSubscription<AudioPlayerState>? streamSubscription;
   AudioPlayerState state = AudioPlayerState.initial;
-  String reciterKey = "Husary_128kbps";
+  String? reciterKey;
   final appSettingsService = Simply.get<IAppSettingsService>();
   final audioDownloaderService = Simply.get<IVerseAudioDownloader>();
+  final reciterService = Simply.get<IReciterService>();
+  final mushafTypeService = Simply.get<IMushafTypeService>();
+
+  MushafType get currentMushafType => mushafTypeService.getMushafType();
 
   @override
   void initState() {
     super.initState();
-    if (appSettingsService.currentValue.reciterKey != null) {
-      setState(() {
-        reciterKey = appSettingsService.currentValue.reciterKey!;
-      });
-    }
+    setState(() {
+      reciterKey = reciterService.getCachedReciterKey(currentMushafType) ??
+          reciterService.getReciterKeys(currentMushafType).first;
+    });
     streamSubscription = player.playerStateStream.map((originalEvent) {
       if (originalEvent.processingState == ProcessingState.loading ||
           originalEvent.processingState == ProcessingState.buffering) {
@@ -84,18 +88,20 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
                         state = AudioPlayerState.loading;
                       });
                       try {
-                        var audioUrls =
-                            await audioDownloaderService.getAudioUrlsOrPath(
-                          widget.chapterId,
-                          widget.verseId,
-                          widget.verseId,
-                          reciterKey,
-                        );
-                        var audioUrl = audioUrls[0];
-                        await player.setAudioSource(audioUrl.isRemoteUrl()
-                            ? AudioSource.uri(Uri.parse(audioUrl))
-                            : AudioSource.file(audioUrl));
-                        await player.play();
+                        if (reciterKey != null) {
+                          var audioUrls =
+                              await audioDownloaderService.getAudioUrlsOrPath(
+                            widget.chapterId,
+                            widget.verseId,
+                            widget.verseId,
+                            reciterKey!,
+                          );
+                          var audioUrl = audioUrls[0];
+                          await player.setAudioSource(audioUrl.isRemoteUrl()
+                              ? AudioSource.uri(Uri.parse(audioUrl))
+                              : AudioSource.file(audioUrl));
+                          await player.play();
+                        }
                       } catch (e) {
                         Utils.showInternetConnectionErrorDialog(context);
                         return;
@@ -120,7 +126,8 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
                     state == AudioPlayerState.completed
                 ? (v) async {
                     if (v != null) {
-                      await appSettingsService.updateReciter(v);
+                      await reciterService.setCachedReciterKey(
+                          v, currentMushafType);
                       setState(() {
                         reciterKey = v;
                       });
