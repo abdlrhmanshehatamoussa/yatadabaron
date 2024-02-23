@@ -247,7 +247,7 @@ class _Controller {
   final verseService = Simply.get<IVersesService>();
   final chapterService = Simply.get<IChaptersService>();
   final audioDownloaderService = Simply.get<IVerseAudioDownloader>();
-  final reciterService = Simply.get<IReciterService>();
+  final reciterService = Simply.get<ITarteelService>();
   final appSettingsService = Simply.get<IAppSettingsService>();
   final mushafTypeService = Simply.get<IMushafTypeService>();
 

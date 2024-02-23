@@ -29,7 +29,7 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
   String? reciterKey;
   final appSettingsService = Simply.get<IAppSettingsService>();
   final audioDownloaderService = Simply.get<IVerseAudioDownloader>();
-  final reciterService = Simply.get<IReciterService>();
+  final reciterService = Simply.get<ITarteelService>();
   final mushafTypeService = Simply.get<IMushafTypeService>();
 
   MushafType get currentMushafType => mushafTypeService.getMushafType();

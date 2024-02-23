@@ -143,9 +143,9 @@ Future<bool> register() async {
       service: MutedMessages(sharedPreferences: _pref),
     );
 
-    Simply.register<IReciterService>(
+    Simply.register<ITarteelService>(
       method: InjectionMethod.singleton,
-      service: ReciterService(sharedPreferences: _pref),
+      service: TarteelService(sharedPreferences: _pref),
     );
     await init();
     return true;

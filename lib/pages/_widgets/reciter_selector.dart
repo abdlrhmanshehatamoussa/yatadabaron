@@ -7,7 +7,7 @@ class ReciterSelector extends StatelessWidget {
   final String? initialValue;
   final Function(String?)? onChanged;
 
-  final reciterService = Simply.get<IReciterService>();
+  final reciterService = Simply.get<ITarteelService>();
   final mushafTypeService = Simply.get<IMushafTypeService>();
 
   MushafType get currentMushafType => mushafTypeService.getMushafType();

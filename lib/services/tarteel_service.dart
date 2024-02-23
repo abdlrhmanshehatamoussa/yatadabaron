@@ -1,11 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yatadabaron/models/enums.dart';
-import '../service_contracts/i_reciter_service.dart';
+import '../service_contracts/i_tarteel_service.dart';
 
-class ReciterService implements IReciterService {
+class TarteelService implements ITarteelService {
   final SharedPreferences sharedPreferences;
 
-  ReciterService({required this.sharedPreferences});
+  TarteelService({required this.sharedPreferences});
 
   @override
   List<String> getReciterKeys(MushafType mushafType) {
