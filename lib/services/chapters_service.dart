@@ -1,18 +1,33 @@
+import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
 import 'package:yatadabaron/commons/database_mixin.dart';
 
 class ChaptersService with DatabaseMixin implements IChaptersService {
   final String databasePath;
+  final mushafTypeService = Simply.get<IMushafTypeService>();
+
+  MushafType get currentMushafType => mushafTypeService.getMushafType();
 
   ChaptersService({
     required this.databasePath,
   });
 
+  String _chapterColumnNames() {
+    var map = {
+      MushafType.HAFS: "ayah",
+      MushafType.WARSH: "ayah_warsh",
+      MushafType.QALOON: "ayah_qaloon",
+      MushafType.DOORI: "ayah_doori",
+    };
+    var versesCountColumn = map[currentMushafType];
+    return "c0sura,arabic,latin,localtion,sajda,$versesCountColumn as ayah";
+  }
+
   @override
   Future<List<Chapter>> getAll() async {
     //Prepare Query
-    String query = "select * from chapters";
+    String query = "select ${_chapterColumnNames()} from chapters";
 
     //Execute
     var db = await database(this.databasePath);
@@ -42,7 +57,7 @@ class ChaptersService with DatabaseMixin implements IChaptersService {
   @override
   Future<Chapter> getChapter(int chapterID) async {
     //Prepare Query
-    String query = "SELECT * FROM chapters WHERE c0sura = $chapterID limit 1";
+    String query = "SELECT ${_chapterColumnNames()} FROM chapters WHERE c0sura = $chapterID limit 1";
 
     //Execute
     var db = await database(this.databasePath);

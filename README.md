@@ -5,9 +5,9 @@ Open source search engine for Holy Quran
 ## To do
 - [ ] Search with tashkeel
 - [ ] Mushaf Warsh
-    - [ ] Tarteel location cache
-    - [ ] Chapter verses count
-    - [ ] Tarteel from/to drop down
+    - [X] Tarteel location cache
+    - [X] Chapter verses count
+    - [X] Tarteel from/to drop down
     - [ ] Remove Basmala
 ## Done
 - [x] Allow copying more than one verse
