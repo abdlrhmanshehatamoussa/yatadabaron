@@ -29,7 +29,6 @@ class CustomSerachToolbar extends StatelessWidget {
             );
             var controller = SearchCustomController();
             await controller.changeSettings(KeywordSearchSettings(
-              basmala: false,
               keyword: selected,
               chapterID: null,
             ));
@@ -52,7 +51,6 @@ class CustomSerachToolbar extends StatelessWidget {
             );
             var controller = SearchCustomController();
             await controller.changeSettings(KeywordSearchSettings(
-              basmala: false,
               keyword: selected,
               chapterID: chapterId,
             ));

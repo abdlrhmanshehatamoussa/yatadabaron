@@ -82,8 +82,6 @@ class _State extends State<SearchForm> {
           ),
           settings.searchInWholeQuran ? Container() : chapterWidget(),
           Divider(),
-          basmalaWidget(),
-          Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -164,25 +162,6 @@ class _State extends State<SearchForm> {
           ),
         );
       },
-    );
-  }
-
-  Widget basmalaWidget() {
-    return ListTile(
-      title: Text(Localization.BASMALA_MODE),
-      trailing: StatefulBuilder(
-        builder: (context, setState) {
-          return Switch(
-            value: settings.basmala,
-            onChanged: (bool val) async {
-              setState(() {
-                settings = settings.updateBasmala(val);
-                FocusScope.of(context).unfocus();
-              });
-            },
-          );
-        },
-      ),
     );
   }
 

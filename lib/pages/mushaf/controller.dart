@@ -38,7 +38,7 @@ class MushafController {
     int verseId = mushafSettings.verseId;
     Chapter chapter = await chaptersService.getChapter(chapterId);
     List<Verse> verses =
-        await versesService.getVersesByChapterId(chapterId, false);
+        await versesService.getVersesByChapterId(chapterId);
     List<Chapter> chapters = await chaptersService.getAll();
     MushafPageState state = MushafPageState(
       chapter: chapter,

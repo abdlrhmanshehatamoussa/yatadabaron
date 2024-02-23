@@ -8,7 +8,7 @@ Open source search engine for Holy Quran
     - [X] Tarteel location cache
     - [X] Chapter verses count
     - [X] Tarteel from/to drop down
-    - [ ] Remove Basmala
+    - [X] Remove Basmala
 ## Done
 - [x] Allow copying more than one verse
 - [x] Increase reading space in Mushaf

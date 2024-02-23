@@ -34,7 +34,7 @@ class Localization {
   static const String FREQUENCY = 'التكرار';
   static const String LETTER = 'الحرف';
   static const String STATISTICS_SUMMARY =
-      'احصائيات الحروف في (#) مع (# البسملة) اجمالي عدد الحروف (#)';
+      'احصائيات الحروف في (#) اجمالي عدد الحروف (#)';
   static const String INCLUDING = 'اعتبار';
   static const String IGNORING = 'تجاهل';
   static const String VERSE = 'آية';

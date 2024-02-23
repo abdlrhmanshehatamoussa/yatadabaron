@@ -54,15 +54,6 @@ class _State extends State<StatisticsForm> {
           ),
           _chaptersWidget,
           settings.wholeQuran ? Container() : Divider(),
-          _switch(
-            title: Localization.BASMALA_MODE,
-            value: settings.basmala,
-            onChanged: (bool basmala) {
-              setState(() {
-                settings = settings.updateBasmala(basmala);
-              });
-            },
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

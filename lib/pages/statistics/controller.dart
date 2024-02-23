@@ -39,7 +39,6 @@ class StatisticsController {
           await versesService.getLetterFrequency(settings);
       _payloadBloc.add(StatisticsPayload(
         chapterName,
-        settings.basmala,
         letterFreqs,
       ));
     } catch (e) {

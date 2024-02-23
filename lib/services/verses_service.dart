@@ -92,10 +92,9 @@ class VersesService with DatabaseMixin implements IVersesService {
   }
 
   Future<List<Verse>> _searchInDB(KeywordSearchSettings searchSettings) async {
-    bool basmala = searchSettings.basmala;
     String keyword = searchSettings.keyword;
     SearchMode searchMode = searchSettings.mode;
-    String table = _getTableName(basmala);
+    String table = _getTableName();
     String chapterCondition;
     if (searchSettings.searchInWholeQuran) {
       chapterCondition = " > 0 ";
@@ -178,10 +177,7 @@ class VersesService with DatabaseMixin implements IVersesService {
   Future<List<LetterFrequency>> getLetterFrequency(
     BasicSearchSettings settings,
   ) async {
-    List<Verse> verses = await getVersesByChapterId(
-      settings.chapterId,
-      settings.basmala,
-    );
+    List<Verse> verses = await getVersesByChapterId(settings.chapterId);
     String chapterText = verses.map((Verse verse) => verse.verseText).join();
 
     List<LetterFrequency> frequencies = [];
@@ -200,7 +196,7 @@ class VersesService with DatabaseMixin implements IVersesService {
   @override
   Future<Verse> getSingleVerse(int verseId, int chapterId) async {
     //Prepare Query
-    String table = _getTableName(false);
+    String table = _getTableName();
     String query =
         "SELECT v.ayah as verse_id,text_tashkel as verse_text_tashkel,text as verse_text,c.arabic as chapter_name "
         "FROM $table as v "
@@ -233,10 +229,9 @@ class VersesService with DatabaseMixin implements IVersesService {
   @override
   Future<List<Verse>> getVersesByChapterId(
     int? chapterId,
-    bool basmala,
   ) async {
     //Prepare Query
-    String table = _getTableName(basmala);
+    String table = _getTableName();
     String chapterCondition =
         (chapterId == null) ? "" : "WHERE sura = $chapterId";
     String query =
@@ -267,20 +262,14 @@ class VersesService with DatabaseMixin implements IVersesService {
     return results;
   }
 
-  String _getTableName(bool basmala) {
-    Map<MushafType, Map<bool, String>> tables = {
-      MushafType.HAFS: {
-        true: "verses_with_basmala",
-        false: "verses",
-      },
-      MushafType.WARSH: {
-        true: "verses_warsh_with_basmala",
-        false: "verses_warsh",
-      }
+  String _getTableName() {
+    Map<MushafType, String> tables = {
+      MushafType.HAFS: "verses",
+      MushafType.WARSH: "verses_warsh"
     };
     final mushafTypeService = Simply.get<IMushafTypeService>();
     MushafType mushafType = mushafTypeService.getMushafType();
-    return tables[mushafType]![basmala]!;
+    return tables[mushafType]!;
   }
 }
 

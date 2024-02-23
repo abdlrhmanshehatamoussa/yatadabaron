@@ -285,7 +285,7 @@ class _Controller {
     var result = <TarteelPlayableItem>[];
     var chapterName =
         (await chapterService.getChapter(chapterId)).chapterNameAR;
-    var verses = await verseService.getVersesByChapterId(chapterId, false);
+    var verses = await verseService.getVersesByChapterId(chapterId);
     verses = verses
         .where((element) => element.verseID >= start && element.verseID <= end)
         .toList();

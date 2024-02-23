@@ -35,7 +35,7 @@ class VerseServiceWeb extends IVersesService {
   }
 
   @override
-  Future<List<Verse>> getVersesByChapterId(int? chapterId, bool basmala) async {
+  Future<List<Verse>> getVersesByChapterId(int? chapterId) async {
     var url =
         "http://api.alquran.cloud/v1/surah/$chapterId/editions/$editionsCommaSeparated";
     var response = await get(Uri.parse(url));
@@ -62,8 +62,7 @@ class VerseServiceWeb extends IVersesService {
   @override
   Future<SearchResult> keywordSearch(KeywordSearchSettings settings) async {
     if (settings.chapterID != null) {
-      var verses =
-          await getVersesByChapterId(settings.chapterID, settings.basmala);
+      var verses = await getVersesByChapterId(settings.chapterID);
       switch (settings.mode) {
         case SearchMode.START:
           verses = verses
