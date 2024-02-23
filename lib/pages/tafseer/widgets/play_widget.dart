@@ -29,7 +29,7 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
   String? reciterKey;
   final appSettingsService = Simply.get<IAppSettingsService>();
   final audioDownloaderService = Simply.get<IVerseAudioDownloader>();
-  final reciterService = Simply.get<ITarteelService>();
+  final tarteelService = Simply.get<ITarteelService>();
   final mushafTypeService = Simply.get<IMushafTypeService>();
 
   MushafType get currentMushafType => mushafTypeService.getMushafType();
@@ -38,8 +38,8 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
   void initState() {
     super.initState();
     setState(() {
-      reciterKey = reciterService.getCachedReciterKey(currentMushafType) ??
-          reciterService.getReciterKeys(currentMushafType).first;
+      reciterKey = tarteelService.getCachedReciterKey(currentMushafType) ??
+          tarteelService.getReciterKeys(currentMushafType).first;
     });
     streamSubscription = player.playerStateStream.map((originalEvent) {
       if (originalEvent.processingState == ProcessingState.loading ||
@@ -126,7 +126,7 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
                     state == AudioPlayerState.completed
                 ? (v) async {
                     if (v != null) {
-                      await reciterService.setCachedReciterKey(
+                      await tarteelService.setCachedReciterKey(
                           v, currentMushafType);
                       setState(() {
                         reciterKey = v;

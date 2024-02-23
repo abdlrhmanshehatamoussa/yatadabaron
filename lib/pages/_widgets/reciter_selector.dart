@@ -7,7 +7,7 @@ class ReciterSelector extends StatelessWidget {
   final String? initialValue;
   final Function(String?)? onChanged;
 
-  final reciterService = Simply.get<ITarteelService>();
+  final tarteelService = Simply.get<ITarteelService>();
   final mushafTypeService = Simply.get<IMushafTypeService>();
 
   MushafType get currentMushafType => mushafTypeService.getMushafType();
@@ -23,12 +23,12 @@ class ReciterSelector extends StatelessWidget {
     return DropdownButton<String>(
       key: UniqueKey(),
       isExpanded: true,
-      items: reciterService
+      items: tarteelService
           .getReciterKeys(currentMushafType)
           .map((reciterKey) => DropdownMenuItem<String>(
                 key: UniqueKey(),
                 child: SingleChildScrollView(
-                  child: Text(reciterService.getReciterName(reciterKey)),
+                  child: Text(tarteelService.getReciterName(reciterKey)),
                   padding: EdgeInsets.all(10),
                   scrollDirection: Axis.horizontal,
                 ),
