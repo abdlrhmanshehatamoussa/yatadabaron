@@ -25,7 +25,8 @@ class TarteelService implements ITarteelService {
 
   @override
   String? getCachedReciterKey(MushafType mushafType) {
-    return sharedPreferences.getString(_getSharedPrefKey(mushafType)) ?? null;
+    return sharedPreferences.getString(_getReciterSharedPrefKey(mushafType)) ??
+        null;
   }
 
   @override
@@ -34,11 +35,39 @@ class TarteelService implements ITarteelService {
     MushafType mushafType,
   ) async {
     await sharedPreferences.setString(
-        _getSharedPrefKey(mushafType), reciterKey);
+        _getReciterSharedPrefKey(mushafType), reciterKey);
   }
 
-  String _getSharedPrefKey(MushafType mushafType) {
+  @override
+  List<int>? getTarteelLocationCache(MushafType mushafType) {
+    try {
+      var key = _getTarteelLocationSharedPrefKey(mushafType);
+      var listStr = this.sharedPreferences.getStringList(key);
+      if (listStr == null || listStr.isEmpty) {
+        return null;
+      }
+      return listStr.map((e) => int.parse(e)).toList();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<void> setTarteelLocationCache(
+    List<int> location,
+    MushafType mushafType,
+  ) async {
+    var key = _getTarteelLocationSharedPrefKey(mushafType);
+    var locationString = location.map((e) => e.toString()).toList();
+    await sharedPreferences.setStringList(key, locationString);
+  }
+
+  String _getReciterSharedPrefKey(MushafType mushafType) {
     return "reciter_key_${mushafType.toString()}";
+  }
+
+  String _getTarteelLocationSharedPrefKey(MushafType mushafType) {
+    return "tarteel_location_key_${mushafType.toString()}";
   }
 
   final _map = {

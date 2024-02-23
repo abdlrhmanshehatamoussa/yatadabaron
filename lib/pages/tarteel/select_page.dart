@@ -32,7 +32,7 @@ class _State extends State<TarteelSelectionPage> with _Controller {
       setState(() {
         chapters = value;
         reciterKey = getCachedReciterOrDefault();
-        getTarteelLocation().then((locationArray) {
+        getTarteelLocationOrDefault().then((locationArray) {
           chapterId = locationArray[0];
           start = locationArray[1];
           end = locationArray[2];
@@ -247,29 +247,29 @@ class _Controller {
   final verseService = Simply.get<IVersesService>();
   final chapterService = Simply.get<IChaptersService>();
   final audioDownloaderService = Simply.get<IVerseAudioDownloader>();
-  final reciterService = Simply.get<ITarteelService>();
+  final tarteelService = Simply.get<ITarteelService>();
   final appSettingsService = Simply.get<IAppSettingsService>();
   final mushafTypeService = Simply.get<IMushafTypeService>();
 
   MushafType get currentMushafType => mushafTypeService.getMushafType();
 
   String? getCachedReciterOrDefault() {
-    return reciterService.getCachedReciterKey(currentMushafType) ??
-        reciterService.getReciterKeys(currentMushafType).first;
+    return tarteelService.getCachedReciterKey(currentMushafType) ??
+        tarteelService.getReciterKeys(currentMushafType).first;
   }
 
   Future<void> setCachedReciter(String reciterKey) async {
-    await reciterService.setCachedReciterKey(reciterKey, currentMushafType);
+    await tarteelService.setCachedReciterKey(reciterKey, currentMushafType);
   }
 
   Future<void> setTarteelLocation(int chapterId, int start, int end) async {
-    await appSettingsService.updateTarteelLocation([chapterId, start, end]);
+    await tarteelService
+        .setTarteelLocationCache([chapterId, start, end], currentMushafType);
   }
 
-  Future<List<int>> getTarteelLocation() async {
-    return appSettingsService.currentValue.tarteelLocation.isEmpty
-        ? [1, 1, 7]
-        : appSettingsService.currentValue.tarteelLocation;
+  Future<List<int>> getTarteelLocationOrDefault() async {
+    return tarteelService.getTarteelLocationCache(currentMushafType) ??
+        [1, 1, 2];
   }
 
   Future<List<Chapter>> getChapters() async {
@@ -316,7 +316,7 @@ class _Controller {
       appNavigator.pushWidget(
         view: TarteelPage(
           playableItems: result,
-          reciterName: reciterService.getReciterName(reciterKey),
+          reciterName: tarteelService.getReciterName(reciterKey),
         ),
       );
     }
