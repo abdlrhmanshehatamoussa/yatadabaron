@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:simply/simply.dart';
 import 'package:yatadabaron/_modules/models.module.dart';
 import 'package:yatadabaron/_modules/service_contracts.module.dart';
-import 'package:yatadabaron/main.dart';
+import 'package:yatadabaron/commons/utils.dart';
 
-class MushafTypeSelector extends StatelessWidget {
+class MushafTypeSelector extends StatefulWidget {
+  @override
+  _MushafTypeSelectorState createState() => _MushafTypeSelectorState();
+}
+
+class _MushafTypeSelectorState extends State<MushafTypeSelector> {
+  final mushafTypeService = Simply.get<IMushafTypeService>();
+
   @override
   Widget build(BuildContext context) {
-    final mushafTypeService = Simply.get<IMushafTypeService>();
     MushafType current = mushafTypeService.getMushafType();
+
     return GestureDetector(
       child: Card(
         child: Row(
@@ -32,7 +39,12 @@ class MushafTypeSelector extends StatelessWidget {
       ),
       onTap: () async {
         await mushafTypeService.toggleMushafType();
-        await appReload.call("");
+        setState(() {});
+        Utils.showCustomDialog(
+          context: context,
+          title: "تم تغيير الرواية",
+          text: "برجاء ملاحظة فرق الخطوط وأعداد الآيات بين الروايات.",
+        );
       },
     );
   }
