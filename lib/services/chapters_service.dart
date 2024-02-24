@@ -17,8 +17,6 @@ class ChaptersService with DatabaseMixin implements IChaptersService {
     var map = {
       MushafType.HAFS: "ayah",
       MushafType.WARSH: "ayah_warsh",
-      MushafType.QALOON: "ayah_qaloon",
-      MushafType.DOORI: "ayah_doori",
     };
     var versesCountColumn = map[currentMushafType];
     return "c0sura,arabic,latin,localtion,sajda,$versesCountColumn as ayah";

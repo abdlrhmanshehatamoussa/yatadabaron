@@ -21,4 +21,12 @@ class MushafTypeService implements IMushafTypeService {
   Future<void> changeMushafType(MushafType mushafType) async {
     await _prefs.setInt(_mushafTypeKey, mushafType.index);
   }
+
+  @override
+  Future<void> toggleMushafType() {
+    MushafType current = getMushafType();
+    MushafType next =
+        MushafType.values[(current.index + 1) % MushafType.values.length];
+    return changeMushafType(next);
+  }
 }

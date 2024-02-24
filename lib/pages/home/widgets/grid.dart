@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:yatadabaron/pages/_widgets/mushaf_type_selector.dart';
 import '../viewmodels/home_grid_item.dart';
 import 'gird_item.dart';
 
@@ -18,7 +19,10 @@ class HomeGrid extends StatelessWidget {
           return Card(
             child: ListTile(
               title: Text(item.title),
-              trailing: Icon(item.icon, color: Theme.of(context).colorScheme.secondary,),
+              trailing: Icon(
+                item.icon,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
               onTap: () async => await item.onTap(),
             ),
           );
@@ -48,7 +52,12 @@ class HomeGrid extends StatelessWidget {
         color: Theme.of(context).secondaryHeaderColor,
       ),
       padding: EdgeInsets.all(20),
-      child: body,
+      child: Column(
+        children: [
+          MushafTypeSelector(),
+          Expanded(child: body),
+        ],
+      ),
     );
   }
 }
