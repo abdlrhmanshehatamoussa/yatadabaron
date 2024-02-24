@@ -10,14 +10,11 @@ class MushafTypeService implements IMushafTypeService {
 
   @override
   MushafType getMushafType() {
-    var index = MushafType.HAFS.index;
     try {
-      int? cachedIndex = _prefs.getInt(_mushafTypeKey);
-      if (cachedIndex != null) {
-        index = cachedIndex;
-      }
-    } finally {}
-    return MushafType.values[index];
+      return MushafType.values[_prefs.getInt(_mushafTypeKey)!];
+    } catch (e) {
+      return MushafType.HAFS;
+    }
   }
 
   @override
