@@ -9,6 +9,8 @@ Open source search engine for Holy Quran
     - [X] Chapter verses count
     - [X] Tarteel from/to drop down
     - [X] Remove Basmala
+    - [ ] Allow user to change MushafType
+    - [ ] Display Mushaf Type in various locations
 ## Done
 - [x] Allow copying more than one verse
 - [x] Increase reading space in Mushaf
