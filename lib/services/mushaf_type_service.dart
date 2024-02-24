@@ -4,6 +4,7 @@ import 'package:yatadabaron/_modules/service_contracts.module.dart';
 
 class MushafTypeService implements IMushafTypeService {
   final SharedPreferences _prefs;
+  static const String _mushafTypeKey = 'mushaf_type';
 
   MushafTypeService(this._prefs);
 
@@ -11,7 +12,7 @@ class MushafTypeService implements IMushafTypeService {
   MushafType getMushafType() {
     var index = MushafType.HAFS.index;
     try {
-      int? cachedIndex = _prefs.getInt('mushaf_type');
+      int? cachedIndex = _prefs.getInt(_mushafTypeKey);
       if (cachedIndex != null) {
         index = cachedIndex;
       }
@@ -21,6 +22,6 @@ class MushafTypeService implements IMushafTypeService {
 
   @override
   Future<void> changeMushafType(MushafType mushafType) async {
-    await _prefs.setInt('mushaf_type', mushafType.index);
+    await _prefs.setInt(_mushafTypeKey, mushafType.index);
   }
 }
