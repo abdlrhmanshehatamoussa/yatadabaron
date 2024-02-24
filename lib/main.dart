@@ -101,7 +101,7 @@ Future<bool> register() async {
     );
 
     Simply.register<IMushafTypeService>(
-      service: MushafTypeService(),
+      service: MushafTypeService(_pref),
       method: InjectionMethod.singleton,
     );
 
