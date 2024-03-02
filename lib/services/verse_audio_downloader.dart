@@ -28,7 +28,7 @@ class VerseAudioDownloader extends VerseAudioDownloaderWeb {
         applicationDirectory,
         "audio",
         reciterKey,
-        "$chapterId$i.mp3",
+        "$chapterId.$i.mp3",
       );
       var file = File(fileName);
       if (await file.exists() == false) {
