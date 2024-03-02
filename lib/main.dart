@@ -231,6 +231,7 @@ Future<void> registerPlatformSpecificDependencies(
     String databaseFilePath = await DatabaseHelper.initializeDatabase(
       dbAssetsDirectory: Constants.ASSETS_DB_DIRECTORY,
       dbAssetsName: Constants.ASSETS_DB_NAME,
+      dbVersion: Constants.ASSETS_DB_VERSION,
     );
     Simply.register<IChaptersService>(
       service: ChaptersService(databasePath: databaseFilePath),

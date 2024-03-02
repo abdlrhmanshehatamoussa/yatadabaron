@@ -1,5 +1,6 @@
 class Constants {
   static const String ASSETS_DB_NAME = 'quran_usmani.db';
+  static const int ASSETS_DB_VERSION = 3;
   static const String ASSETS_DB_DIRECTORY = "assets/data";
   static const String ASSETS_ENV = 'assets/.env';
   static const String ENV_CLOUDHUB_API_URL = "CLOUDHUB_API_URL";
