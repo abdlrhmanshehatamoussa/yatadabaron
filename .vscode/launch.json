@@ -14,12 +14,12 @@
             "program": "lib/main.dart"
         },
         {
-            "name": "Flutter (Android - Oppo Renot T8)",
+            "name": "Flutter (Android - Oppo Reno 10)",
             "type": "dart",
             "request": "launch",
             "args": [
                 "-d",
-                "K7HQ5DDI59SWMVI7"
+                "NRMN4XGU5DJVD6CU"
             ],
             "program": "lib/main.dart"
         },
