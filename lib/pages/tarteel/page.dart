@@ -231,6 +231,7 @@ class _TarteelPageState extends State<TarteelPage> {
     streamSubscription?.cancel().then((value) {
       indexStreamSubscription?.cancel().then((value) => _audioPlayer.dispose());
     });
+    Simply.get<IAudioVerseCacheManager>().stopPendingDownloads();
     WakelockPlus.disable();
     super.dispose();
   }

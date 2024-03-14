@@ -1,4 +1,4 @@
-abstract class IVerseAudioDownloader {
+abstract class IAudioVerseService {
   Future<List<String>> getAudioUrlsOrPath(
     int chapterId,
     int start,

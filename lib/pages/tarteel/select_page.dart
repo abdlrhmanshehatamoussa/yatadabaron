@@ -246,7 +246,7 @@ class _State extends State<TarteelSelectionPage> with _Controller {
 class _Controller {
   final verseService = Simply.get<IVersesService>();
   final chapterService = Simply.get<IChaptersService>();
-  final audioDownloaderService = Simply.get<IVerseAudioDownloader>();
+  final audioDownloaderService = Simply.get<IAudioVerseService>();
   final tarteelService = Simply.get<ITarteelService>();
   final appSettingsService = Simply.get<IAppSettingsService>();
   final mushafTypeService = Simply.get<IMushafTypeService>();

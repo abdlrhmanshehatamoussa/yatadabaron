@@ -28,7 +28,7 @@ class _VersePlayWidgetState extends State<VersePlayWidget> {
   AudioPlayerState state = AudioPlayerState.initial;
   String? reciterKey;
   final appSettingsService = Simply.get<IAppSettingsService>();
-  final audioDownloaderService = Simply.get<IVerseAudioDownloader>();
+  final audioDownloaderService = Simply.get<IAudioVerseService>();
   final tarteelService = Simply.get<ITarteelService>();
   final mushafTypeService = Simply.get<IMushafTypeService>();
 

@@ -241,17 +241,22 @@ Future<void> registerPlatformSpecificDependencies(
     );
   }
 
-  //Audio Downloader
+  //Audio Verse Service
   if (kIsWeb) {
-    Simply.register<IVerseAudioDownloader>(
-      service: VerseAudioDownloaderWeb(),
+    Simply.register<IAudioVerseCacheManager>(
+      service: AudioVerseCacheManagerWeb(),
+      method: InjectionMethod.singleton,
     );
   } else {
     var applicationDirectory = (await getApplicationDocumentsDirectory()).path;
-    Simply.register<IVerseAudioDownloader>(
-      service: VerseAudioDownloader(applicationDirectory),
+    Simply.register<IAudioVerseCacheManager>(
+      service: AudioVerseCacheManager(applicationDirectory),
+      method: InjectionMethod.singleton,
     );
   }
+  Simply.register<IAudioVerseService>(
+    service: AudioVerseService(Simply.get<IAudioVerseCacheManager>()),
+  );
 
   //Share Service
   if (kIsWeb) {
